@@ -1,6 +1,6 @@
 <?php
 
-namespace OSFAFramework\Table\Filter;
+namespace UWDOEM\Framework\Filter;
 
 use UWDOEM\Framework\Row\RowInterface;
 use Propel\Runtime\ActiveQuery\PropelQuery;
