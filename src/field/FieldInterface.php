@@ -3,7 +3,10 @@
 namespace UWDOEM\Framework\Field;
 
 
-interface FieldInterface {
+use UWDOEM\Framework\Writer\WritableInterface;
+
+
+interface FieldInterface extends WritableInterface {
 
     /** @return string */
     function getSubmitted();

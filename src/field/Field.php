@@ -3,6 +3,7 @@
 namespace UWDOEM\Framework\Field;
 
 use UWDOEM\Framework\Etc\StringUtils;
+use UWDOEM\Framework\Visitor\VisitableTrait;
 
 
 class Field implements FieldInterface {
@@ -36,6 +37,9 @@ class Field implements FieldInterface {
 
     /** @var bool */
     protected $_isValid;
+
+
+    use VisitableTrait;
 
     /**
      * @param string $type
