@@ -4,9 +4,10 @@ namespace UWDOEM\Framework\Row;
 
 
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
+use UWDOEM\Framework\Writer\WritableInterface;
 
 
-interface RowInterface {
+interface RowInterface extends WritableInterface {
 
     /**
      * @return FieldBearerInterface

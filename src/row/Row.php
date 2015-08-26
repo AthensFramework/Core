@@ -4,6 +4,7 @@ namespace UWDOEM\Framework\Row;
 
 
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
+use UWDOEM\Framework\Visitor\VisitableTrait;
 
 
 /**
@@ -24,6 +25,8 @@ class Row implements RowInterface {
      * @var FieldBearerInterface
      */
     protected $_fieldBearer;
+
+    use VisitableTrait;
 
 
     function __construct(FieldBearerInterface $fieldBearer, $onClick) {
