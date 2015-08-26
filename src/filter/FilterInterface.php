@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jschilz
- * Date: 8/24/2015
- * Time: 7:51 AM
- */
 
 namespace OSFAFramework\Table\Filter;
 
-use OSFAFramework\Table\Row\RowInterface;
+use UWDOEM\Framework\Row\RowInterface;
 use Propel\Runtime\ActiveQuery\PropelQuery;
 
 
