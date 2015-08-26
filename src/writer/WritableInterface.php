@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jschilz
- * Date: 8/24/2015
- * Time: 12:22 PM
- */
 
-namespace OSFAFramework\Writer;
+namespace UWDOEM\Framework\Writer;
 
-use OSFAFramework\Visitor\VisitableInterface;
+
+use UWDOEM\Framework\Visitor\VisitableInterface;
+
 
 interface WritableInterface extends VisitableInterface {
 
