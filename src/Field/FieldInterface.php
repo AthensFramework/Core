@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jschilz
- * Date: 8/24/2015
- * Time: 12:33 PM
- */
 
 namespace UWDOEM\Framework\Field;
 
