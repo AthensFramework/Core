@@ -89,7 +89,10 @@ class FieldBearerBuilder {
     public static function begin() {
         return new static();
     }
-    
+
+    /**
+     * @return FieldBearerBuilder
+     */
     public function clear() {
         $this->_fieldBearers = null;
         $this->_fields = null;
@@ -100,6 +103,10 @@ class FieldBearerBuilder {
         return $this;
     }
 
+    /**
+     * @return FieldBearer
+     * @throws \Exception if neither fields nor fieldBearers has been set
+     */
     public function build() {
         if (!$this->_fields && !$this->_fieldBearers) {
             throw new \Exception("Must make fields and/or fieldBearers before calling this method.");
