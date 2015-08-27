@@ -189,6 +189,10 @@ function revealSelectASection(selectASection, targetSelectionName) {
 }
 
 // Move these to always do
+$('#mask-screen').click(function () {
+    fadeOutMask();
+});
+
 $(function() {
     $("div.select-a-section-container div.option.selectable").click(function() {
         var selectASection = $(this).closest("div.select-a-section-container");

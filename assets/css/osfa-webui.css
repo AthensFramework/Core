@@ -1,5 +1,10 @@
-h2.page-subheader {
+h1.header {
+    float:left;
+}
+
+h2.subheader {
     margin-top:-15px;
+    float:left;
 }
 
 .section-label {
@@ -58,6 +63,11 @@ div.loading-gif {
     width:55px;
     height:55px;
     opacity:.6;
+}
+
+div.loading-gif.hidden {
+    position:fixed;
+    z-index:-1
 }
 
 div.search-icon:hover, div.search-icon:focus {
@@ -468,6 +478,33 @@ p.field-label {
     font-size:17px;
 }
 
+div.uw-container-inner {
+    min-height:73%;
+}
+
+#page-content {
+    width:85%;
+    min-width:500px;
+    margin:auto
+}
+
+br.footer-break {
+    line-height:90px
+}
+
+div.top-filters {
+    float:right;
+    margin-top:8px
+}
+
+div.notification-area {
+    position:fixed;
+    width:600px;
+    top:30px;
+    right:20px;
+    z-index:100000
+}
+
 br.page-content-head {
     line-height:20px;
     clear:both
@@ -596,3 +633,11 @@ span.sort-text {
     }
 }
 /* End UWAA Button */
+
+div.breadcrumbs-container {
+    width:85%;
+    min-width:500px;
+    margin:auto;
+    position:relative;
+    margin-top:10px;
+}
