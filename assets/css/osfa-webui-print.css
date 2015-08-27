@@ -1,0 +1,91 @@
+@media print {
+    *{
+        font-size:12px !important;
+        min-height:0 !important;
+    }
+
+    table {
+        width:110% !important;
+        border-color:black !important;
+        margin-bottom:10px !important;
+    }
+
+    .loading-gif {
+        display:none;
+    }
+
+    h1, h2 {
+        margin-top:0 !important;
+        margin-bottom:2px;
+        float:none !important;
+    }
+
+    h1 {
+        font-size:17px !important;
+    }
+
+    h2 {
+        font-size:15px !important;
+    }
+
+    br {
+        line-height:2px !important;
+    }
+
+    p {
+        margin-bottom:2px !important;
+    }
+
+    p.print-link {
+        display:none;
+    }
+
+    div.section-label {
+        background-color: #bbb !important;
+        margin-left:-30px !important;
+
+        font-weight: 600 !important;
+    }
+
+    .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+        padding:0 !important;
+    }
+
+    label {
+        margin-bottom:0 !important;
+    }
+
+    div.text-area-response-reader {
+        margin-bottom:5px !important;
+    }
+
+    .div1, .div2, .div3, .div4, .div5, .div6, .div7, .div8 {
+        display:block !important;
+    }
+
+    #pageNav {
+        display:none !important;
+    }
+
+    #pageContent {
+        width:95%;
+    }
+}
+
+
+body.pdf div.section-label {
+    background-color:#ddd;
+    color:black;
+}
+
+body.pdf div.section-label:first-of-type {
+    display:none;
+}
+
+body.pdf button {
+    display:none;
+}
+
+body.pdf select {
+    display:none;
+}
