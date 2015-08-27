@@ -63,6 +63,8 @@ class SectionBuilder {
      * @return SectionInterface
      */
     public function build() {
+        if (!$this->_writables) { $this->_writables = []; }
+        if (!$this->_label) { $this->_label = null; }
         return new Section($this->_content, $this->_writables, $this->_label);
     }
 
