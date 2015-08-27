@@ -28,6 +28,9 @@ class PageBuilder {
     /** @var  string */
     protected $_type;
 
+    /** @var  string */
+    protected $_title;
+
 
     /**
      * @return PageBuilder
@@ -40,9 +43,18 @@ class PageBuilder {
      * @param string $type
      * @return PageBuilder
      */
-    public function setType($type)
-    {
+    public function setType($type) {
         $this->_type = $type;
+        return $this;
+    }
+
+    /**
+     * @param string $type
+     * @return PageBuilder
+     */
+    public function setTitle($title)
+    {
+        $this->_title = $title;
         return $this;
     }
 
@@ -102,9 +114,16 @@ class PageBuilder {
 
     /**
      * @return PageInterface
+     * @throws \Exception if the type of the page has not been set
      */
     public function build() {
+
+        if (!isset($this->_type)) {
+            throw new \Exception("You must set a page type using ::setType before calling this function.");
+        }
+
         return new Page(
+            $this->_title,
             $this->_baseHref, 
             $this->_header, 
             $this->_subHeader, 

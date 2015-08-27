@@ -2,19 +2,24 @@
 
 namespace UWDOEM\Framework\Page;
 
-
 use UWDOEM\Framework\Writer\WritableInterface;
+use UWDOEM\Framework\Visitor\VisitableTrait;
 
 
 class Page implements PageInterface {
 
-    const PAGE_TYPE_AJAX_ACTION = "ajax_action";
-    const PAGE_TYPE_AJAX_PAGE = "ajax_page";
+    const PAGE_TYPE_AJAX_ACTION = "ajax-action";
+    const PAGE_TYPE_AJAX_PAGE = "ajax-page";
     const PAGE_TYPE_EXCEL = "excel";
-    const PAGE_TYPE_FULL_HEADER = "full_header";
-    const PAGE_TYPE_MINI_HEADER = "mini_header";
-    const PAGE_TYPE_MULTI_PANEL = "multi_panel";
+    const PAGE_TYPE_FULL_HEADER = "full-header";
+    const PAGE_TYPE_MINI_HEADER = "mini-header";
+    const PAGE_TYPE_MULTI_PANEL = "multi-panel";
     const PAGE_TYPE_PDF = "pdf";
+
+    use VisitableTrait;
+
+    /** @var string */
+    protected $_title;
 
     /** @var string */
     protected $_baseHref;
@@ -40,6 +45,7 @@ class Page implements PageInterface {
 
     /**
      * Page constructor.
+     * @param string $_title
      * @param string $_baseHref
      * @param string $_header
      * @param string $_subHeader
@@ -48,7 +54,8 @@ class Page implements PageInterface {
      * @param WritableInterface $_writable
      * @param string $_type
      */
-    public function __construct($_baseHref, $_header, $_subHeader, array $_breadCrumbs, array $_returnTo, WritableInterface $_writable, $_type) {
+    public function __construct($_title, $_baseHref, $_header, $_subHeader, array $_breadCrumbs, array $_returnTo, WritableInterface $_writable, $_type) {
+        $this->_title = $_title;
         $this->_baseHref = $_baseHref;
         $this->_header = $_header;
         $this->_subHeader = $_subHeader;
@@ -63,6 +70,13 @@ class Page implements PageInterface {
      */
     public function getType() {
         return $this->_type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle() {
+        return $this->_title;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 use UWDOEM\Framework\Page\PageBuilder;
-
+use UWDOEM\Framework\Page\Page;
 use UWDOEM\Framework\Section\SectionBuilder;
 
 
@@ -35,27 +35,33 @@ class PageTest extends PHPUnit_Framework_TestCase
             ->setLabel($label)
             ->build();
 
+        $title = "title";
         $breadCrumbs = ["name" => "http://link"];
         $returnTo = ["Another name" => "http://another.link"];
         $baseHref = ".";
         $header = "header";
         $subHeader = "subHeader";
+        $type = Page::PAGE_TYPE_FULL_HEADER;
 
         $page = PageBuilder::begin()
+            ->setTitle($title)
             ->setBaseHref($baseHref)
             ->setBreadCrumbs($breadCrumbs)
             ->setWritable($writable)
             ->setHeader($header)
             ->setSubHeader($subHeader)
             ->setReturnTo($returnTo)
+            ->setType($type)
             ->build();
 
+        $this->assertEquals($title, $page->getTitle());
         $this->assertEquals($writable, $page->getWritable());
         $this->assertEquals($baseHref, $page->getBaseHref());
         $this->assertEquals($breadCrumbs, $page->getBreadCrumbs());
         $this->assertEquals($header, $page->getHeader());
         $this->assertEquals($subHeader, $page->getSubHeader());
         $this->assertEquals($returnTo, $page->getReturnTo());
+        $this->assertEquals($type, $page->getType());
     }
 
     /*

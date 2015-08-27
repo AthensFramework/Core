@@ -2,10 +2,15 @@
 
 namespace UWDOEM\Framework\Page;
 
-use UWDOEM\Framework\Section\SectionInterface;
+use UWDOEM\Framework\Writer\WritableInterface;
 
 
-interface PageInterface {
+interface PageInterface extends WritableInterface{
+
+    /**
+     * @return string
+     */
+    public function getTitle();
 
     /**
      * @return string
@@ -23,6 +28,11 @@ interface PageInterface {
     public function getSubHeader();
 
     /**
+     * @return string
+     */
+    public function getType();
+
+    /**
      * @return string[]
      */
     public function getBreadCrumbs();
@@ -33,7 +43,7 @@ interface PageInterface {
     public function getReturnTo();
 
     /**
-     * @return SectionInterface
+     * @return WritableInterface
      */
     public function getWritable();
 
