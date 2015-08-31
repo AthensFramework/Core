@@ -2,12 +2,17 @@
 
 namespace UWDOEM\Framework\Form\FormAction;
 
+use UWDOEM\Framework\Visitor\VisitableTrait;
+use UWDOEM\Framework\Writer\WritableInterface;
 
-class FormAction {
+
+class FormAction implements WritableInterface {
 
     protected $_label;
     protected $_method;
     protected $_target;
+
+    use VisitableTrait;
 
     public function __construct($label, $method, $target) {
         $this->_label = $label;
