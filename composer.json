@@ -8,6 +8,7 @@
   },
   "require": {
     "propel/propel": "~2.0@dev",
+    "twig/twig" : "~1.0",
     "uwdoem/person": "0.1.*",
     "uwdoem/encryption": "0.1.*",
     "uwdoem/csrf": "0.1.*"
