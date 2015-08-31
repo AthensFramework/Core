@@ -3,10 +3,9 @@
 namespace UWDOEM\Framework\Form\FormAction;
 
 use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Writer\WritableInterface;
 
 
-class FormAction implements WritableInterface {
+class FormAction implements FormActionInterface {
 
     protected $_label;
     protected $_method;
