@@ -1,0 +1,7 @@
+<div class="section-label">{{ label }}</div>
+<div class="section-content">{{ content }}</div>
+<div class="section-writables">
+{% for writable in writables  %}
+    {{ writable|write|raw }}
+{% endfor %}
+</div>

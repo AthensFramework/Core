@@ -1,0 +1,5 @@
+{% if method == "JS" %}
+    <button class='form-action' onclick="{{ target|raw }}">{{ label }}</button>
+{% else %}
+    <input class='form-action' type='submit' value='{{ label }}'>
+{% endif %}

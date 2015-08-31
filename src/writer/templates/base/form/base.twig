@@ -1,0 +1,23 @@
+<form class="prevent-double-submit" method="post" target="_self" data-request-uri="{{ requestURI }}">
+    <table>
+        {% for fieldName, field in visibleFields %}
+        <tr>
+            <td>
+                <label data-for="{{ field.getSlug() }}">
+                    {{ field.getLabel() }}{% if field.isRequired() %}*{% endif %}:
+                </label>
+            </td>
+            <td>
+                {{ field|write|raw }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="form-actions">
+        {% for action in actions %}
+            {{ action|write|raw }}
+        {% endfor %}
+    </div>
+
+</form>
