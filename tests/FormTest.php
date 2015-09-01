@@ -33,7 +33,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $onInvalidFunc = function() { return "invalid"; };
 
         $fieldBearer = FieldBearerBuilder::begin()
-            ->setFields([new Field('literal', 'A literal field')])
+            ->addFields([new Field('literal', 'A literal field')])
             ->build();
 
         $form = FormBuilder::begin()

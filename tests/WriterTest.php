@@ -40,7 +40,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $onInvalidFunc = function() { return "invalid"; };
 
         $fieldBearer = FieldBearerBuilder::begin()
-            ->setFields([
+            ->addFields([
                 "literalField" => new Field('literal', 'A literal field', 'Literal field content', true),
                 "textField" => new Field('text', 'A text field', "5", false)
             ])

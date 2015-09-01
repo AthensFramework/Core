@@ -2,6 +2,8 @@
 
 namespace UWDOEM\Framework\FieldBearer;
 
+use UWDOEM\Framework\Field\Field;
+
 
 class FieldBearer implements FieldBearerInterface {
 
@@ -47,7 +49,7 @@ class FieldBearer implements FieldBearerInterface {
      * @return Field[]
      */
     public function getFieldsBase($fieldGetterFunction, $initial) {
-        foreach ($this->_fieldBearers as $name =>$fieldBearer) {
+        foreach ($this->_fieldBearers as $name=>$fieldBearer) {
 
             $fields = $fieldBearer->$fieldGetterFunction();
 
@@ -197,9 +199,6 @@ class FieldBearer implements FieldBearerInterface {
     public function getFieldBearerByName($name) {
         return $this->baseGetThingByName("FieldBearer", $name);
     }
-
-
-
 
     public function save() {
 

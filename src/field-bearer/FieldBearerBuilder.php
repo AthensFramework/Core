@@ -10,12 +10,12 @@ class FieldBearerBuilder {
     /**
      * @var FieldBearerInterface[]
      */
-    protected $_fieldBearers;
+    protected $_fieldBearers = [];
 
     /**
      * @var FieldInterface[]
      */
-    protected $_fields;
+    protected $_fields = [];
 
     /**
      * @var string[]
@@ -36,9 +36,9 @@ class FieldBearerBuilder {
      * @param FieldBearerInterface[] $fieldBearers
      * @return FieldBearerBuilder
      */
-    public function setFieldBearers($fieldBearers)
+    public function addFieldBearers($fieldBearers)
     {
-        $this->_fieldBearers = $fieldBearers;
+        $this->_fieldBearers = array_merge($fieldBearers, $this->_fieldBearers);
         return $this;
     }
 
@@ -46,9 +46,9 @@ class FieldBearerBuilder {
      * @param FieldInterface[] $fields
      * @return FieldBearerBuilder
      */
-    public function setFields($fields)
+    public function addFields($fields)
     {
-        $this->_fields = $fields;
+        $this->_fields = array_merge($fields, $this->_fields);
         return $this;
     }
 
@@ -94,8 +94,8 @@ class FieldBearerBuilder {
      * @return FieldBearerBuilder
      */
     public function clear() {
-        $this->_fieldBearers = null;
-        $this->_fields = null;
+        $this->_fieldBearers = [];
+        $this->_fields = [];
         $this->_visibleFieldNames = null;
         $this->_hiddenFieldNames = null;
         $this->_saveFunction = null;
