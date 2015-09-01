@@ -10,7 +10,7 @@ Instructions to follow.
 Installation
 ===============
 
-This library is published on packagist. To install using Composer, add the "uwdoem/encryption": "0.1.*" line to your "require" dependencies:
+This library is published on packagist. To install using Composer, add the "uwdoem/encryption": ">=0.1" line to your "require" dependencies:
 
 ```
 {
