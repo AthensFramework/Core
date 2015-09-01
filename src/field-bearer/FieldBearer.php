@@ -2,8 +2,6 @@
 
 namespace UWDOEM\Framework\FieldBearer;
 
-use UWDOEM\Framework\Field\Field;
-
 
 class FieldBearer implements FieldBearerInterface {
 
@@ -13,7 +11,7 @@ class FieldBearer implements FieldBearerInterface {
     protected $_fieldBearers = [];
 
     /**
-     * @var Field[]
+     * @var \UWDOEM\Framework\Field\FieldInterface[]
      */
     protected $_fields = [];
 
@@ -45,8 +43,8 @@ class FieldBearer implements FieldBearerInterface {
 
     /**
      * @param string $fieldGetterFunction
-     * @param Field[] $initial
-     * @return Field[]
+     * @param \UWDOEM\Framework\Field\FieldInterface[] $initial
+     * @return \UWDOEM\Framework\Field\FieldInterface[]
      */
     public function getFieldsBase($fieldGetterFunction, $initial) {
         foreach ($this->_fieldBearers as $name=>$fieldBearer) {
@@ -68,7 +66,7 @@ class FieldBearer implements FieldBearerInterface {
 
     /**
      * Return the array of child fields.
-     * @return Field[]
+     * @return \UWDOEM\Framework\Field\FieldInterface[]
      */
     public function getFields() {
         $base = $this->_fields;
@@ -88,7 +86,7 @@ class FieldBearer implements FieldBearerInterface {
     }
 
     /**
-     * @return Field[]
+     * @return \UWDOEM\Framework\Field\FieldInterface[]
      */
     public function getVisibleFields() {
         $base = $this->_fields;
@@ -104,7 +102,7 @@ class FieldBearer implements FieldBearerInterface {
     }
 
     /**
-     * @return Field[]
+     * @return \UWDOEM\Framework\Field\FieldInterface[]
      */
     public function getHiddenFields() {
         // Begin with a set of hidden fields from our child fieldBearers...
@@ -140,7 +138,7 @@ class FieldBearer implements FieldBearerInterface {
      * Given a field's string name, return the field.
      *
      * @param string $name
-     * @return Field
+     * @return \UWDOEM\Framework\Field\FieldInterface
      * @throws \Exception
      */
     public function getFieldByName($name) {
@@ -199,15 +197,15 @@ class FieldBearer implements FieldBearerInterface {
     public function getFieldBearerByName($name) {
         return $this->baseGetThingByName("FieldBearer", $name);
     }
-
+    
     public function save() {
-
         if (is_callable($this->_saveFunction)) {
             $args = func_get_args();
             $args = array_merge([$this], $args);
 
             return call_user_func_array($this->_saveFunction, $args);
+        } else {
+            return null;
         }
     }
-
 }
