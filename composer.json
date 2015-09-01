@@ -6,6 +6,11 @@
       "src/"
     ]
   },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ]
+  },
   "require": {
     "propel/propel": "~2.0@dev",
     "twig/twig" : "~1.0",
