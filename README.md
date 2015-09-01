@@ -10,7 +10,15 @@ Instructions to follow.
 Installation
 ===============
 
-Instructions to follow.
+This library is published on packagist. To install using Composer, add the "uwdoem/encryption": "0.1.*" line to your "require" dependencies:
+
+{
+    "require": {
+        "uwdoem/framework": ">=0.1"
+    }
+}
+
+Because Framework relies on multiple other libraries, it is *highly* recommended that you use Composer to install this library.
 
 Use
 ===
