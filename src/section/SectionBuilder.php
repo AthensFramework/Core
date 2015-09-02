@@ -61,26 +61,6 @@ class SectionBuilder {
     }
 
     /**
-     * @param callable $initFromPost
-     * @return SectionBuilder
-     */
-    public function setInitFromPost($initFromPost) {
-        $this->_initFromPost = $initFromPost;
-        return $this;
-    }
-
-    /**
-     * @param callable $initFromGet
-     * @return SectionBuilder
-     */
-    public function setInitFromGet($initFromGet) {
-        $this->_initFromGet = $initFromGet;
-        return $this;
-    }
-
-
-
-    /**
      * @return SectionBuilder
      */
     public static function begin() {
@@ -93,7 +73,7 @@ class SectionBuilder {
     public function build() {
         if (!$this->_initFromGet) {$this->_initFromGet = function() {}; }
         if (!$this->_initFromPost) {$this->_initFromPost = function() {}; }
-        return new Section($this->_content, $this->_writables, $this->_label, $this->_initFromGet, $this->_initFromPost);
+        return new Section($this->_content, $this->_writables, $this->_label);
     }
 
 }

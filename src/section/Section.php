@@ -48,39 +48,10 @@ class Section implements SectionInterface {
      * @param WritableInterface[] $writables
      * @param string $label
      */
-    public function __construct($content, array $writables, $label, callable $initFromGet, callable $initFromPost) {
+    public function __construct($content, array $writables, $label) {
         $this->_label = $label;
         $this->_content = $content;
         $this->_writables = $writables;
-        $this->_initFromGet = $initFromGet;
-        $this->_initFromPost = $initFromPost;
-    }
-
-    /**
-     * Initialize this section from a request.
-     */
-    public function init() {
-
-        switch ($_SERVER['REQUEST_METHOD']) {
-            case 'POST':
-                call_user_func($this->_initFromPost);
-                break;
-            case 'GET':
-                call_user_func($this->_initFromGet);
-                break;
-        }
-    }
-
-    /**
-     * Initialize this section from a GET request.
-     */
-    protected function initFromGet() {
-    }
-
-    /**
-     * Initialize this section from a POST request.
-     */
-    protected function initFromPost() {
     }
 
     /**
