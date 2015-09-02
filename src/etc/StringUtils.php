@@ -18,9 +18,6 @@ class StringUtils {
      * @return string
      */
     static function slugify($string) {
-        // Transliterate the string into ASCII
-        $string = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
-
         // Replace non-alpha-numerics with dashes
         $string = strtolower(preg_replace(array('/[^a-zA-Z0-9 -]/','/[ -]+/','/^-|-$/'),array('','-',''), $string));
 
