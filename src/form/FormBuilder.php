@@ -11,7 +11,7 @@ class FormBuilder {
     /**
      * @var FormAction[]
      */
-    protected $_actions;
+    protected $_actions = [];
 
     /**
      * @var callable
