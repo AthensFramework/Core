@@ -2,6 +2,8 @@
 
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
+use UWDOEM\Framework\Etc\ORMUtils;
+use UWDOEMTest\TestClass;
 
 
 class FieldBearerTest extends PHPUnit_Framework_TestCase
@@ -57,7 +59,14 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         // Perhaps test that it raises the right errors
 
-        // Perhaps test ClassFieldBearerBuilder
+        // Test FieldBearerBuilder with ClassFieldBearer
+        $object = new TestClass();
+        $classFieldBearer = FieldBearerBuilder::begin()
+            ->addObject($object)
+            ->build();
+
+        $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
+        $this->assertEquals($expectedFieldNames, $classFieldBearer->getFieldNames());
     }
 
     public function testGetFieldBearers() {

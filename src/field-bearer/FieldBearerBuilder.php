@@ -46,9 +46,26 @@ class FieldBearerBuilder {
      * @param FieldInterface[] $fields
      * @return FieldBearerBuilder
      */
-    public function addFields($fields)
-    {
+    public function addFields($fields) {
         $this->_fields = array_merge($fields, $this->_fields);
+        return $this;
+    }
+
+    /**
+     * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
+     * @return FieldBearerBuilder
+     */
+    public function addObject($object) {
+        $this->addFieldBearers([new ClassFieldBearer($object)]);
+        return $this;
+    }
+
+    /**
+     * @param string $classTableMapName
+     * @return FieldBearerBuilder
+     */
+    public function addClassTableMapName($classTableMapName) {
+        $this->addFieldBearers([ClassFieldBearer::fromClassTableMapName($classTableMapName)]);
         return $this;
     }
 

@@ -197,7 +197,7 @@ class FieldBearer implements FieldBearerInterface {
     public function getFieldBearerByName($name) {
         return $this->baseGetThingByName("FieldBearer", $name);
     }
-    
+
     public function save() {
         if (is_callable($this->_saveFunction)) {
             $args = func_get_args();
