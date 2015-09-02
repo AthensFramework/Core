@@ -109,7 +109,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
     public function testGetLabelSlug() {
         foreach ($this->testedFields() as $field) {
-            $label = openssl_random_pseudo_bytes(64);
+            $label = utf8_decode(openssl_random_pseudo_bytes(64));
 
             $field->setLabel($label);
             $slug = $field->getLabelSlug();
@@ -132,7 +132,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
     public function testGetSlug() {
         foreach ($this->testedFields() as $field) {
-            $label = openssl_random_pseudo_bytes(64);
+            $label = utf8_decode(openssl_random_pseudo_bytes(64));
 
             $field->setLabel($label);
             $labelSlug = $field->getLabelSlug();
