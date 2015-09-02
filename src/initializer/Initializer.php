@@ -12,7 +12,7 @@ class Initializer extends Visitor {
 
     protected function visitChild($child) {
         // If the given child implements the initializable interface, then initialize it
-        if (array_search(InitializableInterface::class, class_implements($child))) {
+        if ($child instanceof InitializableInterface) {
             /** @var InitializableInterface $child */
             $child->accept($this);
         }
