@@ -17,10 +17,10 @@ class PageBuilder {
     protected $_subHeader;
 
     /** @var string[] */
-    protected $_breadCrumbs;
+    protected $_breadCrumbs = [];
 
     /** @var string[] */
-    protected $_returnTo;
+    protected $_returnTo = [];
 
     /** @var WritableInterface */
     protected $_writable;
