@@ -57,7 +57,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("", $form->result);
 
         $section = SectionBuilder::begin()
-            ->setWritables([$form])
+            ->addWritable($form)
             ->build();
         $initializer->visitSection($section);
 
@@ -77,7 +77,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
         $page = PageBuilder::begin()
             ->setWritable(
                 SectionBuilder::begin()
-                    ->setWritables([$form])
+                    ->addWritable($form)
                     ->build()
             )
             ->setType("full-header")

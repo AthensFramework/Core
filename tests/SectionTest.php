@@ -29,17 +29,18 @@ class SectionTest extends PHPUnit_Framework_TestCase
 
         $content = "content";
         $label = "label";
-        $writables = [$field];
+        $writable = $field;
 
         $section = SectionBuilder::begin()
             ->setContent($content)
             ->setLabel($label)
-            ->setWritables($writables)
+            ->addWritable($writable)
             ->build();
 
         $this->assertEquals($content, $section->getContent());
         $this->assertEquals($label, $section->getLabel());
-        $this->assertEquals($writables, $section->getWritables());
+        $this->assertContains($writable, $section->getWritables());
+        $this->assertEquals(1, sizeof($section->getWritables()));
     }
 
     /*

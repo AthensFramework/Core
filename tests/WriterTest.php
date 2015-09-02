@@ -85,7 +85,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $section = SectionBuilder::begin()
             ->setLabel("Label")
             ->setContent("Some content.")
-            ->setWritables([$subSection])
+            ->addWritable($subSection)
             ->build();
 
         // Get result and strip quotes, for easier analysis

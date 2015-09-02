@@ -52,11 +52,11 @@ class SectionBuilder {
     }
 
     /**
-     * @param WritableInterface[] $writables
+     * @param WritableInterface $writable
      * @return SectionBuilder
      */
-    public function setWritables($writables) {
-        $this->_writables = $writables;
+    public function addWritable($writable) {
+        $this->_writables[] = $writable;
         return $this;
     }
 
