@@ -42,48 +42,6 @@ class SectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($writables, $section->getWritables());
     }
 
-    public function testInit() {
-        $getString = (string)rand();
-        $postString = (string)rand();
-
-        $getCallback = function() use ($getString) { echo $getString; };
-        $postCallback = function() use ($postString) { echo $postString; };
-
-        $section = SectionBuilder::begin()
-            ->setInitFromGet($getCallback)
-            ->setInitFromPost($postCallback)
-            ->build();
-
-        /* Initialize the section from a GET request */
-        $_SERVER['REQUEST_METHOD'] = "GET";
-
-        ob_start();
-        $section->init();
-        $result = ob_get_clean();
-
-        // Assert that our initFromGet method was called and echoed the desired content
-        $this->assertContains($getString, $result);
-
-        // Assert that our initFromPost method was not called
-        $this->assertNotContains($postString, $result);
-
-
-        /* Initialize the section from a GET request */
-        $_SERVER['REQUEST_METHOD'] = "POST";
-
-        ob_start();
-        $section->init();
-        $result = ob_get_clean();
-
-        // Assert that our initFromPost method was called and echoed the desired content
-        $this->assertContains($postString, $result);
-
-        // Assert that our initFromGet method was not called
-        $this->assertNotContains($getString, $result);
-
-
-    }
-
     /*
      * The below methods are tested sufficiently above
     public function testGetWritables() {
