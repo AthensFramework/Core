@@ -3,7 +3,7 @@
 use UWDOEM\Framework\Etc\Settings;
 
 class MockSettings extends Settings {
-    
+
     public static function clear() {
         static::$settings = [];
     }
@@ -23,7 +23,6 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(2, sizeof($result));
 
         MockSettings::clear();
-
     }
 
 }
