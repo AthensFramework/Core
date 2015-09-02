@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/UWEnrollmentManagement/Framework.svg?branch=master)](https://travis-ci.org/UWEnrollmentManagement/Framework)
-
+[![Test Coverage](https://codeclimate.com/github/UWEnrollmentManagement/Framework/badges/coverage.svg)](https://codeclimate.com/github/UWEnrollmentManagement/Framework/coverage)
 
 UWDOEM/Framework
 =============
