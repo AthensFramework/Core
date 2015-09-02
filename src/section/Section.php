@@ -2,7 +2,6 @@
 
 namespace UWDOEM\Framework\Section;
 
-
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Writer\WritableInterface;
 
@@ -30,6 +29,16 @@ class Section implements SectionInterface {
      */
     protected $_writables;
 
+    /**
+     * @var callable
+     */
+    protected $_initFromPost;
+
+    /**
+     * @var callable
+     */
+    protected $_initFromGet;
+
     use VisitableTrait;
 
     /**
@@ -39,10 +48,12 @@ class Section implements SectionInterface {
      * @param WritableInterface[] $writables
      * @param string $label
      */
-    public function __construct($content, array $writables, $label) {
+    public function __construct($content, array $writables, $label, callable $initFromGet, callable $initFromPost) {
         $this->_label = $label;
         $this->_content = $content;
         $this->_writables = $writables;
+        $this->_initFromGet = $initFromGet;
+        $this->_initFromPost = $initFromPost;
     }
 
     /**
@@ -52,10 +63,10 @@ class Section implements SectionInterface {
 
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'POST':
-                $this->initFromPost();
+                call_user_func($this->_initFromPost);
                 break;
             case 'GET':
-                $this->initFromGet();
+                call_user_func($this->_initFromGet);
                 break;
         }
     }
