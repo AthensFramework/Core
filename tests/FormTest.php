@@ -49,5 +49,38 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("valid", $form->onValid());
         $this->assertEquals("invalid", $form->onInvalid());
     }
+
+    public function testValidation() {
+
+        $requiredField = new Field('required', 'A required field', "", true);
+        $unrequiredField = new Field('unrequired', 'A required field', "", false);
+
+        $fieldBearer = FieldBearerBuilder::begin()
+            ->addFields(["required" => $requiredField, "unrequired" => $unrequiredField])
+            ->build();
+
+        /* Test endogenous field validation */
+        $form = FormBuilder::begin()
+            ->setFieldBearer($fieldBearer)
+            ->build();
+
+        // The required field has not been provided, the form should not be valid
+        $this->assertFalse($form->isValid());
+
+        $form = FormBuilder::begin()
+            ->setFieldBearer($fieldBearer)
+            ->build();
+        $requiredField->removeErrors();
+
+        // Provide input for the required field
+        $_POST[$requiredField->getSlug()] = (string)rand();
+
+        // The required field has been provided, the form should be valid.
+        $this->assertTrue($form->isValid());
+    }
+
+    public function testInit() {
+
+    }
 }
 
