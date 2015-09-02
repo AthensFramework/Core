@@ -130,10 +130,7 @@ class Form implements FormInterface {
      * @param array $actions
      */
     public function __construct(
-        FieldBearerInterface $fieldBearer,
-        callable $onValidFunc,
-        callable $onInvalidFunc,
-        array $actions = []) {
+        FieldBearerInterface $fieldBearer, callable $onValidFunc, callable $onInvalidFunc, array $actions = []) {
 
         $this->_actions = $actions;
         $this->_fieldBearer = $fieldBearer;
