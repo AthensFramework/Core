@@ -2,13 +2,13 @@
 
 namespace UWDOEM\Framework\Form;
 
-
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\Writer\WritableInterface;
+use UWDOEM\Framework\Initializer\InitializableInterface;
 
 
-interface FormInterface extends WritableInterface {
+interface FormInterface extends WritableInterface, InitializableInterface {
 
     /**
      * @return FieldBearerInterface

@@ -3,9 +3,10 @@
 namespace UWDOEM\Framework\Page;
 
 use UWDOEM\Framework\Writer\WritableInterface;
+use UWDOEM\Framework\Initializer\InitializableInterface;
 
 
-interface PageInterface extends WritableInterface{
+interface PageInterface extends WritableInterface, InitializableInterface {
 
     /**
      * @return string
