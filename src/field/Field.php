@@ -188,12 +188,7 @@ class Field implements FieldInterface {
      * @return string
      */
     public function getInitial() {
-        if ($this->getType() !== "literal" && $this->wasSubmitted()) {
-            $result = $this->getSubmitted();
-        } else {
-            $result = $this->_initial;
-        }
-        return $result;
+        return $this->_initial;
     }
 
     /**
