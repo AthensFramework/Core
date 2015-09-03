@@ -47,7 +47,7 @@ class TableTest extends PHPUnit_Framework_TestCase
 
         $table = TableBuilder::begin()
             ->setRows($rows)
-            ->setFilter($filter)
+            ->addFilter($filter)
             ->build();
 
         $this->assertEquals($rows, $table->getRows());

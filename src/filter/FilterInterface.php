@@ -9,17 +9,14 @@ use Propel\Runtime\ActiveQuery\PropelQuery;
 interface FilterInterface {
 
     /**
+     * @param FilterInterface $filter
+     */
+    function combine(FilterInterface $filter);
+
+    /**
      * @return string[]
      */
     function getFeedback();
-
-    /**
-     * Combine two filters into one.
-     *
-     * @param FilterInterface $filter
-     * @return FilterInterface
-     */
-    function combine(FilterInterface $filter);
 
     /**
      * @param array $filterArgs

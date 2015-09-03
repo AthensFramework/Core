@@ -42,10 +42,14 @@ abstract class AbstractFilter implements FilterInterface {
 
     /**
      * Place a dummy filter on the end of this filter chain, if no filter exists
+     *
+     * @param FilterInterface|null $filter
      */
-    public function __construct() {
-        if (is_null($this->_nextFilter)) {
+    public function __construct(FilterInterface $filter = null) {
+        if (is_null($filter)) {
             $this->_nextFilter = new DummyFilter();
+        } else {
+            $this->_nextFilter = $filter;
         }
     }
 
@@ -77,6 +81,15 @@ abstract class AbstractFilter implements FilterInterface {
     }
 
     /**
+     * @return string[]
+     */
+    public function getFeedback() {
+        $feedback = array_merge($this->getFeedback(), $this->_nextFilter->getFeedback());
+
+        return array_merge([$this->_feedback], $feedback);
+    }
+
+    /**
      * @param FilterInterface $filter
      * @return FilterInterface
      */
@@ -84,15 +97,6 @@ abstract class AbstractFilter implements FilterInterface {
         $this->_nextFilter = $filter;
         $this->_encryptedFields |= $filter->hasEncryptedFields();
         return $this;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getFeedback() {
-        $feedback = array_merge($this->getFeedback(), $this->_nextFilter->getFeedback());
-
-        return array_merge([$this->_feedback], $feedback);
     }
 
 

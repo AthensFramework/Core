@@ -3,6 +3,7 @@
 namespace UWDOEM\Framework\Table;
 
 
+use UWDOEM\Framework\Filter\DummyFilter;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Filter\FilterInterface;
 
@@ -12,12 +13,16 @@ class TableBuilder {
     /**
      * @var RowInterface[]
      */
-    protected $_rows;
+    protected $_rows = [];
 
     /**
-     * @var FilterInterface[]
+     * @var FilterInterface
      */
     protected $_filter;
+
+    protected function __construct() {
+        $this->_filter = new DummyFilter();
+    }
 
     /**
      * @param RowInterface[] $rows
@@ -32,7 +37,8 @@ class TableBuilder {
      * @param FilterInterface $filter
      * @return TableBuilder
      */
-    public function setFilter($filter) {
+    public function addFilter(FilterInterface $filter) {
+        $filter->combine($this->_filter);
         $this->_filter = $filter;
         return $this;
     }
@@ -45,13 +51,6 @@ class TableBuilder {
     }
 
     public function build() {
-        if (!isset($this->_rows)) {
-            $this->_rows = [];
-        }
-
-        if (!isset($this->_filter)) {
-            $this->_filter = [];
-        }
         return new Table($this->_rows, $this->_filter);
     }
 
