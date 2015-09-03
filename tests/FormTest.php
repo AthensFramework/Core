@@ -32,43 +32,42 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $onValidFunc = function() { return "valid"; };
         $onInvalidFunc = function() { return "invalid"; };
 
-        $fieldBearer = FieldBearerBuilder::begin()
-            ->addFields([new Field('literal', 'A literal field')])
-            ->build();
+        $fields = [new Field('literal', 'A literal field')];
 
         $form = FormBuilder::begin()
             ->setActions($actions)
-            ->setFieldBearer($fieldBearer)
+            ->addFields($fields)
             ->setOnInvalidFunc($onInvalidFunc)
             ->setOnValidFunc($onValidFunc)
             ->build();
 
         $this->assertEquals($actions, $form->getActions());
-        $this->assertEquals($fieldBearer, $form->getFieldBearer());
+        $this->assertContains($fields[0], $form->getFieldBearer()->getFields());
+        $this->assertEquals(1, sizeof($form->getFieldBearer()->getFields()));
 
         $this->assertEquals("valid", $form->onValid());
         $this->assertEquals("invalid", $form->onInvalid());
     }
 
-    public function testValidation() {
+    public function testEndogenousValidation() {
 
-        $requiredField = new Field('required', 'A required field', "", true);
-        $unrequiredField = new Field('unrequired', 'A required field', "", false);
+        $requiredField = new Field('text', 'A required field', "", true);
+        $unrequiredField = new Field('text', 'A required field', "", false);
 
-        $fieldBearer = FieldBearerBuilder::begin()
-            ->addFields(["required" => $requiredField, "unrequired" => $unrequiredField])
-            ->build();
+        $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
 
-        /* Test endogenous field validation */
+
+        /* Do not provide input to the field which requires input */
         $form = FormBuilder::begin()
-            ->setFieldBearer($fieldBearer)
+            ->addFields($fields)
             ->build();
 
         // The required field has not been provided, the form should not be valid
         $this->assertFalse($form->isValid());
 
+        /* Provide input to the field which requires input */
         $form = FormBuilder::begin()
-            ->setFieldBearer($fieldBearer)
+            ->addFields($fields)
             ->build();
         $requiredField->removeErrors();
 
@@ -76,6 +75,62 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $_POST[$requiredField->getSlug()] = (string)rand();
 
         // The required field has been provided, the form should be valid.
+        $this->assertTrue($form->isValid());
+
+
+    }
+
+    public function testExogenousValidation() {
+        $requiredInput = "the specific input required";
+
+        $validator = function(\UWDOEM\Framework\Field\FieldInterface $field) use ($requiredInput) {
+            $input = $field->getSubmitted();
+            if ($input !== $requiredInput) {
+                $field->addError("The exact specific input was not provided.");
+            }
+        };
+
+
+        /* Provide no input for the specific field */
+        $unrequiredField = new Field('text', 'A required field', "", false);
+        $specificField = new Field("text", "A field which required specific input.");
+        $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
+        $form = FormBuilder::begin()
+            ->addFields($fields)
+            ->addValidator("specific", $validator)
+            ->build();
+
+        // No input was provided, the form is not valid
+        $this->assertFalse($form->isValid());
+
+
+        /* Provide the wrong input to the specific field */
+        $unrequiredField = new Field('text', 'A required field', "", false);
+        $specificField = new Field("text", "A field which required specific input.");
+        $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
+        $form = FormBuilder::begin()
+            ->addFields($fields)
+            ->addValidator("specific", $validator)
+            ->build();
+
+        $_POST[$specificField->getSlug()] = (string)rand();
+
+        // Input was provided, but not the specific input required, form is not valid
+        $this->assertFalse($form->isValid());
+
+
+        /* Provide the correct input to the specific field */
+        $unrequiredField = new Field('text', 'A required field', "", false);
+        $specificField = new Field("text", "A field which required specific input.");
+        $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
+        $form = FormBuilder::begin()
+            ->addFields($fields)
+            ->addValidator("specific", $validator)
+            ->build();
+
+        $_POST[$specificField->getSlug()] = $requiredInput;
+
+        // Correct input was provided, field should be valid
         $this->assertTrue($form->isValid());
     }
 
