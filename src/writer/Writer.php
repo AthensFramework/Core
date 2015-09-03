@@ -85,6 +85,7 @@ class Writer extends Visitor {
             ->render([
                 "slug" => $field->getSlug(),
                 "initial" => $field->getInitial(),
+                "choices" => $field->getChoices()
             ]);
     }
 

@@ -19,6 +19,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field = new Field("literal", "A literal field", "initial", true, [], 200);
         $this->assertContains("initial", $writer->visitField($field));
 
+        /* A choice field */
+        $field = new Field("choice", "A literal field", "initial", true, ["first choice", "second choice"], 200);
+
+        $result = $writer->visitField($field);
+        $this->assertContains("first choice", $result);
+        $this->assertContains("second choice", $result);
+
         /* A text field */
         $field = new Field("text", "A text field", "5", true, [], 200);
 
