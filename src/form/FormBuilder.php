@@ -83,6 +83,15 @@ class FormBuilder {
     }
 
     /**
+     * @param string[] $visibleFieldNames
+     * @return FormBuilder
+     */
+    public function setVisibleFieldNames(array $visibleFieldNames) {
+        $this->_fieldBearerBuilder->setVisibleFieldNames($visibleFieldNames);
+        return $this;
+    }
+
+    /**
      * @param string $fieldName
      * @param callable $callable
      * @return FormBuilder

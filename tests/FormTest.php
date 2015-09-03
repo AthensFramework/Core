@@ -4,7 +4,8 @@
 use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
+use UWDOEM\Framework\Etc\ORMUtils;
+use \UWDOEMTest\TestClass;
 
 
 class FormTest extends PHPUnit_Framework_TestCase {
@@ -27,26 +28,42 @@ class FormTest extends PHPUnit_Framework_TestCase {
      * @throws \Exception
      */
     public function testBuilder() {
+        foreach ($this->testedFormBuilders() as $builder) {
 
-        $actions = [new FormAction("label", "method", "")];
-        $onValidFunc = function() { return "valid"; };
-        $onInvalidFunc = function() { return "invalid"; };
+            $actions = [new FormAction("label", "method", "")];
+            $onValidFunc = function () {
+                return "valid";
+            };
+            $onInvalidFunc = function () {
+                return "invalid";
+            };
 
-        $fields = [new Field('literal', 'A literal field', [])];
+            $fields = [new Field('literal', 'A literal field', [])];
 
-        $form = FormBuilder::begin()
-            ->setActions($actions)
-            ->addFields($fields)
-            ->setOnInvalidFunc($onInvalidFunc)
-            ->setOnValidFunc($onValidFunc)
-            ->build();
+            $form = $builder->clear()
+                ->setActions($actions)
+                ->addFields($fields)
+                ->setOnInvalidFunc($onInvalidFunc)
+                ->setOnValidFunc($onValidFunc)
+                ->build();
 
-        $this->assertEquals($actions, $form->getActions());
-        $this->assertContains($fields[0], $form->getFieldBearer()->getFields());
-        $this->assertEquals(1, sizeof($form->getFieldBearer()->getFields()));
+            $this->assertEquals($actions, $form->getActions());
+            $this->assertContains($fields[0], $form->getFieldBearer()->getFields());
+            $this->assertEquals(1, sizeof($form->getFieldBearer()->getFields()));
 
-        $this->assertEquals("valid", $form->onValid());
-        $this->assertEquals("invalid", $form->onInvalid());
+            $this->assertEquals("valid", $form->onValid());
+            $this->assertEquals("invalid", $form->onInvalid());
+
+            // Test FormBuilder creation of ClassFieldBearer
+            $object = new TestClass();
+
+            $form = $builder->clear()
+                ->addObject($object)
+                ->build();
+
+            $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
+            $this->assertEquals($expectedFieldNames, $form->getFieldBearer()->getVisibleFieldNames());
+        }
     }
 
     public function testEndogenousValidation() {
@@ -76,8 +93,6 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         // The required field has been provided, the form should be valid.
         $this->assertTrue($form->isValid());
-
-
     }
 
     public function testExogenousValidation() {
@@ -131,8 +146,28 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($form->isValid());
     }
 
-    public function testInit() {
+    public function testDefaultOnInvalid() {
+        $requiredField = new Field('text', 'A required field', "", true, []);
+        $unrequiredField = new Field('text', 'A required field', "", false, []);
 
+        $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
+
+        $form = FormBuilder::begin()
+            ->addFields($fields)
+            ->build();
+
+        // Provide input to the field that does not require input
+        $input = (string)rand();
+        $_POST[$unrequiredField->getSlug()] = $input;
+
+        // Assert that the unrequired field does not have an "initial" value
+        $this->assertNotEquals($input, $unrequiredField->getInitial());
+
+        // Trigger the form's onInvalid method
+        $form->onInvalid();
+
+        // Assert that the input has been moved into the field's initial value
+        $this->assertEquals($input, $unrequiredField->getInitial());
     }
 }
 
