@@ -109,7 +109,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
     public function testGetLabelSlug() {
         foreach ($this->testedFields() as $field) {
-            $label = utf8_decode(openssl_random_pseudo_bytes(64));
+            $label = utf8_decode(openssl_random_pseudo_bytes(64)) . "a?b%c^d&e*f(g)h-iklmn";
+            $label = str_shuffle($label);
 
             $field->setLabel($label);
             $slug = $field->getLabelSlug();
@@ -124,7 +125,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
                 "Failure on class: " . get_class($field)
             );
 
-            // Assert that the slug has some length
+            // Sanity check: assert that the slug has some length and did not pass because it's empty
             $this->assertGreaterThan(8, strlen($slug));
         }
 
@@ -132,7 +133,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
     public function testGetSlug() {
         foreach ($this->testedFields() as $field) {
-            $label = utf8_decode(openssl_random_pseudo_bytes(64));
+            $label = utf8_decode(openssl_random_pseudo_bytes(64)) . "a?b%c^d&e*f(g)h-iklmn";
+            $label = str_shuffle($label);
 
             $field->setLabel($label);
             $labelSlug = $field->getLabelSlug();
