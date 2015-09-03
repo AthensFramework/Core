@@ -16,11 +16,11 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         /* A literal field */
-        $field = new Field("literal", "A literal field", "initial", true, 200);
+        $field = new Field("literal", "A literal field", "initial", true, [], 200);
         $this->assertContains("initial", $writer->visitField($field));
 
         /* A text field */
-        $field = new Field("text", "A text field", "5", true, 200);
+        $field = new Field("text", "A text field", "5", true, [], 200);
 
         // Get result and strip quotes, for easier analysis
         $result = str_replace(['"', "'"], "", $writer->visitField($field));
@@ -42,8 +42,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $form = FormBuilder::begin()
             ->setActions($actions)
             ->addFields([
-                "literalField" => new Field('literal', 'A literal field', 'Literal field content', true),
-                "textField" => new Field('text', 'A text field', "5", false)
+                "literalField" => new Field('literal', 'A literal field', 'Literal field content', true, []),
+                "textField" => new Field('text', 'A text field', "5", false, [])
             ])
             ->setOnInvalidFunc($onInvalidFunc)
             ->setOnValidFunc($onValidFunc)

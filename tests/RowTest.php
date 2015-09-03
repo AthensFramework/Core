@@ -29,7 +29,7 @@ class RowTest extends PHPUnit_Framework_TestCase
     public function testBuilder() {
 
         $fieldBearer = FieldBearerBuilder::begin()
-            ->addFields([new Field('literal', 'A literal field')])
+            ->addFields([new Field('literal', 'A literal field', [])])
             ->build();
 
         $row = RowBuilder::begin()

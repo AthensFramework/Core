@@ -183,7 +183,7 @@ class ORMUtils {
 
             $fieldSize = $column->getSize();
 
-            $fields[] = new Field($fieldType, $label, $initial, $fieldRequired, $fieldSize);
+            $fields[] = new Field($fieldType, $label, $initial, $fieldRequired, [], $fieldSize);
         }
 
         return $fields;

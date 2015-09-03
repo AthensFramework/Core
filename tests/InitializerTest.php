@@ -26,7 +26,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
 
     protected function makeMockForm() {
         $fieldBearer = FieldBearerBuilder::begin()
-            ->addFields([new Field("literal", "A literal field")])
+            ->addFields([new Field("literal", "A literal field", [])])
             ->build();
         return new MockForm($fieldBearer, function(){}, function(){});
     }

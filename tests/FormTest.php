@@ -32,7 +32,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $onValidFunc = function() { return "valid"; };
         $onInvalidFunc = function() { return "invalid"; };
 
-        $fields = [new Field('literal', 'A literal field')];
+        $fields = [new Field('literal', 'A literal field', [])];
 
         $form = FormBuilder::begin()
             ->setActions($actions)
@@ -51,8 +51,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
     public function testEndogenousValidation() {
 
-        $requiredField = new Field('text', 'A required field', "", true);
-        $unrequiredField = new Field('text', 'A required field', "", false);
+        $requiredField = new Field('text', 'A required field', "", true, []);
+        $unrequiredField = new Field('text', 'A required field', "", false, []);
 
         $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
 
@@ -81,8 +81,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testExogenousValidation() {
-        $unrequiredField = new Field('text', 'A required field', "", false);
-        $specificField = new Field("text", "A field which required specific input.");
+        $unrequiredField = new Field('text', 'A required field', "", false, []);
+        $specificField = new Field("text", "A field which required specific input.", []);
         $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
 
         $requiredInput = "the specific input required";

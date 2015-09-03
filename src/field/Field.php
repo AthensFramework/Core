@@ -38,6 +38,9 @@ class Field implements FieldInterface {
     /** @var bool */
     protected $_isValid;
 
+    /** @var array */
+    protected $_choices;
+
 
     use VisitableTrait;
 
@@ -46,13 +49,15 @@ class Field implements FieldInterface {
      * @param string $label
      * @param string|null $initial
      * @param bool|False $required
+     * @param $choices
      * @param int $fieldSize
      */
-    function __construct($type, $label="", $initial = "", $required = False, $fieldSize=255) {
+    function __construct($type, $label = "", $initial = "", $required = False, $choices = [], $fieldSize = 255) {
         $this->_type = $type;
         $this->_label = $label;
         $this->_initial = $initial;
         $this->_required = $required;
+        $this->_choices = $choices;
         $this->_fieldSize = $fieldSize;
     }
 
@@ -86,6 +91,20 @@ class Field implements FieldInterface {
      */
     public function setLabel($label) {
         $this->_label = $label;
+    }
+
+    /**
+     * @return array
+     */
+    public function getChoices() {
+        return $this->_choices;
+    }
+
+    /**
+     * @param array $choices
+     */
+    public function setChoices(array $choices) {
+        $this->_choices = $choices;
     }
 
     /**
@@ -203,10 +222,18 @@ class Field implements FieldInterface {
      */
     public function validate() {
 
-        if ($this->isRequired() && !$this->wasSubmitted()) {
+        $data = $this->wasSubmitted() ? $this->getSubmitted() : null;
+
+        if ($this->isRequired() && is_null($data)) {
             $this->addError("This field is required.");
-        } else {
-            $this->setValidatedData($this->getSubmitted());
+        }
+
+        if (sizeof($this->getChoices()) > 0 && array_search($data, $this->getChoices()) === false) {
+            $this->addError("The value of this field must be one of: " . implode(", ", $this->getChoices()) . ".");
+        }
+
+        if (!$this->getErrors()) {
+            $this->setValidatedData($data);
         }
     }
 

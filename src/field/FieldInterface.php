@@ -20,6 +20,12 @@ interface FieldInterface extends WritableInterface {
     /** @param string $label */
     function setLabel($label);
 
+    /** @return string */
+    function getChoices();
+
+    /** @param array $choices */
+    function setChoices(array $choices);
+
     /** @return int */
     function getSize();
 
