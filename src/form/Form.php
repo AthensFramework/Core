@@ -67,20 +67,16 @@ class Form implements FormInterface {
      * @return mixed
      */
     public function onValid() {
-        if (is_callable($this->_onValidFunc)) {
-            $args = array_merge([$this], func_get_args());
-            return call_user_func_array($this->_onValidFunc, $args);
-        }
+        $args = array_merge([$this], func_get_args());
+        return call_user_func_array($this->_onValidFunc, $args);
     }
 
     /**
      * @return mixed
      */
     public function onInvalid() {
-        if (is_callable($this->_onInvalidFunc)) {
-            $args = array_merge([$this], func_get_args());
-            return call_user_func_array($this->_onInvalidFunc, $args);
-        }
+        $args = array_merge([$this], func_get_args());
+        return call_user_func_array($this->_onInvalidFunc, $args);
     }
 
     /**
