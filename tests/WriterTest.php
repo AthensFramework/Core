@@ -39,16 +39,12 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $onValidFunc = function() { return "valid"; };
         $onInvalidFunc = function() { return "invalid"; };
 
-        $fieldBearer = FieldBearerBuilder::begin()
+        $form = FormBuilder::begin()
+            ->setActions($actions)
             ->addFields([
                 "literalField" => new Field('literal', 'A literal field', 'Literal field content', true),
                 "textField" => new Field('text', 'A text field', "5", false)
             ])
-            ->build();
-
-        $form = FormBuilder::begin()
-            ->setActions($actions)
-            ->setFieldBearer($fieldBearer)
             ->setOnInvalidFunc($onInvalidFunc)
             ->setOnValidFunc($onValidFunc)
             ->build();
