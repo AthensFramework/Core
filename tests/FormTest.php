@@ -81,6 +81,10 @@ class FormTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testExogenousValidation() {
+        $unrequiredField = new Field('text', 'A required field', "", false);
+        $specificField = new Field("text", "A field which required specific input.");
+        $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
+
         $requiredInput = "the specific input required";
 
         $validator = function(\UWDOEM\Framework\Field\FieldInterface $field) use ($requiredInput) {
@@ -92,9 +96,6 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 
         /* Provide no input for the specific field */
-        $unrequiredField = new Field('text', 'A required field', "", false);
-        $specificField = new Field("text", "A field which required specific input.");
-        $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
         $form = FormBuilder::begin()
             ->addFields($fields)
             ->addValidator("specific", $validator)
@@ -105,9 +106,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 
         /* Provide the wrong input to the specific field */
-        $unrequiredField = new Field('text', 'A required field', "", false);
-        $specificField = new Field("text", "A field which required specific input.");
-        $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
+        $specificField->removeErrors();
         $form = FormBuilder::begin()
             ->addFields($fields)
             ->addValidator("specific", $validator)
@@ -120,9 +119,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 
         /* Provide the correct input to the specific field */
-        $unrequiredField = new Field('text', 'A required field', "", false);
-        $specificField = new Field("text", "A field which required specific input.");
-        $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
+        $specificField->removeErrors();
         $form = FormBuilder::begin()
             ->addFields($fields)
             ->addValidator("specific", $validator)
