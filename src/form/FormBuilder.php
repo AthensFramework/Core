@@ -66,14 +66,17 @@ class FormBuilder {
 
     /**
      * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
+     * @return FormBuilder
      */
     public function addObject($object) {
         $this->_fieldBearerBuilder->addObject($object);
+        return $this;
     }
 
     /**
      * @param string $fieldName
      * @param callable $callable
+     * @return FormBuilder
      */
     public function addValidator($fieldName, callable $callable) {
         if (!array_key_exists($fieldName, $this->_validators)) {
@@ -81,8 +84,9 @@ class FormBuilder {
         }
         $this->_validators[$fieldName][] = $callable;
 
+        return $this;
     }
-    
+
     /**
      * @return FormBuilder
      */
