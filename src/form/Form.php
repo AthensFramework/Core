@@ -27,6 +27,9 @@ class Form implements FormInterface {
     /** @var callable */
     protected $_onInvalidFunc;
 
+    /** @var array[]  */
+    protected $_validators;
+
     use VisitableTrait;
 
     /**
@@ -45,9 +48,10 @@ class Form implements FormInterface {
         foreach ($this->getFieldBearer()->getFields() as $name => $field) {
             $field->validate();
 
-            $validatorName = "validate" . str_replace(".", "", ucfirst($name));
-            if (method_exists(get_called_class(), $validatorName)) {
-                call_user_func_array([$this, $validatorName], [$field]);
+            if (array_key_exists($name, $this->_validators)) {
+                foreach($this->_validators[$name] as $validator) {
+                    call_user_func_array($validator, [$field]);
+                }
             }
         }
 
@@ -128,14 +132,21 @@ class Form implements FormInterface {
      * @param callable $onValidFunc
      * @param callable $onInvalidFunc
      * @param array $actions
+     * @param array[] $validators
      */
     public function __construct(
-        FieldBearerInterface $fieldBearer, callable $onValidFunc, callable $onInvalidFunc, array $actions = []) {
-
+        FieldBearerInterface $fieldBearer,
+        callable $onValidFunc,
+        callable $onInvalidFunc,
+        array $actions = [],
+        array $validators = [])
+    {
         $this->_actions = $actions;
         $this->_fieldBearer = $fieldBearer;
 
         $this->_onInvalidFunc = $onInvalidFunc;
         $this->_onValidFunc = $onValidFunc;
+
+        $this->_validators = $validators;
     }
 }

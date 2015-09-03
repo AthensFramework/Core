@@ -28,6 +28,11 @@ class FormBuilder {
      */
     protected $_fieldBearerBuilder;
 
+    /**
+     * @var array[]
+     */
+    protected $_validators = [];
+
     protected function __construct() {
         $this->_fieldBearerBuilder = new FieldBearerBuilder();
     }
@@ -59,12 +64,25 @@ class FormBuilder {
         return $this;
     }
 
+    /**
+     * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
+     */
     public function addObject($object) {
         $this->_fieldBearerBuilder->addObject($object);
     }
 
+    /**
+     * @param string $fieldName
+     * @param callable $callable
+     */
+    public function addValidator($fieldName, callable $callable) {
+        if (!array_key_exists($fieldName, $this->_validators)) {
+            $this->_validators[$fieldName] = [];
+        }
+        $this->_validators[$fieldName][] = $callable;
 
-
+    }
+    
     /**
      * @return FormBuilder
      */
@@ -109,7 +127,8 @@ class FormBuilder {
             $this->_fieldBearerBuilder->build(),
             $this->_onValidFunc,
             $this->_onInvalidFunc,
-            $this->_actions
+            $this->_actions,
+            $this->_validators
         );
     }
 }
