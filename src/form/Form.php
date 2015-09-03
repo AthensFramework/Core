@@ -84,19 +84,6 @@ class Form implements FormInterface {
     }
 
     /**
-     * return null
-     */
-    protected function initFromPost() {
-        $this->isValid() ? $this->onValid(): $this->onInvalid();
-    }
-
-    /**
-     * return null
-     */
-    protected function initFromGet() {
-    }
-
-    /**
      * @return bool
      */
     public function isValid() {
