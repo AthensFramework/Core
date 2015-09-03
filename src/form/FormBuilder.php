@@ -74,6 +74,15 @@ class FormBuilder {
     }
 
     /**
+     * @param \UWDOEM\Framework\Field\FieldInterface[] $fields
+     * @return FormBuilder
+     */
+    public function addFields(array $fields) {
+        $this->_fieldBearerBuilder->addFields($fields);
+        return $this;
+    }
+
+    /**
      * @param string $fieldName
      * @param callable $callable
      * @return FormBuilder
