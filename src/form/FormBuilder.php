@@ -3,7 +3,7 @@
 namespace UWDOEM\Framework\Form;
 
 use UWDOEM\Framework\Form\FormAction\FormAction;
-use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
+use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 
 
 class FormBuilder {
@@ -24,9 +24,13 @@ class FormBuilder {
     protected $_onInvalidFunc;
 
     /**
-     * @var FieldBearerInterface
+     * @var FieldBearerBuilder
      */
-    protected $_fieldBearer;
+    protected $_fieldBearerBuilder;
+
+    protected function __construct() {
+        $this->_fieldBearerBuilder = new FieldBearerBuilder();
+    }
 
     /**
      * @param FormAction[] $actions
@@ -55,14 +59,11 @@ class FormBuilder {
         return $this;
     }
 
-    /**
-     * @param FieldBearerInterface $fieldBearer
-     * @return FormBuilder
-     */
-    public function setFieldBearer($fieldBearer) {
-        $this->_fieldBearer = $fieldBearer;
-        return $this;
+    public function addObject($object) {
+        $this->_fieldBearerBuilder->addObject($object);
     }
+
+
 
     /**
      * @return FormBuilder
@@ -78,7 +79,7 @@ class FormBuilder {
         $this->_actions = null;
         $this->_onValidFunc = null;
         $this->_onInvalidFunc = null;
-        $this->_fieldBearer = null;
+        $this->_fieldBearerBuilder = FieldBearerBuilder::begin();
 
         return $this;
     }
@@ -88,10 +89,6 @@ class FormBuilder {
      * @throws \Exception if setFieldBearer has not been called.
      */
     public function build() {
-        if (!$this->_fieldBearer) {
-            throw new \Exception("Must make fieldBearer before calling this method.");
-        }
-
         if (!isset($this->_onInvalidFunc)) {
 
             $this->_onInvalidFunc = function (FormInterface $thisForm) {
@@ -109,18 +106,10 @@ class FormBuilder {
         }
 
         return new Form(
-            $this->_fieldBearer,
+            $this->_fieldBearerBuilder->build(),
             $this->_onValidFunc,
             $this->_onInvalidFunc,
             $this->_actions
         );
     }
-
-
-//    protected function makeActions() {
-//        return [
-//            new FormAction("Submit", "POST", "."),
-//        ];
-//    }
-
 }
