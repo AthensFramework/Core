@@ -18,13 +18,7 @@ class Writer extends Visitor {
     protected $_environment;
 
     protected function getTemplatesDirectories() {
-        $themeDirectories = array_map(
-            function ($theme) {
-                return dirname(__FILE__) . '/templates/' . $theme;
-                },
-            Settings::getTemplateThemes()
-        );
-        return array_merge($themeDirectories, [dirname(__FILE__) . '/templates/base']);
+        return array_merge(Settings::getTemplateDirectories(), [dirname(__FILE__) . '/templates/base']);
     }
 
     protected function write(WritableInterface $host) {

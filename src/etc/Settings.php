@@ -5,26 +5,30 @@ namespace UWDOEM\Framework\Etc;
 
 class Settings {
 
-    protected static $settings = [];
+    protected static $settings = [
+        "templateDirectories" => []
+    ];
 
     protected function __construct() {}
 
-    /**
-     * @param string $theme
-     */
     public static function addTemplateTheme($theme) {
-        if (array_key_exists("themes", static::$settings)) {
-            static::$settings["themes"][] = $theme;
-        } else {
-            static::$settings["themes"] = [$theme];
-        }
+        $templateDirectory = dirname(__FILE__) . '/../writer/templates/' . $theme;
+        static::addTemplateDirectory($templateDirectory);
     }
 
-    public static function getTemplateThemes() {
-        if (array_key_exists("themes", static::$settings)) {
-            return static::$settings["themes"];
+    public static function addTemplateDirectory($directory) {
+        static::$settings["templateDirectories"][] = $directory;
+    }
+
+    public static function getTemplateDirectories() {
+        return static::getSetting("templateDirectories");
+    }
+
+    protected static function getSetting($key) {
+        if (array_key_exists($key, static::$settings)) {
+            return static::$settings[$key];
         } else {
-            return [];
+            return null;
         }
     }
 }
