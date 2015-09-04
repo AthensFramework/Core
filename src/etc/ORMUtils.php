@@ -166,6 +166,7 @@ class ORMUtils {
         $initial = "";
         foreach ($columns as $column) {
             $label = $column->getName();
+            $choices = [];
 
             // The primary key ID field should be presented as a hidden html field
             if ($label == 'id') {
@@ -177,13 +178,18 @@ class ORMUtils {
             } else {
                 $fieldType = self::chooseFieldType($column);
                 $fieldRequired = $column->isNotNull();
+
+                if ($fieldType == "yorn") {
+                    $fieldType = "choice";
+                    $choices = ["Yes", "No"];
+                }
             }
 
             $label = StringUtils::toTitleCase($label);
 
             $fieldSize = $column->getSize();
 
-            $fields[] = new Field($fieldType, $label, $initial, $fieldRequired, [], $fieldSize);
+            $fields[] = new Field($fieldType, $label, $initial, $fieldRequired, $choices, $fieldSize);
         }
 
         return $fields;
