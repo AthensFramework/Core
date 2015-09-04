@@ -48,4 +48,9 @@ interface PageInterface extends WritableInterface, InitializableInterface {
      */
     public function getWritable();
 
+    /**
+     * @return null
+     */
+    public function render();
+
 }

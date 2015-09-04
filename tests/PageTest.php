@@ -3,6 +3,16 @@
 use UWDOEM\Framework\Page\PageBuilder;
 use UWDOEM\Framework\Page\Page;
 use UWDOEM\Framework\Section\SectionBuilder;
+use UWDOEM\Framework\Etc\Settings;
+use UWDOEM\Framework\Writer\Writer;
+use UWDOEM\Framework\Page\PageInterface;
+
+
+class MockWriter extends Writer {
+    public function visitPage(PageInterface $page) {
+        return $page->getTitle();
+    }
+}
 
 
 class PageTest extends PHPUnit_Framework_TestCase
@@ -62,6 +72,50 @@ class PageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($subHeader, $page->getSubHeader());
         $this->assertEquals($returnTo, $page->getReturnTo());
         $this->assertEquals($type, $page->getType());
+    }
+
+    public function testRender() {
+        /* No writer provided to render, page uses default writer class from settings */
+
+        // Store the current default writer from the settings
+        $defaultWriterClass = Settings::getDefaultWriterClass();
+
+        Settings::setDefaultWriterClass("MockWriter");
+
+        $title = "Test Page";
+        $page = PageBuilder::begin()
+            ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
+            ->setTitle($title)
+            ->setWritable(SectionBuilder::begin()->setContent("content")->build())
+            ->build();
+
+        // Our mock writer will simply echo the title of the page
+        ob_start();
+        $page->render();
+        $result = ob_get_clean();
+
+        $this->assertEquals($title, $result);
+
+        // Return the default writer class to its original value
+        Settings::setDefaultWriterClass($defaultWriterClass);
+
+        /* Writer provided to render */
+        $title = "Test Page 2";
+        $page = PageBuilder::begin()
+            ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
+            ->setTitle($title)
+            ->setWritable(SectionBuilder::begin()->setContent("content")->build())
+            ->build();
+
+        $writer = new MockWriter();
+
+        // Our mock writer will simply echo the title of the page
+        ob_start();
+        $page->render($writer);
+        $result = ob_get_clean();
+
+        $this->assertEquals($title, $result);
+
     }
 
     /*
