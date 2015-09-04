@@ -6,7 +6,8 @@ namespace UWDOEM\Framework\Etc;
 class Settings {
 
     protected static $settings = [
-        "templateDirectories" => []
+        "templateDirectories" => [],
+        "defaultWriterClass" => '\UWDOEM\Writer\Writer'
     ];
 
     protected function __construct() {}
@@ -22,6 +23,14 @@ class Settings {
 
     public static function getTemplateDirectories() {
         return static::getSetting("templateDirectories");
+    }
+
+    public static function setDefaultWriterClass($writerClass) {
+        static::$settings["defaultWriterClass"] = $writerClass;
+    }
+
+    public static function getDefaultWriterClass() {
+        return static::getSetting("defaultWriterClass");
     }
 
     protected static function getSetting($key) {
