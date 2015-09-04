@@ -1,3 +1,6 @@
+/* jshint unused: false */
+/* global UWDOEMAjax */
+
 function openPanel(n) {
 
     if (n === 1) {
@@ -48,7 +51,7 @@ function loadPanel(n, targetURL) {
 
         $.get( targetURL, function( data ) {
             targetDiv.html( data );
-            doPostAJAXSectionActions(targetDiv);
+            UWDOEMAjax.doPostSectionActions(targetDiv);
         });
     }
 }

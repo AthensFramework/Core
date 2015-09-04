@@ -1,6 +1,5 @@
-/*global
- UWDOEMAjax
- */
+/* jshint unused: false */
+/* global UWDOEMAjax */
 
 /**
  * Creates an alert div, appends it to the notification area, and schedules it for removal.
