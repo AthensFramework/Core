@@ -19,8 +19,20 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field = new Field("literal", "A literal field", "initial", true, [], 200);
         $this->assertContains("initial", $writer->visitField($field));
 
+        /* A section-label field */
+        $field = new Field("section-label", "A section-label field", "initial");
+        $this->assertContains("A section-label field", $writer->visitField($field));
+        $this->assertNotContains("initial", $writer->visitField($field));
+
         /* A choice field */
         $field = new Field("choice", "A literal field", "initial", true, ["first choice", "second choice"], 200);
+
+        $result = $writer->visitField($field);
+        $this->assertContains("first choice", $result);
+        $this->assertContains("second choice", $result);
+
+        /* A multiple choice field */
+        $field = new Field("multiple-choice", "A multiple-choice field", "initial", true, ["first choice", "second choice"], 200);
 
         $result = $writer->visitField($field);
         $this->assertContains("first choice", $result);
@@ -34,6 +46,18 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains('value=5', $result);
         $this->assertContains('<input type=text', $result);
+
+        /* A textarea field */
+        $field = new Field("textarea", "A textarea field", "initial value", true, [], 1000);
+
+        // Get result and strip quotes, for easier analysis
+        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+
+        // By our current method of calculation, should have size of 100 means 10 rows
+        // If change calculation, change this test
+        $this->assertContains('rows=10', $result);
+        $this->assertContains('<textarea', $result);
+        $this->assertContains('initial value', $result);
     }
 
     public function testVisitForm() {

@@ -1,5 +1,7 @@
+{% include "field/preamble.twig" %}
 <span class="choice-field">
     {% for choice in choices %}
     <input type="radio" name="{{ slug }}" value="{{ choice }}" {% if choice == initial %}checked{% endif %}> {{ choice }}
     {% endfor %}
 </span>
+{% include "field/postamble.twig" %}
