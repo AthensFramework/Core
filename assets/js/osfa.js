@@ -13,7 +13,7 @@ function makeAlert(type, msg, duration) {
         html(type + ": " + msg).
         appendTo("#notification-area").
         addClass(type).
-        fadeTo(0, .7).
+        fadeTo(0, 0.7).
         delay(duration).
         fadeTo(0, 0).
         delay(300).
@@ -24,7 +24,7 @@ function makeAlert(type, msg, duration) {
  * Fades in the mask screen which is used to temporarily "deactivate" the screen.
  */
 function fadeInMask() {
-    $("#mask-screen").css('height', '100%').css('opacity', .4);
+    $("#mask-screen").css('height', '100%').css('opacity', 0.4);
 }
 
 /**
@@ -72,7 +72,7 @@ function setupSortFilter(marker) {
         var oldOrder = getAJAXGetVar(filterSectionName, 'sort', 'order');
         var oldFieldname = getAJAXGetVar(filterSectionName, 'sort', 'fieldname');
 
-        if (fieldname == oldFieldname && oldOrder=="ascending") {
+        if (fieldname === oldFieldname && oldOrder === "ascending") {
             var newOrder = "descending";
         } else {
             var newOrder = "ascending";
@@ -139,7 +139,7 @@ function setupPaginationFilter(marker) {
             registerAJAXGetVar(filterSectionName, 'pagination', 'page', targetPage);
             loadAJAXSection(filterSectionName);
 
-            return false
+            return false;
         });
 
         $("select.pagination-filter." + marker).change(function() {
@@ -239,7 +239,7 @@ function addMultiAdderRow(multiAdderTable, dataRow) {
     for(var i = 0; i<formElements.length; i++) {
         var formElement = $(formElements[i]);
         formElement.attr('name', formElement.attr('name') + "-" + (lastIndex + 1));
-        if ($(dataElements[i]).val() !== null) {formElement.val($(dataElements[i]).val())};
+        if ($(dataElements[i]).val() !== null) {formElement.val($(dataElements[i]).val());}
     }
 
     newRow.find("td[class*='remove']").click(function() {
@@ -259,7 +259,7 @@ $(function() {
     $("table.multi-adder tbody").each(function() {
         var actualRows = $(this).find('tr.actual');
 
-        if (actualRows.length == 0) {
+        if (actualRows.length === 0) {
             addMultiAdderRow($(this));
         } else {
             var table = $(this);
@@ -277,7 +277,7 @@ $(function() {
     $("input.slashless-date-entry").focusout(function() {
         var val = $(this).val();
 
-        if(/^[0-9]+$/.test(val) && val.length == 8) {
+        if(/^[0-9]+$/.test(val) && val.length === 8) {
             var newVal = [val.slice(0, 2), '/', val.slice(2, 4), '/', val.slice(4)].join('');
             $(this).val(newVal);
         }
@@ -299,7 +299,7 @@ function AJAXSubmit(form, successCallback) {
 
 // Some duplication here
 function AJAXSubmitForm(form, successCallback) {
-    if (typeof(successCallback)==='undefined') successCallback = function() {};
+    if (typeof(successCallback)==='undefined') { successCallback = function() {} };
 
     var formVars = $(form).serializeArray();
     var url = $(form).data("request-uri");
@@ -316,8 +316,8 @@ function AJAXSubmitForm(form, successCallback) {
 
     console.log(post_vars);
 
-    if (typeof(post_vars)==='undefined') post_vars = [];
-    if (typeof(successCallback)==='undefined') successCallback = function() {};
+    if (typeof(post_vars)==='undefined') { post_vars = [] };
+    if (typeof(successCallback)==='undefined') { successCallback = function() {} };
 
     post_vars.csrf_token = CSRFTOKEN;
 
@@ -338,14 +338,18 @@ function AJAXSubmitForm(form, successCallback) {
         })
         .fail(function(msg) {
             makeAlert("failure", msg);
-        })
+        });
 }
 
+function UWDOEM() {
+    this.softPaginationPage = 1;
+}
+
+var uwdoem = new UWDOEM();
+
+
 function setupSoftPaginationFilter(div) {
-
     $(function() {
-
-        $("div.soft-pagination-container").data("page", 1);
 
         var paginateBy = 12;
 
@@ -355,51 +359,59 @@ function setupSoftPaginationFilter(div) {
         var numPages = Math.ceil(rows.length/paginateBy);
 
         var select = div.find('select.pagination-filter')
+
         if (numPages <= 1) {
             select.css('display', 'none');
         } else {
             for (var i = 1; i <= numPages; i++) {
-                var option = $('<option>' + i + '</option>');
-                select.append(option);
+                $('<option>' + i + '</option>').data("page-for", i).appendTo(select);
             }
         }
 
         revealRows();
-        recalculatePageFor();
+        recalculateArrowPageFor();
         reVisArrows();
         updateFeedback();
 
+        function getPage() {
+            var page = uwdoem.softPaginationPage;
+
+            if (!$.isNumeric(page) || page < 1 || page > numPages) {
+                page = 1;
+            }
+
+            return parseInt(page);
+        }
+
+        function setPage(page) {
+            uwdoem.softPaginationPage = page;
+        }
+
         function firstRowToDisplay() {
-            var page = $("div.soft-pagination-container").data("page");
-            return (page - 1)*paginateBy;
+            return (getPage() - 1)*paginateBy;
         }
 
         function lastRowToDisplay() {
-            var page = $("div.soft-pagination-container").data("page");
-            return Math.min(rows.length, (page - 1)*paginateBy + paginateBy);
+            return Math.min(rows.length, (getPage() - 1)*paginateBy + paginateBy);
         }
 
         function revealRows() {
-            var page = $("div.soft-pagination-container").data("page");
             var rowsToDisplay = rows.slice(firstRowToDisplay(), lastRowToDisplay());
 
-
             rows.css('display', 'none');
-
             rowsToDisplay.css('display', 'table-row');
         }
 
         function updateFeedback() {
-            if (rows.length == 0) {
-                var feedback = "";
-            } else {
-                var feedback = "Displaying " + (firstRowToDisplay() + 1) + "-" + lastRowToDisplay() + " of " + rows.length + " records.";
+            var feedback = "";
+            if (rows.length != 0) {
+                feedback = "Displaying " + (firstRowToDisplay() + 1) + "-" + lastRowToDisplay() + " of " + rows.length + " records.";
             }
             $("#soft-pagination-feedback").html(feedback);
         }
 
-        function recalculatePageFor() {
-            var page = $("div.soft-pagination-container").data("page");
+        function recalculateArrowPageFor() {
+            var page = getPage();
 
             div.find('.pagination-arrow.first').data("page-for", 1);
             div.find('.pagination-arrow.previous').data("page-for", page - 1);
@@ -408,9 +420,9 @@ function setupSoftPaginationFilter(div) {
         }
 
         function reVisArrows() {
-            var page = $("div.soft-pagination-container").data("page");
+            var page = getPage();
 
-            if (page == 1) {
+            if (page === 1) {
                 div.find('.pagination-arrow.back').css('display', 'none');
             } else {
                 div.find('.pagination-arrow.back').css('display', 'inline');
@@ -424,38 +436,31 @@ function setupSoftPaginationFilter(div) {
         }
 
         function resetPulldownVal() {
-            var page = $("div.soft-pagination-container").data("page");
-
-            div.find("select.pagination-filter").val(page);
+            div.find("select.pagination-filter").val(getPage());
         }
 
-        $("div.soft-pagination-container a.pagination-arrow").click(function() {
-            $("div.soft-pagination-container").data("page", $(this).data('page-for'));
-
-            table.fadeTo(200,.25);
+        function renewPage() {
+            table.fadeTo(200, 0.25);
             setTimeout(function(){
                 revealRows();
-                recalculatePageFor();
+                recalculateArrowPageFor();
                 resetPulldownVal();
                 reVisArrows();
                 updateFeedback();
                 table.fadeTo(200, 1);
             }, 200);
+        }
+
+        $("div.soft-pagination-container a.pagination-arrow").click(function() {
+            setPage($(this).data('page-for'));
+            renewPage();
+
             return false;
         });
 
         div.find("select.pagination-filter").change(function() {
-            $("div.soft-pagination-container").data("page", $(this).val());
-
-            table.fadeTo(200,.25);
-            setTimeout(function(){
-                revealRows();
-                recalculatePageFor();
-                resetPulldownVal();
-                reVisArrows();
-                updateFeedback();
-                table.fadeTo(200, 1);
-            }, 200);
+            setPage($(this).val());
+            renewPage();
         });
     });
 

@@ -1,8 +1,8 @@
 function openPanel(n) {
 
-    if (n==1) {
+    if (n === 1) {
         $('.cd-panel.first-panel').addClass('is-visible');
-    } else if (n==2) {
+    } else if (n === 2) {
         $('.cd-panel.second-panel').addClass('is-visible');
     }
     
@@ -11,10 +11,10 @@ function openPanel(n) {
 
 function closePanel(n) {
 
-    if (n==1) {
+    if (n === 1) {
         $('.cd-panel.first-panel').removeClass('is-visible');
         hideSecondPanelButton();
-    } else if (n==2) {
+    } else if (n === 2) {
         $('.cd-panel.second-panel').removeClass('is-visible');
     }
     
@@ -37,9 +37,9 @@ function hideSecondPanelButton() {
 
 function loadPanel(n, targetURL) {
     var targetDiv;
-    if(n==1) {
+    if(n === 1) {
         targetDiv = $( "#loadItHere" );
-    } else if (n==2) {
+    } else if (n === 2) {
         targetDiv = $( "#loadItHere2" );
     }
     
