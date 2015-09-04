@@ -2,6 +2,7 @@
 
 namespace UWDOEM\Framework\FieldBearer;
 
+use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Field\FieldInterface;
 
 
@@ -65,7 +66,8 @@ class FieldBearerBuilder {
      * @return FieldBearerBuilder
      */
     public function addClassTableMapName($classTableMapName) {
-        $this->addFieldBearers([ClassFieldBearer::fromClassTableMapName($classTableMapName)]);
+        $object = ORMUtils::makeNewObjectFromClassTableMapName($classTableMapName);
+        $this->addFieldBearers([new ClassFieldBearer($object)]);
         return $this;
     }
 

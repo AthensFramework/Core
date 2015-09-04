@@ -59,10 +59,19 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         // Perhaps test that it raises the right errors
 
-        // Test FieldBearerBuilder with ClassFieldBearer
+        // Test FieldBearerBuilder with ClassFieldBearer using addObject
         $object = new TestClass();
         $classFieldBearer = FieldBearerBuilder::begin()
             ->addObject($object)
+            ->build();
+
+        $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
+        $this->assertEquals($expectedFieldNames, $classFieldBearer->getFieldNames());
+
+        // Test FieldBearerBuilder with ClassFieldBearer using addClassTableMapName
+        $object = new TestClass();
+        $classFieldBearer = FieldBearerBuilder::begin()
+            ->addClassTableMapName($object::TABLE_MAP)
             ->build();
 
         $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
@@ -289,6 +298,14 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             $this->assertTrue(in_array("Yet another literal field", $fieldLabels));
             $this->assertEquals(1, sizeof($fieldLabels));
         }
+    }
+
+    /**
+     * @expectedException              \Exception
+     * @expectedExceptionMessageRegExp #make fields and/or fieldBearers.*#
+     */
+    public function testBuilderThrowsExceptionIfNoFieldsOrFieldBearersAdded() {
+        $field = FieldBearerBuilder::begin()->build();
     }
 }
 
