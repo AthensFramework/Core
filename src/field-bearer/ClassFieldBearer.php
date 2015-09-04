@@ -3,26 +3,23 @@
 namespace UWDOEM\Framework\FieldBearer;
 
 use UWDOEM\Framework\Etc\ORMUtils;
+use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
 
 class ClassFieldBearer extends FieldBearer implements FieldBearerInterface {
 
+    /** @var ActiveRecordInterface  */
     protected $_object;
 
-    public function __construct($object, $saveFunction) {
-        if (!$object) {
-            throw new \RuntimeException(get_called_class() . " provided with null object. The object provided to " . get_called_class() . " does not exist in the database.");
-        }
-
+    /**
+     * @param ActiveRecordInterface $object
+     * @param callable $saveFunction
+     */
+    public function __construct(ActiveRecordInterface $object, callable $saveFunction) {
         $this->_object = $object;
 
         $fields = ORMUtils::makeFieldsFromObject($object);
 
         parent::__construct($fields, [], [], [], $saveFunction);
     }
-
-    protected function getObject() {
-        return $this->_object;
-    }
-
 }
