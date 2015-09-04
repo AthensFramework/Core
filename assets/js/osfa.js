@@ -1,3 +1,6 @@
+/*global
+ UWDOEMAjax
+ */
 
 /**
  * Creates an alert div, appends it to the notification area, and schedules it for removal.
@@ -61,24 +64,23 @@ function setupSortFilter(marker) {
     headers.addClass("clickable");
     headers.removeClass("sorted ascending descending");
 
-    var fieldname = getAJAXGetVar(filterSectionName, 'sort', 'fieldname');
-    var order = getAJAXGetVar(filterSectionName, 'sort', 'order');
+    var fieldname = UWDOEMAjax.getGetVar(filterSectionName, 'sort', 'fieldname');
+    var order = UWDOEMAjax.getGetVar(filterSectionName, 'sort', 'order');
     filterSection.find("th[data-header-for='" + fieldname + "']").addClass("sorted " + order);
 
     headers.click(function() {
         var fieldname = $(this).attr("data-header-for");
-        registerAJAXGetVar(filterSectionName, 'sort', 'fieldname', fieldname);
+        UWDOEMAjax.registerGetVar(filterSectionName, 'sort', 'fieldname', fieldname);
 
-        var oldOrder = getAJAXGetVar(filterSectionName, 'sort', 'order');
-        var oldFieldname = getAJAXGetVar(filterSectionName, 'sort', 'fieldname');
+        var oldOrder = UWDOEMAjax.getGetVar(filterSectionName, 'sort', 'order');
+        var oldFieldname = UWDOEMAjax.getGetVar(filterSectionName, 'sort', 'fieldname');
 
+        var newOrder = "ascending";
         if (fieldname === oldFieldname && oldOrder === "ascending") {
-            var newOrder = "descending";
-        } else {
-            var newOrder = "ascending";
+            newOrder = "ascending";
         }
-        registerAJAXGetVar(filterSectionName, 'sort', 'order', newOrder);
-        loadAJAXSection(filterSectionName);
+        UWDOEMAjax.registerGetVar(filterSectionName, 'sort', 'order', newOrder);
+        UWDOEMAjax.loadSection(filterSectionName);
     });
 }
 
@@ -94,13 +96,13 @@ function setupSearchFilter(marker) {
         $("#search-criteria-area").find('tr').each(function() {
             var rowNumber = $(this).attr("data-row");
 
-            var fieldName = getAJAXGetVar(searchSection, 'search', 'fieldname' + rowNumber);
+            var fieldName = UWDOEMAjax.getGetVar(searchSection, 'search', 'fieldname' + rowNumber);
             $(this).find("td.fieldname select").val(fieldName);
 
-            var operation = getAJAXGetVar(searchSection, 'search', 'operation' + rowNumber);
+            var operation = UWDOEMAjax.getGetVar(searchSection, 'search', 'operation' + rowNumber);
             $(this).find("td.operation select").val(operation);
 
-            var value = getAJAXGetVar(searchSection, 'search', 'value' + rowNumber);
+            var value = UWDOEMAjax.getGetVar(searchSection, 'search', 'value' + rowNumber);
             $(this).find("td.value input").val(value);
 
         });
@@ -113,18 +115,18 @@ function setupSearchFilter(marker) {
                 var operation = $(this).find('td.operation select option:selected').text();
                 var value = $(this).find('td.value input').val();
                 if (fieldname && operation && value) {
-                    registerAJAXGetVar(searchSection, 'search', 'fieldname' + i, fieldname);
-                    registerAJAXGetVar(searchSection, 'search', 'operation' + i, operation);
-                    registerAJAXGetVar(searchSection, 'search', 'value' + i, value);
+                    UWDOEMAjax.registerGetVar(searchSection, 'search', 'fieldname' + i, fieldname);
+                    UWDOEMAjax.registerGetVar(searchSection, 'search', 'operation' + i, operation);
+                    UWDOEMAjax.registerGetVar(searchSection, 'search', 'value' + i, value);
                 } else {
-                    unsetAJAXGetVar(searchSection, 'search', 'fieldname' + i);
-                    unsetAJAXGetVar(searchSection, 'search', 'operation' + i);
-                    unsetAJAXGetVar(searchSection, 'search', 'value' + i);
+                    UWDOEMAjax.unsetGetVar(searchSection, 'search', 'fieldname' + i);
+                    UWDOEMAjax.unsetGetVar(searchSection, 'search', 'operation' + i);
+                    UWDOEMAjax.unsetGetVar(searchSection, 'search', 'value' + i);
                 }
                 i++;
             });
-            registerAJAXGetVar(searchSection, 'pagination', 'page', 1);
-            loadAJAXSection(searchSection);
+            UWDOEMAjax.registerGetVar(searchSection, 'pagination', 'page', 1);
+            UWDOEMAjax.loadSection(searchSection);
             fadeOutMask();
             fadeOutSearch();
         });
@@ -136,16 +138,16 @@ function setupPaginationFilter(marker) {
         $("div.pagination-container a.pagination-arrow").click(function() {
             var filterSectionName=$(this).parents('.ajax-loaded-section').data('section-name');
             var targetPage = $(this).attr('data-page-for');
-            registerAJAXGetVar(filterSectionName, 'pagination', 'page', targetPage);
-            loadAJAXSection(filterSectionName);
+            UWDOEMAjax.registerGetVar(filterSectionName, 'pagination', 'page', targetPage);
+            UWDOEMAjax.loadSection(filterSectionName);
 
             return false;
         });
 
         $("select.pagination-filter." + marker).change(function() {
             var filterSectionName = $(this).parents('.ajax-loaded-section').data('section-name');
-            registerAJAXGetVar(filterSectionName, 'pagination', 'page', $( "select.pagination-filter." + marker + " option:selected" ).text());
-            loadAJAXSection(filterSectionName);
+            UWDOEMAjax.registerGetVar(filterSectionName, 'pagination', 'page', $( "select.pagination-filter." + marker + " option:selected" ).text());
+            UWDOEMAjax.loadSection(filterSectionName);
         });
     });
 }
@@ -158,15 +160,15 @@ function setupSelectFilter(marker) {
 
     // Register a filter once on load
     var selectedText = $("select." + marker).find("option:selected").text();
-    registerAJAXGetVar($("select." + marker).attr("data-filter-section-for"), filterName, 'value', selectedText);
+    UWDOEMAjax.registerGetVar($("select." + marker).attr("data-filter-section-for"), filterName, 'value', selectedText);
 
     $("select." + marker).change(function() {
 
         var selectedText = $(this).find("option:selected").text();
 
-        registerAJAXGetVar($("select." + marker).attr("data-filter-section-for"), filterName, 'value', selectedText);
-        registerAJAXGetVar($("select." + marker).attr("data-filter-section-for"), 'pagination', 'page', 1);
-        loadAJAXSection($("select." + marker).attr("data-filter-section-for"));
+        UWDOEMAjax.registerGetVar($("select." + marker).attr("data-filter-section-for"), filterName, 'value', selectedText);
+        UWDOEMAjax.registerGetVar($("select." + marker).attr("data-filter-section-for"), 'pagination', 'page', 1);
+        UWDOEMAjax.loadSection($("select." + marker).attr("data-filter-section-for"));
     });
 }
 
@@ -265,7 +267,7 @@ $(function() {
             var table = $(this);
             actualRows.each(function() {
                 addMultiAdderRow(table, $(this));
-            })
+            });
         }
     });
     $("table.multi-adder tr.adder").click(function() {
@@ -299,7 +301,7 @@ function AJAXSubmit(form, successCallback) {
 
 // Some duplication here
 function AJAXSubmitForm(form, successCallback) {
-    if (typeof(successCallback)==='undefined') { successCallback = function() {} };
+    if (typeof(successCallback)==='undefined') { successCallback = function() {}; }
 
     var formVars = $(form).serializeArray();
     var url = $(form).data("request-uri");
@@ -316,8 +318,8 @@ function AJAXSubmitForm(form, successCallback) {
 
     console.log(post_vars);
 
-    if (typeof(post_vars)==='undefined') { post_vars = [] };
-    if (typeof(successCallback)==='undefined') { successCallback = function() {} };
+    if (typeof(post_vars)==='undefined') { post_vars = []; }
+    if (typeof(successCallback)==='undefined') { successCallback = function() {}; }
 
     post_vars.csrf_token = CSRFTOKEN;
 
@@ -358,7 +360,7 @@ function setupSoftPaginationFilter(div) {
 
         var numPages = Math.ceil(rows.length/paginateBy);
 
-        var select = div.find('select.pagination-filter')
+        var select = div.find('select.pagination-filter');
 
         if (numPages <= 1) {
             select.css('display', 'none');
@@ -404,7 +406,7 @@ function setupSoftPaginationFilter(div) {
 
         function updateFeedback() {
             var feedback = "";
-            if (rows.length != 0) {
+            if (rows.length !== 0) {
                 feedback = "Displaying " + (firstRowToDisplay() + 1) + "-" + lastRowToDisplay() + " of " + rows.length + " records.";
             }
             $("#soft-pagination-feedback").html(feedback);
