@@ -8,6 +8,13 @@ use UWDOEM\Framework\Visitor\VisitableTrait;
 
 class Field implements FieldInterface {
 
+    const FIELD_TYPE_TEXT = "text";
+    const FIELD_TYPE_TEXTAREA = "textarea";
+    const FIELD_TYPE_CHOICE = "choice";
+    const FIELD_TYPE_MULTIPLE_CHOICE = "multiple-choice";
+    const FIELD_TYPE_LITERAL = "literal";
+    const FIELD_TYPE_SECTION_LABEL = "section-label";
+
     /** @var bool  */
     protected $_required;
 
@@ -20,7 +27,7 @@ class Field implements FieldInterface {
     /** @var string */
     protected $_label;
 
-    /** @var string  */
+    /** @var string|string[]  */
     protected $_initial;
 
     /** @var string[] */
@@ -38,7 +45,7 @@ class Field implements FieldInterface {
     /** @var bool */
     protected $_isValid;
 
-    /** @var array */
+    /** @var string[] */
     protected $_choices;
 
 

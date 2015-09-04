@@ -56,10 +56,10 @@ interface FieldInterface extends WritableInterface {
     /** @return string */
     function getSlug();
 
-    /** @param string $value */
+    /** @param string|string[] $value */
     function setInitial($value);
 
-    /** @return string */
+    /** @return string|string[] */
     function getInitial();
 
     /** @param string $error */

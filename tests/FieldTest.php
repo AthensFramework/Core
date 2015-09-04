@@ -2,6 +2,7 @@
 
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Field\FieldInterface;
+use UWDOEM\Framework\Field\FieldBuilder;
 
 
 class FieldTest extends PHPUnit_Framework_TestCase
@@ -15,16 +16,53 @@ class FieldTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testConstructors() {
-        // Test Field constructor
-        $field = new Field("literal", "A literal field", "initial", true, [], 200);
-        $this->assertEquals("literal", $field->getType());
-        $this->assertEquals("A literal field", $field->getLabel());
-        $this->assertEquals("initial", $field->getInitial());
-        $this->assertEquals(true, $field->isRequired());
-        $this->assertEquals(200, $field->getSize());
+    public function testBuilder() {
+        $type = "type";
+        $label = "label";
+        $initial = "initial";
+        $required = true;
+        $choices = ["choice 1", "choice 2"];
+        $size = 200;
 
-        // Construct similar tests for any other Field classes
+        $field = FieldBuilder::begin()
+            ->setType($type)
+            ->setLabel($label)
+            ->setInitial($initial)
+            ->setRequired($required)
+            ->setChoices($choices)
+            ->setFieldSize($size)
+            ->build();
+
+        $this->assertEquals($type, $field->getType());
+        $this->assertEquals($label, $field->getLabel());
+        $this->assertEquals($initial, $field->getInitial());
+        $this->assertEquals($required, $field->isRequired());
+        $this->assertEquals($choices, $field->getChoices());
+        $this->assertEquals($size, $field->getSize());
+    }
+
+    /**
+     * @expectedException              \Exception
+     * @expectedExceptionMessageRegExp #Must use ::setType.*#
+     */
+    public function testBuilderNoTypeException() {
+        $field = FieldBuilder::begin()->build();
+    }
+
+    /**
+     * @expectedException              \Exception
+     * @expectedExceptionMessageRegExp #Must use ::setLabel.*#
+     */
+    public function testBuilderNoLabelException() {
+        $field = FieldBuilder::begin()->setType("type")->build();
+    }
+
+    /**
+     * @expectedException              \Exception
+     * @expectedExceptionMessageRegExp #must include choices using ::setChoices.*#
+     */
+    public function testBuilderNeedsChoicesException() {
+        $field = FieldBuilder::begin()->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE)->setLabel("label")->build();
     }
 
     public function testGetSubmitted() {
