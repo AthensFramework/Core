@@ -57,7 +57,12 @@ class FieldBearerBuilder {
      * @return FieldBearerBuilder
      */
     public function addObject($object) {
-        $this->addFieldBearers([new ClassFieldBearer($object)]);
+        $saveFunction = function(ClassFieldBearer $fieldBearer) use ($object) {
+
+            ORMUtils::fillObjectFromFields($object, $fieldBearer->getFields());
+            $object->save();
+        };
+        $this->addFieldBearers([new ClassFieldBearer($object, $saveFunction)]);
         return $this;
     }
 
@@ -67,8 +72,7 @@ class FieldBearerBuilder {
      */
     public function addClassTableMapName($classTableMapName) {
         $object = ORMUtils::makeNewObjectFromClassTableMapName($classTableMapName);
-        $this->addFieldBearers([new ClassFieldBearer($object)]);
-        return $this;
+        return $this->addObject($object);
     }
 
     /**
@@ -130,6 +134,15 @@ class FieldBearerBuilder {
         if (!$this->_fields && !$this->_fieldBearers) {
             throw new \Exception("Must make fields and/or fieldBearers before calling this method.");
         }
+
+        if(!$this->_saveFunction) {
+            $this->_saveFunction = function (FieldBearerInterface $fieldBearer) {
+                foreach ($fieldBearer->getFieldBearers() as $childFieldBearer) {
+                    $childFieldBearer->save();
+                }
+            };
+        }
+
         return new FieldBearer(
             $this->_fields,
             $this->_fieldBearers,

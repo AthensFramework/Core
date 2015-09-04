@@ -6,6 +6,16 @@ use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEMTest\TestClass;
 
 
+class MockTestClass extends TestClass {
+
+    public $saved = false;
+
+    public function save(Propel\Runtime\Connection\ConnectionInterface $con = NULL) {
+        $this->saved = true;
+    }
+}
+
+
 class FieldBearerTest extends PHPUnit_Framework_TestCase
 {
 
@@ -298,6 +308,42 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             $this->assertTrue(in_array("Yet another literal field", $fieldLabels));
             $this->assertEquals(1, sizeof($fieldLabels));
         }
+    }
+
+    public function testClassFieldBuilderSavesObject() {
+        $object = new MockTestClass();
+
+        $fieldBearer = FieldBearerBuilder::begin()
+            ->addObject($object)
+            ->build();
+
+        $fieldBearer->save();
+
+        $this->assertTrue($object->saved);
+    }
+
+    public function testClassFieldBuilderUpdatesObject() {
+        $object = new MockTestClass();
+
+        $fieldBearer = FieldBearerBuilder::begin()
+            ->addObject($object)
+            ->build();
+
+        $field = $fieldBearer->getFieldByName("TestClass.FieldLargeVarchar");
+
+        $data = (string)rand();
+        $_POST[$field->getSlug()] = $data;
+
+        // Assert that the object does not yet contain the assigned data
+        $this->assertNotEquals($data, $object->getFieldLargeVarchar());
+
+        // Validate the data, and check to make sure that the posted data validated
+        $field->validate();
+        $this->assertEquals($data, $field->getValidatedData());
+
+        // Save the field bearer, which will save the object, and assert that the object does contain the assigned data
+        $fieldBearer->save();
+        $this->assertEquals($data, $object->getFieldLargeVarchar());
     }
 
     /**

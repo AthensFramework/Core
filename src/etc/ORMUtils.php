@@ -63,6 +63,25 @@ class ORMUtils {
         return false;
     }
 
+    static public function fillObjectFromFields($object, $fields) {
+        $fieldNames = array_keys($fields);
+        $columns = ORMUtils::getColumns($object::TABLE_MAP);
+
+        $columns = array_combine($fieldNames, $columns);
+
+        foreach ($columns as $fieldName => $column) {
+            $field = $fields[$fieldName];
+
+            if ($column->isPrimaryKey() || $column->isForeignKey()) {
+                // Don't accept form input for primary keys or foreign keys. These should be set at object creation.
+            } else {
+                $object->{"set" . $column->getPhpName()}($field->getValidatedData());
+                $field->setInitial($field->getValidatedData());
+            }
+
+        }
+    }
+
     /**
      * @param $object
      * @return string[]
