@@ -11,16 +11,6 @@ use \UWDOEMTest\TestClass;
 class FormTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @return FormBuilder[]
-     */
-    public function testedFormBuilders() {
-        // Return a fieldBearerBuilder of every type you want to test
-        return [
-            FormBuilder::begin(),
-        ];
-    }
-
-    /**
      * Basic tests for the Form builder classes.
      *
      * Any test here could potentially fail because of a failure in the constructed form.
@@ -28,42 +18,54 @@ class FormTest extends PHPUnit_Framework_TestCase {
      * @throws \Exception
      */
     public function testBuilder() {
-        foreach ($this->testedFormBuilders() as $builder) {
 
-            $actions = [new FormAction("label", "method", "")];
-            $onValidFunc = function () {
-                return "valid";
-            };
-            $onInvalidFunc = function () {
-                return "invalid";
-            };
+        $actions = [new FormAction("label", "method", "")];
+        $onValidFunc = function () {
+            return "valid";
+        };
+        $onInvalidFunc = function () {
+            return "invalid";
+        };
 
-            $fields = [new Field('literal', 'A literal field', [])];
+        $fields = ["field" => new Field('literal', 'A literal field', [])];
 
-            $form = $builder->clear()
-                ->setActions($actions)
-                ->addFields($fields)
-                ->setOnInvalidFunc($onInvalidFunc)
-                ->setOnValidFunc($onValidFunc)
-                ->build();
+        $form = FormBuilder::begin()
+            ->clear()
+            ->setActions($actions)
+            ->addFields($fields)
+            ->setOnInvalidFunc($onInvalidFunc)
+            ->setOnValidFunc($onValidFunc)
+            ->setVisibleFieldNames(array_keys($fields))
+            ->build();
 
-            $this->assertEquals($actions, $form->getActions());
-            $this->assertContains($fields[0], $form->getFieldBearer()->getFields());
-            $this->assertEquals(1, sizeof($form->getFieldBearer()->getFields()));
+        $this->assertEquals($actions, $form->getActions());
+        $this->assertEquals($fields, $form->getFieldBearer()->getFields());
+        $this->assertEquals(array_keys($fields), $form->getFieldBearer()->getVisibleFieldNames());
 
-            $this->assertEquals("valid", $form->onValid());
-            $this->assertEquals("invalid", $form->onInvalid());
+        $this->assertEquals("valid", $form->onValid());
+        $this->assertEquals("invalid", $form->onInvalid());
 
-            // Test FormBuilder creation of ClassFieldBearer
-            $object = new TestClass();
+        // Test FormBuilder creation of ClassFieldBearer
+        $object = new TestClass();
 
-            $form = $builder->clear()
-                ->addObject($object)
-                ->build();
+        $form = FormBuilder::begin()->clear()
+            ->addObject($object)
+            ->build();
 
-            $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
-            $this->assertEquals($expectedFieldNames, $form->getFieldBearer()->getVisibleFieldNames());
-        }
+        $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
+        $this->assertEquals($expectedFieldNames, $form->getFieldBearer()->getVisibleFieldNames());
+    }
+    
+    public function testDefaultFormAction() {
+        $fields = ["field" => new Field('literal', 'A literal field', [])];
+
+        $form = FormBuilder::begin()
+            ->addFields($fields)
+            ->build();
+
+        $this->assertEquals(1, sizeof($form->getActions()));
+        $this->assertEquals("POST", $form->getActions()[0]->getMethod());
+        $this->assertEquals("Submit", $form->getActions()[0]->getLabel());
     }
 
     public function testEndogenousValidation() {

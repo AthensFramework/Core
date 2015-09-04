@@ -11,7 +11,7 @@ class FormBuilder {
     /**
      * @var FormAction[]
      */
-    protected $_actions = [];
+    protected $_actions;
 
     /**
      * @var callable
@@ -143,6 +143,10 @@ class FormBuilder {
 
         if (!isset($this->_onValidFunc)) {
             $this->_onValidFunc = function() {};
+        }
+
+        if (!isset($this->_actions)) {
+            $this->_actions = [new FormAction("Submit", "POST", ".")];
         }
 
         return new Form(
