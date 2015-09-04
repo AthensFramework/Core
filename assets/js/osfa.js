@@ -1,5 +1,5 @@
 /* jshint unused: false */
-/* global UWDOEMAjax */
+/* global UWDOEMAjax CSRFToken */
 
 /**
  * Creates an alert div, appends it to the notification area, and schedules it for removal.
@@ -295,7 +295,8 @@ function AJAXSubmit(form, successCallback) {
         newVars[formVars[i].name] = formVars[i].value;
     }
 
-    OSFAAjax($(form).attr('action'), newVars, successCallback);
+    // Double check that this line works...
+    UWDOEM.call($(form).attr('action'), newVars, successCallback);
 }
 
 // Some duplication here

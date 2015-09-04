@@ -60,33 +60,25 @@ function loadPanel(n, targetURL) {
 function initMultiPanelButtons() {
 
     jQuery(document).ready(function($){
-        //open the lateral panel
-        $('.cd-btn.first-panel').on('click', function(event){
-            event.preventDefault();
-            openPanel(1);
-        });
-        //close the lateral panel
-        $('.cd-panel.first-panel').on('click', function(event){
-            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                closePanel(1);
-                event.preventDefault();
-            }
-        });
-    });
 
+        var firstSecond = ["first", "second"];
 
-    jQuery(document).ready(function($){
-        //open the lateral panel
-        $('.cd-btn.second-panel').on('click', function(event){
-            event.preventDefault();
-            openPanel(2);
-        });
-        //close the lateral panel
-        $('.cd-panel.second-panel').on('click', function(event){
-            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                closePanel(2);
+        for (var i = 0; i < firstSecond.length; i++) {
+            var panel = $('.cd-panel.' + firstSecond[i] + '-panel');
+            var button = $('.cd-btn.' + firstSecond[i] + '-panel');
+
+            //open the lateral panel
+            button.on('click', function(event){
                 event.preventDefault();
-            }
-        });
+                openPanel(i);
+            });
+            //close the lateral panel
+            pannel.on('click', function(event){
+                if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                    closePanel(i);
+                    event.preventDefault();
+                }
+            });
+        }
     });
 }
