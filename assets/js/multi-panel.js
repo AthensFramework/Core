@@ -73,7 +73,7 @@ function initMultiPanelButtons() {
                 openPanel(i);
             });
             //close the lateral panel
-            pannel.on('click', function(event){
+            panel.on('click', function(event){
                 if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
                     closePanel(i);
                     event.preventDefault();

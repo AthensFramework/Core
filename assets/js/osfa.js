@@ -1,5 +1,5 @@
 /* jshint unused: false */
-/* global UWDOEMAjax CSRFToken */
+/* globals UWDOEMAjax CSRFToken */
 
 /**
  * Creates an alert div, appends it to the notification area, and schedules it for removal.
