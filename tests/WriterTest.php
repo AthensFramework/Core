@@ -58,6 +58,15 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('rows=10', $result);
         $this->assertContains('<textarea', $result);
         $this->assertContains('initial value', $result);
+
+        /* A textarea field without an initial value*/
+        $field = new Field("textarea", "A textarea field", "", true, [], 1000);
+
+        // Get result and strip quotes, for easier analysis
+        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+
+        // Assert that the text area contains no initial text
+        $this->assertContains('></textarea>', $result);
     }
 
     public function testRenderFieldErrors() {
