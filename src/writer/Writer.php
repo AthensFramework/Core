@@ -2,6 +2,7 @@
 
 namespace UWDOEM\Framework\Writer;
 
+use JsonSchema\Constraints\String;
 use Twig_SimpleFilter;
 
 use UWDOEM\Framework\Field\FieldInterface;
@@ -11,6 +12,7 @@ use UWDOEM\Framework\Section\SectionInterface;
 use UWDOEM\Framework\Visitor\Visitor;
 use UWDOEM\Framework\Page\PageInterface;
 use UWDOEM\Framework\Etc\Settings;
+use UWDOEM\Framework\Etc\StringUtils;
 
 
 class Writer extends Visitor {
@@ -31,6 +33,9 @@ class Writer extends Visitor {
             $this->_environment = new \Twig_Environment($loader);
 
             $filter = new Twig_SimpleFilter('write', function(WritableInterface $host) { return $host->accept($this); });
+            $this->_environment->addFilter($filter);
+
+            $filter = new Twig_SimpleFilter('slugify', function($string) { return StringUtils::slugify($string); });
             $this->_environment->addFilter($filter);
         }
 

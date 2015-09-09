@@ -3,11 +3,11 @@
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Writer\Writer;
 use UWDOEM\Framework\Form\FormAction\FormAction;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Page\PageBuilder;
 use UWDOEM\Framework\Page\Page;
+use UWDOEM\Framework\Etc\StringUtils;
 
 
 class WriterTest extends PHPUnit_Framework_TestCase
@@ -27,16 +27,26 @@ class WriterTest extends PHPUnit_Framework_TestCase
         /* A choice field */
         $field = new Field("choice", "A literal field", "initial", true, ["first choice", "second choice"], 200);
 
-        $result = $writer->visitField($field);
+        // Get result and strip quotes, for easier analysis
+        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+
+        // Assert that the field contains our choices
         $this->assertContains("first choice", $result);
         $this->assertContains("second choice", $result);
+        $this->assertContains("value=" . StringUtils::slugify("first choice"), $result);
+        $this->assertContains("value=" . StringUtils::slugify("second choice"), $result);
 
         /* A multiple choice field */
         $field = new Field("multiple-choice", "A multiple-choice field", "initial", true, ["first choice", "second choice"], 200);
 
-        $result = $writer->visitField($field);
+        // Get result and strip quotes, for easier analysis
+        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+
+        // Assert that the field contains our choices
         $this->assertContains("first choice", $result);
         $this->assertContains("second choice", $result);
+        $this->assertContains("value=" . StringUtils::slugify("first choice"), $result);
+        $this->assertContains("value=" . StringUtils::slugify("second choice"), $result);
 
         /* A text field */
         $field = new Field("text", "A text field", "5", true, [], 200);
