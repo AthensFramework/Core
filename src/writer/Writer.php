@@ -88,7 +88,8 @@ class Writer extends Visitor {
                 "choices" => $field->getChoices(),
                 "label" => $field->getLabel(),
                 "required" => $field->isRequired(),
-                "size" => $field->getSize()
+                "size" => $field->getSize(),
+                "errors" => $field->getErrors()
             ]);
     }
 
@@ -101,7 +102,8 @@ class Writer extends Visitor {
                 "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
                 "hiddenFields" => $form->getFieldBearer()->getHiddenFields(),
                 "actions" => $form->getActions(),
-                "requestURI" => $_SERVER["REQUEST_URI"]
+                "requestURI" => $_SERVER["REQUEST_URI"],
+                "errors" => $form->getErrors()
             ]);
     }
 

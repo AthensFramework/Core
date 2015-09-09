@@ -1,4 +1,11 @@
 <form class="prevent-double-submit" method="post" target="_self" data-request-uri="{{ requestURI }}">
+
+    {%  if errors is not empty %}
+    <span class=form-errors><br>
+        {% for error in errors %} {{ error }} {% endfor %}
+    </span>
+    {% endif %}
+
     <table>
         {% for fieldName, field in visibleFields %}
             {{ field|write|raw }}

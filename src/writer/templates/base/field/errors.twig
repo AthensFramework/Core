@@ -1,0 +1,5 @@
+{%  if errors is not empty %}
+    <span class=field-errors><br>
+        {% for error in errors %} {{ error }} {% endfor %}
+    </span>
+{% endif %}

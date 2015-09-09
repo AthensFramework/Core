@@ -60,6 +60,38 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('initial value', $result);
     }
 
+    public function testRenderFieldErrors() {
+        $writer = new Writer();
+
+        /* Field not required, no data provided: no field errors */
+        $field = new Field("text", "An unrequired field", "5", false, [], 200);
+
+        $field->validate();
+
+        // Confirm that the field has no errors
+        $this->assertEmpty($field->getErrors());
+
+        // Get result and strip quotes, for easier analysis
+        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+
+        // Assert that the result does not display any errors
+        $this->assertNotContains("field-errors", $result);
+
+        /* Field required, but no data provided: field errors */
+        $field = new Field("text", "A required field", "5", true, [], 200);
+
+        $field->validate();
+
+        // Confirm that the field has errors
+        $this->assertNotEmpty($field->getErrors());
+
+        // Get result and strip quotes, for easier analysis
+        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+
+        // Assert that the result does display errors
+        $this->assertContains("field-errors", $result);
+    }
+
     public function testVisitForm() {
         $writer = new Writer();
 
@@ -100,6 +132,44 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('<input class=form-action type=submit', $result);
         $this->assertContains('value=POST Action', $result);
         $this->assertContains('</form>', $result);
+    }
+
+    public function testRenderFormErrors() {
+        $writer = new Writer();
+
+        $_SERVER["REQUEST_URI"] = "";
+
+        /* Field not required, no data provided: no field errors */
+        $field = new Field("text", "An unrequired field", "5", false, [], 200);
+        $form = FormBuilder::begin()
+            ->addFields([$field])
+            ->build();
+
+        // Confirm that the form is valid and has no errors
+        $this->assertTrue($form->isValid());
+        $this->assertEmpty($form->getErrors());
+
+        // Get result and strip quotes, for easier analysis
+        $result = str_replace(['"', "'"], "", $writer->visitForm($form));
+
+        // Assert that the result does not display any errors
+        $this->assertNotContains("form-errors", $result);
+
+        /* Field required, but no data provided: field errors */
+        $field = new Field("text", "A required field", "5", true, [], 200);
+        $form = FormBuilder::begin()
+            ->addFields([$field])
+            ->build();
+
+        // Confirm that the form is not valid and does have errors
+        $this->assertFalse($form->isValid());
+        $this->assertNotEmpty($form->getErrors());
+
+        // Get result and strip quotes, for easier analysis
+        $result = str_replace(['"', "'"], "", $writer->visitForm($form));
+
+        // Assert that the result does display errors
+        $this->assertContains("form-errors", $result);
     }
 
     public function testVisitSection() {
