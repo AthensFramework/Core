@@ -58,6 +58,7 @@ class Form implements FormInterface {
         foreach ($this->getFieldBearer()->getVisibleFields() as $name => $field) {
             if (!$field->isValid()) {
                 $this->_isValid = False;
+                $this->addError("Please correct the indicated errors and resubmit the form.");
                 break;
             }
         }
