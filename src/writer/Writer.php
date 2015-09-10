@@ -13,6 +13,7 @@ use UWDOEM\Framework\Visitor\Visitor;
 use UWDOEM\Framework\Page\PageInterface;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Etc\StringUtils;
+use UWDOEM\Framework\Field\Field;
 
 
 class Writer extends Visitor {
@@ -87,7 +88,11 @@ class Writer extends Visitor {
     public function visitField(FieldInterface $field) {
         $template = 'field/' . $field->getType() . '.twig';
 
-        $choices = array_combine($field->getChoiceSlugs(), $field->getChoices());
+        if ($field->getType() === Field::FIELD_TYPE_CHOICE || $field->getType() === Field::FIELD_TYPE_MULTIPLE_CHOICE) {
+            $choices = array_combine($field->getChoiceSlugs(), $field->getChoices());
+        } else {
+            $choices = [];
+        }
 
         return $this
             ->loadTemplate($template)
