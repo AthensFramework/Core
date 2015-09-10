@@ -6,11 +6,24 @@ use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Writer\Writer;
 use UWDOEM\Framework\Page\PageInterface;
+use UWDOEM\Framework\Initializer\Initializer;
 
 
 class MockWriter extends Writer {
+
+    public static $used = false;
+
     public function visitPage(PageInterface $page) {
-        return $page->getTitle();
+        static::$used = true;
+    }
+}
+
+class MockInitializer extends Initializer {
+
+    public static $used = false;
+
+    public function visitPage(PageInterface $page) {
+        static::$used = true;
     }
 }
 
@@ -77,10 +90,12 @@ class PageTest extends PHPUnit_Framework_TestCase
     public function testRender() {
         /* No writer provided to render, page uses default writer class from settings */
 
-        // Store the current default writer from the settings
+        // Store the current default writer/initializer from the settings
         $defaultWriterClass = Settings::getDefaultWriterClass();
+        $defaultInitializerClass = Settings::getDefaultInitializerClass();
 
         Settings::setDefaultWriterClass("MockWriter");
+        Settings::setDefaultInitializerClass("MockInitializer");
 
         $title = "Test Page";
         $page = PageBuilder::begin()
@@ -90,31 +105,33 @@ class PageTest extends PHPUnit_Framework_TestCase
             ->build();
 
         // Our mock writer will simply echo the title of the page
-        ob_start();
-        $page->render();
-        $result = ob_get_clean();
+        $page->render(null, null);
 
-        $this->assertEquals($title, $result);
+        $this->assertTrue(MockInitializer::$used);
+        $this->assertTrue(MockWriter::$used);
 
-        // Return the default writer class to its original value
+        // Set $used back to false on the initializer and writer
+        MockInitializer::$used = false;
+        MockWriter::$used = false;
+
+        // Return the default writer/initializer class to its original value
         Settings::setDefaultWriterClass($defaultWriterClass);
+        Settings::setDefaultInitializerClass($defaultInitializerClass);
 
         /* Writer provided to render */
-        $title = "Test Page 2";
         $page = PageBuilder::begin()
             ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
-            ->setTitle($title)
             ->setWritable(SectionBuilder::begin()->setContent("content")->build())
             ->build();
 
         $writer = new MockWriter();
+        $initializer = new MockInitializer();
 
         // Our mock writer will simply echo the title of the page
-        ob_start();
-        $page->render($writer);
-        $result = ob_get_clean();
+        $page->render($initializer, $writer);
 
-        $this->assertEquals($title, $result);
+        $this->assertTrue(MockInitializer::$used);
+        $this->assertTrue(MockWriter::$used);
 
     }
 

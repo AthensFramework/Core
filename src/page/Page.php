@@ -4,8 +4,9 @@ namespace UWDOEM\Framework\Page;
 
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Visitor\Visitor;
+use UWDOEM\Framework\Writer\Writer;
 use UWDOEM\Framework\Etc\Settings;
+use UWDOEM\Framework\Initializer\Initializer;
 
 
 class Page implements PageInterface {
@@ -124,15 +125,21 @@ class Page implements PageInterface {
     }
 
     /**
-     * @param Visitor|null $writer
+     * @param Initializer|null $initializer
+     * @param Writer|null $writer
      * @return null
      */
-    public function render(Visitor $writer = null) {
+    public function render(Initializer $initializer = null, Writer $writer = null) {
+        if (is_null($initializer)) {
+            $initializerClass = Settings::getDefaultInitializerClass();
+            $initializer = new $initializerClass();
+        }
+        $this->accept($initializer);
+        
         if (is_null($writer)) {
             $writerClass = Settings::getDefaultWriterClass();
             $writer = new $writerClass();
         }
-
         echo $this->accept($writer);
     }
 }
