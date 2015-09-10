@@ -78,6 +78,8 @@ class Writer extends Visitor {
                 "baseHref" => $page->getBaseHref(),
                 "breadCrumbs" => $page->getBreadCrumbs(),
                 "returnTo" => $page->getReturnTo(),
+                "projectCSS" => Settings::getProjectCSS(),
+                "projectJS" => Settings::getProjectJS(),
                 "content" => $content,
             ]);
     }

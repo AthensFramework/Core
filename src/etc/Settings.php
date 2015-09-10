@@ -7,6 +7,8 @@ class Settings {
 
     protected static $settings = [
         "templateDirectories" => [],
+        "projectJS" => [],
+        "projectCSS" => [],
         "defaultWriterClass" => '\UWDOEM\Writer\Writer'
     ];
 
@@ -21,6 +23,14 @@ class Settings {
         static::$settings["templateDirectories"][] = $directory;
     }
 
+    public static function addProjectCSS($file) {
+        static::$settings["projectCSS"][] = $file;
+    }
+
+    public static function addProjectJS($file) {
+        static::$settings["projectJS"][] = $file;
+    }
+
     public static function getTemplateDirectories() {
         return static::getSetting("templateDirectories");
     }
@@ -31,6 +41,14 @@ class Settings {
 
     public static function getDefaultWriterClass() {
         return static::getSetting("defaultWriterClass");
+    }
+
+    public static function getProjectJS() {
+        return static::getSetting("projectJS");
+    }
+
+    public static function getProjectCSS() {
+        return static::getSetting("projectCSS");
     }
 
     protected static function getSetting($key) {

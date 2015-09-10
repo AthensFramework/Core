@@ -8,6 +8,7 @@ use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Page\PageBuilder;
 use UWDOEM\Framework\Page\Page;
 use UWDOEM\Framework\Etc\StringUtils;
+use UWDOEM\Framework\Etc\Settings;
 
 
 class WriterTest extends PHPUnit_Framework_TestCase
@@ -231,6 +232,18 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setBreadCrumbs(["Key" => "http://example.com", "Another name"])
             ->build();
 
+        // Add project CSS and JS
+        $cssFile1 = "/path/to/file/1.css";
+        $cssFile2= "/path/to/file/2.css";
+        $jsFile1 = "/path/to/file/1.js";
+        $jsFile2= "/path/to/file/2.js";
+
+        Settings::addProjectCSS($cssFile1);
+        Settings::addProjectCSS($cssFile2);
+
+        Settings::addProjectJS($jsFile1);
+        Settings::addProjectJS($jsFile2);
+
         // Get result and strip quotes, for easier analysis
         $result = str_replace(['"', "'"], "", $writer->visitPage($page));
 
@@ -244,5 +257,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("<h1 class=header>Page Header</h1>", $result);
         $this->assertContains("<h2 class=subheader>Page subheader</h2>", $result);
         $this->assertContains("<div class=section-label>Label</div>", $result);
+
+        $this->assertContains($cssFile1, $result);
+        $this->assertContains($cssFile2, $result);
+        $this->assertContains($jsFile1, $result);
+        $this->assertContains($jsFile2, $result);
     }
 }
