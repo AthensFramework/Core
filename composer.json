@@ -21,6 +21,7 @@
   "require-dev": {
     "phpunit/phpunit": "4.5.*",
     "phpdocumentor/phpdocumentor": "2.7.*",
+    "evert/phpdoc-md" : "~0.1.1",
     "codeclimate/php-test-reporter": "dev-master"
   }
 }
