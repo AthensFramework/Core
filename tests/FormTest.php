@@ -1,11 +1,23 @@
 <?php
 
-
 use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Etc\ORMUtils;
+use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
+use UWDOEM\Framework\FieldBearer\FieldBearer;
 use \UWDOEMTest\TestClass;
+
+class MockFieldBearer extends FieldBearer {
+
+    public static $saved = false;
+
+    public function __construct() {}
+
+    public function save() {
+        static::$saved = true;
+    }
+}
 
 
 class FormTest extends PHPUnit_Framework_TestCase {
@@ -54,6 +66,20 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
         $this->assertEquals($expectedFieldNames, $form->getFieldBearer()->getVisibleFieldNames());
+
+        // Test FormBuilder::addFieldBearer
+        $fields = ["field" => new Field('literal', 'A literal field', [])];
+
+        $fieldBearer = FieldBearerBuilder::begin()
+            ->addFields($fields)
+            ->build();
+
+        $form = FormBuilder::begin()
+            ->addFieldBearer($fieldBearer)
+            ->build();
+        
+        $this->assertContains("field", $form->getFieldBearer()->getFieldNames());
+
     }
     
     public function testDefaultFormAction() {
@@ -150,7 +176,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
     public function testDefaultOnInvalid() {
         $requiredField = new Field('text', 'A required field', "", true, []);
-        $unrequiredField = new Field('text', 'A required field', "", false, []);
+        $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
 
         $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
 
@@ -170,6 +196,24 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         // Assert that the input has been moved into the field's initial value
         $this->assertEquals($input, $unrequiredField->getInitial());
+    }
+
+    public function testDefaultOnValid() {
+        $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
+
+        $fields = ["unrequired" => $unrequiredField];
+
+        $fieldBearer = new MockFieldBearer();
+
+        $form = FormBuilder::begin()
+            ->addFieldBearer($fieldBearer)
+            ->build();
+
+        // Trigger the form's onInvalid method
+        $form->onValid();
+
+        // Assert that the input has been moved into the field's initial value
+        $this->assertTrue(MockFieldBearer::$saved);
     }
 }
 
