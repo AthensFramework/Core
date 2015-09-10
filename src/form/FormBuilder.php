@@ -30,6 +30,11 @@ class FormBuilder {
     protected $_fieldBearerBuilder;
 
     /**
+     * @var string
+     */
+    protected $_onSuccessUrl;
+
+    /**
      * @var array[]
      */
     protected $_validators = [];
@@ -62,6 +67,15 @@ class FormBuilder {
      */
     public function setOnInvalidFunc($onInvalidFunc) {
         $this->_onInvalidFunc = $onInvalidFunc;
+        return $this;
+    }
+
+    /**
+     * @param string $onSuccessRedirect
+     * @return FormBuilder
+     */
+    public function setOnSuccessUrl($onSuccessRedirect) {
+        $this->_onSuccessUrl = $onSuccessRedirect;
         return $this;
     }
 
@@ -153,6 +167,23 @@ class FormBuilder {
         if (!isset($this->_onValidFunc)) {
             $this->_onValidFunc = function(FormInterface $form) {
                 $form->getFieldBearer()->save();
+            };
+        }
+
+        if(isset($this->_onSuccessUrl)) {
+
+            $onValidFunc = $this->_onValidFunc;
+            $url = $this->_onSuccessUrl;
+
+            $this->_onValidFunc = function(FormInterface $form) use ($onValidFunc, $url) {
+                if (headers_sent()) {
+                    throw new \Exception("Form success redirection cannot proceed, output has already begun.");
+                } else {
+                    header("Location: $url");
+                }
+
+                $args = func_get_args();
+                call_user_func_array($onValidFunc, $args);
             };
         }
 

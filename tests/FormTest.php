@@ -57,7 +57,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("valid", $form->onValid());
         $this->assertEquals("invalid", $form->onInvalid());
 
-        // Test FormBuilder creation of ClassFieldBearer
+        /* Test FormBuilder creation of ClassFieldBearer */
         $object = new TestClass();
 
         $form = FormBuilder::begin()->clear()
@@ -67,7 +67,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
         $this->assertEquals($expectedFieldNames, $form->getFieldBearer()->getVisibleFieldNames());
 
-        // Test FormBuilder::addFieldBearer
+        /* Test FormBuilder::addFieldBearer */
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 
         $fieldBearer = FieldBearerBuilder::begin()
@@ -77,9 +77,26 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $form = FormBuilder::begin()
             ->addFieldBearer($fieldBearer)
             ->build();
-        
-        $this->assertContains("field", $form->getFieldBearer()->getFieldNames());
 
+        $this->assertContains("field", $form->getFieldBearer()->getFieldNames());
+    }
+
+    /**
+     * Tests whether we can set a success-url in the FormBuilder.
+     *
+     * Actually, this test asserts that the onValid function will raise an (appropriate) error in
+     * testing instead of executing a redirect.
+     *
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #success redirection cannot proceed.*#
+     */
+    public function testSetOnSuccessUrl() {
+        $form = FormBuilder::begin()
+            ->addFields(["field" => new Field('literal', 'A literal field', [])])
+            ->setOnSuccessUrl("http://example.com")
+            ->build();
+
+        $form->onValid();
     }
     
     public function testDefaultFormAction() {
