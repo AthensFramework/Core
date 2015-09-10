@@ -2,7 +2,7 @@
 
 uwdoem.pagination = (function() {
 
-    function setupPaginationFilter(marker) {
+    var setupPaginationFilter = function(marker) {
         $(function() {
             $("div.pagination-container a.pagination-arrow").click(function() {
                 var filterSectionName=$(this).parents('.ajax-loaded-section').data('section-name');
@@ -19,9 +19,9 @@ uwdoem.pagination = (function() {
                 uwdoem.ajax_section.loadSection(filterSectionName);
             });
         });
-    }
+    };
 
     return {
         setupPaginationFilter: setupPaginationFilter
-    }
+    };
 }());

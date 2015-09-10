@@ -8,7 +8,7 @@ uwdoem.alert = (function() {
      * @param {string} msg The message to be displayed on the alert.
      * @param {number} duration How long to leave the alert displayed, in milliseconds.
      */
-    function makeAlert(type, msg, duration) {
+    var makeAlert = function(type, msg, duration) {
         duration = typeof duration !== 'undefined' ? duration : 3000;
 
         $("<div class='notification '></div>").
@@ -20,9 +20,10 @@ uwdoem.alert = (function() {
             fadeTo(0, 0).
             delay(300).
             hide(1);
-    }
+    };
 
     return {
         makeAlert: makeAlert
-    }
+    };
+
 }());

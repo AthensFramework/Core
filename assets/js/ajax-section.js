@@ -150,7 +150,7 @@ uwdoem.ajax_section = (function() {
      * @param {string} name The name or handle of the sction, as registered in sectionRegistry by registerAJAXSection
      */
     var loadSection = function(name) {
-        $( "#" + sectionRegistry[name].targetDivId).css("opacity", .7);
+        $( "#" + sectionRegistry[name].targetDivId).css("opacity", 0.7);
         $("<div class=loading-gif style='position:absolute;z-index:100000;top:0;left:50%'></div>").prependTo("#" + sectionRegistry[name].targetDivId);
         $.get( sectionRegistry[name].targetURL + renderGetVars(name), function( data )
         {
@@ -190,6 +190,6 @@ uwdoem.ajax_section = (function() {
         unsetGetVar: unsetGetVar,
         getVar: getVar,
         section: section
+    };
 
-    }
 }());

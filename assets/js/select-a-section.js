@@ -1,7 +1,7 @@
 
 
 uwdoem.select_a_section = (function() {
-    function revealSelectASection(selectASection, targetSelectionName) {
+    var revealSelectASection = function(selectASection, targetSelectionName) {
         var selectedOption = selectASection.find("div.option.selectable[data-section-for=" + targetSelectionName + "]");
         var selectedSelection = selectASection.find("div.selection[data-selection-name=" + targetSelectionName +"]");
 
@@ -16,7 +16,7 @@ uwdoem.select_a_section = (function() {
         selectedSelection.css('display', 'block');
 
         uwdoem.multi_adder.disablePrototypicalRows();
-    }
+    };
 
     // Move these to always do
     $(function() {
@@ -38,5 +38,5 @@ uwdoem.select_a_section = (function() {
 
     return {
         revealSelectASection: revealSelectASection
-    }
+    };
 }());
