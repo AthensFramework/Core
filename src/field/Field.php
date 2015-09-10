@@ -101,10 +101,22 @@ class Field implements FieldInterface {
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getChoices() {
         return $this->_choices;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getChoiceSlugs() {
+        return array_map(
+            function($choice) {
+                return StringUtils::slugify($choice);
+            },
+            $this->_choices
+        );
     }
 
     /**
@@ -230,7 +242,7 @@ class Field implements FieldInterface {
             $this->addError("This field is required.");
         }
 
-        if (sizeof($this->getChoices()) > 0 && array_search($data, $this->getChoices()) === false) {
+        if (sizeof($this->getChoices()) > 0 && array_search($data, $this->getChoiceSlugs()) === false) {
             $this->addError("The value of this field must be one of: " . implode(", ", $this->getChoices()) . ".");
         }
 

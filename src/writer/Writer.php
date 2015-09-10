@@ -87,12 +87,14 @@ class Writer extends Visitor {
     public function visitField(FieldInterface $field) {
         $template = 'field/' . $field->getType() . '.twig';
 
+        $choices = array_combine($field->getChoiceSlugs(), $field->getChoices());
+
         return $this
             ->loadTemplate($template)
             ->render([
                 "slug" => $field->getSlug(),
                 "initial" => $field->getInitial(),
-                "choices" => $field->getChoices(),
+                "choices" => $choices,
                 "label" => $field->getLabel(),
                 "required" => $field->isRequired(),
                 "size" => $field->getSize(),

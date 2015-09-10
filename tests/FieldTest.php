@@ -316,7 +316,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         // Field has specified choices, submission does match available choices
         foreach ($this->testedFields() as $field) {
             $field->setChoices(["choice 1", "choice 2"]);
-            $data = "choice 1";
+            $data = $field->getChoiceSlugs()[0];
             $_POST[$field->getSlug()] = $data;
 
             $field->validate();
