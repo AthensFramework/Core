@@ -138,11 +138,12 @@ class FormBuilder {
                     }
                 }
             };
-
         }
 
         if (!isset($this->_onValidFunc)) {
-            $this->_onValidFunc = function() {};
+            $this->_onValidFunc = function(FormInterface $form) {
+                $form->getFieldBearer()->save();
+            };
         }
 
         if (!isset($this->_actions)) {
