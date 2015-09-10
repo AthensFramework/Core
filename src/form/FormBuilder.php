@@ -2,6 +2,7 @@
 
 namespace UWDOEM\Framework\Form;
 
+use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 
@@ -79,6 +80,15 @@ class FormBuilder {
      */
     public function addFields(array $fields) {
         $this->_fieldBearerBuilder->addFields($fields);
+        return $this;
+    }
+
+    /**
+     * @param FieldBearerInterface $fieldBearer
+     * @return FormBuilder
+     */
+    public function addFieldBearer(FieldBearerInterface $fieldBearer) {
+        $this->_fieldBearerBuilder->addFieldBearers([$fieldBearer]);
         return $this;
     }
 
