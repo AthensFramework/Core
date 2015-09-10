@@ -1,5 +1,3 @@
-/* globals uwdoem CSRFToken $ */
-
 uwdoem.ajax = (function() {
     
     var defaultSuccessCallback = function() {};

@@ -1,4 +1,4 @@
-/* globals uwdoem $ */
+
 
 uwdoem.select_a_section = (function() {
     function revealSelectASection(selectASection, targetSelectionName) {

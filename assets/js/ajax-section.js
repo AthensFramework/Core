@@ -1,4 +1,4 @@
-/* globals uwdoem $ */
+
 
 uwdoem.ajax_section = (function() {
 

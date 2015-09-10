@@ -1,4 +1,4 @@
-/* globals uwdoem */
+
 
 uwdoem.multi_panel = (function() {
     var openPanel = function(n) {

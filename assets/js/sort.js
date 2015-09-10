@@ -1,4 +1,4 @@
-/* globals uwdoem $ */
+
 
 uwdoem.sort = (function() {
     

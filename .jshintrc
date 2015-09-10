@@ -1,0 +1,7 @@
+{
+  "globals" : {
+      "uwdoem": false,
+      "$": false,
+      "CSRFToken": false
+  }
+}

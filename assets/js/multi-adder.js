@@ -1,4 +1,4 @@
-/* globals uwdoem $ */
+
 
 uwdoem.multi_adder = (function() {
 
