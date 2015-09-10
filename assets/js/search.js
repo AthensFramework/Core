@@ -1,4 +1,4 @@
-/* global uwdoem $ */
+/* globals uwdoem $ */
 
 uwdoem.search = (function() {
 
@@ -41,28 +41,30 @@ uwdoem.search = (function() {
 
     var searchSubmitOnclick = function() {
         var i = 0;
+        var searchSection = $(this).parents(".ajax-loaded-section").data("section-name");
+
         $(this).parent().find('tr').each(function() {
             var fieldname = $(this).find('td.fieldname select option:selected').val();
             var operation = $(this).find('td.operation select option:selected').text();
             var value = $(this).find('td.value input').val();
             if (fieldname && operation && value) {
-                UWDOEMAjax.registerGetVar(searchSection, 'search', 'fieldname' + i, fieldname);
-                UWDOEMAjax.registerGetVar(searchSection, 'search', 'operation' + i, operation);
-                UWDOEMAjax.registerGetVar(searchSection, 'search', 'value' + i, value);
+                uwdoem.ajax_section.registerGetVar(searchSection, 'search', 'fieldname' + i, fieldname);
+                uwdoem.ajax_section.registerGetVar(searchSection, 'search', 'operation' + i, operation);
+                uwdoem.ajax_section.registerGetVar(searchSection, 'search', 'value' + i, value);
             } else {
-                UWDOEMAjax.unsetGetVar(searchSection, 'search', 'fieldname' + i);
-                UWDOEMAjax.unsetGetVar(searchSection, 'search', 'operation' + i);
-                UWDOEMAjax.unsetGetVar(searchSection, 'search', 'value' + i);
+                uwdoem.ajax_section.unsetGetVar(searchSection, 'search', 'fieldname' + i);
+                uwdoem.ajax_section.unsetGetVar(searchSection, 'search', 'operation' + i);
+                uwdoem.ajax_section.unsetGetVar(searchSection, 'search', 'value' + i);
             }
             i++;
         });
-        UWDOEMAjax.registerGetVar(searchSection, 'pagination', 'page', 1);
-        UWDOEMAjax.loadSection(searchSection);
+        uwdoem.ajax_section.registerGetVar(searchSection, 'pagination', 'page', 1);
+        uwdoem.ajax_section.loadSection(searchSection);
         fadeOutMask();
         fadeOutSearch();
     };
 
-    var searchIconOnclick = function() {
+    var searchIconOnclick = function(marker) {
         fadeInMask();
         fadeInSearch();
 
@@ -74,22 +76,22 @@ uwdoem.search = (function() {
         searchCriteriaArea.find('tr').each(function() {
             var rowNumber = $(this).attr("data-row");
 
-            var fieldName = UWDOEMAjax.getGetVar(searchSection, 'search', 'fieldname' + rowNumber);
+            var fieldName = uwdoem.ajax_section.getGetVar(searchSection, 'search', 'fieldname' + rowNumber);
             $(this).find("td.fieldname select").val(fieldName);
 
-            var operation = UWDOEMAjax.getGetVar(searchSection, 'search', 'operation' + rowNumber);
+            var operation = uwdoem.ajax_section.getGetVar(searchSection, 'search', 'operation' + rowNumber);
             $(this).find("td.operation select").val(operation);
 
-            var value = UWDOEMAjax.getGetVar(searchSection, 'search', 'value' + rowNumber);
+            var value = uwdoem.ajax_section.getGetVar(searchSection, 'search', 'value' + rowNumber);
             $(this).find("td.value input").val(value);
         });
     };
 
     var setupSearchFilter = function (marker) {
-        $("div.search-icon." + marker).click(searchIconOnclick);
+        $("div.search-icon." + marker).click(searchIconOnclick(marker));
 
         // This might suppose to be inside searchIconOnclick
-        $("input.search-submit." + marker).click(searchSubmitOnclick);
+        $("input.search-submit." + marker).click(searchSubmitOnclick());
     };
 
     maskScreen.click(function () {
@@ -98,5 +100,5 @@ uwdoem.search = (function() {
 
     return {
         setupSearchFilter: setupSearchFilter
-    }
+    };
 }());

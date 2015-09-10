@@ -1,4 +1,4 @@
-/* global UWDOEMAjax CSRFToken */
+/* globals uwdoem CSRFToken $ */
 
 uwdoem.ajax = (function() {
     
@@ -9,12 +9,12 @@ uwdoem.ajax = (function() {
         var defaultDoneFunction = function(msg) {
             try {
                 msg = JSON.parse(msg);
-                makeAlert(msg.status, msg.message);
-                if (msg.status == "success") {
+                uwdoem.alert.makeAlert(msg.status, msg.message);
+                if (msg.status === "success") {
                     successCallback(msg);
                 }
             } catch (err) {
-                makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
+                uwdoem.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
             }
         };
     
@@ -31,22 +31,22 @@ uwdoem.ajax = (function() {
         })
             .done(doneFunction)
             .fail(function(msg) {
-                makeAlert("failure", msg);
-            })
+                uwdoem.alert.makeAlert("failure", msg);
+            });
     };
 
-    var AjaxSubmit = function (form, successCallback) {
-
-        var formVars = $(form).serializeArray();
-
-        var newVars = {};
-        for (var i = 0; i < formVars.length; i++) {
-            newVars[formVars[i].name] = formVars[i].value;
-        }
-
-        // Double check that this line works...
-        call($(form).attr('action'), newVars, successCallback);
-    };
+    //var AjaxSubmit = function (form, successCallback) {
+    //
+    //    var formVars = $(form).serializeArray();
+    //
+    //    var newVars = {};
+    //    for (var i = 0; i < formVars.length; i++) {
+    //        newVars[formVars[i].name] = formVars[i].value;
+    //    }
+    //
+    //    // Double check that this line works...
+    //    call($(form).attr('action'), newVars, successCallback);
+    //};
 
 
     function AjaxSubmitForm(form, successCallback) {
@@ -65,10 +65,10 @@ uwdoem.ajax = (function() {
             try {
                 $(form).replaceWith($("<div>" + msg + "</div>").find("#" + formId));
                 document.getElementById(formId).scrollIntoView();
-                makeAlert("success", "Form subitted.");
+                uwdoem.alert.makeAlert("success", "Form subitted.");
                 successCallback();
             } catch(err) {
-                makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
+                uwdoem.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
             }
         };
         

@@ -1,4 +1,4 @@
-/* global uwdoem $ */
+/* globals uwdoem $ */
 
 uwdoem.ajax_section = (function() {
 
@@ -33,7 +33,7 @@ uwdoem.ajax_section = (function() {
         return {
             url: url,
             divId: divId
-        }
+        };
     };
 
     /**
@@ -51,7 +51,7 @@ uwdoem.ajax_section = (function() {
             filterName: filterName,
             argName: argName,
             value: value
-        }
+        };
     };
 
     /**
@@ -61,14 +61,14 @@ uwdoem.ajax_section = (function() {
      */
     var registerGetVar = function(getVar) {
         if(!(getVar.sectionName in getVarRegistry)) {
-            getVarRegistry[sectionName] = {};
+            getVarRegistry[getVar.sectionName] = {};
         }
 
         if(!(getVar.filterName in getVarRegistry[getVar.sectionName])) {
             getVarRegistry[getVar.sectionName][getVar.filterName] = {};
         }
 
-        getVarRegistry[getVar.sectionName][getVar.filterName][getVar.argName] = value;
+        getVarRegistry[getVar.sectionName][getVar.filterName][getVar.argName] = getVar.value;
     };
 
     /**
@@ -86,24 +86,24 @@ uwdoem.ajax_section = (function() {
         }
     };
 
-    /**
-     *
-     * @param sectionName
-     * @param filterName
-     * @param argName
-     * @returns {*}
-     */
-    var getGetVarValue = function(sectionName, filterName, argName) {
-
-        if(
-            sectionName in getVarRegistry &&
-            filterName in getVarRegistry[sectionName] &&
-            argName in getVarRegistry[sectionName][filterName]
-        ) {
-            return getVarRegistry[sectionName][filterName][argName];
-        }
-        return null;
-    };
+    ///**
+    // *
+    // * @param sectionName
+    // * @param filterName
+    // * @param argName
+    // * @returns {*}
+    // */
+    //var getGetVarValue = function(sectionName, filterName, argName) {
+    //
+    //    if(
+    //        sectionName in getVarRegistry &&
+    //        filterName in getVarRegistry[sectionName] &&
+    //        argName in getVarRegistry[sectionName][filterName]
+    //    ) {
+    //        return getVarRegistry[sectionName][filterName][argName];
+    //    }
+    //    return null;
+    //};
 
     /**
      * Render the registered get variables for a given AJAXSection into a URL-encoded string
@@ -159,7 +159,7 @@ uwdoem.ajax_section = (function() {
             target.html( data ).css("opacity", 1);
             doPostSectionActions(target);
 
-            initMultiPanelButtons();
+            uwdoem.multi_panel.initMultiPanelButtons();
         });
     };
 
@@ -187,6 +187,7 @@ uwdoem.ajax_section = (function() {
         loadSection: loadSection,
         registerSection: registerSection,
         registerGetVar: registerGetVar,
+        unsetGetVar: unsetGetVar,
         getVar: getVar,
         section: section
 

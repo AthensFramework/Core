@@ -1,4 +1,4 @@
-/* global uwdoem $ */
+/* globals uwdoem $ */
 
 uwdoem.alert = (function() {
     /**

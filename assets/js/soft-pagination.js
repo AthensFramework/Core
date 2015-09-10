@@ -1,4 +1,4 @@
-/* global uwdoem $ */
+/* globals uwdoem $ */
 
 uwdoem.soft_pagination = (function() {
     var setupSoftPaginationFilter = function(div) {
@@ -120,5 +120,5 @@ uwdoem.soft_pagination = (function() {
 
     return {
         setupSoftPaginationFilter: setupSoftPaginationFilter
-    }
+    };
 }());

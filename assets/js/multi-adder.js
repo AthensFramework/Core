@@ -1,4 +1,4 @@
-/* global uwdoem $ */
+/* globals uwdoem $ */
 
 uwdoem.multi_adder = (function() {
 
@@ -75,5 +75,6 @@ uwdoem.multi_adder = (function() {
     });
 
     return {
-    }
+        disablePrototypicalRows: disablePrototypicalRows
+    };
 }());

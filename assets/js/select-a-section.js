@@ -1,4 +1,4 @@
-/* global uwdoem $ */
+/* globals uwdoem $ */
 
 uwdoem.select_a_section = (function() {
     function revealSelectASection(selectASection, targetSelectionName) {
@@ -15,8 +15,7 @@ uwdoem.select_a_section = (function() {
         selectedSelection.find("input, textarea, select").prop('disabled', false);
         selectedSelection.css('display', 'block');
 
-        disablePrototypicalRows();
-
+        uwdoem.multi_adder.disablePrototypicalRows();
     }
 
     // Move these to always do

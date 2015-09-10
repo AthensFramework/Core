@@ -1,4 +1,4 @@
-/* global uwdoem $ */
+/* globals uwdoem $ */
 
 uwdoem.select = (function() {
 
@@ -26,5 +26,5 @@ uwdoem.select = (function() {
 
     return {
         setupSelectFilter: setupSelectFilter
-    }
+    };
 }());
