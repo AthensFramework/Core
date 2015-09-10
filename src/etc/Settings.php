@@ -9,7 +9,8 @@ class Settings {
         "templateDirectories" => [],
         "projectJS" => [],
         "projectCSS" => [],
-        "defaultWriterClass" => '\UWDOEM\Writer\Writer'
+        "defaultWriterClass" => '\UWDOEM\Writer\Writer',
+        "defaultInitializerClass" => '\UWDOEM\Initializer\Initializer'
     ];
 
     protected function __construct() {}
@@ -41,6 +42,14 @@ class Settings {
 
     public static function getDefaultWriterClass() {
         return static::getSetting("defaultWriterClass");
+    }
+
+    public static function setDefaultInitializerClass($initializerClass) {
+        static::$settings["defaultInitializerClass"] = $initializerClass;
+    }
+
+    public static function getDefaultInitializerClass() {
+        return static::getSetting("defaultInitializerClass");
     }
 
     public static function getProjectJS() {
