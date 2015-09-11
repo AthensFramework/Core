@@ -1,0 +1,37 @@
+{% extends "page/mini-header.twig" %}
+
+{% block head %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="vendor/osfa/osfa-framework/src/assets/css/multi-panel.css">
+    <script type='text/javascript' src='vendor/osfa/osfa-framework/src/assets/js/multi-panel.js'></script>
+
+{% endblock head %}
+
+{% block content %}
+    <div class="second-button" style="z-index:15">
+        <a href="#" class="cd-btn second-panel">
+            <button type="button" style="padding:0 5px">&#8657;&nbsp;<span class=message> </span>&nbsp;&#8657;</button>
+        </a>
+    </div>
+
+    <div class="cd-panel from-right first-panel" style="z-index:10">
+        <div class="cd-panel-container first-panel">
+            <div class="cd-panel-content first-panel">
+
+                <div id="loadItHere"></div>
+            </div> <!-- cd-panel-content -->
+        </div> <!-- cd-panel-container -->
+    </div> <!-- cd-panel -->
+
+
+    <div class="cd-panel from-right second-panel" style="z-index:20">
+        <div class="cd-panel-container second-panel">
+            <div class="cd-panel-content second-panel">
+                <div id="loadItHere2"></div>
+            </div> <!-- cd-panel-content -->
+        </div> <!-- cd-panel-container -->
+    </div> <!-- cd-panel -->
+
+    {{ parent() }}
+{% block content %}

@@ -19,15 +19,19 @@
     <link rel="stylesheet" href="assets/css/osfa-webui.css">
     <link rel="stylesheet" href="assets/css/osfa-webui-print.css">
 
-    {% for cssFile in projectCSS %}
-    <link rel="stylesheet" href="{{ cssFile }}">
-    {% endfor %}
-
-    {% for jsFile in projectJS %}
-    <script type='text/javascript' src='{{ jsFile }}'></script>
-    {% endfor %}
-
     {% endblock head %}
+
+    {% block project-head %}
+
+        {% for cssFile in projectCSS %}
+            <link rel="stylesheet" href="{{ cssFile }}">
+        {% endfor %}
+
+        {% for jsFile in projectJS %}
+            <script type='text/javascript' src='{{ jsFile }}'></script>
+        {% endfor %}
+
+    {% endblock project-head %}
 </head>
 <body>
 
@@ -86,7 +90,10 @@
 
 <br class="page-content-head">
 
-{{ content|raw }}
+
+    {% block content %}
+    {{ content|raw }}
+    {% block content %}
 
 
 {% block footer %}{% endblock footer %}

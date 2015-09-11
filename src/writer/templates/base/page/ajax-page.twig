@@ -1,0 +1,13 @@
+{% if header %}
+    <h1 class=header>{{ header }}</h1>
+{% endif %}
+
+{% if subHeader %}
+    <h2 class=subheader>{{ subHeader }}</h2>
+{% endif %}
+
+<br class="page-content-head">
+
+{% block content %}
+{{ content|raw }}
+{% block content %}
