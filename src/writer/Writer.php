@@ -5,6 +5,7 @@ namespace UWDOEM\Framework\Writer;
 use JsonSchema\Constraints\String;
 use Twig_SimpleFilter;
 
+use UWDOEM\Framework\Etc\SafeString;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Form\FormInterface;
 use UWDOEM\Framework\Form\FormAction\FormActionInterface;
@@ -37,6 +38,19 @@ class Writer extends Visitor {
             $this->_environment->addFilter($filter);
 
             $filter = new Twig_SimpleFilter('slugify', function($string) { return StringUtils::slugify($string); });
+            $this->_environment->addFilter($filter);
+
+            $filter = new Twig_SimpleFilter(
+                'saferaw',
+                function($string) {
+                    if ( $string instanceof SafeString ) {
+                        $string = (string)$string;
+                    } else {
+                        $string = htmlentities($string);
+                    }
+
+                    return $string;
+                });
             $this->_environment->addFilter($filter);
         }
 

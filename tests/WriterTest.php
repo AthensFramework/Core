@@ -9,7 +9,14 @@ use UWDOEM\Framework\Page\PageBuilder;
 use UWDOEM\Framework\Page\Page;
 use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Etc\Settings;
+use UWDOEM\Framework\Etc\SafeString;
 
+
+class SimpleMockWriter extends Writer {
+    public function getEnvironment() {
+        return parent::getEnvironment();
+    }
+}
 
 class WriterTest extends PHPUnit_Framework_TestCase
 {
@@ -262,5 +269,36 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains($cssFile2, $result);
         $this->assertContains($jsFile1, $result);
         $this->assertContains($jsFile2, $result);
+    }
+
+    public function testSaferawFilter() {
+        $writer = new SimpleMockWriter();
+        $env = $writer->getEnvironment();
+
+        $template = "{{ var|saferaw|raw }}";
+
+        $unsafeVar = '<a href="http://example.com">a link</a>';
+        $safeVar = SafeString::fromString($unsafeVar);
+
+        // Render the unsafe string
+        $result = $env->createTemplate($template)->render(["var" => $unsafeVar]);
+        $this->assertEquals(htmlentities($unsafeVar), $result);
+
+        // Render the safe string
+        $result = $env->createTemplate($template)->render(["var" => $safeVar]);
+        $this->assertEquals((string)$safeVar, $result);
+    }
+
+    public function testSlugifyFilter() {
+        $writer = new SimpleMockWriter();
+        $env = $writer->getEnvironment();
+
+        $template = "{{ var|slugify }}";
+
+        $var = "^a#%5m4ll3r^^7357!@ 57r1n6";
+
+        // Render the unsafe string
+        $result = $env->createTemplate($template)->render(["var" => $var]);
+        $this->assertEquals(StringUtils::slugify($var), $result);
     }
 }
