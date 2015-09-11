@@ -9,15 +9,15 @@
 {% endblock head %}
 
 {% block content %}
-    <div class="second-button" style="z-index:15">
-        <a href="#" class="cd-btn second-panel">
+    <div class="second-button" style="z-index:15" data-for-panel="2">
+        <a href="#" class="cd-btn second-panel" data-for-panel="2">
             <button type="button" style="padding:0 5px">&#8657;&nbsp;<span class=message> </span>&nbsp;&#8657;</button>
         </a>
     </div>
 
-    <div class="cd-panel from-right first-panel" style="z-index:10">
-        <div class="cd-panel-container first-panel">
-            <div class="cd-panel-content first-panel">
+    <div class="cd-panel from-right first-panel" data-for-panel="1" style="z-index:10">
+        <div class="cd-panel-container first-panel" data-for-panel="1">
+            <div class="cd-panel-content first-panel" data-for-panel="1">
 
                 <div id="loadItHere"></div>
             </div> <!-- cd-panel-content -->
@@ -25,9 +25,9 @@
     </div> <!-- cd-panel -->
 
 
-    <div class="cd-panel from-right second-panel" style="z-index:20">
-        <div class="cd-panel-container second-panel">
-            <div class="cd-panel-content second-panel">
+    <div class="cd-panel from-right second-panel" style="z-index:20" data-for-panel="2">
+        <div class="cd-panel-container second-panel" data-for-panel="2">
+            <div class="cd-panel-content second-panel" data-for-panel="2">
                 <div id="loadItHere2"></div>
             </div> <!-- cd-panel-content -->
         </div> <!-- cd-panel-container -->

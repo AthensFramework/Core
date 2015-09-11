@@ -53,34 +53,33 @@ uwdoem.multi_panel = (function() {
         }
     };
 
-    var initMultiPanelButtons = function() {
+    $().ready(function($){
 
-        jQuery(document).ready(function($){
+        //open the lateral panel
+        $('.cd-btn').on('click', function(event){
 
-            var firstSecond = ["first", "second"];
+            /** The number of the panel we would like to open */
+            var panelNum = $(this).data("for-panel");
 
-            for (var i = 0; i < firstSecond.length; i++) {
-                var panel = $('.cd-panel.' + firstSecond[i] + '-panel');
-                var button = $('.cd-btn.' + firstSecond[i] + '-panel');
+            openPanel(panelNum);
+            event.preventDefault();
+        });
 
-                //open the lateral panel
-                button.on('click', function(event){
-                    event.preventDefault();
-                    openPanel(i);
-                });
-                //close the lateral panel
-                panel.on('click', function(event){
-                    if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                        closePanel(i);
-                        event.preventDefault();
-                    }
-                });
+        //close the lateral panel
+        $('.cd-panel').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+
+                /** The number of the panel we would like to close */
+                var panelNum = $(this).data("for-panel");
+
+                closePanel(panelNum);
+                event.preventDefault();
             }
         });
-    };
+
+    });
 
     return {
-        initMultiPanelButtons: initMultiPanelButtons,
         loadPanel: loadPanel,
         hideSecondPanelButton: hideSecondPanelButton,
         displaySecondPanelButton: displaySecondPanelButton,
