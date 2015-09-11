@@ -13,15 +13,14 @@
   },
   "require": {
     "propel/propel": "~2.0@dev",
-    "twig/twig" : "~1.0",
-    "uwdoem/person": "0.1.*",
-    "uwdoem/encryption": "0.1.*",
-    "uwdoem/csrf": "0.1.*"
+    "twig/twig" : "1.*.*",
+    "uwdoem/person": "0.*.*",
+    "uwdoem/encryption": "0.*.*",
+    "uwdoem/csrf": "0.*.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.5.*",
-    "phpdocumentor/phpdocumentor": "2.7.*",
-    "evert/phpdoc-md" : "~0.1.1",
+    "phpunit/phpunit": "4.*.*",
+    "phpdocumentor/phpdocumentor": "2.*.*",
     "codeclimate/php-test-reporter": "dev-master"
   }
 }
