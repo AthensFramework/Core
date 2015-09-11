@@ -288,6 +288,46 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("style=display:none>$initialHidden</td>", $result);
     }
 
+    public function testVisitTable() {
+        $writer = new Writer();
+
+        $field1 = new Field("text", "Text Field Label", (string)rand());
+        $row1 = RowBuilder::begin()
+            ->setFieldBearer(
+                FieldBearerBuilder::begin()
+                ->addFields(["TextField" => $field1])
+                ->build()
+            )
+            ->build();
+
+        $field2 = new Field("text", "Text Field Label", (string)rand());
+        $row2 = RowBuilder::begin()
+            ->setFieldBearer(
+                FieldBearerBuilder::begin()
+                    ->addFields(["TextField" => $field2])
+                    ->build()
+            )
+            ->build();
+
+        $table = TableBuilder::begin()
+            ->setRows([$row1, $row2])
+            ->build();
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitTable($table));
+
+        $row1Written = $this->stripQuotes($writer->visitRow($row1));
+        $row2Written = $this->stripQuotes($writer->visitRow($row2));
+
+        $this->assertContains("<table>", $result);
+        $this->assertContains("</table>", $result);
+
+        $this->assertContains("<th data-for={$field1->getLabelSlug()}>{$field1->getLabel()}</th>", $result);
+
+        $this->assertContains($row1Written, $result);
+        $this->assertContains($row2Written, $result);
+    }
+
     public function testVisitPage() {
         $writer = new Writer();
 

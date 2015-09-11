@@ -1,13 +1,16 @@
 <table>
+<!-- render filters, not yet implemented -->
 <!-- header row -->
 <tr>
     {% if rows is empty %}
         <th>No data found</th>
     {%  else %}
         {% for fieldName, field in rows[0].getFieldBearer.getVisibleFields %}
-            <th data-for="{{ fieldName }}">{{ field.getLabel }}</th>
+            <th data-for="{{ field.getLabelSlug }}">{{ field.getLabel }}</th>
         {% endfor %}
     {% endif %}
+
+
 
 </tr>
 

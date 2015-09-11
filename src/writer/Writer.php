@@ -12,6 +12,7 @@ use UWDOEM\Framework\Section\SectionInterface;
 use UWDOEM\Framework\Visitor\Visitor;
 use UWDOEM\Framework\Page\PageInterface;
 use UWDOEM\Framework\Row\RowInterface;
+use UWDOEM\Framework\Table\TableInterface;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Field\Field;
@@ -131,6 +132,17 @@ class Writer extends Visitor {
                 "hiddenFields" => $row->getFieldBearer()->getHiddenFields(),
                 "highlightable" => $row->isHighlightable(),
                 "onClick" => $row->getOnClick(),
+            ]);
+    }
+
+    public function visitTable(TableInterface $table) {
+        $template = 'table/base.twig';
+
+        return $this
+            ->loadTemplate($template)
+            ->render([
+                "rows" => $table->getRows(),
+                "filter" => $table->getFilter(),
             ]);
     }
 
