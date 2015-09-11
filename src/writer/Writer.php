@@ -2,7 +2,6 @@
 
 namespace UWDOEM\Framework\Writer;
 
-use JsonSchema\Constraints\String;
 use Twig_SimpleFilter;
 
 use UWDOEM\Framework\Etc\SafeString;
@@ -12,6 +11,7 @@ use UWDOEM\Framework\Form\FormAction\FormActionInterface;
 use UWDOEM\Framework\Section\SectionInterface;
 use UWDOEM\Framework\Visitor\Visitor;
 use UWDOEM\Framework\Page\PageInterface;
+use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Field\Field;
@@ -118,6 +118,18 @@ class Writer extends Visitor {
                 "required" => $field->isRequired(),
                 "size" => $field->getSize(),
                 "errors" => $field->getErrors()
+            ]);
+    }
+
+    public function visitRow(RowInterface $row) {
+        $template = 'row/base.twig';
+
+        return $this
+            ->loadTemplate($template)
+            ->render([
+                "visibleFields" => $row->getFieldBearer()->getVisibleFields(),
+                "hiddenFields" => $row->getFieldBearer()->getHiddenFields(),
+                "onClick" => $row->getOnClick(),
             ]);
     }
 

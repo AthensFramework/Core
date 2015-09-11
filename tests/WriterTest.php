@@ -10,6 +10,10 @@ use UWDOEM\Framework\Page\Page;
 use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Etc\SafeString;
+use UWDOEM\Framework\Row\RowBuilder;
+use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
+use UWDOEM\Framework\Table\TableBuilder;
+use UWDOEM\Framework\Field\FieldBuilder;
 
 
 class SimpleMockWriter extends Writer {
@@ -20,6 +24,14 @@ class SimpleMockWriter extends Writer {
 
 class WriterTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Strip quotes marks from a string
+     * @param string $string
+     * @return string
+     */
+    protected function stripQuotes($string) {
+        return str_replace(['"', "'"], "", $string);
+    }
     public function testVisitField() {
         $writer = new Writer();
 
@@ -36,7 +48,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field = new Field("choice", "A literal field", "initial", true, ["first choice", "second choice"], 200);
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+        $result = $this->stripQuotes($writer->visitField($field));
 
         // Assert that the field contains our choices
         $this->assertContains("first choice", $result);
@@ -48,7 +60,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field = new Field("multiple-choice", "A multiple-choice field", "initial", true, ["first choice", "second choice"], 200);
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+        $result = $this->stripQuotes($writer->visitField($field));
 
         // Assert that the field contains our choices
         $this->assertContains("first choice", $result);
@@ -60,7 +72,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field = new Field("text", "A text field", "5", true, [], 200);
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+        $result = $this->stripQuotes($writer->visitField($field));
 
         $this->assertContains('value=5', $result);
         $this->assertContains('<input type=text', $result);
@@ -69,7 +81,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field = new Field("textarea", "A textarea field", "initial value", true, [], 1000);
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+        $result = $this->stripQuotes($writer->visitField($field));
 
         // By our current method of calculation, should have size of 100 means 10 rows
         // If change calculation, change this test
@@ -81,7 +93,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field = new Field("textarea", "A textarea field", "", true, [], 1000);
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+        $result = $this->stripQuotes($writer->visitField($field));
 
         // Assert that the text area contains no initial text
         $this->assertContains('></textarea>', $result);
@@ -99,7 +111,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($field->getErrors());
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+        $result = $this->stripQuotes($writer->visitField($field));
 
         // Assert that the result does not display any errors
         $this->assertNotContains("field-errors", $result);
@@ -113,7 +125,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($field->getErrors());
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitField($field));
+        $result = $this->stripQuotes($writer->visitField($field));
 
         // Assert that the result does display errors
         $this->assertContains("field-errors", $result);
@@ -142,7 +154,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $_SERVER["REQUEST_URI"] = "http://example.com";
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitForm($form));
+        $result = $this->stripQuotes($writer->visitForm($form));
 
         $this->assertContains("<form", $result);
         $this->assertContains("data-request-uri=http://example.com", $result);
@@ -177,7 +189,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($form->getErrors());
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitForm($form));
+        $result = $this->stripQuotes($writer->visitForm($form));
 
         // Assert that the result does not display any errors
         $this->assertNotContains("form-errors", $result);
@@ -193,7 +205,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($form->getErrors());
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitForm($form));
+        $result = $this->stripQuotes($writer->visitForm($form));
 
         // Assert that the result does display errors
         $this->assertContains("form-errors", $result);
@@ -213,11 +225,65 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->build();
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitSection($section));
+        $result = $this->stripQuotes($writer->visitSection($section));
 
         $this->assertContains("<div class=section-label>Label</div>", $result);
         $this->assertContains("<div class=section-writables>", $result);
         $this->assertContains("Some sub-content.", $result);
+    }
+
+    public function testVisitRow() {
+        $writer = new Writer();
+
+        $initialText = (string)rand();
+        $initialLiteral = SafeString::fromString('<a href="http://example.com">A link</a>');
+        $initialHidden = (string)rand();
+        $onClick = "console.log('Click!');";
+
+        $textField = FieldBuilder::begin()
+            ->setType("text")
+            ->setLabel("Text Field")
+            ->setInitial($initialText)
+            ->build();
+
+        $literalField = FieldBuilder::begin()
+            ->setType("literal")
+            ->setLabel("Literal Field")
+            ->setInitial($initialLiteral)
+            ->build();
+
+        $hiddenField = FieldBuilder::begin()
+            ->setType("text")
+            ->setLabel("Hidden Field")
+            ->setInitial($initialHidden)
+            ->build();
+
+        $fieldBearer = FieldBearerBuilder::begin()
+            ->addFields([
+                "TextField" => $textField,
+                "LiteralField" => $literalField,
+                "HiddenField" => $hiddenField
+            ])
+            ->setVisibleFieldNames(["TextField", "LiteralField"])
+            ->setHiddenFieldNames(["HiddenField"])
+            ->build();
+
+        $row = RowBuilder::begin()
+            ->setFieldBearer($fieldBearer)
+            ->setOnClick($onClick)
+            ->build();
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitRow($row));
+
+        $this->assertContains("<tr", $result);
+        $this->assertContains("</tr>", $result);
+        $this->assertContains("<td class=" . $textField->getSlug(), $result);
+        $this->assertContains("<td class=" . $literalField->getSlug(), $result);
+        $this->assertContains("class=clickable", $result);
+        $this->assertContains($this->stripQuotes("onClick=" . $onClick), $result);
+        $this->assertContains($this->stripQuotes($initialLiteral), $result);
+        $this->assertContains("style=display:none>$initialHidden</td>", $result);
     }
 
     public function testVisitPage() {
@@ -252,7 +318,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         Settings::addProjectJS($jsFile2);
 
         // Get result and strip quotes, for easier analysis
-        $result = str_replace(['"', "'"], "", $writer->visitPage($page));
+        $result = $this->stripQuotes($writer->visitPage($page));
 
         $this->assertContains("<html>", $result);
         $this->assertContains("<head>", $result);
