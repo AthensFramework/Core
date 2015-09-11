@@ -63,14 +63,19 @@
     <link rel="stylesheet" href="vendor/uwdoem/framework/assets/css/osfa-webui.css">
     <link rel="stylesheet" href="vendor/uwdoem/framework/assets/css/osfa-webui-print.css">
 
-    {% for cssFile in projectCSS %}
-    <link rel="stylesheet" href="{{ cssFile }}">
-    {% endfor %}
-
-    {% for jsFile in projectJS %}
-    <script type='text/javascript' src='{{ jsFile }}'></script>
-    {% endfor %}
     {% endblock head %}
+
+    {% block project_head %}
+
+        {% for cssFile in projectCSS %}
+    <link rel="stylesheet" href="{{ cssFile }}">
+        {% endfor %}
+
+        {% for jsFile in projectJS %}
+        <script type='text/javascript' src='{{ jsFile }}'></script>
+        {% endfor %}
+
+    {% endblock project_head %}
 </head>
 <body>
 
@@ -137,7 +142,7 @@
 
     {% block content %}
     {{ content|raw }}
-    {% block content %}
+    {% endblock content %}
 
 </div>
 

@@ -21,7 +21,7 @@
 
     {% endblock head %}
 
-    {% block project-head %}
+    {% block project_head %}
 
         {% for cssFile in projectCSS %}
             <link rel="stylesheet" href="{{ cssFile }}">
@@ -31,7 +31,7 @@
             <script type='text/javascript' src='{{ jsFile }}'></script>
         {% endfor %}
 
-    {% endblock project-head %}
+    {% endblock project_head %}
 </head>
 <body>
 
@@ -93,7 +93,7 @@
 
     {% block content %}
     {{ content|raw }}
-    {% block content %}
+    {% endblock content %}
 
 
 {% block footer %}{% endblock footer %}
