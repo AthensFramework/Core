@@ -1,0 +1,18 @@
+<table>
+<!-- header row -->
+<tr>
+    {% if rows is empty %}
+        <th>No data found</th>
+    {%  else %}
+        {% for fieldName, field in rows[0].getFieldBearer.getVisibleFields %}
+            <th data-for="{{ fieldName }}">{{ field.getLabel }}</th>
+        {% endfor %}
+    {% endif %}
+
+</tr>
+
+<!-- data rows -->
+{% for row in rows %}
+    {{ row|write|raw }}
+{% endfor %}
+</table>

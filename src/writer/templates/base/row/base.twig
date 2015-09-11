@@ -1,0 +1,9 @@
+<tr class="{% if onClick %}clickable{% endif %}" {% if onClick %}onClick="{{ onClick|raw }}"{% endif %}>
+    {% for fieldName, field in visibleFields %}
+        <td class="{{ field.getSlug }}">{{ field.getInitial|saferaw|raw }}</td>
+    {% endfor %}
+
+    {% for fieldName, field in hiddenFields %}
+        <td class="{{ field.getSlug }} hidden" style="display:none">{{ field.getInitial|saferaw|raw }}</td>
+    {% endfor %}
+</tr>
