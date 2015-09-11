@@ -271,6 +271,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $row = RowBuilder::begin()
             ->setFieldBearer($fieldBearer)
             ->setOnClick($onClick)
+            ->setHighlightable(true)
             ->build();
 
         // Get result and strip quotes, for easier analysis
@@ -280,6 +281,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("</tr>", $result);
         $this->assertContains("<td class=" . $textField->getSlug(), $result);
         $this->assertContains("<td class=" . $literalField->getSlug(), $result);
+        $this->assertContains("highlightable", $result);
         $this->assertContains("class=clickable", $result);
         $this->assertContains($this->stripQuotes("onClick=" . $onClick), $result);
         $this->assertContains($this->stripQuotes($initialLiteral), $result);

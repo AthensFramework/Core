@@ -129,6 +129,7 @@ class Writer extends Visitor {
             ->render([
                 "visibleFields" => $row->getFieldBearer()->getVisibleFields(),
                 "hiddenFields" => $row->getFieldBearer()->getHiddenFields(),
+                "highlightable" => $row->isHighlightable(),
                 "onClick" => $row->getOnClick(),
             ]);
     }
