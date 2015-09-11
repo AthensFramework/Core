@@ -19,6 +19,11 @@ class RowBuilder {
     protected $_fieldBearer;
 
     /**
+     * @var bool
+     */
+    protected $_highlightable = false;
+
+    /**
      * @param string $onClick
      * @return RowBuilder
      */
@@ -37,6 +42,15 @@ class RowBuilder {
     }
 
     /**
+     * @param boolean $highlightable
+     * @return RowBuilder
+     */
+    public function setHighlightable($highlightable) {
+        $this->_highlightable = $highlightable;
+        return $this;
+    }
+
+    /**
      * @return RowBuilder
      */
     public static function begin() {
@@ -50,7 +64,7 @@ class RowBuilder {
         if (!isset($this->_fieldBearer)) {
             throw new \RuntimeException("You must specify an implementation of FieldBearerInterface using ::setFieldBearer before calling this method.");
         }
-        return new Row($this->_fieldBearer, $this->_onClick);
+        return new Row($this->_fieldBearer, $this->_onClick, $this->_highlightable);
     }
 
 

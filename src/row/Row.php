@@ -26,28 +26,39 @@ class Row implements RowInterface {
      */
     protected $_fieldBearer;
 
+    /**
+     * @var bool
+     */
+    protected $_highlightable;
+
     use VisitableTrait;
 
 
-    function __construct(FieldBearerInterface $fieldBearer, $onClick) {
+    function __construct(FieldBearerInterface $fieldBearer, $onClick, $highlightable) {
         $this->_fieldBearer = $fieldBearer;
         $this->_onClick = $onClick;
+        $this->_highlightable = $highlightable;
     }
 
     /**
      * @return string
      */
-    public function getOnClick()
-    {
+    public function getOnClick() {
         return $this->_onClick;
     }
 
     /**
      * @return FieldBearerInterface
      */
-    public function getFieldBearer()
-    {
+    public function getFieldBearer() {
         return $this->_fieldBearer;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHighlightable() {
+        return $this->_highlightable;
     }
 
 

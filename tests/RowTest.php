@@ -35,10 +35,12 @@ class RowTest extends PHPUnit_Framework_TestCase
         $row = RowBuilder::begin()
             ->setFieldBearer($fieldBearer)
             ->setOnClick("console.log('Click!');")
+            ->setHighlightable(true)
             ->build();
 
         $this->assertEquals("console.log('Click!');", $row->getOnClick());
         $this->assertEquals($fieldBearer, $row->getFieldBearer());
+        $this->assertTrue($row->isHighlightable());
     }
 
     /*
