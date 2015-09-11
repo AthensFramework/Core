@@ -338,7 +338,7 @@ class ORMUtils {
      * @param string $classTableMapName
      * @return null|\Propel\Runtime\ActiveRecord\ActiveRecordInterface
      */
-    static protected function getObjectFromURL($classTableMapName) {
+    static public function getObjectFromURL($classTableMapName) {
         $object = null;
 
         $urlIdKey = static::getTableName($classTableMapName) . "_id";
