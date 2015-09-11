@@ -9,8 +9,8 @@ class Settings {
         "templateDirectories" => [],
         "projectJS" => [],
         "projectCSS" => [],
-        "defaultWriterClass" => '\UWDOEM\Writer\Writer',
-        "defaultInitializerClass" => '\UWDOEM\Initializer\Initializer'
+        "defaultWriterClass" => '\UWDOEM\Framework\Writer\Writer',
+        "defaultInitializerClass" => '\UWDOEM\Framework\Initializer\Initializer'
     ];
 
     protected function __construct() {}
