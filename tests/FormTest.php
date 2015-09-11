@@ -6,6 +6,8 @@ use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\FieldBearer\FieldBearer;
+use UWDOEM\Framework\Field\FieldInterface;
+use UWDOEM\Framework\Form\FormInterface;
 use \UWDOEMTest\TestClass;
 
 class MockFieldBearer extends FieldBearer {
@@ -111,6 +113,21 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("Submit", $form->getActions()[0]->getLabel());
     }
 
+    public function testFormAddError() {
+        $fields = ["field" => new Field('literal', 'A literal field', [])];
+
+        $form = FormBuilder::begin()
+            ->addFields($fields)
+            ->build();
+
+        $errorText = (string)rand();
+
+        $form->addError($errorText);
+
+        $this->assertFalse($form->isValid());
+        $this->assertContains($errorText, $form->getErrors());
+    }
+
     public function testEndogenousValidation() {
 
         $requiredField = new Field('text', 'A required field', "", true, []);
@@ -141,13 +158,13 @@ class FormTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testExogenousValidation() {
-        $unrequiredField = new Field('text', 'A required field', "", false, []);
+        $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
         $specificField = new Field("text", "A field which required specific input.", []);
         $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
 
         $requiredInput = "the specific input required";
 
-        $validator = function(\UWDOEM\Framework\Field\FieldInterface $field) use ($requiredInput) {
+        $validator = function(FieldInterface $field) use ($requiredInput) {
             $input = $field->getSubmitted();
             if ($input !== $requiredInput) {
                 $field->addError("The exact specific input was not provided.");
@@ -189,6 +206,28 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         // Correct input was provided, field should be valid
         $this->assertTrue($form->isValid());
+    }
+
+    /**
+     * Test that the validators included via addValidator are passed the form
+     */
+    public function testExogenousValidationGetsPassedForm() {
+        $field = new Field('text', 'A special field', "", false, []);
+
+        $errorText = (string)rand();
+
+        $validator = function(FieldInterface $field, FormInterface $form) use ($errorText) {
+            $form->addError($errorText);
+        };
+
+        $form = FormBuilder::begin()
+            ->addFields(["field" => $field])
+            ->addValidator("field", $validator)
+            ->build();
+
+        $this->assertFalse($form->isValid());
+
+        $this->assertContains($errorText, $form->getErrors());
     }
 
     public function testDefaultOnInvalid() {

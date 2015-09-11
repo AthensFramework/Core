@@ -50,7 +50,7 @@ class Form implements FormInterface {
 
             if (array_key_exists($name, $this->_validators)) {
                 foreach($this->_validators[$name] as $validator) {
-                    call_user_func_array($validator, [$field]);
+                    call_user_func_array($validator, [$field, $this]);
                 }
             }
         }
@@ -61,6 +61,10 @@ class Form implements FormInterface {
                 $this->addError("Please correct the indicated errors and resubmit the form.");
                 break;
             }
+        }
+
+        if (!empty($this->_formErrors)) {
+            $this->_isValid = False;
         }
     }
 
@@ -93,7 +97,7 @@ class Form implements FormInterface {
     /**
      * @param string $error
      */
-    protected function addError($error) {
+    public function addError($error) {
         $this->_formErrors[] = $error;
     }
 

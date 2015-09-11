@@ -40,4 +40,9 @@ interface FormInterface extends WritableInterface, InitializableInterface {
      */
     function getActions();
 
+    /**
+     * @param string $error
+     */
+    function addError($error);
+
 }
