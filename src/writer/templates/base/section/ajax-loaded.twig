@@ -1,0 +1,5 @@
+<div id={{ label|slugify }} class="ajax-loaded-section" data-target={{ content|raw }}></div>
+<script>
+    registerAJAXSection("{{ label|slugify }}");
+    loadAJAXSection("${{ label|slugify }}");
+</script>

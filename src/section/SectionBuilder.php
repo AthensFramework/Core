@@ -29,6 +29,22 @@ class SectionBuilder {
     }
 
     /**
+     * @param string $label
+     * @return SectionBuilder
+     * @throws \Exception if type has not been set to ajax-loaded
+     */
+    public function setHandle($handle) {
+
+        if ($this->_type !== "ajax-loaded") {
+            throw new \Exception("Handle may only be set on an ajax-loaded section. " .
+                "Set type to 'ajax-loaded' before invoking this method.");
+        }
+
+        $this->_label = $handle;
+        return $this;
+    }
+
+    /**
      * @param string $content
      * @return SectionBuilder
      * @throws \Exception if type is ajax-loaded

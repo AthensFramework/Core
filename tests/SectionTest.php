@@ -78,6 +78,16 @@ class SectionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #Handle may only be set on an ajax-loaded section.*#
+     */
+    public function testBuilderThrowsExceptionHandleWithoutAjaxLoaded() {
+        $section = SectionBuilder::begin()
+            ->setHandle("http://www.example.com")
+            ->build();
+    }
+
+    /**
+     * @expectedException              Exception
      * @expectedExceptionMessageRegExp #is not a valid url.*#
      */
     public function testBuilderThrowsExceptionTargetInvalidURL() {
