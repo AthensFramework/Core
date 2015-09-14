@@ -1,7 +1,19 @@
 {% include "field/preamble.twig" %}
 <span class="choice-field">
-    {% for choiceSlug, choice in choices %}
-    <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choiceSlug == initial %}checked{% endif %}> {{ choice }}
-    {% endfor %}
+
+    {% if choices|length <= 2 %}
+        {% for choiceSlug, choice in choices %}
+        <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choiceSlug == initial %}checked{% endif %}> {{ choice }}
+        {% endfor %}
+    {% else %}
+        <select>
+            <option {% if required %}disabled{% endif %}></option>
+        {% for choiceSlug, choice in choices %}
+            <option value="{{ choiceSlug }}" {% if choiceSlug == initial %}selected{% endif %}> {{ choice }} </option>
+        {% endfor %}
+        </select>
+    {% endif %}
+
+
 </span>
 {% include "field/postamble.twig" %}
