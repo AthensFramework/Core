@@ -29,7 +29,7 @@ class SectionBuilder {
     }
 
     /**
-     * @param string $label
+     * @param string $handle
      * @return SectionBuilder
      * @throws \Exception if type has not been set to ajax-loaded
      */
@@ -83,7 +83,7 @@ class SectionBuilder {
             "Set type to 'ajax-loaded' before invoking this method.");
         }
 
-        if (filter_var($target, FILTER_VALIDATE_URL) === false) {
+        if (filter_var($target, FILTER_VALIDATE_URL) === false && filter_var("http://" . $target, FILTER_VALIDATE_URL) === false) {
             throw new \Exception("Target '$target' is not a valid url.");
         }
 
