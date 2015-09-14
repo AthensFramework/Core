@@ -129,7 +129,7 @@ uwdoem.ajax_section = (function() {
 
         var targetDiv, targetUrl;
 
-        targetDiv = $( "#" + sectionRegistry[id]);
+        targetDiv = $( "#" + id);
         targetUrl = targetDiv.data("target");
 
         targetDiv.css("opacity", 0.7).append("<div class='loading-gif class-loader'></div>");
