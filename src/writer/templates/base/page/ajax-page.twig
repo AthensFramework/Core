@@ -6,7 +6,9 @@
     <h2 class=subheader>{{ subHeader }}</h2>
 {% endif %}
 
+{% if header or subheader %}
 <br class="page-content-head">
+{% endif %}
 
 {% block content %}
 {{ content|raw }}
