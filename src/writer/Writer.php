@@ -63,7 +63,8 @@ class Writer extends Visitor {
     }
 
     public function visitSection(SectionInterface $section) {
-        $template = 'section/section.twig';
+
+        $template = 'section/' . $section->getType() . '.twig';
 
         return $this
             ->loadTemplate($template)
