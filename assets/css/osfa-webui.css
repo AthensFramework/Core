@@ -215,6 +215,10 @@ table {
     border-collapse: separate;
     border-spacing: 0 5px;
     margin-bottom:10px;
+    width:95%
+}
+td.label {
+    min-width:25%;
 }
 td:first-child {
     padding-left:3px;
@@ -282,7 +286,7 @@ span.multiple-choice-field input[type=checkbox] {
 }
 
 textarea {
-    width:90%;
+    width:95%;
 }
 
 textarea.disabled, input.disabled {
@@ -517,7 +521,7 @@ div.notification-area {
 }
 
 br.page-content-head {
-    line-height:20px;
+    line-height:70px;
     clear:both
 }
 
