@@ -7,31 +7,17 @@ use UWDOEM\Framework\Writer\WritableInterface;
 
 class SectionBuilder {
 
-    /**
-     * The section's label. Set by overriding Section::makeLabel()
-     * @var string
-     */
+    /** @var string */
     protected $_label = "";
 
-    /**
-     * @var string
-     */
-    protected $_content = "";
+    /** @var string */
+    protected $_content;
 
-    /**
-     * @var WritableInterface[]
-     */
+    /** @var string */
+    protected $_type;
+
+    /** @var WritableInterface[] */
     protected $_writables = [];
-
-    /**
-     * @var callable
-     */
-    protected $_initFromPost;
-
-    /**
-     * @var callable
-     */
-    protected $_initFromGet;
 
     /**
      * @param string $label
@@ -45,9 +31,48 @@ class SectionBuilder {
     /**
      * @param string $content
      * @return SectionBuilder
+     * @throws \Exception if type is ajax-loaded
      */
     public function setContent($content) {
+        if ($this->_type === "ajax-loaded") {
+            throw new \Exception("Cannot set content on an ajax-loaded section.");
+        }
+
         $this->_content = $content;
+        return $this;
+    }
+
+    /**
+     * @param string $type
+     * @return SectionBuilder
+     * @throws \Exception if setting type to ajax-loaded and content has been set
+     */
+    public function setType($type) {
+        if ($type === "ajax-loaded" && isset($this->_content)) {
+            throw new \Exception("Cannot set type to 'ajax-loaded' because content has already been set; " .
+                "an ajax-loaded section must not have content.");
+        }
+        $this->_type = $type;
+        return $this;
+    }
+
+    /**
+     * @param string $target
+     * @return SectionBuilder
+     * @throws \Exception if type has not been set to 'ajax-loaded', or $target is not a valid url
+     */
+    public function setTarget($target) {
+        if ($this->_type !== "ajax-loaded") {
+            throw new \Exception("Target may only be set on an ajax-loaded section. " .
+            "Set type to 'ajax-loaded' before invoking this method.");
+        }
+
+        if (filter_var($target, FILTER_VALIDATE_URL) === false) {
+            throw new \Exception("Target '$target' is not a valid url.");
+        }
+
+        $this->_content = $target;
+
         return $this;
     }
 
@@ -71,9 +96,15 @@ class SectionBuilder {
      * @return SectionInterface
      */
     public function build() {
-        if (!$this->_initFromGet) {$this->_initFromGet = function() {}; }
-        if (!$this->_initFromPost) {$this->_initFromPost = function() {}; }
-        return new Section($this->_content, $this->_writables, $this->_label);
+        if (!isset($this->_type)) {
+            $this->_type = "base";
+        }
+
+        if (!isset($this->_content)) {
+            $this->_content = "";
+        }
+
+        return new Section($this->_content, $this->_writables, $this->_label, $this->_type);
     }
 
 }

@@ -41,6 +41,50 @@ class SectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($label, $section->getLabel());
         $this->assertContains($writable, $section->getWritables());
         $this->assertEquals(1, sizeof($section->getWritables()));
+        $this->assertEquals("base", $section->getType());
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #Cannot set content.*#
+     */
+    public function testBuilderThrowsExceptionSetContentOnAjaxLoaded() {
+        $section = SectionBuilder::begin()
+            ->setType("ajax-loaded")
+            ->setContent((string)rand())
+            ->build();
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #content has already been set.*#
+     */
+    public function testBuilderThrowsExceptionSetAjaxLoadedAfterContent() {
+        $section = SectionBuilder::begin()
+            ->setContent((string)rand())
+            ->setType("ajax-loaded")
+            ->build();
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #Target may only be set on an ajax-loaded section.*#
+     */
+    public function testBuilderThrowsExceptionTargetWithoutAjaxLoaded() {
+        $section = SectionBuilder::begin()
+            ->setTarget("http://www.example.com")
+            ->build();
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #is not a valid url.*#
+     */
+    public function testBuilderThrowsExceptionTargetInvalidURL() {
+        $section = SectionBuilder::begin()
+            ->setType("ajax-loaded")
+            ->setTarget((string)rand())
+            ->build();
     }
 
     /*

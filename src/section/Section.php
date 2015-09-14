@@ -13,31 +13,23 @@ use UWDOEM\Framework\Writer\WritableInterface;
  */
 class Section implements SectionInterface {
 
-    /**
-     * The section's label.
-     * @var string
-     */
+    /** @var string */
     protected $_label;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $_content;
 
-    /**
-     * @var WritableInterface[]
-     */
+    /** @var WritableInterface[] */
     protected $_writables;
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     protected $_initFromPost;
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     protected $_initFromGet;
+
+    /** @var  string */
+    protected $_type;
 
     use VisitableTrait;
 
@@ -48,10 +40,11 @@ class Section implements SectionInterface {
      * @param WritableInterface[] $writables
      * @param string $label
      */
-    public function __construct($content, array $writables, $label) {
+    public function __construct($content, array $writables, $label, $type) {
         $this->_label = $label;
         $this->_content = $content;
         $this->_writables = $writables;
+        $this->_type = $type;
     }
 
     /**
@@ -67,6 +60,13 @@ class Section implements SectionInterface {
      */
     public function getContent() {
         return $this->_content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType() {
+        return $this->_type;
     }
 
     /**
