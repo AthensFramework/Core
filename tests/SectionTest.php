@@ -86,17 +86,6 @@ class SectionTest extends PHPUnit_Framework_TestCase
             ->build();
     }
 
-    /**
-     * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #is not a valid url.*#
-     */
-    public function testBuilderThrowsExceptionTargetInvalidURL() {
-        $section = SectionBuilder::begin()
-            ->setType("ajax-loaded")
-            ->setTarget((string)rand())
-            ->build();
-    }
-
     /*
      * The below methods are tested sufficiently above
     public function testGetWritables() {

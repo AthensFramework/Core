@@ -75,16 +75,12 @@ class SectionBuilder {
     /**
      * @param string $target
      * @return SectionBuilder
-     * @throws \Exception if type has not been set to 'ajax-loaded', or $target is not a valid url
+     * @throws \Exception if type has not been set to 'ajax-loaded'
      */
     public function setTarget($target) {
         if ($this->_type !== "ajax-loaded") {
             throw new \Exception("Target may only be set on an ajax-loaded section. " .
             "Set type to 'ajax-loaded' before invoking this method.");
-        }
-
-        if (filter_var($target, FILTER_VALIDATE_URL) === false && filter_var("http://" . $target, FILTER_VALIDATE_URL) === false) {
-            throw new \Exception("Target '$target' is not a valid url.");
         }
 
         $this->_content = $target;
