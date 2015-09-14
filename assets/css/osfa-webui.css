@@ -70,6 +70,13 @@ div.loading-gif.hidden {
     z-index:-1
 }
 
+div.loading-gif.class-loader {
+    position:absolute;
+    z-index:100000;
+    top:0;
+    left:50%
+}
+
 div.search-icon:hover, div.search-icon:focus {
     background-image:url("../images/search-icon-gold.svg");
 }

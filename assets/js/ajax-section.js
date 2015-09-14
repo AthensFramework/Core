@@ -12,9 +12,9 @@ uwdoem.ajax_section = (function() {
     /**
      * A dictionary of sections, by name or handle
      *
-     * @type {{}}
+     * @type []
      */
-    var sectionRegistry = {};
+    var sectionRegistry = [];
 
     /**
      * An array of functions to call following every section load
@@ -22,19 +22,6 @@ uwdoem.ajax_section = (function() {
      * @type {Array}
      */
     var postSectionActions = [];
-
-    /**
-     * Represents a div which may be reloaded via AJAX
-     *
-     * @param {string} url The URL from which the div may be refreshed
-     * @param {string} divId The Id of this div
-     */
-    var section = function(url, divId) {
-        return {
-            url: url,
-            divId: divId
-        };
-    };
 
     /**
      * Represents a "get variable" to be encoded into a url string
@@ -134,31 +121,24 @@ uwdoem.ajax_section = (function() {
     };
 
     /**
-     * Construct and register sections by name
-     *
-     * @param {string} name A name or handle for the div, often semantic, such as "table-of-students" or "awards-table"
-     * @param targetURL
-     * @param targetDivId
-     */
-    var registerSection = function(name, targetURL, targetDivId) {
-        sectionRegistry[name] = section(targetURL, targetDivId);
-    };
-
-    /**
      * Load a registered section by name
      *
-     * @param {string} name The name or handle of the sction, as registered in sectionRegistry by registerAJAXSection
+     * @param {string} id The name or handle of the sction, as registered in sectionRegistry by registerAJAXSection
      */
-    var loadSection = function(name) {
-        $( "#" + sectionRegistry[name].targetDivId).css("opacity", 0.7);
-        $("<div class=loading-gif style='position:absolute;z-index:100000;top:0;left:50%'></div>").prependTo("#" + sectionRegistry[name].targetDivId);
-        $.get( sectionRegistry[name].targetURL + renderGetVars(name), function( data )
-        {
-            var target = $( "#" + sectionRegistry[name].targetDivId );
+    var loadSection = function(id) {
 
-            target.html( data ).css("opacity", 1);
-            doPostSectionActions(target);
+        var targetDiv, targetUrl;
 
+        targetDiv = $( "#" + sectionRegistry[id]);
+        targetUrl = targetDiv.data("target");
+
+        targetDiv.css("opacity", 0.7).append("<div class='loading-gif class-loader'></div>");
+
+        $.get( targetUrl + renderGetVars(id), function( data ) {
+            targetDiv.html( data ).css("opacity", 1);
+            doPostSectionActions(targetDiv);
+
+            // TODO: Move this to post section actions
             uwdoem.multi_panel.initMultiPanelButtons();
         });
     };
@@ -185,11 +165,9 @@ uwdoem.ajax_section = (function() {
     return {
         registerPostSectionAction: registerPostSectionAction,
         loadSection: loadSection,
-        registerSection: registerSection,
         registerGetVar: registerGetVar,
         unsetGetVar: unsetGetVar,
-        getVar: getVar,
-        section: section
+        getVar: getVar
     };
 
 }());
