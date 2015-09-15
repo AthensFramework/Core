@@ -291,6 +291,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
             $data = (string)rand();
 
             $field->setRequired(true);
+
             unset($_POST[$field->getSlug()]);
 
             $field->validate();
@@ -300,9 +301,11 @@ class FieldTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(null, $field->getValidatedData(), "Failure on class: " . get_class($field));
         }
 
+        /* Choice Field */
         // Field has specified choices, submission does not match available choices
         foreach ($this->testedFields() as $field) {
             $field->setChoices(["choice 1", "choice 2"]);
+            $field->setType(Field::FIELD_TYPE_CHOICE);
             $data = (string)rand();
             $_POST[$field->getSlug()] = $data;
 
@@ -316,6 +319,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         // Field has specified choices, submission does match available choices
         foreach ($this->testedFields() as $field) {
             $field->setChoices(["choice 1", "choice 2"]);
+            $field->setType(Field::FIELD_TYPE_CHOICE);
             $data = $field->getChoiceSlugs()[0];
             $_POST[$field->getSlug()] = $data;
 
@@ -324,6 +328,35 @@ class FieldTest extends PHPUnit_Framework_TestCase
             $this->assertTrue($field->isValid(), "Failure on class: " . get_class($field));
             $this->assertEmpty($field->getErrors(), "Failure on class: " . get_class($field));
             $this->assertEquals($data, $field->getValidatedData(), "Failure on class: " . get_class($field));
+        }
+
+        /* Multiple-Choice Field */
+        // Field has specified choices, submission does not match available choices
+        foreach ($this->testedFields() as $field) {
+            $field->setChoices(["choice 1", "choice 2"]);
+            $field->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE);
+            $data = (string)rand();
+            $_POST[$field->getSlug()] = [$data];
+
+            $field->validate();
+
+            $this->assertFalse($field->isValid(), "Failure on class: " . get_class($field));
+            $this->assertNotEmpty($field->getErrors(), "Failure on class: " . get_class($field));
+            $this->assertEquals(null, $field->getValidatedData(), "Failure on class: " . get_class($field));
+        }
+
+        // Field has specified choices, submission does match available choices
+        foreach ($this->testedFields() as $field) {
+            $field->setChoices(["choice 1", "choice 2"]);
+            $field->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE);
+            $data = $field->getChoiceSlugs()[0];
+            $_POST[$field->getSlug()] = [$data];
+
+            $field->validate();
+
+            $this->assertTrue($field->isValid(), "Failure on class: " . get_class($field));
+            $this->assertEmpty($field->getErrors(), "Failure on class: " . get_class($field));
+            $this->assertContains($data, $field->getValidatedData(), "Failure on class: " . get_class($field));
         }
     }
 }
