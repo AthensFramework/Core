@@ -21,10 +21,10 @@ class StringUtils {
         // Replace non-alpha-numerics with dashes
         $string = strtolower(preg_replace(array('/[^a-zA-Z0-9 -]/','/[ -]+/','/^-|-$/'),array('','-',''), $string));
 
-        // Trim numbers and dashes from the left side of the string
-        $string = ltrim($string, "0123456789-");
+        // Trim dashes from the left side of the string
+        $string = ltrim($string, "-");
 
-        // Trim dashes from the right side oft he string
+        // Trim dashes from the right side of the string
         $string = rtrim($string, '-');
 
         return $string;
