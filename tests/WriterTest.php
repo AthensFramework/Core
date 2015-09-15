@@ -409,4 +409,18 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $result = $env->createTemplate($template)->render(["var" => $var]);
         $this->assertEquals(StringUtils::slugify($var), $result);
     }
+
+    public function testRequestURIGlobal() {
+        $requestURI = (string)rand();
+        $_SERVER["REQUEST_URI"] = $requestURI;
+
+        $writer = new SimpleMockWriter();
+        $env = $writer->getEnvironment();
+
+        $template = "{{ requestURI }}";
+
+        // Render the unsafe string
+        $result = $env->createTemplate($template)->render([]);
+        $this->assertEquals($requestURI, $result);
+    }
 }

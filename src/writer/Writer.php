@@ -53,6 +53,9 @@ class Writer extends Visitor {
                     return $string;
                 });
             $this->_environment->addFilter($filter);
+
+            $requestURI = array_key_exists("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : "";
+            $this->_environment->addGlobal("requestURI", $requestURI);
         }
 
         return $this->_environment;
