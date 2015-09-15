@@ -41,6 +41,9 @@ class Writer extends Visitor {
             $filter = new Twig_SimpleFilter('slugify', function($string) { return StringUtils::slugify($string); });
             $this->_environment->addFilter($filter);
 
+            $filter = new Twig_SimpleFilter('md5', function($string) { return md5($string); });
+            $this->_environment->addFilter($filter);
+
             $filter = new Twig_SimpleFilter(
                 'saferaw',
                 function($string) {

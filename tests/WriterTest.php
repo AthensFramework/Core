@@ -410,6 +410,19 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(StringUtils::slugify($var), $result);
     }
 
+    public function testMD5Filter() {
+        $writer = new SimpleMockWriter();
+        $env = $writer->getEnvironment();
+
+        $template = "{{ var|md5 }}";
+
+        $var = "^a#%5m4ll3r^^7357!@ 57r1n6";
+
+        // Render the unsafe string
+        $result = $env->createTemplate($template)->render(["var" => $var]);
+        $this->assertEquals(md5($var), $result);
+    }
+
     public function testRequestURIGlobal() {
         $requestURI = (string)rand();
         $_SERVER["REQUEST_URI"] = $requestURI;
