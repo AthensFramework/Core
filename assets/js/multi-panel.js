@@ -48,7 +48,7 @@ uwdoem.multi_panel = (function() {
 
             $.get( targetURL, function( data ) {
                 targetDiv.html( data );
-                UWDOEMAjax.doPostSectionActions(targetDiv);
+                uwdoem.ajax_section.doPostSectionActions(targetDiv);
             });
         }
     };
