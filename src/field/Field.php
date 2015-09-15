@@ -242,8 +242,21 @@ class Field implements FieldInterface {
             $this->addError("This field is required.");
         }
 
-        if (sizeof($this->getChoices()) > 0 && array_search($data, $this->getChoiceSlugs()) === false) {
-            $this->addError("The value of this field must be one of: " . implode(", ", $this->getChoices()) . ".");
+        if ($this->wasSubmitted()) {
+
+            if ($this->getType() === static::FIELD_TYPE_CHOICE && array_search($data, $this->getChoiceSlugs()) === false) {
+                $this->addError("The value of this field must be one of: " . implode(", ", $this->getChoices()) . ".");
+            }
+
+            if ($this->getType() === static::FIELD_TYPE_MULTIPLE_CHOICE ) {
+                foreach($data as $choice) {
+                    if (array_search($choice, $this->getChoiceSlugs()) === false) {
+                        $this->addError("The value of this field must be one of: " . implode(", ", $this->getChoices()) . ".");
+                        break;
+                    }
+                }
+
+            }
         }
 
         if (!$this->getErrors()) {
