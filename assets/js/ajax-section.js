@@ -137,9 +137,6 @@ uwdoem.ajax_section = (function() {
         $.get( targetUrl + renderGetVars(id), function( data ) {
             targetDiv.html( data ).css("opacity", 1);
             doPostSectionActions(targetDiv);
-
-            // TODO: Move this to post section actions
-            uwdoem.multi_panel.initMultiPanelButtons();
         });
     };
 
@@ -163,6 +160,7 @@ uwdoem.ajax_section = (function() {
     };
 
     return {
+        doPostSectionActions: doPostSectionActions,
         registerPostSectionAction: registerPostSectionAction,
         loadSection: loadSection,
         registerGetVar: registerGetVar,
