@@ -242,26 +242,44 @@ class Field implements FieldInterface {
             $this->addError("This field is required.");
         }
 
-        if ($this->wasSubmitted()) {
-
-            if ($this->getType() === static::FIELD_TYPE_CHOICE && array_search($data, $this->getChoiceSlugs()) === false) {
-                $this->addError("The value of this field must be one of: " . implode(", ", $this->getChoices()) . ".");
-            }
-
-            if ($this->getType() === static::FIELD_TYPE_MULTIPLE_CHOICE ) {
-                foreach($data as $choice) {
-                    if (array_search($choice, $this->getChoiceSlugs()) === false) {
-                        $this->addError("The value of this field must be one of: " . implode(", ", $this->getChoices()) . ".");
-                        break;
-                    }
-                }
-
-            }
+        if ($this->wasSubmitted() && $this->hasChoices()) {
+            $data = $this->validateChoiceField($data);
         }
 
         if (!$this->getErrors()) {
             $this->setValidatedData($data);
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function hasChoices() {
+        return (bool)$this->getChoices();
+    }
+
+    protected function validateChoiceField($data) {
+        $choices = array_combine($this->getChoiceSlugs(), $this->getChoices());
+
+        if ($this->getType() === static::FIELD_TYPE_CHOICE) {
+            $data = [$data];
+        }
+
+        $result = [];
+        foreach($data as $choiceSlug) {
+            $choice = array_key_exists($choiceSlug, $choices) ? $choices[$choiceSlug] : null;
+
+            if ($choice) {
+                $result[] = $choice;
+            } else {
+                $this->addError("The value of this field must be one of: " .
+                    implode(", ", $this->getChoices()) . ".");
+                break;
+            }
+        }
+
+        return implode("; ", $result);
+
     }
 
     /**

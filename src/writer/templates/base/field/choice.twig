@@ -3,7 +3,7 @@
 
     {% if choices|length <= 2 %}
         {% for choiceSlug, choice in choices %}
-        <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choiceSlug == initial %}checked{% endif %}> {{ choice }}
+        <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choice == initial %}checked{% endif %}> {{ choice }}
         {% endfor %}
     {% else %}
         <select>

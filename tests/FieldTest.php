@@ -320,14 +320,17 @@ class FieldTest extends PHPUnit_Framework_TestCase
         foreach ($this->testedFields() as $field) {
             $field->setChoices(["choice 1", "choice 2"]);
             $field->setType(Field::FIELD_TYPE_CHOICE);
-            $data = $field->getChoiceSlugs()[0];
-            $_POST[$field->getSlug()] = $data;
+
+            $choice = $field->getChoices()[0];
+            $slug = $field->getChoiceSlugs()[0];
+
+            $_POST[$field->getSlug()] = $slug;
 
             $field->validate();
 
             $this->assertTrue($field->isValid(), "Failure on class: " . get_class($field));
             $this->assertEmpty($field->getErrors(), "Failure on class: " . get_class($field));
-            $this->assertEquals($data, $field->getValidatedData(), "Failure on class: " . get_class($field));
+            $this->assertEquals($choice, $field->getValidatedData(), "Failure on class: " . get_class($field));
         }
 
         /* Multiple-Choice Field */
@@ -349,14 +352,17 @@ class FieldTest extends PHPUnit_Framework_TestCase
         foreach ($this->testedFields() as $field) {
             $field->setChoices(["choice 1", "choice 2"]);
             $field->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE);
-            $data = $field->getChoiceSlugs()[0];
-            $_POST[$field->getSlug()] = [$data];
+
+            $choice = $field->getChoices()[0];
+            $slug = $field->getChoiceSlugs()[0];
+
+            $_POST[$field->getSlug()] = [$slug];
 
             $field->validate();
 
             $this->assertTrue($field->isValid(), "Failure on class: " . get_class($field));
             $this->assertEmpty($field->getErrors(), "Failure on class: " . get_class($field));
-            $this->assertContains($data, $field->getValidatedData(), "Failure on class: " . get_class($field));
+            $this->assertContains($choice, $field->getValidatedData(), "Failure on class: " . get_class($field));
         }
     }
 }
