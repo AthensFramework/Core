@@ -512,7 +512,7 @@ div.top-filters {
     margin-top:8px
 }
 
-div.notification-area {
+#notification-area {
     position:fixed;
     width:600px;
     top:30px;
