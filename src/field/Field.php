@@ -72,11 +72,19 @@ class Field implements FieldInterface {
      * @return string
      */
     public function getSubmitted() {
-        if ($this->getType() == "checkbox") {
-            return (string)array_key_exists($this->getSlug(), $_POST);
+        $fieldType = $this->getType();
+
+        if ($fieldType == "checkbox") {
+            $data = (string)array_key_exists($this->getSlug(), $_POST);
         } else {
-            return array_key_exists($this->getSlug(), $_POST) ? $_POST[$this->getSlug()]: "";
+            $data = array_key_exists($this->getSlug(), $_POST) ? $_POST[$this->getSlug()]: "";
         }
+
+        if (in_array($fieldType, [static::FIELD_TYPE_CHOICE, static::FIELD_TYPE_MULTIPLE_CHOICE])){
+            $data = $this->parseChoiceSlugs($data);
+        }
+
+        return $data;
     }
 
     /**
@@ -242,10 +250,6 @@ class Field implements FieldInterface {
             $this->addError("This field is required.");
         }
 
-        if ($this->wasSubmitted() && $this->hasChoices()) {
-            $data = $this->validateChoiceField($data);
-        }
-
         if (!$this->getErrors()) {
             $this->setValidatedData($data);
         }
@@ -258,27 +262,25 @@ class Field implements FieldInterface {
         return (bool)$this->getChoices();
     }
 
-    protected function validateChoiceField($data) {
+    protected function parseChoiceSlugs($slugs) {
         $choices = array_combine($this->getChoiceSlugs(), $this->getChoices());
 
         if ($this->getType() === static::FIELD_TYPE_CHOICE) {
-            $data = [$data];
+            $slugs = [$slugs];
         }
 
         $result = [];
-        foreach($data as $choiceSlug) {
-            $choice = array_key_exists($choiceSlug, $choices) ? $choices[$choiceSlug] : null;
-
-            if ($choice) {
-                $result[] = $choice;
-            } else {
-                $this->addError("The value of this field must be one of: " .
-                    implode(", ", $this->getChoices()) . ".");
-                break;
+        foreach($slugs as $choiceSlug) {
+            if (array_key_exists($choiceSlug, $choices)) {
+                $result[] = $choices[$choiceSlug];
             }
         }
 
-        return implode("; ", $result);
+        if ($this->getType() === static::FIELD_TYPE_CHOICE) {
+            $result = $result[0];
+        }
+
+        return $result;
 
     }
 
