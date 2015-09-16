@@ -209,6 +209,9 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         // Assert that the result does display errors
         $this->assertContains("form-errors", $result);
+
+        // Assert that form has been given the class has-errors
+        $this->assertContains("class=prevent-double-submit has-errors", $result);
     }
 
     public function testVisitSection() {
