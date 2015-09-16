@@ -6,7 +6,7 @@
         <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choice == initial %}checked{% endif %}> {{ choice }}
         {% endfor %}
     {% else %}
-        <select>
+        <select name="{{ slug }}">
             <option {% if required %}disabled{% endif %}></option>
         {% for choiceSlug, choice in choices %}
             <option value="{{ choiceSlug }}" {% if choiceSlug == initial %}selected{% endif %}> {{ choice }} </option>
