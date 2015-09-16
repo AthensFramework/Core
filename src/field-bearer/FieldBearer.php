@@ -2,6 +2,8 @@
 
 namespace UWDOEM\Framework\FieldBearer;
 
+use UWDOEM\Framework\Visitor\VisitableTrait;
+
 
 class FieldBearer implements FieldBearerInterface {
 
@@ -29,6 +31,8 @@ class FieldBearer implements FieldBearerInterface {
      * @var callable
      */
     protected $_saveFunction;
+
+    use VisitableTrait;
 
     public function __construct($fields, $fieldBearers, $visibleFieldNames, $hiddenFieldNames, $saveFunction) {
         $this->_fields = $fields ? $fields : [];

@@ -35,15 +35,26 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
      * Test that an initializer will init a form from post
      */
     public function testVisitForm() {
-        $_SERVER["REQUEST_METHOD"] = "POST";
+        $form = $this->makeMockForm();
         $initializer = new Initializer();
 
-        $form = $this->makeMockForm();
+        $_SERVER["REQUEST_METHOD"] = "POST";
+
+        // Assert that the form's fields do not yet have suffixes
+        $this->assertEmpty($form->getFieldBearer()->getFields()[0]->getSuffixes());
+
+        // Assert that the form has not yet been validated
         $this->assertEquals("", $form->result);
 
+        // Visit the form with the initializer
         $initializer->visitForm($form);
 
+        // Assert that the form has been validated
         $this->assertEquals("valid", $form->result);
+
+        // Assert that the form's fields have been given prefixes
+        $this->assertNotEmpty($form->getFieldBearer()->getFields()[0]->getSuffixes());
+
     }
 
     /**
@@ -86,5 +97,32 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals("valid", $form->result);
 
+    }
+
+    public function testVisitFieldBearer() {
+        $initializer = new Initializer();
+
+        $field1 = new Field("literal", "A literal field", []);
+        $field2 = new Field("literal", "A literal field", []);
+
+        $fieldBearer1 = FieldBearerBuilder::begin()
+            ->addFields([$field1])
+            ->build();
+
+        $fieldBearer2 = FieldBearerBuilder::begin()
+            ->addFields([$field2])
+            ->addFieldBearers([$fieldBearer1])
+            ->build();
+
+        // Assert that the fields do not yet have suffixes
+        $this->assertEmpty($field1->getSuffixes());
+        $this->assertEmpty($field2->getSuffixes());
+
+        // Visit the field bearer tree
+        $initializer->visitFieldBearer($fieldBearer2);
+
+        // Assert that the fields now have suffixes
+        $this->assertNotEmpty($field1->getSuffixes());
+        $this->assertNotEmpty($field2->getSuffixes());
     }
 }
