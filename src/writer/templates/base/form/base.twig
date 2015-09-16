@@ -1,4 +1,6 @@
-<form id={{ visibleFields|keys|join|md5 }} class="prevent-double-submit" method="post" target="_self" data-request-uri="{{ requestURI }}">
+<form id={{ visibleFields|keys|join|md5 }}
+      class="prevent-double-submit {% if errors is not empty %}has-errors{% endif %}"
+      method="post" target="_self" data-request-uri="{{ requestURI }}">
 
     {%  if errors is not empty %}
     <span class=form-errors><br>
