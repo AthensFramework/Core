@@ -127,8 +127,8 @@ class Form implements FormInterface {
         callable $onValidFunc,
         callable $onInvalidFunc,
         $actions = [],
-        $validators = [])
-    {
+        $validators = []) {
+
         $this->_actions = $actions;
         $this->_fieldBearer = $fieldBearer;
 
