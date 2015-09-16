@@ -158,7 +158,7 @@ class FormBuilder {
             $this->_onInvalidFunc = function (FormInterface $thisForm) {
                 foreach ($thisForm->getFieldBearer()->getFields() as $field) {
                     if (array_key_exists($field->getSlug(), $_POST) && $field->getType() !== "literal") {
-                        $field->setInitial($_POST[$field->getSlug()]);
+                        $field->setInitial($field->getSubmitted());
                     }
                 }
             };
