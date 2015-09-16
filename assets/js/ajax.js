@@ -60,11 +60,31 @@ uwdoem.ajax = (function() {
         }
         
         var doneFunction = function(msg) {
+            var formResult, hasErrors;
+
             try {
-                $(form).replaceWith($("<div>" + msg + "</div>").find("#" + formId));
-                document.getElementById(formId).scrollIntoView();
-                uwdoem.alert.makeAlert("success", "Form subitted.");
-                successCallback();
+                formResult = $("<div>" + msg + "</div>").find("#" + formId);
+                hasErrors = formResult.hasClass("has-errors");
+
+                // TODO: Make form set fields to submitted on successful submit, eliminate this js hack
+                if (!hasErrors) {
+                    $.ajax({
+                        type: "GET",
+                        url: url
+                    }).done(function(getMsg) {
+                        uwdoem.alert.makeAlert("success", "Form subitted.");
+                        formResult = $("<div>" + getMsg + "</div>").find("#" + formId);
+                        $(form).replaceWith(formResult);
+                        document.getElementById(formId).scrollIntoView();
+                    });
+
+                } else {
+
+                    $(form).replaceWith(formResult);
+                    document.getElementById(formId).scrollIntoView();
+                    uwdoem.alert.makeAlert("failure", "Form has errors.");
+                    successCallback();
+                }
             } catch(err) {
                 uwdoem.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
             }
