@@ -246,6 +246,11 @@ class Field implements FieldInterface {
 
         $data = $this->wasSubmitted() ? $this->getSubmitted() : null;
 
+        // Invalid selection on choice/multiple choice field
+        if ($data === []) {
+            $this->addError("Unrecognized choice.");
+        }
+
         if ($this->isRequired() && is_null($data)) {
             $this->addError("This field is required.");
         }
@@ -276,7 +281,7 @@ class Field implements FieldInterface {
             }
         }
 
-        if ($this->getType() === static::FIELD_TYPE_CHOICE) {
+        if ($this->getType() === static::FIELD_TYPE_CHOICE && !empty($result)) {
             $result = $result[0];
         }
 
