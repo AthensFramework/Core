@@ -5,6 +5,7 @@ namespace UWDOEM\Framework\Form;
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
+use UWDOEM\Framework\Field\Field;
 
 
 class FormBuilder {
@@ -157,7 +158,8 @@ class FormBuilder {
 
             $this->_onInvalidFunc = function (FormInterface $thisForm) {
                 foreach ($thisForm->getFieldBearer()->getFields() as $field) {
-                    if (array_key_exists($field->getSlug(), $_POST) && $field->getType() !== "literal") {
+
+                    if ($field->getType() !== Field::FIELD_TYPE_LITERAL) {
                         $field->setInitial($field->getSubmitted());
                     }
                 }
