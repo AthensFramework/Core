@@ -48,18 +48,37 @@ uwdoem.ajax = (function() {
 
 
     function AjaxSubmitForm(form, successCallback) {
-        var formVars = $(form).serializeArray();
-        var url = $(form).data("request-uri");
-        var formId = $(form).attr('id');
+        var formVars, url, formId, postVars, fieldName;
+        var doneFunction, isMultipleChoiceFieldName;
 
-        var postVars = {};
+        isMultipleChoiceFieldName = function(fieldName) {
+            return fieldName.indexOf("[]") !== -1;
+        };
+
+        formVars = $(form).serializeArray();
+        url = $(form).data("request-uri");
+        formId = $(form).attr('id');
+
+        postVars = {};
         for (var i = 0; i < formVars.length; i++) {
             if (formVars[i].value) {
-                postVars[formVars[i].name] = formVars[i].value;
+                fieldName = formVars[i].name;
+
+                if (isMultipleChoiceFieldName(fieldName)) {
+                    fieldName = fieldName.replace("[]", "");
+
+                    if (!postVars.hasOwnProperty(fieldName)) {
+                        postVars[fieldName] = [];
+                    }
+
+                    postVars[fieldName].push(formVars[i].value)
+                } else {
+                    postVars[fieldName] = formVars[i].value;
+                }
             }
         }
         
-        var doneFunction = function(msg) {
+        doneFunction = function(msg) {
             var formResult, hasErrors;
 
             try {
