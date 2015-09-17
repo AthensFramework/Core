@@ -32,7 +32,7 @@ Instructions to follow.
 Compatibility
 =============
 
-* PHP 5.4, 5.5, 5.6
+* PHP 5.5, 5.6, 7.0
 
 Todo
 ====
