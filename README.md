@@ -8,6 +8,8 @@ UWDOEM/Framework
 
 Instructions to follow.
 
+![Framework in action](assets/images/demo.png)
+
 
 Installation
 ===============
