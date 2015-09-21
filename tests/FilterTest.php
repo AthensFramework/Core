@@ -62,14 +62,16 @@ class FilterTest extends PHPUnit_Framework_TestCase {
     public function testBuildPaginationFilter() {
         $paginateBy = rand();
         $handle = (string)rand();
+        $type = Filter::TYPE_PAGINATION;
 
         $filter = FilterBuilder::begin()
-            ->setType(Filter::TYPE_PAGINATION)
+            ->setType($type)
             ->setHandle($handle)
             ->setPaginateBy($paginateBy)
             ->build();
 
         $this->assertEquals($handle, $filter->getHandle());
+        $this->assertEquals($type, $filter->getType());
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
         $statement = $filter->getStatements()[0];
@@ -81,6 +83,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
     public function testBuildPaginationFilterUsesPaginateSetting() {
         $paginateBy = rand();
         $handle = (string)rand();
+        $type = Filter::TYPE_PAGINATION;
 
         // Store the current default pagination
         $defaultPagination = Settings::getDefaultPagination();
@@ -89,12 +92,14 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         Settings::setDefaultPagination($paginateBy);
 
         $filter = FilterBuilder::begin()
-            ->setType(Filter::TYPE_PAGINATION)
+            ->setType($type)
             ->setHandle($handle)
             ->build();
 
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
+        $this->assertEquals($handle, $filter->getHandle());
+        $this->assertEquals($type, $filter->getType());
         $statement = $filter->getStatements()[0];
 
         $this->assertEquals(FilterStatement::COND_PAGINATE_BY, $statement->getCondition());

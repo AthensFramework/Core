@@ -31,14 +31,16 @@ class Filter implements FilterInterface {
      * @param FilterInterface|null $nextFilter
      */
     public function __construct($handle, $type, array $statements, FilterInterface $nextFilter = null) {
-        $this->_statements = $statements;
 
         if (is_null($nextFilter)) {
             $this->_nextFilter = new DummyFilter();
         } else {
             $this->_nextFilter = $nextFilter;
         }
+
         $this->_handle = $handle;
+        $this->_statements = $statements;
+        $this->_type = $type;
     }
 
     /**
