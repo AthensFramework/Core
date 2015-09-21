@@ -9,7 +9,7 @@ UWDOEM/Framework
 Instructions to follow.
 
 ![Framework in action](assets/images/demo.png)
-
+*Easily create forms and manage submission results.*
 
 Installation
 ===============
