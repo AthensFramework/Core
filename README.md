@@ -16,7 +16,7 @@ Applications built within *Framework* are:
 
   1. Legible  
   
-     *Framework* separates declaring *what elements be on a page* from *what those elements should look like* and the logic of *how those elements should behave*. Under this model, creating a page is not much more complicated than simply listing the presentational elements that should be present.  
+     *Framework* separates declaring *what elements shall be on a page* from *what those elements should look like* and the logic of *how those elements should behave*. Under this model, creating a page is not much more complicated than simply listing the presentational elements that should be present.  
   
   2. Extensible  
   
