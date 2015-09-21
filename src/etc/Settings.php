@@ -10,7 +10,8 @@ class Settings {
         "projectJS" => [],
         "projectCSS" => [],
         "defaultWriterClass" => '\UWDOEM\Framework\Writer\Writer',
-        "defaultInitializerClass" => '\UWDOEM\Framework\Initializer\Initializer'
+        "defaultInitializerClass" => '\UWDOEM\Framework\Initializer\Initializer',
+        "defaultPagination" => 12
     ];
 
     protected function __construct() {}
@@ -58,6 +59,17 @@ class Settings {
 
     public static function getProjectCSS() {
         return static::getSetting("projectCSS");
+    }
+
+    public static function getDefaultPagination() {
+        return static::getSetting("defaultPagination");
+    }
+
+    /**
+     * @param int $value The default number of rows per page to display, when paginating
+     */
+    public static function setDefaultPagination($value) {
+        static::$settings["defaultPagination"] = $value;
     }
 
     protected static function getSetting($key) {

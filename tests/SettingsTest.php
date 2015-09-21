@@ -8,6 +8,7 @@ class MockSettings extends Settings {
         static::$settings["templateDirectories"] = [];
         static::$settings["projectCSS"] = [];
         static::$settings["projectJS"] = [];
+        static::$settings["defaultPagination"] = 12;
     }
 }
 
@@ -57,6 +58,18 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($file1, $result);
         $this->assertContains($file2, $result);
         $this->assertEquals(2, sizeof($result));
+
+        MockSettings::clear();
+    }
+
+    public function testSetDefaultPagination() {
+        $value = rand();
+
+        MockSettings::setDefaultPagination($value);
+
+        $result = MockSettings::getDefaultPagination();
+
+        $this->assertEquals($value, $result);
 
         MockSettings::clear();
     }
