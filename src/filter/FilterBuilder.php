@@ -144,7 +144,7 @@ class FilterBuilder {
             throw new \Exception("Invalid filter type.");
         }
 
-        return new Filter($type, $statements);
+        return new Filter($handle, $type, $statements);
     }
 
 

@@ -17,7 +17,7 @@ class Filter implements FilterInterface {
     protected $_type;
     protected $_feedback;
     protected $_statements;
-    protected $_name;
+    protected $_handle;
 
     /**
      * @var FilterInterface The next filter in this chain
@@ -25,11 +25,12 @@ class Filter implements FilterInterface {
     protected $_nextFilter;
 
     /**
+     * @param $handle
      * @param $type
      * @param FilterStatementInterface[] $statements
      * @param FilterInterface|null $nextFilter
      */
-    public function __construct($type, array $statements, FilterInterface $nextFilter = null) {
+    public function __construct($handle, $type, array $statements, FilterInterface $nextFilter = null) {
         $this->_statements = $statements;
 
         if (is_null($nextFilter)) {
@@ -37,6 +38,7 @@ class Filter implements FilterInterface {
         } else {
             $this->_nextFilter = $nextFilter;
         }
+        $this->_handle = $handle;
     }
 
     /**
@@ -67,8 +69,8 @@ class Filter implements FilterInterface {
     /**
      * @return string
      */
-    public function getName() {
-        return $this->_name;
+    public function getHandle() {
+        return $this->_handle;
     }
 
     /**

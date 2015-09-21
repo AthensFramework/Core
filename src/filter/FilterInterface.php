@@ -23,7 +23,7 @@ interface FilterInterface {
     /**
      * @return string
      */
-    function getName();
+    function getHandle();
 
     /**
      * @return FilterInterface

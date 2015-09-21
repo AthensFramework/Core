@@ -49,6 +49,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->setCriterion($criterion)
             ->build();
 
+        $this->assertEquals($handle, $filter->getHandle());
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
         $statement = $filter->getStatements()[0];
@@ -68,6 +69,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->setPaginateBy($paginateBy)
             ->build();
 
+        $this->assertEquals($handle, $filter->getHandle());
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
         $statement = $filter->getStatements()[0];
