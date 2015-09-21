@@ -2,9 +2,6 @@
 
 namespace UWDOEM\Framework\Filter;
 
-use UWDOEM\Framework\Row\RowInterface;
-use Propel\Runtime\ActiveQuery\PropelQuery;
-
 
 interface FilterInterface {
 
@@ -14,28 +11,23 @@ interface FilterInterface {
     function combine(FilterInterface $filter);
 
     /**
+     * @return string
+     */
+    function getType();
+
+    /**
      * @return string[]
      */
     function getFeedback();
 
     /**
-     * @param array $filterArgs
-     * @param RowInterface[] $rows
-     * @return RowInterface[]
+     * @return string
      */
-    function rowFilter(array $filterArgs, array $rows);
+    function getName();
 
     /**
-     * @param array $filterArgs
-     * @param PropelQuery $query
-     * @return PropelQuery
+     * @return FilterInterface
      */
-    function queryFilter(array $filterArgs, PropelQuery $query);
-
-    /**
-     * Returns True if this filter/set of filters has encrypted fields, false otherwise
-     * @return Boolean
-     */
-    function hasEncryptedFields();
+    function getNextFilter();
 
 }

@@ -6,7 +6,7 @@ use Propel\Runtime\ActiveQuery\PropelQuery;
 use UWDOEM\Framework\Row\RowInterface;
 
 
-abstract class AbstractFilter implements FilterInterface {
+class Filter implements FilterInterface {
     
     const COND_SORT_ASC = 1;
     const COND_SORT_DESC = 2;
@@ -23,8 +23,9 @@ abstract class AbstractFilter implements FilterInterface {
     const TYPE_STATIC = "static";
     const TYPE_PAGINATION = "pagination";
 
+    protected $_type;
     protected $_feedback;
-    protected $_arguments;
+    protected $_statements;
     protected $_name;
 
     /**
@@ -33,15 +34,15 @@ abstract class AbstractFilter implements FilterInterface {
     protected $_nextFilter;
 
     /**
-     * Place a dummy filter on the end of this filter chain, if no filter exists
-     *
-     * @param FilterInterface|null $filter
+     * @param $type
+     * @param FilterStatementInterface[] $statements
+     * @param FilterInterface|null $nextFilter
      */
-    public function __construct(FilterInterface $filter = null) {
-        if (is_null($filter)) {
+    public function __construct($type, array $statements, FilterInterface $nextFilter = null) {
+        if (is_null($nextFilter)) {
             $this->_nextFilter = new DummyFilter();
         } else {
-            $this->_nextFilter = $filter;
+            $this->_nextFilter = $nextFilter;
         }
     }
 
@@ -52,6 +53,13 @@ abstract class AbstractFilter implements FilterInterface {
         $feedback = array_merge($this->getFeedback(), $this->_nextFilter->getFeedback());
 
         return array_merge([$this->_feedback], $feedback);
+    }
+
+    /**
+     * @return string
+     */
+    public function getType() {
+        return $this->_type;
     }
 
     /**
@@ -70,6 +78,13 @@ abstract class AbstractFilter implements FilterInterface {
         return $this->_name;
     }
 
+    /**
+     * @return null|FilterInterface
+     */
+    function getNextFilter() {
+        return $this->_nextFilter;
+    }
+
 
 
 }
@@ -78,7 +93,7 @@ abstract class AbstractFilter implements FilterInterface {
  * Class DummyFilter Filter class to sit at the end of a chain of filters. Provides no filtering.
  * @package OSFAFramework\Table\Filter
  */
-class DummyFilter extends AbstractFilter {
+class DummyFilter extends Filter {
     function getFeedback() {
         return [];
     }
