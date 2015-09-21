@@ -46,7 +46,7 @@ This library is published on packagist. To install using Composer, add the "uwdo
 }
 ```
 
-Because Framework depends on multiple other libraries, it is *highly* recommended that you use Composer to install this library.
+Because Framework depends on multiple other libraries, it is *highly* recommended that you use [Composer](https://getcomposer.org/) to install this library and manage dependencies.
 
 Use
 ===
