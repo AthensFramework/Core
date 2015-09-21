@@ -30,6 +30,8 @@ class Filter implements FilterInterface {
      * @param FilterInterface|null $nextFilter
      */
     public function __construct($type, array $statements, FilterInterface $nextFilter = null) {
+        $this->_statements = $statements;
+
         if (is_null($nextFilter)) {
             $this->_nextFilter = new DummyFilter();
         } else {
@@ -75,6 +77,15 @@ class Filter implements FilterInterface {
     function getNextFilter() {
         return $this->_nextFilter;
     }
+
+    /**
+     * @return FilterStatement[]
+     */
+    public function getStatements() {
+        return $this->_statements;
+    }
+
+
 
 
 

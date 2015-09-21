@@ -30,4 +30,10 @@ interface FilterInterface {
      */
     function getNextFilter();
 
+    /**
+     * @return FilterStatementInterface[]
+     */
+    function getStatements();
+
+
 }
