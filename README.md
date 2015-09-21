@@ -6,10 +6,25 @@
 UWDOEM/Framework
 =============
 
-Instructions to follow.
+*Framework* is a modern web framework built within the Unviversity of Washington's Office of Student Financial Aid. Pages built within *Framework* are:
 
-![Framework in action](assets/images/demo.png)
-*Easily create forms and manage submission results.*
+  1. Legible  
+  
+     *Framework* separates declaring *what elements be on a page* from *what those elements should look like* and the logic of *how those elements should behave*. Under this model, creating a page is not much more complicated than simply listing the presentational elements that should be present.  
+  
+  2. Extensible  
+  
+    This separation of concerns also promotes reusability of components: a web-displayed table can be turned into Excel by changing a single line of code; a web-displayed form can be presented as a PDF by changing a single line of code. Adding a column to a table takes only one line, and in most cases *Framework* will be able to populate that column from the database without any further instruction.
+  
+  3. Secure
+
+    *Framework* automatically provides strong protection a number of web attacks, including CSRF, XSS, and database injection.  
+    
+    *Framework* also provides easy, seamless encryption for sensitive student information. Encrypting a database column requires a simple declaration in your model schema for each data-field you want to protect. Calls to and from the database on that encrypted data are transparent; *Framework* knows which fields are encrypted and handles the encryption/decryption behind the scenes.
+    
+![Framework in action](assets/images/demo.png)  
+*Easily create forms and manage submission results*
+
 
 Installation
 ===============
@@ -44,7 +59,7 @@ See GitHub [issue tracker](https://github.com/UWEnrollmentManagement/Framework/i
 License
 ====
 
-Employees of the University of Washington may use this code in any capacity, without reservation.
+Employees of the University of Washington may use this code in any capacity, without reservation. This code is provided in the hope that it may be useful. However, providing does not imply that any organization involved in its creation or provision will provide support or assume liability for its use.
 
 Getting Involved
 ================
