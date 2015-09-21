@@ -6,7 +6,12 @@
 UWDOEM/Framework
 =============
 
-*Framework* is a modern web framework built within the Unviversity of Washington's Office of Student Financial Aid. Pages built within *Framework* are:
+*Framework* is a modern PHP web framework built within the Unviversity of Washington's Office of Student Financial Aid.
+
+![Framework in action](assets/images/demo.png)  
+*Easily create forms and manage submission results in* Framework *created web-applications*
+
+Applications built within *Framework* are:
 
   1. Legible  
   
@@ -18,28 +23,29 @@ UWDOEM/Framework
   
   3. Secure
 
-    *Framework* automatically provides strong protection a number of web attacks, including CSRF, XSS, and database injection.  
+    *Framework* automatically provides strong protection against a number of web attacks, including CSRF, XSS, and database injection.  
     
     *Framework* also provides easy, seamless encryption for sensitive student information. Encrypting a database column requires a simple declaration in your model schema for each data-field you want to protect. Calls to and from the database on that encrypted data are transparent; *Framework* knows which fields are encrypted and handles the encryption/decryption behind the scenes.
     
-![Framework in action](assets/images/demo.png)  
-*Easily create forms and manage submission results*
+  4. Pretty  
+
+    *Framework* includes page templates derived from the University of Washington's Boundless theme and styling. Additional user-interface elements extend that brand's base functionality. And these default templates can be easily overridden with custom themes to implement your own department or organization's brand.
 
 
 Installation
 ===============
 
-This library is published on packagist. To install using Composer, add the "uwdoem/encryption": ">=0.1" line to your "require" dependencies:
+This library is published on packagist. To install using Composer, add the "uwdoem/encryption": ">=0.2" line to your "require" dependencies:
 
 ```
 {
     "require": {
-        "uwdoem/framework": ">=0.1"
+        "uwdoem/framework": ">=0.2"
     }
 }
 ```
 
-Because Framework relies on multiple other libraries, it is *highly* recommended that you use Composer to install this library.
+Because Framework depends on multiple other libraries, it is *highly* recommended that you use Composer to install this library.
 
 Use
 ===
