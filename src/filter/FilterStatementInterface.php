@@ -11,8 +11,9 @@ interface FilterStatementInterface {
     const COND_GREATER_THAN = 4;
     const COND_EQUAL_TO = 5;
     const COND_NOT_EQUAL_TO = 6;
-    const COND_TRUTHY = 7;
-    const COND_FALSEY = 8;
+    const COND_PAGINATE_BY = 7;
+    const COND_TRUTHY = 8;
+    const COND_FALSEY = 9;
 
     /**
      * @return string
