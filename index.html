@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Framework by UWEnrollmentManagement</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Framework</h1>
+        <p class="header">A modern web framework for PHP at UW.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/UWEnrollmentManagement/Framework/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/UWEnrollmentManagement/Framework/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/UWEnrollmentManagement/Framework">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/UWEnrollmentManagement">UWEnrollmentManagement</a></p>
+
+
+      </header>
+      <section>
+        <p><a href="https://travis-ci.org/UWEnrollmentManagement/Framework"><img src="https://travis-ci.org/UWEnrollmentManagement/Framework.svg?branch=master" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/UWEnrollmentManagement/Framework"><img src="https://codeclimate.com/github/UWEnrollmentManagement/Framework/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/UWEnrollmentManagement/Framework/coverage"><img src="https://codeclimate.com/github/UWEnrollmentManagement/Framework/badges/coverage.svg" alt="Test Coverage"></a>
+<a href="https://packagist.org/packages/uwdoem/framework"><img src="https://poser.pugx.org/uwdoem/framework/v/stable" alt="Latest Stable Version"></a></p>
+
+<h1>
+<a id="uwdoemframework" class="anchor" href="#uwdoemframework" aria-hidden="true"><span class="octicon octicon-link"></span></a>UWDOEM/Framework</h1>
+
+<p><em>Framework</em> is a modern PHP web framework built within the University of Washington's Office of Student Financial Aid.  </p>
+
+<p><br>
+<img src="assets/images/demo.png" alt="Framework in action"><br>
+<em>Easily create forms and manage submission results in</em> Framework <em>created web-applications</em></p>
+
+<p>Applications built within <em>Framework</em> are:</p>
+
+<ol>
+<li>
+<p>Legible  </p>
+
+<p><em>Framework</em> separates declaring <em>what elements shall be on a page</em> from <em>what those elements should look like</em> and the logic of <em>how those elements should behave</em>. Under this model, creating a page is not much more complicated than simply listing the presentational elements that should be present.  </p>
+</li>
+<li>
+<p>Extensible  </p>
+
+<p>This separation of concerns also promotes reusability of components: a web-displayed table can be turned into Excel by changing a single line of code; a web-displayed form can be presented as a PDF by changing a single line of code. Adding a column to a table takes only one line, and in most cases <em>Framework</em> will be able to populate that column from the database without any further instruction.</p>
+</li>
+<li>
+<p>Secure</p>
+
+<p><em>Framework</em> automatically provides strong protection against a number of web attacks, including CSRF, XSS, and database injection.  </p>
+
+<p><em>Framework</em> also provides easy, seamless encryption for sensitive student information. Encrypting a database column requires a simple declaration in your model schema for each data-field you want to protect. Calls to and from the database on that encrypted data are transparent; <em>Framework</em> knows which fields are encrypted and handles the encryption/decryption behind the scenes.</p>
+</li>
+<li>
+<p>Pretty  </p>
+
+<p><em>Framework</em> includes page templates derived from the University of Washington's Boundless theme and styling. Additional user-interface elements extend that brand's base functionality. And these default templates can be easily overridden with custom themes to implement your own department or organization's brand.</p>
+</li>
+</ol>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>This library is published on packagist. To install using Composer, add the "uwdoem/encryption": "&gt;=0.2" line to your "require" dependencies:</p>
+
+<pre><code>{
+    "require": {
+        "uwdoem/framework": "&gt;=0.2"
+    }
+}
+</code></pre>
+
+<p>Because Framework depends on multiple other libraries, it is <em>highly</em> recommended that you use <a href="https://getcomposer.org/">Composer</a> to install this library and manage dependencies.</p>
+
+<h1>
+<a id="use" class="anchor" href="#use" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use</h1>
+
+<p>Instructions to follow.</p>
+
+<h1>
+<a id="compatibility" class="anchor" href="#compatibility" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compatibility</h1>
+
+<ul>
+<li>PHP 5.5, 5.6, 7.0</li>
+</ul>
+
+<h1>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Todo</h1>
+
+<p>See GitHub <a href="https://github.com/UWEnrollmentManagement/Framework/issues/">issue tracker</a>.</p>
+
+<h1>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>Employees of the University of Washington may use this code in any capacity, without reservation. This code is provided in the hope that it may be useful. However, providing does not imply that any organization involved in its creation or provision will provide support or assume liability for its use.</p>
+
+<h1>
+<a id="getting-involved" class="anchor" href="#getting-involved" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Involved</h1>
+
+<p>Feel free to open pull requests or issues. <a href="https://github.com/UWEnrollmentManagement/Framework">GitHub</a> is the canonical location of this project.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
