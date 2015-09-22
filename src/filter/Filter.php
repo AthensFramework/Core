@@ -88,12 +88,8 @@ class Filter implements FilterInterface {
     public function getStatements() {
         return $this->_statements;
     }
-
-
-
-
-
 }
+
 
 /**
  * Class DummyFilter Filter class to sit at the end of a chain of filters. Provides no filtering.
@@ -106,10 +102,6 @@ class DummyFilter extends Filter {
 
     function combine(FilterInterface $filter) {
         return $filter;
-    }
-
-    function hasEncryptedFields() {
-        return false;
     }
 
     function getNextFilter() {
