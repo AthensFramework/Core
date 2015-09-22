@@ -21,4 +21,15 @@
         </behavior>
     </table>
 
+    <table name="test_class_two">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+
+        <column name="field_varchar" type="varchar" size="7" required="false" />
+
+        <column name="test_class_id" type="integer" required="false"/>
+        <foreign-key foreignTable="test_class" phpName="TestClass" refPhpName="TestClassTwo">
+            <reference local="test_class_id" foreign="id"/>
+        </foreign-key>
+    </table>
+
 </database>

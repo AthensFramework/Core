@@ -7,6 +7,7 @@ use \PDO;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -48,6 +49,18 @@ use UWDOEMTest\Map\TestClassTableMap;
  * @method     ChildTestClassQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
  * @method     ChildTestClassQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildTestClassQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
+ * @method     ChildTestClassQuery leftJoinTestClassTwo($relationAlias = null) Adds a LEFT JOIN clause to the query using the TestClassTwo relation
+ * @method     ChildTestClassQuery rightJoinTestClassTwo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the TestClassTwo relation
+ * @method     ChildTestClassQuery innerJoinTestClassTwo($relationAlias = null) Adds a INNER JOIN clause to the query using the TestClassTwo relation
+ *
+ * @method     ChildTestClassQuery joinWithTestClassTwo($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the TestClassTwo relation
+ *
+ * @method     ChildTestClassQuery leftJoinWithTestClassTwo() Adds a LEFT JOIN clause and with to the query using the TestClassTwo relation
+ * @method     ChildTestClassQuery rightJoinWithTestClassTwo() Adds a RIGHT JOIN clause and with to the query using the TestClassTwo relation
+ * @method     ChildTestClassQuery innerJoinWithTestClassTwo() Adds a INNER JOIN clause and with to the query using the TestClassTwo relation
+ *
+ * @method     \UWDOEMTest\TestClassTwoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildTestClass findOne(ConnectionInterface $con = null) Return the first ChildTestClass matching the query
  * @method     ChildTestClass findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTestClass matching the query, or a new ChildTestClass object populated from the query conditions when no match is found
@@ -591,6 +604,79 @@ abstract class TestClassQuery extends ModelCriteria
     {
 
         return $this->addUsingAlias(TestClassTableMap::COL_ENCRYPTED_FIELD, $encryptedField, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \UWDOEMTest\TestClassTwo object
+     *
+     * @param \UWDOEMTest\TestClassTwo|ObjectCollection $testClassTwo the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildTestClassQuery The current query, for fluid interface
+     */
+    public function filterByTestClassTwo($testClassTwo, $comparison = null)
+    {
+        if ($testClassTwo instanceof \UWDOEMTest\TestClassTwo) {
+            return $this
+                ->addUsingAlias(TestClassTableMap::COL_ID, $testClassTwo->getTestClassId(), $comparison);
+        } elseif ($testClassTwo instanceof ObjectCollection) {
+            return $this
+                ->useTestClassTwoQuery()
+                ->filterByPrimaryKeys($testClassTwo->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByTestClassTwo() only accepts arguments of type \UWDOEMTest\TestClassTwo or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the TestClassTwo relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildTestClassQuery The current query, for fluid interface
+     */
+    public function joinTestClassTwo($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('TestClassTwo');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'TestClassTwo');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the TestClassTwo relation TestClassTwo object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \UWDOEMTest\TestClassTwoQuery A secondary query class using the current class as primary query
+     */
+    public function useTestClassTwoQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinTestClassTwo($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'TestClassTwo', '\UWDOEMTest\TestClassTwoQuery');
     }
 
     /**

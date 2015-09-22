@@ -10,6 +10,7 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -17,7 +18,10 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
+use UWDOEMTest\TestClass as ChildTestClass;
 use UWDOEMTest\TestClassQuery as ChildTestClassQuery;
+use UWDOEMTest\TestClassTwo as ChildTestClassTwo;
+use UWDOEMTest\TestClassTwoQuery as ChildTestClassTwoQuery;
 use UWDOEMTest\Map\TestClassTableMap;
 
 /**
@@ -122,12 +126,24 @@ abstract class TestClass implements ActiveRecordInterface
     protected $encrypted_field;
 
     /**
+     * @var        ObjectCollection|ChildTestClassTwo[] Collection to store aggregation of ChildTestClassTwo objects.
+     */
+    protected $collTestClassTwos;
+    protected $collTestClassTwosPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildTestClassTwo[]
+     */
+    protected $testClassTwosScheduledForDeletion = null;
 
     /**
      * Initializes internal state of UWDOEMTest\Base\TestClass object.
@@ -824,6 +840,8 @@ abstract class TestClass implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->collTestClassTwos = null;
+
         } // if (deep)
     }
 
@@ -937,6 +955,24 @@ abstract class TestClass implements ActiveRecordInterface
                 }
 
                 $this->resetModified();
+            }
+
+            if ($this->testClassTwosScheduledForDeletion !== null) {
+                if (!$this->testClassTwosScheduledForDeletion->isEmpty()) {
+                    foreach ($this->testClassTwosScheduledForDeletion as $testClassTwo) {
+                        // need to save related object because we set the relation to null
+                        $testClassTwo->save($con);
+                    }
+                    $this->testClassTwosScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collTestClassTwos !== null) {
+                foreach ($this->collTestClassTwos as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             $this->alreadyInSave = false;
@@ -1148,10 +1184,11 @@ abstract class TestClass implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
         if (isset($alreadyDumpedObjects['TestClass'][$this->hashCode()])) {
@@ -1184,6 +1221,23 @@ abstract class TestClass implements ActiveRecordInterface
             $result[$key] = $virtualColumn;
         }
         
+        if ($includeForeignObjects) {
+            if (null !== $this->collTestClassTwos) {
+                
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'testClassTwos';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'test_class_twos';
+                        break;
+                    default:
+                        $key = 'TestClassTwos';
+                }
+        
+                $result[$key] = $this->collTestClassTwos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+        }
 
         return $result;
     }
@@ -1469,6 +1523,20 @@ abstract class TestClass implements ActiveRecordInterface
         $copyObj->setRequiredField($this->getRequiredField());
         $copyObj->setUnrequiredField($this->getUnrequiredField());
         $copyObj->setEncryptedField($this->getEncryptedField());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getTestClassTwos() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addTestClassTwo($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1495,6 +1563,240 @@ abstract class TestClass implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
+    }
+
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('TestClassTwo' == $relationName) {
+            return $this->initTestClassTwos();
+        }
+    }
+
+    /**
+     * Clears out the collTestClassTwos collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addTestClassTwos()
+     */
+    public function clearTestClassTwos()
+    {
+        $this->collTestClassTwos = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collTestClassTwos collection loaded partially.
+     */
+    public function resetPartialTestClassTwos($v = true)
+    {
+        $this->collTestClassTwosPartial = $v;
+    }
+
+    /**
+     * Initializes the collTestClassTwos collection.
+     *
+     * By default this just sets the collTestClassTwos collection to an empty array (like clearcollTestClassTwos());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initTestClassTwos($overrideExisting = true)
+    {
+        if (null !== $this->collTestClassTwos && !$overrideExisting) {
+            return;
+        }
+        $this->collTestClassTwos = new ObjectCollection();
+        $this->collTestClassTwos->setModel('\UWDOEMTest\TestClassTwo');
+    }
+
+    /**
+     * Gets an array of ChildTestClassTwo objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildTestClass is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildTestClassTwo[] List of ChildTestClassTwo objects
+     * @throws PropelException
+     */
+    public function getTestClassTwos(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collTestClassTwosPartial && !$this->isNew();
+        if (null === $this->collTestClassTwos || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collTestClassTwos) {
+                // return empty collection
+                $this->initTestClassTwos();
+            } else {
+                $collTestClassTwos = ChildTestClassTwoQuery::create(null, $criteria)
+                    ->filterByTestClass($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collTestClassTwosPartial && count($collTestClassTwos)) {
+                        $this->initTestClassTwos(false);
+
+                        foreach ($collTestClassTwos as $obj) {
+                            if (false == $this->collTestClassTwos->contains($obj)) {
+                                $this->collTestClassTwos->append($obj);
+                            }
+                        }
+
+                        $this->collTestClassTwosPartial = true;
+                    }
+
+                    return $collTestClassTwos;
+                }
+
+                if ($partial && $this->collTestClassTwos) {
+                    foreach ($this->collTestClassTwos as $obj) {
+                        if ($obj->isNew()) {
+                            $collTestClassTwos[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collTestClassTwos = $collTestClassTwos;
+                $this->collTestClassTwosPartial = false;
+            }
+        }
+
+        return $this->collTestClassTwos;
+    }
+
+    /**
+     * Sets a collection of ChildTestClassTwo objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $testClassTwos A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildTestClass The current object (for fluent API support)
+     */
+    public function setTestClassTwos(Collection $testClassTwos, ConnectionInterface $con = null)
+    {
+        /** @var ChildTestClassTwo[] $testClassTwosToDelete */
+        $testClassTwosToDelete = $this->getTestClassTwos(new Criteria(), $con)->diff($testClassTwos);
+
+        
+        $this->testClassTwosScheduledForDeletion = $testClassTwosToDelete;
+
+        foreach ($testClassTwosToDelete as $testClassTwoRemoved) {
+            $testClassTwoRemoved->setTestClass(null);
+        }
+
+        $this->collTestClassTwos = null;
+        foreach ($testClassTwos as $testClassTwo) {
+            $this->addTestClassTwo($testClassTwo);
+        }
+
+        $this->collTestClassTwos = $testClassTwos;
+        $this->collTestClassTwosPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related TestClassTwo objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related TestClassTwo objects.
+     * @throws PropelException
+     */
+    public function countTestClassTwos(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collTestClassTwosPartial && !$this->isNew();
+        if (null === $this->collTestClassTwos || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collTestClassTwos) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getTestClassTwos());
+            }
+
+            $query = ChildTestClassTwoQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByTestClass($this)
+                ->count($con);
+        }
+
+        return count($this->collTestClassTwos);
+    }
+
+    /**
+     * Method called to associate a ChildTestClassTwo object to this object
+     * through the ChildTestClassTwo foreign key attribute.
+     *
+     * @param  ChildTestClassTwo $l ChildTestClassTwo
+     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     */
+    public function addTestClassTwo(ChildTestClassTwo $l)
+    {
+        if ($this->collTestClassTwos === null) {
+            $this->initTestClassTwos();
+            $this->collTestClassTwosPartial = true;
+        }
+
+        if (!$this->collTestClassTwos->contains($l)) {
+            $this->doAddTestClassTwo($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildTestClassTwo $testClassTwo The ChildTestClassTwo object to add.
+     */
+    protected function doAddTestClassTwo(ChildTestClassTwo $testClassTwo)
+    {
+        $this->collTestClassTwos[]= $testClassTwo;
+        $testClassTwo->setTestClass($this);
+    }
+
+    /**
+     * @param  ChildTestClassTwo $testClassTwo The ChildTestClassTwo object to remove.
+     * @return $this|ChildTestClass The current object (for fluent API support)
+     */
+    public function removeTestClassTwo(ChildTestClassTwo $testClassTwo)
+    {
+        if ($this->getTestClassTwos()->contains($testClassTwo)) {
+            $pos = $this->collTestClassTwos->search($testClassTwo);
+            $this->collTestClassTwos->remove($pos);
+            if (null === $this->testClassTwosScheduledForDeletion) {
+                $this->testClassTwosScheduledForDeletion = clone $this->collTestClassTwos;
+                $this->testClassTwosScheduledForDeletion->clear();
+            }
+            $this->testClassTwosScheduledForDeletion[]= $testClassTwo;
+            $testClassTwo->setTestClass(null);
+        }
+
+        return $this;
     }
 
     /**
@@ -1532,8 +1834,14 @@ abstract class TestClass implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collTestClassTwos) {
+                foreach ($this->collTestClassTwos as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        $this->collTestClassTwos = null;
     }
 
     /**
