@@ -119,5 +119,20 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->build();
     }
 
+    public function testBuildFilterWithNextFilter() {
+        $filter1 = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_PAGINATION)
+            ->build();
+
+        $filter2 = FilterBuilder::begin()
+            ->setHandle("Filter2")
+            ->setNextFilter($filter1)
+            ->setType(Filter::TYPE_PAGINATION)
+            ->build();
+
+        $this->assertEquals($filter1, $filter2->getNextFilter());
+    }
+
 }
 

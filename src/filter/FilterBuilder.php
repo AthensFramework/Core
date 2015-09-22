@@ -25,6 +25,9 @@ class FilterBuilder {
     /** @var string */
     protected $_handle;
 
+    /** @var FilterInterface */
+    protected $_nextFilter;
+
 
     protected function __construct() {}
 
@@ -112,6 +115,17 @@ class FilterBuilder {
     }
 
     /**
+     * @param FilterInterface $nextFilter
+     * @return FilterBuilder
+     */
+    public function setNextFilter($nextFilter) {
+        $this->_nextFilter = $nextFilter;
+        return $this;
+    }
+
+
+
+    /**
      * @return FilterInterface
      * @throws \Exception if an appropriate combination of fields have not been set.
      */
@@ -144,9 +158,7 @@ class FilterBuilder {
             throw new \Exception("Invalid filter type.");
         }
 
-        return new Filter($handle, $type, $statements);
+        return new Filter($handle, $type, $statements, $this->_nextFilter);
     }
-
-
 
 }
