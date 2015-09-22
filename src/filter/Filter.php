@@ -15,7 +15,6 @@ class Filter implements FilterInterface {
     const TYPE_PAGINATION = "pagination";
 
     protected $_type;
-    protected $_feedback;
     protected $_statements;
     protected $_handle;
 
@@ -47,9 +46,7 @@ class Filter implements FilterInterface {
      * @return string[]
      */
     public function getFeedback() {
-        $feedback = array_merge($this->getFeedback(), $this->_nextFilter->getFeedback());
-
-        return array_merge([$this->_feedback], $feedback);
+        return array_merge([$this->makeFeedback()], $this->_nextFilter->getFeedback());
     }
 
     /**
@@ -87,6 +84,18 @@ class Filter implements FilterInterface {
      */
     public function getStatements() {
         return $this->_statements;
+    }
+
+    protected function makeFeedback() {
+
+        $feedback = "";
+        switch ($this->getType()) {
+            case static::TYPE_STATIC:
+                break;
+            case static::TYPE_PAGINATION:
+                $feedback = "Pagination feedback.";
+
+        }
     }
 }
 
