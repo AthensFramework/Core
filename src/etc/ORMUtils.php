@@ -368,8 +368,6 @@ class ORMUtils {
         foreach($map->getColumns() as $column) {
             $thisFieldName = $objectName . "." . StringUtils::toUpperCamelCase($column->getPhpName());
 
-            echo $thisFieldName . " ";
-
             if ($fieldName == $thisFieldName) {
                 return true;
             }
