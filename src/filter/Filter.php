@@ -94,8 +94,10 @@ class Filter implements FilterInterface {
                 break;
             case static::TYPE_PAGINATION:
                 $feedback = "Pagination feedback.";
-
+                break;
         }
+
+        return $feedback;
     }
 }
 
