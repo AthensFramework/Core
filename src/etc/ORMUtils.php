@@ -360,4 +360,22 @@ class ORMUtils {
         return $object;
     }
 
+    static public function queryContainsFieldName($query, $fieldName) {
+        /** @var \Propel\Runtime\Map\TableMap $map */
+        $map = $query->getTableMap();
+        $objectName = $map->getPhpName();
+
+        foreach($map->getColumns() as $column) {
+            $thisFieldName = $objectName . "." . StringUtils::toUpperCamelCase($column->getPhpName());
+
+            echo $thisFieldName . " ";
+
+            if ($fieldName == $thisFieldName) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

@@ -2,6 +2,8 @@
 
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEMTest\TestClass;
+use UWDOEMTest\TestClassTwo;
+use UWDOEMTest\TestClassQuery;
 use UWDOEM\Encryption\Cipher;
 
 Cipher::createInstance("my_secret_passphrase");
@@ -53,5 +55,22 @@ class ORMUtilsTest extends PHPUnit_Framework_TestCase
         // Test that encryption inference is correct
         $this->assertTrue(ORMUtils::isEncrypted("TestClass.EncryptedField", $o::TABLE_MAP));
         $this->assertFalse(ORMUtils::isEncrypted("TestClass.FieldSmallVarchar", $o::TABLE_MAP));
+    }
+
+    public function testQueryContainsFieldName() {
+
+        $query = TestClassQuery::create();
+
+        $this->assertTrue(
+            ORMUtils::queryContainsFieldName($query, "TestClass.FieldFloat")
+        );
+
+        $this->assertTrue(
+            ORMUtils::queryContainsFieldName($query, "TestClass.Id")
+        );
+
+        $this->assertFalse(
+            ORMUtils::queryContainsFieldName($query, "TestClass.asdf")
+        );
     }
 }
