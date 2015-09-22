@@ -2,6 +2,9 @@
 
 namespace UWDOEM\Framework\Filter;
 
+use Guzzle\Service\Resource\Model;
+use Propel\Runtime\ActiveQuery\ModelCriteria;
+
 
 interface FilterInterface {
 
@@ -34,6 +37,18 @@ interface FilterInterface {
      * @return FilterStatementInterface[]
      */
     function getStatements();
+
+    /**
+     * @param ModelCriteria $query
+     * @return ModelCriteria
+     */
+    function queryFilter(ModelCriteria $query);
+
+    /**
+     * @param \UWDOEM\Framework\Row\Row[] $rows
+     * @return \UWDOEM\Framework\Row\Row[]
+     */
+    function rowFilter(array $rows);
 
 
 }

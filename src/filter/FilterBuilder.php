@@ -140,7 +140,16 @@ class FilterBuilder {
 
                 $fieldName = $this->retrieveOrException("_fieldName", __METHOD__);
                 $condition = $this->retrieveOrException("_condition", __METHOD__);
-                $criterion = $this->retrieveOrException("_criterion", __METHOD__);
+
+                if (!in_array(
+                    $condition,
+                    [FilterStatementInterface::COND_SORT_ASC, FilterStatementInterface::COND_SORT_DESC])
+                ) {
+                    $criterion = $this->retrieveOrException("_criterion", __METHOD__);
+                } else {
+                    $criterion = $this->_criterion;
+                }
+
 
                 $statements[] = new FilterStatement($fieldName, $condition, $criterion);
 
@@ -160,5 +169,7 @@ class FilterBuilder {
 
         return new Filter($handle, $type, $statements, $this->_nextFilter);
     }
+
+
 
 }

@@ -2,6 +2,9 @@
 
 namespace UWDOEM\Framework\Filter;
 
+use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\Criteria;
+
 
 class FilterStatement implements FilterStatementInterface {
 
@@ -47,6 +50,26 @@ class FilterStatement implements FilterStatementInterface {
      */
     public function getCriterion() {
         return $this->_criterion;
+    }
+
+    public function applyToQuery(ModelCriteria $query) {
+        $cond = $this->getCondition();
+        $fieldName = $this->getFieldName();
+
+        switch ($cond) {
+            case static::COND_SORT_ASC:
+                $query = $query->orderBy($fieldName, Criteria::ASC);
+                break;
+            case static::COND_SORT_DESC:
+                $query = $query->orderBy($fieldName, Criteria::DESC);
+                break;
+        }
+
+        return $query;
+    }
+
+    public function applyToRows(array $rows) {
+        return $rows;
     }
 
 

@@ -1,10 +1,23 @@
 <?php
 
-use UWDOEM\Framework\Filter\FilterStatement;
+use Propel\Runtime\ActiveQuery\Criteria;
 
+use UWDOEM\Framework\Filter\FilterStatement;
 use UWDOEM\Framework\Filter\FilterBuilder;
 use UWDOEM\Framework\Filter\Filter;
 use UWDOEM\Framework\Etc\Settings;
+
+use UWDOEMTest\TestClassQuery;
+
+
+class MockQuery extends TestClassQuery {
+    public $orderByStatements = [];
+
+    public function orderBy($columnName, $order = Criteria::ASC) {
+        $this->orderByStatements[] = [$columnName, $order];
+        return $this;
+    }
+}
 
 
 class FilterTest extends PHPUnit_Framework_TestCase {
@@ -150,6 +163,64 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $this->assertEquals(2, sizeof($filter2->getFeedback()));
+    }
+
+    public function testFilterByQuery() {
+        $filter1 = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.Id")
+            ->setCondition(FilterStatement::COND_SORT_ASC)
+            ->build();
+
+        $filter2 = FilterBuilder::begin()
+            ->setNextFilter($filter1)
+            ->setHandle("Filter2")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.FieldFloat")
+            ->setCondition(FilterStatement::COND_SORT_DESC)
+            ->build();
+
+        $query = new MockQuery();
+        $query = $filter2->queryFilter($query);
+
+        $this->assertContains(["TestClass.Id", "ASC"], $query->orderByStatements);
+        $this->assertContains(["TestClass.FieldFloat", "DESC"], $query->orderByStatements);
+    }
+
+    public function testForceFilterByRow() {
+        $filter1 = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.Id")
+            ->setCondition(FilterStatement::COND_SORT_ASC)
+            ->build();
+
+        // This filter will force a row sort because the field name is not
+        // available to the query.
+        $filter2 = FilterBuilder::begin()
+            ->setNextFilter($filter1)
+            ->setHandle("Filter2")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.MadeUpFieldToForceRowSort")
+            ->setCondition(FilterStatement::COND_SORT_DESC)
+            ->build();
+
+        // This filter could be done by query, except that the previous
+        // filter has forced the whole chain into row-filtering.
+        $filter3 = FilterBuilder::begin()
+            ->setNextFilter($filter2)
+            ->setHandle("Filter3")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.FieldFloat")
+            ->setCondition(FilterStatement::COND_SORT_DESC)
+            ->build();
+
+        $query = new MockQuery();
+        $query = $filter3->queryFilter($query);
+
+        $this->assertContains(["TestClass.Id", "ASC"], $query->orderByStatements);
+        $this->assertEquals(1, sizeof($query->orderByStatements));
     }
 
 }

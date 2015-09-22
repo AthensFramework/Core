@@ -2,7 +2,9 @@
 
 namespace UWDOEM\Framework\Filter;
 
-use Propel\Runtime\ActiveQuery\PropelQuery;
+use Propel\Runtime\ActiveQuery\ModelCriteria;
+
+use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Row\RowInterface;
 
 
@@ -15,7 +17,17 @@ class Filter implements FilterInterface {
     const TYPE_PAGINATION = "pagination";
 
     protected $_type;
-    protected $_statements;
+
+    /** @var array|FilterStatementInterface[] */
+    protected $_statements = [];
+
+    /** @var array|FilterStatementInterface[] */
+    protected $_queryStatements = [];
+
+    /** @var array|FilterStatementInterface[] */
+    protected $_rowStatements = [];
+
+    /** @var string */
     protected $_handle;
 
     /**
@@ -86,6 +98,50 @@ class Filter implements FilterInterface {
         return $this->_statements;
     }
 
+    /**
+     * @param ModelCriteria $query
+     * @return ModelCriteria
+     */
+    public function queryFilter(ModelCriteria $query) {
+        $query = $this->getNextFilter()->queryFilter($query);
+
+        $queryFilterBroken = false;
+
+        if ($this->getNextFilter()->_rowStatements) {
+            $this->_rowStatements = $this->_statements;
+            $queryFilterBroken = true;
+        }
+
+        foreach ($this->_statements as $statement) {
+
+            $fieldName = $statement->getFieldName();
+            if ($fieldName && !ORMUtils::queryContainsFieldName($query, $fieldName)) {
+                $queryFilterBroken = true;
+            }
+
+            if ($queryFilterBroken === true) {
+                $this->_rowStatements[] = $statement;
+            } else {
+                $query = $statement->applyToQuery($query);
+            }
+        }
+        return $query;
+    }
+
+    /**
+     * @param RowInterface[] $rows
+     * @return RowInterface[]
+     */
+    public function rowFilter(array $rows) {
+        $rows = $this->getNextFilter()->rowFilter($rows);
+
+        foreach ($this->_rowStatements as $statement) {
+            $rows = $statement->applyToRows($rows);
+        }
+
+        return $rows;
+    }
+
     protected function makeFeedback() {
 
         $feedback = "";
@@ -113,6 +169,14 @@ class DummyFilter extends Filter {
 
     function combine(FilterInterface $filter) {
         return $filter;
+    }
+
+    function queryFilter(ModelCriteria $query) {
+        return $query;
+    }
+
+    function rowFilter(array $rows) {
+        return $rows;
     }
 
     function getNextFilter() {

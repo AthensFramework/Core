@@ -2,6 +2,8 @@
 
 namespace UWDOEM\Framework\Filter;
 
+use Propel\Runtime\ActiveQuery\ModelCriteria;
+
 
 interface FilterStatementInterface {
 
@@ -29,5 +31,17 @@ interface FilterStatementInterface {
      * @return mixed
      */
     public function getCriterion();
+
+    /**
+     * @param ModelCriteria $query
+     * @return ModelCriteria
+     */
+    public function applyToQuery(ModelCriteria $query);
+
+    /**
+     * @param \UWDOEM\Framework\Row\Row[] $rows
+     * @return \UWDOEM\Framework\Row\Row[]
+     */
+    public function applyToRows(array $rows);
 
 }
