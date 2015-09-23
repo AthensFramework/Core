@@ -18,17 +18,22 @@ class FilterStatement implements FilterStatementInterface {
     /** @var  mixed */
     protected $_criterion;
 
+    /** @var  mixed */
+    protected $_control;
+
 
     /**
      * FilterStatement constructor.
      * @param string $_fieldName
      * @param string $_condition
      * @param mixed $_criterion
+     * @param $_control
      */
-    public function __construct($_fieldName, $_condition, $_criterion) {
+    public function __construct($_fieldName, $_condition, $_criterion, $_control) {
         $this->_fieldName = $_fieldName;
         $this->_condition = $_condition;
         $this->_criterion = $_criterion;
+        $this->_control = $_control;
     }
 
 
@@ -53,11 +58,19 @@ class FilterStatement implements FilterStatementInterface {
         return $this->_criterion;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getControl() {
+        return $this->_control;
+    }
+
     public function applyToQuery(ModelCriteria $query) {
         $cond = $this->getCondition();
         $fieldName = $this->getFieldName();
 
         $criterion = $this->getCriterion();
+        $control = $this->getControl();
 
         switch ($cond) {
             case static::COND_SORT_ASC:
@@ -82,7 +95,10 @@ class FilterStatement implements FilterStatementInterface {
                 $query = $query->addUsingAlias($fieldName, [$criterion], Criteria::CONTAINS_ALL);
                 break;
             case static::COND_PAGINATE_BY:
+                $page = $control;
+                $maxPerPage = $criterion;
 
+                $query = $query->offset(($page - 1) * $maxPerPage)->limit($maxPerPage);
                 break;
         }
 

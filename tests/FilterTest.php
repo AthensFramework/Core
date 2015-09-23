@@ -13,6 +13,9 @@ use UWDOEMTest\TestClassQuery;
 class MockQuery extends TestClassQuery {
     public $orderByStatements = [];
     public $aliasedStatements = [];
+    
+    public $setOffset;
+    public $setLimit;
 
     public function orderBy($columnName, $order = Criteria::ASC) {
         $this->orderByStatements[] = [$columnName, $order];
@@ -21,6 +24,16 @@ class MockQuery extends TestClassQuery {
 
     public function addUsingAlias($p1, $value = null, $operator = null) {
         $this->aliasedStatements[] = [$p1, $value, $operator];
+        return $this;
+    }
+    
+    public function limit($limit) {
+        $this->setLimit = $limit;
+        return $this;
+    }
+
+    public function offset($offset) {
+        $this->setOffset = $offset;
         return $this;
     }
 }
@@ -46,7 +59,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $condition = (string)rand();
         $criterion = (string)rand();
 
-        $statement = new FilterStatement($fieldName, $condition, $criterion);
+        $statement = new FilterStatement($fieldName, $condition, $criterion, null);
 
         $this->assertEquals($fieldName, $statement->getFieldName());
         $this->assertEquals($condition, $statement->getCondition());
@@ -79,14 +92,16 @@ class FilterTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testBuildPaginationFilter() {
-        $paginateBy = rand();
+        $maxPerPage = rand();
+        $page = rand();
         $handle = (string)rand();
         $type = Filter::TYPE_PAGINATION;
 
         $filter = FilterBuilder::begin()
             ->setType($type)
             ->setHandle($handle)
-            ->setPaginateBy($paginateBy)
+            ->setPage($page)
+            ->setMaxPerPage($maxPerPage)
             ->build();
 
         $this->assertEquals($handle, $filter->getHandle());
@@ -95,8 +110,25 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
         $statement = $filter->getStatements()[0];
 
+        // Assert that the filter statement was created correctly
         $this->assertEquals(FilterStatement::COND_PAGINATE_BY, $statement->getCondition());
-        $this->assertEquals($paginateBy, $statement->getCriterion());
+        $this->assertEquals($maxPerPage, $statement->getCriterion());
+        $this->assertEquals($page, $statement->getControl());
+
+        /** @var MockQuery $query */
+        // Perform a filter query
+        $query = new MockQuery();
+        $query = $filter->queryFilter($query);
+
+        $this->assertEquals(
+            $maxPerPage,
+            $query->setLimit
+        );
+
+        $this->assertEquals(
+            ($page - 1)*$maxPerPage,
+            $query->setOffset
+        );
     }
 
     public function testBuildPaginationFilterUsesPaginateSetting() {
@@ -172,6 +204,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testStaticFilterQueryConditions() {
+        /** @var MockQuery $query */
 
         /* COND_SORT_ASC */
         $query = new MockQuery();

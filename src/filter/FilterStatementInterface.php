@@ -34,6 +34,11 @@ interface FilterStatementInterface {
     public function getCriterion();
 
     /**
+     * @return mixed
+     */
+    public function getControl();
+
+    /**
      * @param ModelCriteria $query
      * @return ModelCriteria
      */

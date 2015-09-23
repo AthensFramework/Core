@@ -11,7 +11,10 @@ class FilterBuilder {
     protected $_type;
 
     /** @var int */
-    protected $_paginateBy;
+    protected $_page;
+
+    /** @var int */
+    protected $_maxPerPage;
 
     /** @var string */
     protected $_fieldName;
@@ -45,11 +48,20 @@ class FilterBuilder {
     }
 
     /**
-     * @param int $paginateBy
+     * @param int $page
      * @return FilterBuilder
      */
-    public function setPaginateBy($paginateBy) {
-        $this->_paginateBy = $paginateBy;
+    public function setPage($page) {
+        $this->_page = $page;
+        return $this;
+    }
+
+    /**
+     * @param int $maxPerPage
+     * @return FilterBuilder
+     */
+    public function setMaxPerPage($maxPerPage) {
+        $this->_maxPerPage = $maxPerPage;
         return $this;
     }
 
@@ -151,14 +163,15 @@ class FilterBuilder {
                 }
 
 
-                $statements[] = new FilterStatement($fieldName, $condition, $criterion);
+                $statements[] = new FilterStatement($fieldName, $condition, $criterion, null);
 
                 break;
             case Filter::TYPE_PAGINATION:
 
-                $paginateBy = isset($this->_paginateBy) ? $this->_paginateBy : Settings::getDefaultPagination();
+                $maxPerPage = isset($this->_maxPerPage) ? $this->_maxPerPage : Settings::getDefaultPagination();
+                $page = isset($this->_page) ? $this->_page : 1;
 
-                $statements[] = new FilterStatement(null, FilterStatement::COND_PAGINATE_BY, $paginateBy);
+                $statements[] = new FilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page);
 
                 break;
         }
