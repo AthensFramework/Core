@@ -4,6 +4,7 @@ namespace UWDOEM\Framework\Filter;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\Criteria;
+use UWDOEM\Framework\Row\RowInterface;
 
 
 class FilterStatement implements FilterStatementInterface {
@@ -63,12 +64,31 @@ class FilterStatement implements FilterStatementInterface {
             case static::COND_SORT_DESC:
                 $query = $query->orderBy($fieldName, Criteria::DESC);
                 break;
+            case static::COND_LESS_THAN:
+
+                break;
+            case static::COND_GREATER_THAN:
+
+                break;
+            case static::COND_EQUAL_TO:
+
+                break;
+            case static::COND_NOT_EQUAL_TO:
+
+                break;
+            case static::COND_CONTAINS:
+
+                break;
+            case static::COND_PAGINATE_BY:
+
+                break;
         }
 
         return $query;
     }
 
     public function applyToRows(array $rows) {
+
         return $rows;
     }
 
