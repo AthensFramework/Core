@@ -174,6 +174,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->setCondition(FilterStatement::COND_SORT_DESC)
             ->build();
 
+        // use MockQuery from FilterStatementTest
         $query = new MockQuery();
         $query = $filter2->queryFilter($query);
 
@@ -185,7 +186,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $filter1 = FilterBuilder::begin()
             ->setHandle("Filter1")
             ->setType(Filter::TYPE_STATIC)
-            ->setFieldName("TestClass.Id")
+            ->setFieldName(RowMaker::INT_FIELD_NAME)
             ->setCondition(FilterStatement::COND_SORT_ASC)
             ->build();
 
@@ -209,6 +210,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->setCondition(FilterStatement::COND_SORT_DESC)
             ->build();
 
+        // use MockQuery from FilterStatementTest
         $query = new MockQuery();
         $query = $filter3->queryFilter($query);
 

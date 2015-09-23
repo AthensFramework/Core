@@ -41,36 +41,23 @@ class MockQuery extends TestClassQuery {
 }
 
 
-
-class FilterStatementTest extends PHPUnit_Framework_TestCase {
-
-    protected $conditions = [
-        FilterStatement::COND_SORT_ASC,
-        FilterStatement::COND_SORT_DESC,
-        FilterStatement::COND_LESS_THAN,
-        FilterStatement::COND_GREATER_THAN,
-        FilterStatement::COND_EQUAL_TO,
-        FilterStatement::COND_NOT_EQUAL_TO,
-        FilterStatement::COND_PAGINATE_BY,
-        FilterStatement::COND_TRUTHY,
-        FilterStatement::COND_FALSEY,
-    ];
+class RowMaker {
 
     const INT_FIELD_NAME = "FirstField";
     const STRING_FIELD_NAME = "SecondField";
-
+    
     /**
      * @return RowInterface[]
      * @throws Exception
      */
-    protected function makeRows() {
+    public static function makeRows() {
         $rows = [];
         for ($i = 0; $i < 100; $i++) {
 
             $fieldBearer = FieldBearerBuilder::begin()
                 ->addFields([
-                    static::INT_FIELD_NAME => new Field("literal", "a literal field", rand(1, 100)),
-                    static::STRING_FIELD_NAME => new Field("literal", "a literal field", (string)rand())
+                    RowMaker::INT_FIELD_NAME => new Field("literal", "a literal field", rand(1, 100)),
+                    RowMaker::STRING_FIELD_NAME => new Field("literal", "a literal field", (string)rand())
                 ])
                 ->build();
 
@@ -89,12 +76,12 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
      * @param RowInterface[] $rows
      * @return int
      */
-    protected function sampleMedianIntField(array $rows) {
+    public static function sampleMedianIntField(array $rows) {
         $rand_keys = array_rand($rows, 5);
 
         $vals = array_map(
             function($key) use ($rows) {
-                return $rows[$key]->getFieldBearer()->getFieldByName(static::INT_FIELD_NAME)->getInitial();
+                return $rows[$key]->getFieldBearer()->getFieldByName(RowMaker::INT_FIELD_NAME)->getInitial();
             },
             $rand_keys
         );
@@ -102,12 +89,35 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         sort($vals);
         return ($vals[2]);
     }
+}
+
+
+
+class FilterStatementTest extends PHPUnit_Framework_TestCase {
+
+    protected $conditions = [
+        FilterStatement::COND_SORT_ASC,
+        FilterStatement::COND_SORT_DESC,
+        FilterStatement::COND_LESS_THAN,
+        FilterStatement::COND_GREATER_THAN,
+        FilterStatement::COND_EQUAL_TO,
+        FilterStatement::COND_NOT_EQUAL_TO,
+        FilterStatement::COND_PAGINATE_BY,
+        FilterStatement::COND_TRUTHY,
+        FilterStatement::COND_FALSEY,
+    ];
+
+    
+
+    
+
+    
 
     public function testRowFilterSortAscending() {
-        $rows = $this->makeRows();
+        $rows = RowMaker::makeRows();
 
         $statement = new FilterStatement(
-            static::INT_FIELD_NAME,
+            RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_SORT_ASC,
             null,
             null
@@ -117,7 +127,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
         $lastNumber = -1;
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(static::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getFieldBearer()->getFieldByName(RowMaker::INT_FIELD_NAME)->getInitial();
 
             $this->assertGreaterThanOrEqual($lastNumber, $thisNumber);
 
@@ -126,10 +136,10 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testRowFilterSortDescending() {
-        $rows = $this->makeRows();
+        $rows = RowMaker::makeRows();
 
         $statement = new FilterStatement(
-            static::INT_FIELD_NAME,
+            RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_SORT_DESC,
             null,
             null
@@ -139,7 +149,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
         $lastNumber = getrandmax() + 1;
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(static::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getFieldBearer()->getFieldByName(RowMaker::INT_FIELD_NAME)->getInitial();
 
             $this->assertLessThanOrEqual($lastNumber, $thisNumber);
 
@@ -148,12 +158,12 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testRowFilterLessThan() {
-        $rows = $this->makeRows();
+        $rows = RowMaker::makeRows();
 
-        $criterion = $this->sampleMedianIntField($rows);
+        $criterion = RowMaker::sampleMedianIntField($rows);
 
         $statement = new FilterStatement(
-            static::INT_FIELD_NAME,
+            RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_LESS_THAN,
             $criterion,
             null
@@ -162,19 +172,19 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(static::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getFieldBearer()->getFieldByName(RowMaker::INT_FIELD_NAME)->getInitial();
             $this->assertLessThan($criterion, $thisNumber);
         }
     }
 
     public function testRowFilterGreaterThan() {
 
-        $rows = $this->makeRows();
+        $rows = RowMaker::makeRows();
 
-        $criterion = $this->sampleMedianIntField($rows);
+        $criterion = RowMaker::sampleMedianIntField($rows);
 
         $statement = new FilterStatement(
-            static::INT_FIELD_NAME,
+            RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_GREATER_THAN,
             $criterion,
             null
@@ -183,19 +193,19 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(static::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getFieldBearer()->getFieldByName(RowMaker::INT_FIELD_NAME)->getInitial();
             $this->assertGreaterThan($criterion, $thisNumber);
         }
 
     }
 
     public function testRowFilterEqualTo() {
-        $rows = $this->makeRows();
+        $rows = RowMaker::makeRows();
 
-        $criterion = $this->sampleMedianIntField($rows);
+        $criterion = RowMaker::sampleMedianIntField($rows);
 
         $statement = new FilterStatement(
-            static::INT_FIELD_NAME,
+            RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_EQUAL_TO,
             $criterion,
             null
@@ -204,18 +214,18 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(static::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getFieldBearer()->getFieldByName(RowMaker::INT_FIELD_NAME)->getInitial();
             $this->assertEquals($criterion, $thisNumber);
         }
     }
 
     public function testRowFilterNotEqualTo() {
-        $rows = $this->makeRows();
+        $rows = RowMaker::makeRows();
 
-        $criterion = $this->sampleMedianIntField($rows);
+        $criterion = RowMaker::sampleMedianIntField($rows);
 
         $statement = new FilterStatement(
-            static::INT_FIELD_NAME,
+            RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_NOT_EQUAL_TO,
             $criterion,
             null
@@ -224,18 +234,18 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(static::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getFieldBearer()->getFieldByName(RowMaker::INT_FIELD_NAME)->getInitial();
             $this->assertNotEquals($criterion, $thisNumber);
         }
     }
 
     public function testRowFilterContains() {
-        $rows = $this->makeRows();
+        $rows = RowMaker::makeRows();
 
         $criterion = (string)rand(0,9);
 
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_CONTAINS,
             $criterion,
             null
@@ -244,7 +254,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(static::STRING_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getFieldBearer()->getFieldByName(RowMaker::STRING_FIELD_NAME)->getInitial();
             $this->assertContains($criterion, $thisNumber);
         }
 
@@ -253,13 +263,13 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testRowFilterPaginateBy() {
-        $rows = $this->makeRows();
+        $rows = RowMaker::makeRows();
 
         $maxPerPage = rand(2,9);
         $page = rand(2, 9);
 
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_PAGINATE_BY,
             $maxPerPage,
             $page
@@ -280,7 +290,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     public function testQueryFilterSortAscending() {
         $query = new MockQuery();
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_SORT_ASC,
             null,
             null
@@ -289,7 +299,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = $statement->applyToQuery($query);
 
         $this->assertContains(
-            [static::STRING_FIELD_NAME, Criteria::ASC],
+            [RowMaker::STRING_FIELD_NAME, Criteria::ASC],
             $query->orderByStatements
         );
     }
@@ -297,7 +307,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     public function testQueryFilterSortDescending() {
         $query = new MockQuery();
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_SORT_DESC,
             null,
             null
@@ -306,7 +316,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = $statement->applyToQuery($query);
 
         $this->assertContains(
-            [static::STRING_FIELD_NAME, Criteria::DESC],
+            [RowMaker::STRING_FIELD_NAME, Criteria::DESC],
             $query->orderByStatements
         );
     }
@@ -315,7 +325,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = new MockQuery();
         $criterion = rand();
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_LESS_THAN,
             $criterion,
             null
@@ -324,7 +334,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = $statement->applyToQuery($query);
 
         $this->assertContains(
-            [static::STRING_FIELD_NAME, $criterion, Criteria::LESS_THAN],
+            [RowMaker::STRING_FIELD_NAME, $criterion, Criteria::LESS_THAN],
             $query->aliasedStatements
         );
     }
@@ -333,7 +343,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = new MockQuery();
         $criterion = rand();
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_GREATER_THAN,
             $criterion,
             null
@@ -342,7 +352,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = $statement->applyToQuery($query);
 
         $this->assertContains(
-            [static::STRING_FIELD_NAME, $criterion, Criteria::GREATER_THAN],
+            [RowMaker::STRING_FIELD_NAME, $criterion, Criteria::GREATER_THAN],
             $query->aliasedStatements
         );
     }
@@ -351,7 +361,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = new MockQuery();
         $criterion = rand();
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_EQUAL_TO,
             $criterion,
             null
@@ -360,7 +370,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = $statement->applyToQuery($query);
 
         $this->assertContains(
-            [static::STRING_FIELD_NAME, $criterion, Criteria::EQUAL],
+            [RowMaker::STRING_FIELD_NAME, $criterion, Criteria::EQUAL],
             $query->aliasedStatements
         );
     }
@@ -369,7 +379,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = new MockQuery();
         $criterion = rand();
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_NOT_EQUAL_TO,
             $criterion,
             null
@@ -378,7 +388,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = $statement->applyToQuery($query);
 
         $this->assertContains(
-            [static::STRING_FIELD_NAME, $criterion, Criteria::NOT_EQUAL],
+            [RowMaker::STRING_FIELD_NAME, $criterion, Criteria::NOT_EQUAL],
             $query->aliasedStatements
         );
     }
@@ -388,7 +398,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $criterion = rand();
 
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_CONTAINS,
             $criterion,
             null
@@ -397,7 +407,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = $statement->applyToQuery($query);
 
         $this->assertContains(
-            [static::STRING_FIELD_NAME, [$criterion], Criteria::CONTAINS_ALL],
+            [RowMaker::STRING_FIELD_NAME, [$criterion], Criteria::CONTAINS_ALL],
             $query->aliasedStatements
         );
     }
@@ -410,7 +420,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $page = rand(1,9);
 
         $statement = new FilterStatement(
-            static::STRING_FIELD_NAME,
+            RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_PAGINATE_BY,
             $maxPerPage,
             $page
