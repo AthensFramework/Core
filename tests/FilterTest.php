@@ -12,9 +12,15 @@ use UWDOEMTest\TestClassQuery;
 
 class MockQuery extends TestClassQuery {
     public $orderByStatements = [];
+    public $aliasedStatements = [];
 
     public function orderBy($columnName, $order = Criteria::ASC) {
         $this->orderByStatements[] = [$columnName, $order];
+        return $this;
+    }
+
+    public function addUsingAlias($p1, $value = null, $operator = null) {
+        $this->aliasedStatements[] = [$p1, $value, $operator];
         return $this;
     }
 }
@@ -165,7 +171,133 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(2, sizeof($filter2->getFeedback()));
     }
 
-    public function testFilterByQuery() {
+    public function testStaticFilterQueryConditions() {
+
+        /* COND_SORT_ASC */
+        $query = new MockQuery();
+        $filter = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.Id")
+            ->setCondition(FilterStatement::COND_SORT_ASC)
+            ->build();
+
+        $query = $filter->queryFilter($query);
+
+        $this->assertContains(
+            ["TestClass.Id", Criteria::ASC],
+            $query->orderByStatements
+        );
+
+        /* COND_SORT_DESC */
+        $query = new MockQuery();
+        $filter = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.Id")
+            ->setCondition(FilterStatement::COND_SORT_DESC)
+            ->build();
+
+        $query = $filter->queryFilter($query);
+
+        $this->assertContains(
+            ["TestClass.Id", Criteria::DESC],
+            $query->orderByStatements
+        );
+
+        /* COND_LESS_THAN */
+        $query = new MockQuery();
+        $criterion = rand();
+        $filter = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.Id")
+            ->setCondition(FilterStatement::COND_LESS_THAN)
+            ->setCriterion($criterion)
+            ->build();
+
+        $query = $filter->queryFilter($query);
+
+        $this->assertContains(
+            ["TestClass.Id", $criterion, Criteria::LESS_THAN],
+            $query->aliasedStatements
+        );
+
+        /* COND_GREATER_THAN */
+        $query = new MockQuery();
+        $criterion = rand();
+        $filter = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.Id")
+            ->setCondition(FilterStatement::COND_GREATER_THAN)
+            ->setCriterion($criterion)
+            ->build();
+
+        $query = $filter->queryFilter($query);
+
+        $this->assertContains(
+            ["TestClass.Id", $criterion, Criteria::GREATER_THAN],
+            $query->aliasedStatements
+        );
+
+        /* COND_EQUAL_TO */
+        $query = new MockQuery();
+        $criterion = rand();
+        $filter = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.Id")
+            ->setCondition(FilterStatement::COND_EQUAL_TO)
+            ->setCriterion($criterion)
+            ->build();
+
+        $query = $filter->queryFilter($query);
+
+        $this->assertContains(
+            ["TestClass.Id", $criterion, Criteria::EQUAL],
+            $query->aliasedStatements
+        );
+
+        /* COND_NOT_EQUAL_TO */
+        $query = new MockQuery();
+        $criterion = rand();
+        $filter = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.Id")
+            ->setCondition(FilterStatement::COND_NOT_EQUAL_TO)
+            ->setCriterion($criterion)
+            ->build();
+
+        $query = $filter->queryFilter($query);
+
+        $this->assertContains(
+            ["TestClass.Id", $criterion, Criteria::NOT_EQUAL],
+            $query->aliasedStatements
+        );
+
+        /* COND_CONTAINS */
+        $query = new MockQuery();
+        $criterion = rand();
+        $filter = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.Id")
+            ->setCondition(FilterStatement::COND_CONTAINS)
+            ->setCriterion($criterion)
+            ->build();
+
+        $query = $filter->queryFilter($query);
+
+        $this->assertContains(
+            ["TestClass.Id", [$criterion], Criteria::CONTAINS_ALL],
+            $query->aliasedStatements
+        );
+
+    }
+
+    public function testChainedFilterByQuery() {
         $filter1 = FilterBuilder::begin()
             ->setHandle("Filter1")
             ->setType(Filter::TYPE_STATIC)

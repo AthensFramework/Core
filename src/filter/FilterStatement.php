@@ -57,6 +57,8 @@ class FilterStatement implements FilterStatementInterface {
         $cond = $this->getCondition();
         $fieldName = $this->getFieldName();
 
+        $criterion = $this->getCriterion();
+
         switch ($cond) {
             case static::COND_SORT_ASC:
                 $query = $query->orderBy($fieldName, Criteria::ASC);
@@ -65,19 +67,19 @@ class FilterStatement implements FilterStatementInterface {
                 $query = $query->orderBy($fieldName, Criteria::DESC);
                 break;
             case static::COND_LESS_THAN:
-
+                $query = $query->addUsingAlias($fieldName, $criterion, Criteria::LESS_THAN);
                 break;
             case static::COND_GREATER_THAN:
-
+                $query = $query->addUsingAlias($fieldName, $criterion, Criteria::GREATER_THAN);
                 break;
             case static::COND_EQUAL_TO:
-
+                $query = $query->addUsingAlias($fieldName, $criterion, Criteria::EQUAL);
                 break;
             case static::COND_NOT_EQUAL_TO:
-
+                $query = $query->addUsingAlias($fieldName, $criterion, Criteria::NOT_EQUAL);
                 break;
             case static::COND_CONTAINS:
-
+                $query = $query->addUsingAlias($fieldName, [$criterion], Criteria::CONTAINS_ALL);
                 break;
             case static::COND_PAGINATE_BY:
 
