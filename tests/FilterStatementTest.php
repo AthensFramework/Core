@@ -8,6 +8,38 @@ use UWDOEM\Framework\Row\RowBuilder;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Row\RowInterface;
+use UWDOEM\Framework\Filter\FilterBuilder;
+use UWDOEM\Framework\Filter\Filter;
+
+
+class MockQuery extends TestClassQuery {
+    public $orderByStatements = [];
+    public $aliasedStatements = [];
+
+    public $setOffset;
+    public $setLimit;
+
+    public function orderBy($columnName, $order = Criteria::ASC) {
+        $this->orderByStatements[] = [$columnName, $order];
+        return $this;
+    }
+
+    public function addUsingAlias($p1, $value = null, $operator = null) {
+        $this->aliasedStatements[] = [$p1, $value, $operator];
+        return $this;
+    }
+
+    public function limit($limit) {
+        $this->setLimit = $limit;
+        return $this;
+    }
+
+    public function offset($offset) {
+        $this->setOffset = $offset;
+        return $this;
+    }
+}
+
 
 
 class FilterStatementTest extends PHPUnit_Framework_TestCase {
@@ -244,5 +276,151 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         // Sanity check, assert that at least SOME rows were returned by our filter
         $this->assertSameSize($rows, $expectedRows);
     }
+
+    public function testQueryFilterSortAscending() {
+        $query = new MockQuery();
+        $statement = new FilterStatement(
+            static::STRING_FIELD_NAME,
+            FilterStatement::COND_SORT_ASC,
+            null,
+            null
+        );
+
+        $query = $statement->applyToQuery($query);
+
+        $this->assertContains(
+            [static::STRING_FIELD_NAME, Criteria::ASC],
+            $query->orderByStatements
+        );
+    }
+
+    public function testQueryFilterSortDescending() {
+        $query = new MockQuery();
+        $statement = new FilterStatement(
+            static::STRING_FIELD_NAME,
+            FilterStatement::COND_SORT_DESC,
+            null,
+            null
+        );
+
+        $query = $statement->applyToQuery($query);
+
+        $this->assertContains(
+            [static::STRING_FIELD_NAME, Criteria::DESC],
+            $query->orderByStatements
+        );
+    }
+
+    public function testQueryFilterLessThan() {
+        $query = new MockQuery();
+        $criterion = rand();
+        $statement = new FilterStatement(
+            static::STRING_FIELD_NAME,
+            FilterStatement::COND_LESS_THAN,
+            $criterion,
+            null
+        );
+
+        $query = $statement->applyToQuery($query);
+
+        $this->assertContains(
+            [static::STRING_FIELD_NAME, $criterion, Criteria::LESS_THAN],
+            $query->aliasedStatements
+        );
+    }
+
+    public function testQueryFilterGreaterThan() {
+        $query = new MockQuery();
+        $criterion = rand();
+        $statement = new FilterStatement(
+            static::STRING_FIELD_NAME,
+            FilterStatement::COND_GREATER_THAN,
+            $criterion,
+            null
+        );
+
+        $query = $statement->applyToQuery($query);
+
+        $this->assertContains(
+            [static::STRING_FIELD_NAME, $criterion, Criteria::GREATER_THAN],
+            $query->aliasedStatements
+        );
+    }
+
+    public function testQueryFilterEqualTo() {
+        $query = new MockQuery();
+        $criterion = rand();
+        $statement = new FilterStatement(
+            static::STRING_FIELD_NAME,
+            FilterStatement::COND_EQUAL_TO,
+            $criterion,
+            null
+        );
+
+        $query = $statement->applyToQuery($query);
+
+        $this->assertContains(
+            [static::STRING_FIELD_NAME, $criterion, Criteria::EQUAL],
+            $query->aliasedStatements
+        );
+    }
+
+    public function testQueryFilterNotEqualTo() {
+        $query = new MockQuery();
+        $criterion = rand();
+        $statement = new FilterStatement(
+            static::STRING_FIELD_NAME,
+            FilterStatement::COND_NOT_EQUAL_TO,
+            $criterion,
+            null
+        );
+
+        $query = $statement->applyToQuery($query);
+
+        $this->assertContains(
+            [static::STRING_FIELD_NAME, $criterion, Criteria::NOT_EQUAL],
+            $query->aliasedStatements
+        );
+    }
+
+    public function testQueryFilterContains() {
+        $query = new MockQuery();
+        $criterion = rand();
+
+        $statement = new FilterStatement(
+            static::STRING_FIELD_NAME,
+            FilterStatement::COND_CONTAINS,
+            $criterion,
+            null
+        );
+
+        $query = $statement->applyToQuery($query);
+
+        $this->assertContains(
+            [static::STRING_FIELD_NAME, [$criterion], Criteria::CONTAINS_ALL],
+            $query->aliasedStatements
+        );
+    }
+
+    public function testQueryFilterPaginateBy() {
+        /** @var MockQuery $query */
+        $query = new MockQuery();
+
+        $maxPerPage = rand(0,9);
+        $page = rand(1,9);
+
+        $statement = new FilterStatement(
+            static::STRING_FIELD_NAME,
+            FilterStatement::COND_PAGINATE_BY,
+            $maxPerPage,
+            $page
+        );
+
+        $query = $statement->applyToQuery($query);
+
+        $this->assertEquals($maxPerPage, $query->setLimit);
+        $this->assertEquals(($page - 1)*$maxPerPage, $query->setOffset);
+    }
+
 
 }

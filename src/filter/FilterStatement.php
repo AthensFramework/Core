@@ -196,7 +196,7 @@ class FilterStatement implements FilterStatementInterface {
             case static::COND_PAGINATE_BY:
                 $page = $control;
                 $maxPerPage = $criterion;
-                
+
                 $rows = array_slice($rows, ($page - 1)*$maxPerPage, $maxPerPage);
 
                 break;
