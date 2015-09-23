@@ -88,6 +88,34 @@ class FilterStatement implements FilterStatementInterface {
     }
 
     public function applyToRows(array $rows) {
+        $cond = $this->getCondition();
+
+        switch ($cond) {
+            case static::COND_SORT_ASC:
+
+                break;
+            case static::COND_SORT_DESC:
+
+                break;
+            case static::COND_LESS_THAN:
+
+                break;
+            case static::COND_GREATER_THAN:
+
+                break;
+            case static::COND_EQUAL_TO:
+
+                break;
+            case static::COND_NOT_EQUAL_TO:
+
+                break;
+            case static::COND_CONTAINS:
+
+                break;
+            case static::COND_PAGINATE_BY:
+
+                break;
+        }
 
         return $rows;
     }
