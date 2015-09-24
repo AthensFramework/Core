@@ -63,11 +63,6 @@ Todo
 
 See GitHub [issue tracker](https://github.com/UWEnrollmentManagement/Framework/issues/).
 
-License
-====
-
-Employees of the University of Washington may use this code in any capacity, without reservation. This code is provided in the hope that it may be useful. However, providing does not imply that any organization involved in its creation or provision will provide support or assume liability for its use.
-
 Getting Involved
 ================
 
