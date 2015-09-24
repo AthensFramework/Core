@@ -1,0 +1,10 @@
+{#
+    Soft pagination of a table is when the server sends *all* of the rows
+    to the browser, and then the browser uses javascript to filter the
+    number of rows down to the desired page size. Consequently, page
+    *creation* is slow but navigation between table-pages is fast.
+
+    The trade-off is usually not worth it. In the case of Framework, it is
+    sometimes necessary to load *all* of the rows from the database, especially
+    when filtering/sorting is done an encrypted field, or a user-defined field.
+#}

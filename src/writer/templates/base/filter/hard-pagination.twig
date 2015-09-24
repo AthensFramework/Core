@@ -1,0 +1,20 @@
+{#
+    Hard pagination occurs when the server only generates a single
+    table-page at a time, on the browser's request. See comment
+    in soft-pagination.twig
+#}
+
+<div class="pagination-container">
+    <a class="$prevClass" data-page-for="">&laquo;</a>&nbsp;
+    <a class="$prevClass" data-page-for="">&lsaquo;</a>&nbsp;
+
+    <select class="pagination-filter">
+
+    </select>
+
+    &nbsp;<a class="$nextClass" data-page-for="">&rsaquo;</a>
+    &nbsp;<a class="$nextClass" data-page-for="">&raquo;</a>
+</div>
+<script>
+    $(function() { setupPaginationFilter(""); });
+</script>
