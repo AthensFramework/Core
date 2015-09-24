@@ -16,6 +16,7 @@ use UWDOEM\Framework\Table\TableInterface;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Field\Field;
+use UWDOEM\Framework\Filter\FilterInterface;
 
 
 class Writer extends Visitor {
@@ -150,6 +151,20 @@ class Writer extends Visitor {
             ->render([
                 "rows" => $table->getRows(),
                 "filter" => $table->getFilter(),
+            ]);
+    }
+
+    public function visitFilter(FilterInterface $filter) {
+        $template = 'filter/' . $filter->getType() . '.twig';
+
+        $nextFilter = $filter->getNextFilter();
+        $nextFilterOutput = $nextFilter->accept($this);
+
+        return $nextFilterOutput . "\n" . $this
+            ->loadTemplate($template)
+            ->render([
+                "handle" => $filter->getHandle() ,
+                "feedback" => $filter->getFeedback(),
             ]);
     }
 
