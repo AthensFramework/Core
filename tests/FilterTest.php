@@ -186,7 +186,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $filter1 = FilterBuilder::begin()
             ->setHandle("Filter1")
             ->setType(Filter::TYPE_STATIC)
-            ->setFieldName(RowMaker::INT_FIELD_NAME)
+            ->setFieldName("TestClass.Id")
             ->setCondition(FilterStatement::COND_SORT_ASC)
             ->build();
 
