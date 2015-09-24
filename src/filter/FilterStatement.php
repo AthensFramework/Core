@@ -115,16 +115,16 @@ class FilterStatement implements FilterStatementInterface {
         $criterion = $this->getCriterion();
         $control = $this->getControl();
 
-        $getFieldValueFunction = function ($row) use ($fieldName) {
+        $getFieldValue = function ($row) use ($fieldName) {
             /** @var RowInterface $row */
             return $row->getFieldBearer()->getFieldByName($fieldName)->getInitial();
         };
 
         switch ($cond) {
             case static::COND_SORT_ASC:
-                $compare = function (RowInterface $a, RowInterface $b) use ($getFieldValueFunction) {
-                    $valA = $getFieldValueFunction($a);
-                    $valB = $getFieldValueFunction($b);
+                $compare = function (RowInterface $a, RowInterface $b) use ($getFieldValue) {
+                    $valA = $getFieldValue($a);
+                    $valB = $getFieldValue($b);
 
                     return $valA - $valB;
                 };
@@ -134,9 +134,9 @@ class FilterStatement implements FilterStatementInterface {
                 break;
             case static::COND_SORT_DESC:
 
-                $compare = function (RowInterface $a, RowInterface $b) use ($getFieldValueFunction) {
-                    $valA = $getFieldValueFunction($a);
-                    $valB = $getFieldValueFunction($b);
+                $compare = function (RowInterface $a, RowInterface $b) use ($getFieldValue) {
+                    $valA = $getFieldValue($a);
+                    $valB = $getFieldValue($b);
 
                     return $valB - $valA;
                 };
@@ -145,8 +145,8 @@ class FilterStatement implements FilterStatementInterface {
 
                 break;
             case static::COND_LESS_THAN:
-                $filter = function (RowInterface $row) use ($getFieldValueFunction, $criterion) {
-                    $val = $getFieldValueFunction($row);
+                $filter = function (RowInterface $row) use ($getFieldValue, $criterion) {
+                    $val = $getFieldValue($row);
 
                     return $val < $criterion;
                 };
@@ -154,8 +154,8 @@ class FilterStatement implements FilterStatementInterface {
                 $rows = array_filter($rows, $filter);
                 break;
             case static::COND_GREATER_THAN:
-                $filter = function (RowInterface $row) use ($getFieldValueFunction, $criterion) {
-                    $val = $getFieldValueFunction($row);
+                $filter = function (RowInterface $row) use ($getFieldValue, $criterion) {
+                    $val = $getFieldValue($row);
 
                     return $val > $criterion;
                 };
@@ -164,8 +164,8 @@ class FilterStatement implements FilterStatementInterface {
 
                 break;
             case static::COND_EQUAL_TO:
-                $filter = function (RowInterface $row) use ($getFieldValueFunction, $criterion) {
-                    $val = $getFieldValueFunction($row);
+                $filter = function (RowInterface $row) use ($getFieldValue, $criterion) {
+                    $val = $getFieldValue($row);
 
                     return $val === $criterion;
                 };
@@ -174,8 +174,8 @@ class FilterStatement implements FilterStatementInterface {
 
                 break;
             case static::COND_NOT_EQUAL_TO:
-                $filter = function (RowInterface $row) use ($getFieldValueFunction, $criterion) {
-                    $val = $getFieldValueFunction($row);
+                $filter = function (RowInterface $row) use ($getFieldValue, $criterion) {
+                    $val = $getFieldValue($row);
 
                     return $val !== $criterion;
                 };
@@ -184,8 +184,8 @@ class FilterStatement implements FilterStatementInterface {
 
                 break;
             case static::COND_CONTAINS:
-                $filter = function (RowInterface $row) use ($getFieldValueFunction, $criterion) {
-                    $val = $getFieldValueFunction($row);
+                $filter = function (RowInterface $row) use ($getFieldValue, $criterion) {
+                    $val = $getFieldValue($row);
 
                     return strripos($val, $criterion) !== false;
                 };
