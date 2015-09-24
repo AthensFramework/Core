@@ -39,6 +39,11 @@ interface FilterInterface {
     function getStatements();
 
     /**
+     * @return array
+     */
+    function getOptions();
+
+    /**
      * @param ModelCriteria $query
      * @return ModelCriteria
      */

@@ -1,6 +1,7 @@
 <?php
 
 use Propel\Runtime\ActiveQuery\Criteria;
+use Propel\Runtime\Connection\ConnectionInterface;
 
 use UWDOEM\Framework\Filter\FilterStatement;
 use UWDOEMTest\TestClassQuery;
@@ -18,6 +19,8 @@ class MockQuery extends TestClassQuery {
 
     public $setOffset;
     public $setLimit;
+
+    public $count;
 
     public function orderBy($columnName, $order = Criteria::ASC) {
         $this->orderByStatements[] = [$columnName, $order];
@@ -38,6 +41,16 @@ class MockQuery extends TestClassQuery {
         $this->setOffset = $offset;
         return $this;
     }
+
+    public function count(ConnectionInterface $con = null) {
+        if (isset($this->count)) {
+            return $this->count;
+        } else {
+            return parent::count($con);
+        }
+    }
+
+
 }
 
 

@@ -30,6 +30,9 @@ class Filter implements FilterInterface {
     /** @var string */
     protected $_handle;
 
+    /** @var array */
+    protected $_options;
+
     /**
      * @var FilterInterface The next filter in this chain
      */
@@ -122,10 +125,25 @@ class Filter implements FilterInterface {
             if ($queryFilterBroken === true) {
                 $this->_rowStatements[] = $statement;
             } else {
+                $this->setOptionsByQuery($query);
                 $query = $statement->applyToQuery($query);
             }
         }
         return $query;
+    }
+
+    /**
+     * @param ModelCriteria $query
+     */
+    protected function setOptionsByQuery($query) {
+        switch ($this->getType()) {
+            case static::TYPE_PAGINATION:
+                $maxPerPage = $this->getStatements()[0]->getCriterion();
+                $totalRows = $query->count();
+                $numPages = ceil($totalRows/$maxPerPage);
+                $this->_options = range(1,$numPages);
+                break;
+        }
     }
 
     /**
@@ -140,6 +158,10 @@ class Filter implements FilterInterface {
         }
 
         return $rows;
+    }
+
+    public function getOptions() {
+        return $this->_options;
     }
 
     protected function makeFeedback() {

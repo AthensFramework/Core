@@ -125,6 +125,26 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->build();
     }
 
+    public function testPaginationFilterOptions() {
+        $maxPerPage = rand(5, 15);
+        $count = rand(50, 200);
+
+        $filter = FilterBuilder::begin()
+            ->setHandle("pagination")
+            ->setMaxPerPage($maxPerPage)
+            ->setType(Filter::TYPE_PAGINATION)
+            ->build();
+
+        $query = new MockQuery();
+        $query->count = $count;
+
+        $filter->queryFilter($query);
+
+        $expectedNumPages = ceil($count/$maxPerPage);
+
+        $this->assertEquals(range(1, $expectedNumPages), $filter->getOptions());
+    }
+
     public function testBuildFilterWithNextFilter() {
         $filter1 = FilterBuilder::begin()
             ->setHandle("Filter1")
