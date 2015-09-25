@@ -175,7 +175,7 @@ class FilterBuilder {
             case Filter::TYPE_PAGINATION:
 
                 $maxPerPage = isset($this->_maxPerPage) ? $this->_maxPerPage : Settings::getDefaultPagination();
-                $page = isset($this->_page) ? $this->_page : 1;
+                $page = isset($this->_page) ? $this->_page : FilterControls::getControl($handle, "page", 1);
 
                 $statements[] = new PaginationFilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page);
 
