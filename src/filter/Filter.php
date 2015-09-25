@@ -155,12 +155,6 @@ class Filter implements FilterInterface {
     public function getOptions() {
         return $this->_options;
     }
-
-    protected function makeFeedback() {
-
-        $feedback = "";
-        return $feedback;
-    }
 }
 
 
