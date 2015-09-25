@@ -7,6 +7,7 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
+use UWDOEM\Framework\Visitor\VisitableTrait;
 
 
 class Filter implements FilterInterface {
@@ -39,6 +40,8 @@ class Filter implements FilterInterface {
      * @var FilterInterface The next filter in this chain
      */
     protected $_nextFilter;
+
+    use VisitableTrait;
 
     /**
      * @param $handle
@@ -164,7 +167,7 @@ class Filter implements FilterInterface {
  */
 class DummyFilter extends Filter {
     function getFeedback() {
-        return [];
+        return "d";
     }
 
     function combine(FilterInterface $filter) {
