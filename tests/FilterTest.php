@@ -8,6 +8,7 @@ use UWDOEM\Framework\Filter\Filter;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEMTest\TestClassQuery;
 use UWDOEM\Framework\Filter\PaginationFilter;
+use UWDOEM\Framework\Filter\FilterControls;
 
 
 class FilterTest extends PHPUnit_Framework_TestCase {
@@ -222,6 +223,24 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
         $this->assertContains(["TestClass.Id", "ASC"], $query->orderByStatements);
         $this->assertEquals(1, sizeof($query->orderByStatements));
+    }
+
+    public function testFilterControlsFromGet() {
+        $handle = (string)rand();
+        $key = (string)rand();
+        $value = (string)rand();
+
+        $_GET["$handle-$key"] = $value;
+
+        $this->assertEquals($value, FilterControls::getControl($handle, $key));
+    }
+
+    public function testFilterControlsFromDefault() {
+        $handle = (string)rand();
+        $key = (string)rand();
+        $default = (string)rand();
+
+        $this->assertEquals($default, FilterControls::getControl($handle, $key, $default));
     }
 
 }
