@@ -71,7 +71,7 @@ uwdoem.ajax = (function() {
                         postVars[fieldName] = [];
                     }
 
-                    postVars[fieldName].push(formVars[i].value)
+                    postVars[fieldName].push(formVars[i].value);
                 } else {
                     postVars[fieldName] = formVars[i].value;
                 }
