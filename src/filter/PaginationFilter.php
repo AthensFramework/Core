@@ -2,6 +2,8 @@
 
 namespace UWDOEM\Framework\Filter;
 
+use Propel\Runtime\ActiveQuery\ModelCriteria;
+
 
 class PaginationFilter extends Filter {
 
@@ -9,14 +11,20 @@ class PaginationFilter extends Filter {
         return $this->getStatements()[0]->getCriterion();
     }
 
-    protected function getMaxPagesByQuery($query) {
+    protected function getMaxPagesByQuery(ModelCriteria $query) {
         $maxPerPage = $this->getMaxPerPage();
         $totalRows = $query->count();
 
-        $numPages = ceil($totalRows / $maxPerPage);
+        return ceil($totalRows / $maxPerPage);
     }
 
     protected function setOptionsByQuery($query) {
+        $maxPages = $this->getMaxPagesByQuery($query);
+        $this->_options = range(1, $maxPages);
+    }
+
+    protected function setFeedbackByQuery(ModelCriteria $query) {
+
         $page = $this->getStatements()[0]->getControl();
         $maxPerPage = $this->getMaxPerPage();
 
@@ -26,11 +34,7 @@ class PaginationFilter extends Filter {
         $lastRow = $firstRow + $maxPerPage;
 
 
-        $this->_feedback = "Displaying results $firstRow-$lastRow of $totalRows."
-    }
-
-    protected function setFeedbackByQuery($query) {
-
+        $this->_feedback = "Displaying results $firstRow-$lastRow of $totalRows.";
     }
 
 }
