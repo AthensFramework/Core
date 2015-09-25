@@ -6,6 +6,7 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Row\RowInterface;
+use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
 
 
 class Filter implements FilterInterface {
@@ -30,6 +31,9 @@ class Filter implements FilterInterface {
 
     /** @var array */
     protected $_options;
+
+    /** @var string */
+    protected $_feedback;
 
     /**
      * @var FilterInterface The next filter in this chain
