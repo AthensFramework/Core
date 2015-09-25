@@ -3,14 +3,15 @@
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\Connection\ConnectionInterface;
 
-use UWDOEM\Framework\Filter\FilterStatement;
+use UWDOEM\Framework\FilterStatement\FilterStatement;
 use UWDOEMTest\TestClassQuery;
 use UWDOEM\Framework\Row\RowBuilder;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\Filter\FilterBuilder;
-use UWDOEM\Framework\Filter\Filter;
+use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
+use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
+use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
 
 
 class MockQuery extends TestClassQuery {
@@ -116,20 +117,24 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         FilterStatement::COND_EQUAL_TO,
         FilterStatement::COND_NOT_EQUAL_TO,
         FilterStatement::COND_PAGINATE_BY,
-        FilterStatement::COND_TRUTHY,
-        FilterStatement::COND_FALSEY,
     ];
 
-    
+    public function testFilterStatementConstruction() {
+        $fieldName = (string)rand();
+        $condition = (string)rand();
+        $criterion = (string)rand();
 
-    
+        $statement = new ExcludingFilterStatement($fieldName, $condition, $criterion, null);
 
-    
+        $this->assertEquals($fieldName, $statement->getFieldName());
+        $this->assertEquals($condition, $statement->getCondition());
+        $this->assertEquals($criterion, $statement->getCriterion());
+    }
 
     public function testRowFilterSortAscending() {
         $rows = RowMaker::makeRows();
 
-        $statement = new FilterStatement(
+        $statement = new SortingFilterStatement(
             RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_SORT_ASC,
             null,
@@ -151,7 +156,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     public function testRowFilterSortDescending() {
         $rows = RowMaker::makeRows();
 
-        $statement = new FilterStatement(
+        $statement = new SortingFilterStatement(
             RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_SORT_DESC,
             null,
@@ -175,7 +180,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
         $criterion = RowMaker::sampleMedianIntField($rows);
 
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_LESS_THAN,
             $criterion,
@@ -196,7 +201,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
         $criterion = RowMaker::sampleMedianIntField($rows);
 
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_GREATER_THAN,
             $criterion,
@@ -217,7 +222,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
         $criterion = RowMaker::sampleMedianIntField($rows);
 
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_EQUAL_TO,
             $criterion,
@@ -237,7 +242,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
         $criterion = RowMaker::sampleMedianIntField($rows);
 
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::INT_FIELD_NAME,
             FilterStatement::COND_NOT_EQUAL_TO,
             $criterion,
@@ -257,7 +262,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
         $criterion = (string)rand(0,9);
 
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_CONTAINS,
             $criterion,
@@ -281,7 +286,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $maxPerPage = rand(2,9);
         $page = rand(2, 9);
 
-        $statement = new FilterStatement(
+        $statement = new PaginationFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_PAGINATE_BY,
             $maxPerPage,
@@ -302,7 +307,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
     public function testQueryFilterSortAscending() {
         $query = new MockQuery();
-        $statement = new FilterStatement(
+        $statement = new SortingFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_SORT_ASC,
             null,
@@ -319,7 +324,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
     public function testQueryFilterSortDescending() {
         $query = new MockQuery();
-        $statement = new FilterStatement(
+        $statement = new SortingFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_SORT_DESC,
             null,
@@ -337,7 +342,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     public function testQueryFilterLessThan() {
         $query = new MockQuery();
         $criterion = rand();
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_LESS_THAN,
             $criterion,
@@ -355,7 +360,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     public function testQueryFilterGreaterThan() {
         $query = new MockQuery();
         $criterion = rand();
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_GREATER_THAN,
             $criterion,
@@ -373,7 +378,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     public function testQueryFilterEqualTo() {
         $query = new MockQuery();
         $criterion = rand();
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_EQUAL_TO,
             $criterion,
@@ -391,7 +396,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
     public function testQueryFilterNotEqualTo() {
         $query = new MockQuery();
         $criterion = rand();
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_NOT_EQUAL_TO,
             $criterion,
@@ -410,7 +415,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = new MockQuery();
         $criterion = rand();
 
-        $statement = new FilterStatement(
+        $statement = new ExcludingFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_CONTAINS,
             $criterion,
@@ -420,7 +425,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $query = $statement->applyToQuery($query);
 
         $this->assertContains(
-            [RowMaker::STRING_FIELD_NAME, [$criterion], Criteria::CONTAINS_ALL],
+            [RowMaker::STRING_FIELD_NAME, $criterion, Criteria::CONTAINS_ALL],
             $query->aliasedStatements
         );
     }
@@ -432,7 +437,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         $maxPerPage = rand(0,9);
         $page = rand(1,9);
 
-        $statement = new FilterStatement(
+        $statement = new PaginationFilterStatement(
             RowMaker::STRING_FIELD_NAME,
             FilterStatement::COND_PAGINATE_BY,
             $maxPerPage,

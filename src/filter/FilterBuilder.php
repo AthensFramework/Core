@@ -3,6 +3,11 @@
 namespace UWDOEM\Framework\Filter;
 
 use UWDOEM\Framework\Etc\Settings;
+use UWDOEM\Framework\FilterStatement\FilterStatement;
+use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
+use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
+use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
+use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
 
 
 class FilterBuilder {
@@ -153,16 +158,16 @@ class FilterBuilder {
                 $fieldName = $this->retrieveOrException("_fieldName", __METHOD__);
                 $condition = $this->retrieveOrException("_condition", __METHOD__);
 
-                if (!in_array(
+                if (in_array(
                     $condition,
                     [FilterStatementInterface::COND_SORT_ASC, FilterStatementInterface::COND_SORT_DESC])
                 ) {
-                    $criterion = $this->retrieveOrException("_criterion", __METHOD__);
-                } else {
                     $criterion = $this->_criterion;
+                    $statements[] = new SortingFilterStatement($fieldName, $condition, $criterion, null);
+                } else {
+                    $criterion = $this->retrieveOrException("_criterion", __METHOD__);
+                    $statements[] = new ExcludingFilterStatement($fieldName, $condition, $criterion, null);
                 }
-
-                $statements[] = new FilterStatement($fieldName, $condition, $criterion, null);
 
                 return new Filter($handle, $statements, $this->_nextFilter);
 
@@ -172,7 +177,7 @@ class FilterBuilder {
                 $maxPerPage = isset($this->_maxPerPage) ? $this->_maxPerPage : Settings::getDefaultPagination();
                 $page = isset($this->_page) ? $this->_page : 1;
 
-                $statements[] = new FilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page);
+                $statements[] = new PaginationFilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page);
 
                 return new PaginationFilter($handle, $statements, $this->_nextFilter);
 
@@ -183,7 +188,4 @@ class FilterBuilder {
             throw new \Exception("Invalid filter type.");
         }
     }
-
-
-
 }

@@ -2,7 +2,7 @@
 
 use Propel\Runtime\ActiveQuery\Criteria;
 
-use UWDOEM\Framework\Filter\FilterStatement;
+use UWDOEM\Framework\FilterStatement\FilterStatement;
 use UWDOEM\Framework\Filter\FilterBuilder;
 use UWDOEM\Framework\Filter\Filter;
 use UWDOEM\Framework\Etc\Settings;
@@ -20,22 +20,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         FilterStatement::COND_EQUAL_TO,
         FilterStatement::COND_NOT_EQUAL_TO,
         FilterStatement::COND_PAGINATE_BY,
-        FilterStatement::COND_TRUTHY,
-        FilterStatement::COND_FALSEY,
     ];
-
-
-    public function testFilterStatement() {
-        $fieldName = (string)rand();
-        $condition = (string)rand();
-        $criterion = (string)rand();
-
-        $statement = new FilterStatement($fieldName, $condition, $criterion, null);
-
-        $this->assertEquals($fieldName, $statement->getFieldName());
-        $this->assertEquals($condition, $statement->getCondition());
-        $this->assertEquals($criterion, $statement->getCriterion());
-    }
 
     public function testBuildStaticFilter() {
 

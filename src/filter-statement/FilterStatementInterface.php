@@ -1,6 +1,6 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace UWDOEM\Framework\FilterStatement;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
@@ -15,8 +15,6 @@ interface FilterStatementInterface {
     const COND_NOT_EQUAL_TO = 6;
     const COND_CONTAINS = 7;
     const COND_PAGINATE_BY = 8;
-    const COND_TRUTHY = 9;
-    const COND_FALSEY = 10;
 
     /**
      * @return string
