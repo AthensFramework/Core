@@ -5,6 +5,8 @@ namespace UWDOEM\Framework\Filter;
 use Guzzle\Service\Resource\Model;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
+use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
+
 
 interface FilterInterface {
 
