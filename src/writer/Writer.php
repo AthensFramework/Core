@@ -154,15 +154,27 @@ class Writer extends Visitor {
             ]);
     }
 
-    protected function visitPaginationFilter(FilterInterface $filter) {
-        $this->visitFilter($filter, "pagination");
+    public function visitPaginationFilter(FilterInterface $filter) {
+
+        if ($filter->getFeedback()) {
+            $this->visitFilterOfType($filter, "hard-pagination");
+        } else {
+            $this->visitFilterOfType($filter, "soft-pagination");
+        }
     }
 
-    protected function visitStaticFilter(FilterInterface $filter) {
-        $this->visitFilter($filter, "static");
+    public function visitStaticFilter(FilterInterface $filter) {
+        $this->visitFilterOfType($filter, "static");
     }
 
-    protected function visitFilter(FilterInterface $filter, $type) {
+    public function visitDummyFilter(FilterInterface $filter) {
+    }
+
+    public function visitFilter(FilterInterface $filter) {
+        $this->visitFilterOfType($filter);
+    }
+
+    protected function visitFilterOfType(FilterInterface $filter, $type="base") {
         $template = "filter/$type.twig";
 
         $nextFilter = $filter->getNextFilter();
