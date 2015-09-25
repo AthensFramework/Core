@@ -14,11 +14,6 @@ interface FilterInterface {
     function combine(FilterInterface $filter);
 
     /**
-     * @return string
-     */
-    function getType();
-
-    /**
      * @return string[]
      */
     function getFeedback();

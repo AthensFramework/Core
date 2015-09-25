@@ -162,8 +162,9 @@ class FilterBuilder {
                     $criterion = $this->_criterion;
                 }
 
-
                 $statements[] = new FilterStatement($fieldName, $condition, $criterion, null);
+
+                return new Filter($handle, $statements, $this->_nextFilter);
 
                 break;
             case Filter::TYPE_PAGINATION:
@@ -173,14 +174,14 @@ class FilterBuilder {
 
                 $statements[] = new FilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page);
 
+                return new PaginationFilter($handle, $statements, $this->_nextFilter);
+
                 break;
         }
 
         if (empty($statements)) {
             throw new \Exception("Invalid filter type.");
         }
-
-        return new Filter($handle, $type, $statements, $this->_nextFilter);
     }
 
 

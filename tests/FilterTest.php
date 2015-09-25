@@ -7,6 +7,7 @@ use UWDOEM\Framework\Filter\FilterBuilder;
 use UWDOEM\Framework\Filter\Filter;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEMTest\TestClassQuery;
+use UWDOEM\Framework\Filter\PaginationFilter;
 
 
 class FilterTest extends PHPUnit_Framework_TestCase {
@@ -75,7 +76,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $this->assertEquals($handle, $filter->getHandle());
-        $this->assertEquals($type, $filter->getType());
+        $this->assertTrue($filter instanceof PaginationFilter);
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
         $statement = $filter->getStatements()[0];
@@ -105,7 +106,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
         $this->assertEquals($handle, $filter->getHandle());
-        $this->assertEquals($type, $filter->getType());
+        $this->assertTrue($filter instanceof PaginationFilter);
         $statement = $filter->getStatements()[0];
 
         $this->assertEquals(FilterStatement::COND_PAGINATE_BY, $statement->getCondition());

@@ -16,8 +16,6 @@ class Filter implements FilterInterface {
     const TYPE_STATIC = "static";
     const TYPE_PAGINATION = "pagination";
 
-    protected $_type;
-
     /** @var array|FilterStatementInterface[] */
     protected $_statements = [];
 
@@ -40,11 +38,10 @@ class Filter implements FilterInterface {
 
     /**
      * @param $handle
-     * @param $type
      * @param FilterStatementInterface[] $statements
      * @param FilterInterface|null $nextFilter
      */
-    public function __construct($handle, $type, array $statements, FilterInterface $nextFilter = null) {
+    public function __construct($handle, array $statements, FilterInterface $nextFilter = null) {
 
         if (is_null($nextFilter)) {
             $this->_nextFilter = new DummyFilter();
@@ -54,7 +51,6 @@ class Filter implements FilterInterface {
 
         $this->_handle = $handle;
         $this->_statements = $statements;
-        $this->_type = $type;
     }
 
     /**
@@ -62,13 +58,6 @@ class Filter implements FilterInterface {
      */
     public function getFeedback() {
         return array_merge([$this->makeFeedback()], $this->_nextFilter->getFeedback());
-    }
-
-    /**
-     * @return string
-     */
-    public function getType() {
-        return $this->_type;
     }
 
     /**
@@ -136,14 +125,6 @@ class Filter implements FilterInterface {
      * @param ModelCriteria $query
      */
     protected function setOptionsByQuery($query) {
-        switch ($this->getType()) {
-            case static::TYPE_PAGINATION:
-                $maxPerPage = $this->getStatements()[0]->getCriterion();
-                $totalRows = $query->count();
-                $numPages = ceil($totalRows/$maxPerPage);
-                $this->_options = range(1,$numPages);
-                break;
-        }
     }
 
     /**
@@ -167,14 +148,6 @@ class Filter implements FilterInterface {
     protected function makeFeedback() {
 
         $feedback = "";
-        switch ($this->getType()) {
-            case static::TYPE_STATIC:
-                break;
-            case static::TYPE_PAGINATION:
-                $feedback = "Pagination feedback.";
-                break;
-        }
-
         return $feedback;
     }
 }
