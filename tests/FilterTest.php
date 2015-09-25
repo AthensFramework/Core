@@ -132,6 +132,26 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(range(1, $expectedNumPages), $filter->getOptions());
     }
 
+    public function testPaginationFilterFeedback() {
+        $maxPerPage = rand(5, 15);
+        $count = rand(50, 200);
+
+        $filter = FilterBuilder::begin()
+            ->setHandle("pagination")
+            ->setMaxPerPage($maxPerPage)
+            ->setType(Filter::TYPE_PAGINATION)
+            ->build();
+
+        $query = new MockQuery();
+        $query->count = $count;
+
+        $filter->queryFilter($query);
+
+        $expectedNumPages = ceil($count/$maxPerPage);
+
+        $this->assertContains((string)$count, $filter->getFeedback());
+    }
+
     public function testBuildFilterWithNextFilter() {
         $filter1 = FilterBuilder::begin()
             ->setHandle("Filter1")
@@ -145,24 +165,6 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $this->assertEquals($filter1, $filter2->getNextFilter());
-    }
-
-    public function testChainedFilterFeedback() {
-        $filter1 = FilterBuilder::begin()
-            ->setHandle("Filter1")
-            ->setType(Filter::TYPE_STATIC)
-            ->setFieldName((string)rand())
-            ->setCondition((string)rand())
-            ->setCriterion((string)rand())
-            ->build();
-
-        $filter2 = FilterBuilder::begin()
-            ->setHandle("Filter2")
-            ->setNextFilter($filter1)
-            ->setType(Filter::TYPE_PAGINATION)
-            ->build();
-
-        $this->assertEquals(2, sizeof($filter2->getFeedback()));
     }
 
     public function testChainedFilterByQuery() {
