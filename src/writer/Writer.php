@@ -154,8 +154,16 @@ class Writer extends Visitor {
             ]);
     }
 
-    public function visitFilter(FilterInterface $filter) {
-        $template = 'filter/' . $filter->getType() . '.twig';
+    protected function visitPaginationFilter(FilterInterface $filter) {
+        $this->visitFilter($filter, "pagination");
+    }
+
+    protected function visitStaticFilter(FilterInterface $filter) {
+        $this->visitFilter($filter, "static");
+    }
+
+    protected function visitFilter(FilterInterface $filter, $type) {
+        $template = "filter/$type.twig";
 
         $nextFilter = $filter->getNextFilter();
         $nextFilterOutput = $nextFilter->accept($this);
