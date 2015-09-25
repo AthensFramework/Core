@@ -18,7 +18,7 @@ class PaginationFilter extends Filter {
         return ceil($totalRows / $maxPerPage);
     }
 
-    protected function setOptionsByQuery($query) {
+    protected function setOptionsByQuery(ModelCriteria $query) {
         $maxPages = $this->getMaxPagesByQuery($query);
         $this->_options = range(1, $maxPages);
     }

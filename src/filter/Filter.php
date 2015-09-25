@@ -61,7 +61,7 @@ class Filter implements FilterInterface {
      * @return string[]
      */
     public function getFeedback() {
-        return array_merge([$this->makeFeedback()], $this->_nextFilter->getFeedback());
+        return $this->_feedback;
     }
 
     /**
@@ -119,6 +119,7 @@ class Filter implements FilterInterface {
                 $this->_rowStatements[] = $statement;
             } else {
                 $this->setOptionsByQuery($query);
+                $this->setFeedbackByQuery($query);
                 $query = $statement->applyToQuery($query);
             }
         }
@@ -128,7 +129,13 @@ class Filter implements FilterInterface {
     /**
      * @param ModelCriteria $query
      */
-    protected function setOptionsByQuery($query) {
+    protected function setOptionsByQuery(ModelCriteria $query) {
+    }
+
+    /**
+     * @param ModelCriteria $query
+     */
+    protected function setFeedbackByQuery(ModelCriteria $query) {
     }
 
     /**
