@@ -167,7 +167,7 @@ class Filter implements FilterInterface {
  */
 class DummyFilter extends Filter {
     function getFeedback() {
-        return "d";
+        return "";
     }
 
     function combine(FilterInterface $filter) {
