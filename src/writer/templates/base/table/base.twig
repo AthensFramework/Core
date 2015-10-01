@@ -1,5 +1,11 @@
 <table>
-<!-- render filters, not yet implemented -->
+<div class="filter-controls">
+    {% for filter in filters %}
+        {{ filter|write|raw }}
+    {% endfor %}
+</div>
+
+
 <!-- header row -->
 <tr>
     {% if rows is empty %}
@@ -20,6 +26,8 @@
 {% endfor %}
 </table>
 
-<p class="filter-feedback">
-    {{ filter.getFeedback }}
-</p>
+{% for filter in filters %}
+    <p class="filter-feedback">
+        {{ filter.getFeedback }}
+    </p>
+{% endfor %}
