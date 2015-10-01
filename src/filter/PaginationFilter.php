@@ -7,6 +7,13 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 class PaginationFilter extends Filter {
 
+    const TYPE_HARD_PAGINATION = "hard";
+    const TYPE_SOFT_PAGINATION = "soft";
+
+    protected $_type;
+    protected $_numPages;
+    protected $_page;
+
     protected function getMaxPerPage() {
         return $this->getStatements()[0]->getCriterion();
     }
@@ -16,6 +23,18 @@ class PaginationFilter extends Filter {
         $totalRows = $query->count();
 
         return ceil($totalRows / $maxPerPage);
+    }
+
+    public function getType() {
+        return $this->_type;
+    }
+
+    public function getNumPages() {
+        return $this->_numPages;
+    }
+
+    public function getPage() {
+        return $this->_page;
     }
 
     protected function setOptionsByQuery(ModelCriteria $query) {
@@ -30,11 +49,14 @@ class PaginationFilter extends Filter {
 
         $totalRows = $query->count();
 
-        $firstRow = $page*$maxPerPage + 1;
-        $lastRow = $firstRow + $maxPerPage;
-
+        $firstRow = ($page - 1)*$maxPerPage + 1;
+        $lastRow = $firstRow + $maxPerPage - 1;
 
         $this->_feedback = "Displaying results $firstRow-$lastRow of $totalRows.";
+
+        $this->_type = static::TYPE_HARD_PAGINATION;
+        $this->_page = $page;
+        $this->_numPages = $this->getMaxPagesByQuery($query);
     }
 
 }
