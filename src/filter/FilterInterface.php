@@ -6,9 +6,10 @@ use Guzzle\Service\Resource\Model;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
+use UWDOEM\Framework\Writer\WritableInterface;
 
 
-interface FilterInterface {
+interface FilterInterface  extends WritableInterface {
 
     /**
      * @param FilterInterface $filter
