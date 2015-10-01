@@ -4,17 +4,19 @@
     in soft-pagination.twig
 #}
 
-<div class="pagination-container">
-    <a class="$prevClass" data-page-for="">&laquo;</a>&nbsp;
-    <a class="$prevClass" data-page-for="">&lsaquo;</a>&nbsp;
+<div class="pagination-container" data-handle-for="{{ handle }}">
+    <a class="pagination-arrow back first" data-page-for="{{ options|first }}">&laquo;</a>&nbsp;
+    <a class="pagination-arrow back previous" data-page-for="{{ options|first }}">&lsaquo;</a>&nbsp;
 
-    <select class="pagination-filter">
-
+    <select class="pagination-filter {{ handle }}">
+        {% for option in options %}
+        <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
     </select>
 
-    &nbsp;<a class="$nextClass" data-page-for="">&rsaquo;</a>
-    &nbsp;<a class="$nextClass" data-page-for="">&raquo;</a>
+    &nbsp;<a class="pagination-arrow forward next" data-page-for="{{ options|last }}">&rsaquo;</a>
+    &nbsp;<a class="pagination-arrow forward last" data-page-for="{{ options|last }}">&raquo;</a>
 </div>
 <script>
-    $(function() { setupPaginationFilter(""); });
+    $(function() { uwdoem.pagination.setupPaginationFilter("{{ handle }}"); });
 </script>
