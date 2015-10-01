@@ -73,24 +73,24 @@ uwdoem.ajax_section = (function() {
         }
     };
 
-    ///**
-    // *
-    // * @param sectionName
-    // * @param filterName
-    // * @param argName
-    // * @returns {*}
-    // */
-    //var getGetVarValue = function(sectionName, filterName, argName) {
-    //
-    //    if(
-    //        sectionName in getVarRegistry &&
-    //        filterName in getVarRegistry[sectionName] &&
-    //        argName in getVarRegistry[sectionName][filterName]
-    //    ) {
-    //        return getVarRegistry[sectionName][filterName][argName];
-    //    }
-    //    return null;
-    //};
+    /**
+     *
+     * @param sectionName
+     * @param filterName
+     * @param argName
+     * @returns {*}
+     */
+    var getGetVarValue = function(sectionName, filterName, argName) {
+
+        if(
+            sectionName in getVarRegistry &&
+            filterName in getVarRegistry[sectionName] &&
+            argName in getVarRegistry[sectionName][filterName]
+        ) {
+            return getVarRegistry[sectionName][filterName][argName];
+        }
+        return null;
+    };
 
     /**
      * Render the registered get variables for a given AJAXSection into a URL-encoded string
@@ -165,7 +165,8 @@ uwdoem.ajax_section = (function() {
         loadSection: loadSection,
         registerGetVar: registerGetVar,
         unsetGetVar: unsetGetVar,
-        getVar: getVar
+        getVar: getVar,
+        getGetVarValue: getGetVarValue
     };
 
 }());
