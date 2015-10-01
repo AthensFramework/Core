@@ -6,6 +6,7 @@ use Twig_SimpleFilter;
 
 use UWDOEM\Framework\Etc\SafeString;
 use UWDOEM\Framework\Field\FieldInterface;
+use UWDOEM\Framework\Filter\PaginationFilter;
 use UWDOEM\Framework\Form\FormInterface;
 use UWDOEM\Framework\Form\FormAction\FormActionInterface;
 use UWDOEM\Framework\Section\SectionInterface;
@@ -146,45 +147,44 @@ class Writer extends Visitor {
     public function visitTable(TableInterface $table) {
         $template = 'table/base.twig';
 
+        $filters = [];
+        for ($thisFilter = $table->getFilter(); $thisFilter !== null; $thisFilter = $thisFilter->getNextFilter()) {
+            $filters[] = $thisFilter;
+        }
+
         return $this
             ->loadTemplate($template)
             ->render([
                 "rows" => $table->getRows(),
-                "filter" => $table->getFilter(),
+                "filters" => $filters,
             ]);
     }
 
-    public function visitPaginationFilter(FilterInterface $filter) {
+    public function visitPaginationFilter(PaginationFilter $filter) {
+        $type = $filter->getType();
 
-        if ($filter->getFeedback()) {
-            $this->visitFilterOfType($filter, "hard-pagination");
-        } else {
-            $this->visitFilterOfType($filter, "soft-pagination");
-        }
+        return $this->visitFilterOfType($filter, "$type-pagination");
     }
 
     public function visitStaticFilter(FilterInterface $filter) {
-        $this->visitFilterOfType($filter, "static");
+        return $this->visitFilterOfType($filter, "static");
     }
 
     public function visitDummyFilter(FilterInterface $filter) {
     }
 
     public function visitFilter(FilterInterface $filter) {
-        $this->visitFilterOfType($filter);
+        return $this->visitFilterOfType($filter);
     }
 
     protected function visitFilterOfType(FilterInterface $filter, $type="base") {
         $template = "filter/$type.twig";
 
-        $nextFilter = $filter->getNextFilter();
-        $nextFilterOutput = $nextFilter->accept($this);
-
-        return $nextFilterOutput . "\n" . $this
+        return $this
             ->loadTemplate($template)
             ->render([
                 "handle" => $filter->getHandle() ,
-                "feedback" => $filter->getFeedback(),
+                "options" => $filter->getOptions(),
             ]);
     }
 
