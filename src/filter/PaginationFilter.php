@@ -50,7 +50,7 @@ class PaginationFilter extends Filter {
         $totalRows = $query->count();
 
         $firstRow = ($page - 1)*$maxPerPage + 1;
-        $lastRow = $firstRow + $maxPerPage - 1;
+        $lastRow = min($firstRow + $maxPerPage - 1, $query->count());
 
         $this->_feedback = "Displaying results $firstRow-$lastRow of $totalRows.";
 
