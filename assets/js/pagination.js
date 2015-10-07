@@ -4,12 +4,16 @@ uwdoem.pagination = (function() {
         return $("div.pagination-container[data-handle-for=" + handle +"]");
     };
 
+    var getAjaxSectionName = function(handle) {
+        return getPaginationContainer(handle).data("ajax-section-name");
+    };
+
     var getFilterSectionName = function(handle) {
         return getPaginationContainer(handle).closest('.ajax-loaded-section').data('section-name');
     };
 
     var getMaxPages = function(handle) {
-        return getPaginationContainer().find("option").last().html();
+        return parseInt(getPaginationContainer(handle).find("option").last().html());
     };
 
     var setArrows = function(handle, page) {
@@ -17,6 +21,8 @@ uwdoem.pagination = (function() {
 
         paginationContainer = getPaginationContainer(handle);
         maxPages = getMaxPages(handle);
+
+        paginationContainer.find("a.pagination-arrow").css("display", "inline");
 
         if (page === 1) {
             paginationContainer.find("a.pagination-arrow.back").css("display", "none");
@@ -32,7 +38,7 @@ uwdoem.pagination = (function() {
     };
 
     var setSelect = function(handle, page) {
-        getPaginationContainer().find("select").val(page);
+        getPaginationContainer(handle).find("select").val(page);
     };
 
     var setControls = function(handle, page) {
@@ -50,15 +56,26 @@ uwdoem.pagination = (function() {
     };
 
     var getPage = function(handle) {
-        var filterSectionName = getFilterSectionName(handle);
-        return uwdoem.ajax_section.getGetVarValue(filterSectionName, 'pagination', 'page').value || 1;
+        var getVar = uwdoem.ajax_section.getGetVarValue(getAjaxSectionName(handle), handle, 'page');
+
+        return parseInt(getVar ? getVar.value : 1);
     };
 
+    var initializedFilters = [];
     var setupPaginationFilter = function(handle) {
+        // If we have already created this filter, return.
+        if (initializedFilters.indexOf(handle) !== -1) { return; }
+
+        initializedFilters.push(handle);
         $(function() {
-            var paginationContainer, page, filterSectionName;
+            var paginationContainer, page, filterSectionName, ajaxSectionName;
 
             paginationContainer = getPaginationContainer(handle);
+            filterSectionName = getFilterSectionName(handle);
+
+            ajaxSectionName = paginationContainer.closest("div.ajax-loaded-section").attr("id");
+
+            paginationContainer.data("ajax-section-name", ajaxSectionName);
 
             paginationContainer.appendTo(paginationContainer.closest("div.section-container").find("div.section-label"));
             page = getPage(handle);
@@ -66,21 +83,27 @@ uwdoem.pagination = (function() {
             setControls(handle, page);
 
             $("div.pagination-container a.pagination-arrow").click(function() {
-                var targetPage = $(this).attr('data-page-for');
-                uwdoem.ajax_section.registerGetVar(filterSectionName, handle, 'page', targetPage);
-                uwdoem.ajax_section.loadSection(filterSectionName);
+                var targetPage;
+
+                targetPage = parseInt($(this).attr('data-page-for'));
+
+                uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
+                uwdoem.ajax_section.loadSection(ajaxSectionName);
 
                 registerPage(targetPage);
-                setControls(handle, page);
+                setControls(handle, targetPage);
 
                 return false;
             });
 
             $("select.pagination-filter." + handle).change(function() {
-                var targetPage = $( "select.pagination-filter." + handle + " option:selected" ).text();
+                var targetPage = parseInt($("select.pagination-filter." + handle + " option:selected").val());
+
+                uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
+                uwdoem.ajax_section.loadSection(ajaxSectionName);
 
                 registerPage(targetPage);
-                setControls(handle, page);
+                setControls(handle, targetPage);
             });
         });
     };
