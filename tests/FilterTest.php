@@ -9,6 +9,7 @@ use UWDOEM\Framework\Etc\Settings;
 use UWDOEMTest\TestClassQuery;
 use UWDOEM\Framework\Filter\PaginationFilter;
 use UWDOEM\Framework\Filter\FilterControls;
+use UWDOEM\Framework\Filter\SortFilter;
 
 
 class FilterTest extends PHPUnit_Framework_TestCase {
@@ -83,7 +84,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $this->assertEquals($handle, $filter->getHandle());
-        $this->assertTrue($filter instanceof Filter);
+        $this->assertTrue($filter instanceof SortFilter);
 
         // No controls set for this filter, hence no statements
         $this->assertEquals(0, sizeof($filter->getStatements()));

@@ -14,6 +14,8 @@ use UWDOEM\Framework\Row\RowBuilder;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Table\TableBuilder;
 use UWDOEM\Framework\Field\FieldBuilder;
+use UWDOEM\Framework\Filter\Filter;
+use UWDOEM\Framework\Filter\FilterBuilder;
 
 
 class SimpleMockWriter extends Writer {
@@ -337,6 +339,23 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains($row1Written, $result);
         $this->assertContains($row2Written, $result);
+    }
+
+    public function testVisitSortFilter() {
+        $writer = new Writer();
+
+        $handle = (string)rand();
+        $type = Filter::TYPE_SORT;
+
+        $filter = FilterBuilder::begin()
+            ->setType($type)
+            ->setHandle($handle)
+            ->build();
+
+        $result = $this->stripQuotes($writer->visitSortFilter($filter));
+
+        $this->assertContains("class=sort-container data-handle-for=$handle", $result);
+
     }
 
     public function testVisitPage() {

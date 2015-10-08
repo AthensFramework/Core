@@ -191,7 +191,7 @@ class FilterBuilder {
                     $statements[] = new SortingFilterStatement($fieldName, $order, null, null);
                 }
 
-                return new Filter($handle, $statements, $this->_nextFilter);
+                return new SortFilter($handle, $statements, $this->_nextFilter);
 
                 break;
             default:

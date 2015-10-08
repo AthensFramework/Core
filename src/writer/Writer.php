@@ -7,6 +7,7 @@ use Twig_SimpleFilter;
 use UWDOEM\Framework\Etc\SafeString;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Filter\PaginationFilter;
+use UWDOEM\Framework\Filter\SortFilter;
 use UWDOEM\Framework\Form\FormInterface;
 use UWDOEM\Framework\Form\FormAction\FormActionInterface;
 use UWDOEM\Framework\Section\SectionInterface;
@@ -164,6 +165,10 @@ class Writer extends Visitor {
         $type = $filter->getType();
 
         return $this->visitFilterOfType($filter, "$type-pagination");
+    }
+
+    public function visitSortFilter(SortFilter $filter) {
+        return $this->visitFilterOfType($filter, "sort");
     }
 
     public function visitStaticFilter(FilterInterface $filter) {
