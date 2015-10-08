@@ -5,7 +5,11 @@ namespace UWDOEM\Framework\Filter;
 
 class FilterControls {
 
+    static public function controlIsSet($handle, $key) {
+        return array_key_exists("$handle-$key", $_GET);
+    }
+
     static public function getControl($handle, $key, $default = null) {
-        return array_key_exists("$handle-$key", $_GET) ? $_GET["$handle-$key"] : $default;
+        return static::controlIsSet($handle, $key) ? $_GET["$handle-$key"] : $default;
     }
 }
