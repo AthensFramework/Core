@@ -2,8 +2,8 @@
 
 uwdoem.sort = (function() {
     
-    var setupSortFilter = function (marker) {
-        var filterSection = $("div." + marker).parents('.ajax-loaded-section');
+    var setupSortFilter = function (handle) {
+        var filterSection = $("div.sort-container[data-handle-for=" + handle + "]").parents('.ajax-loaded-section');
         var filterSectionName=filterSection.data('section-name');
 
         var headers = filterSection.find("th");
