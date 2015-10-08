@@ -268,7 +268,8 @@ p.filter-feedback {
     font-weight:800;
 }
 
-div.filter-controls div.pagination-container {
+div.filter-controls div.pagination-container,
+div.filter-controls div.sort-container {
     display:none;
 }
 
