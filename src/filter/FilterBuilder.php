@@ -182,10 +182,20 @@ class FilterBuilder {
                 return new PaginationFilter($handle, $statements, $this->_nextFilter);
 
                 break;
-        }
+            case Filter::TYPE_SORT:
 
-        if (empty($statements)) {
-            throw new \Exception("Invalid filter type.");
+                if (FilterControls::controlIsSet($handle, "fieldname")) {
+                    $fieldName = FilterControls::getControl($handle, "fieldname");
+                    $order = FilterControls::getControl($handle, "order", FilterStatement::COND_SORT_ASC);
+
+                    $statements[] = new SortingFilterStatement($fieldName, $order, null, null);
+                }
+
+                return new Filter($handle, $statements, $this->_nextFilter);
+
+                break;
+            default:
+                throw new \Exception("Invalid filter type.");
         }
     }
 }

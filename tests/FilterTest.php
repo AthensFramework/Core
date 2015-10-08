@@ -73,6 +73,45 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($page, $statement->getControl());
     }
 
+    public function testBuildSortFilter() {
+        $handle = (string)rand();
+        $type = Filter::TYPE_SORT;
+
+        $filter = FilterBuilder::begin()
+            ->setType($type)
+            ->setHandle($handle)
+            ->build();
+
+        $this->assertEquals($handle, $filter->getHandle());
+        $this->assertTrue($filter instanceof Filter);
+
+        // No controls set for this filter, hence no statements
+        $this->assertEquals(0, sizeof($filter->getStatements()));
+    }
+
+    public function testSortFilterUsesControl() {
+        $handle = (string)rand();
+        $type = Filter::TYPE_SORT;
+
+        $fieldName = (string)rand();
+        $order = FilterStatement::COND_SORT_DESC;
+
+        $_GET["$handle-fieldname"] = $fieldName;
+        $_GET["$handle-order"] = $order;
+
+        $filter = FilterBuilder::begin()
+            ->setType($type)
+            ->setHandle($handle)
+            ->build();
+
+        $this->assertEquals(1, sizeof($filter->getStatements()));
+
+        $statement = $filter->getStatements()[0];
+
+        $this->assertEquals($fieldName, $statement->getFieldName());
+        $this->assertEquals($order, $statement->getCondition());
+    }
+
     public function testBuildPaginationFilterUsesPaginateSetting() {
         $paginateBy = rand();
         $handle = (string)rand();
@@ -235,6 +274,18 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $_GET["$handle-$key"] = $value;
 
         $this->assertEquals($value, FilterControls::getControl($handle, $key));
+    }
+
+    public function testFilterControlsIsSet() {
+        $handle = (string)rand();
+        $key = (string)rand();
+        $value = (string)rand();
+
+        $this->assertFalse(FilterControls::controlIsSet($handle, $key));
+
+        $_GET["$handle-$key"] = $value;
+
+        $this->assertTrue(FilterControls::controlIsSet($handle, $key));
     }
 
     public function testFilterControlsFromDefault() {
