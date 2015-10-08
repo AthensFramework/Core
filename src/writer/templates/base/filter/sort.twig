@@ -1,0 +1,12 @@
+{#
+    Hard pagination occurs when the server only generates a single
+    table-page at a time, on the browser's request. See comment
+    in soft-pagination.twig
+#}
+
+<div class="sort-container" data-handle-for="{{ handle }}">
+
+</div>
+<script>
+    $(function() { uwdoem.sort.setupSortFilter("{{ handle }}"); });
+</script>
