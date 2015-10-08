@@ -20,10 +20,6 @@ class TableBuilder {
      */
     protected $_filter;
 
-    protected function __construct() {
-        $this->_filter = new DummyFilter();
-    }
-
     /**
      * @param RowInterface[] $rows
      * @return TableBuilder
@@ -38,7 +34,9 @@ class TableBuilder {
      * @return TableBuilder
      */
     public function addFilter(FilterInterface $filter) {
-        $filter->combine($this->_filter);
+        if (isset($this->_filter)) {
+            $filter->combine($this->_filter);
+        }
         $this->_filter = $filter;
         return $this;
     }
@@ -51,6 +49,9 @@ class TableBuilder {
     }
 
     public function build() {
+        if (!isset($this->_filter)) {
+            $this->_filter = new DummyFilter();
+        }
         return new Table($this->_rows, $this->_filter);
     }
 
