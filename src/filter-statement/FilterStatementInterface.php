@@ -7,8 +7,8 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 interface FilterStatementInterface {
 
-    const COND_SORT_ASC = 1;
-    const COND_SORT_DESC = 2;
+    const COND_SORT_ASC = "ascending";
+    const COND_SORT_DESC = "descending";
     const COND_LESS_THAN = 3;
     const COND_GREATER_THAN = 4;
     const COND_EQUAL_TO = 5;
