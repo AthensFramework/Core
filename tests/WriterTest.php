@@ -301,19 +301,21 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $field1 = new Field("text", "Text Field Label", (string)rand());
+        $field1Name = "TextField1";
         $row1 = RowBuilder::begin()
             ->setFieldBearer(
                 FieldBearerBuilder::begin()
-                ->addFields(["TextField" => $field1])
+                ->addFields([$field1Name => $field1])
                 ->build()
             )
             ->build();
 
         $field2 = new Field("text", "Text Field Label", (string)rand());
+        $field2Name = "TextField2";
         $row2 = RowBuilder::begin()
             ->setFieldBearer(
                 FieldBearerBuilder::begin()
-                    ->addFields(["TextField" => $field2])
+                    ->addFields([$field2Name => $field2])
                     ->build()
             )
             ->build();
@@ -331,7 +333,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("<table>", $result);
         $this->assertContains("</table>", $result);
 
-        $this->assertContains("<th data-for={$field1->getLabelSlug()}>{$field1->getLabel()}</th>", $result);
+        $this->assertContains("<th data-header-for=$field1Name>{$field1->getLabel()}</th>", $result);
 
         $this->assertContains($row1Written, $result);
         $this->assertContains($row2Written, $result);
