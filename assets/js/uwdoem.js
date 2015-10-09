@@ -2,6 +2,21 @@
 
 uwdoem = (function() {
 
+    var maskScreen = $("#mask-screen");
+    /**
+     * Fades in the mask screen which is used to temporarily "deactivate" the screen.
+     */
+    var fadeInMask = function() {
+        $("#mask-screen").css('height', '100%').css('opacity', 1);
+    };
+
+    /**
+     * Fades out the mask screen which is used to temporarily "deactivate" the screen.
+     */
+    function fadeOutMask() {
+        $("#mask-screen").css('opacity', 0).delay(300).height(0);
+    }
+
     $(function() {
         $("form.prevent-double-submit").submit(function() {
             $(this).find("input[type=submit]").click(function() {
@@ -22,7 +37,17 @@ uwdoem = (function() {
         });
     });
 
-    return {};
+    $(function() {
+        $("#mask-screen").click(function() { fadeOutMask(); });
+        $("div.search-div").click(function(event) {
+            event.stopPropagation();
+        })
+    });
+
+    return {
+        fadeInMask: fadeInMask,
+        fadeOutMask: fadeOutMask
+    };
 }());
 
 
