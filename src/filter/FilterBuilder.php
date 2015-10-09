@@ -194,6 +194,9 @@ class FilterBuilder {
                 return new SortFilter($handle, $statements, $this->_nextFilter);
 
                 break;
+            case Filter::TYPE_SEARCH:
+                return new SearchFilter($handle, $statements, $this->_nextFilter);
+                break;
             default:
                 throw new \Exception("Invalid filter type.");
         }
