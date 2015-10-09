@@ -94,8 +94,17 @@ class Filter implements FilterInterface {
         return $this->_statements;
     }
 
+    /**
+     * @return FilterStatement[]
+     */
     protected function getRowStatements() {
-        return array_diff($this->_statements, $this->_queryStatements);
+        $queryStatements = $this->_queryStatements;
+        return array_filter(
+            $this->_statements,
+            function($statement) use ($queryStatements) {
+                return array_search($statement, $queryStatements) === false;
+            }
+        );
     }
 
     /**
@@ -107,8 +116,7 @@ class Filter implements FilterInterface {
 
         $queryFilterBroken = false;
 
-        if ($this->getNextFilter()->_rowStatements) {
-            $this->_rowStatements = $this->_statements;
+        if ($this->getNextFilter()->getRowStatements()) {
             $queryFilterBroken = true;
         }
 
@@ -119,12 +127,12 @@ class Filter implements FilterInterface {
                 $queryFilterBroken = true;
             }
 
-            if ($queryFilterBroken === true) {
-                $this->_rowStatements[] = $statement;
-            } else {
+            if ($queryFilterBroken === false) {
                 $this->setOptionsByQuery($query);
                 $this->setFeedbackByQuery($query);
                 $query = $statement->applyToQuery($query);
+
+                $this->_queryStatements[] = $statement;
             }
         }
         return $query;
@@ -154,6 +162,8 @@ class Filter implements FilterInterface {
      */
     public function rowFilter(array $rows) {
         $this->setOptionsByRows($rows);
+
+        echo sizeof($this->getRowStatements());
 
         $rows = $this->getNextFilter()->rowFilter($rows);
         foreach ($this->getRowStatements() as $statement) {
