@@ -24,14 +24,11 @@ class Filter implements FilterInterface {
     /** @var array|FilterStatementInterface[] */
     protected $_queryStatements = [];
 
-    /** @var array|FilterStatementInterface[] */
-    protected $_rowStatements = [];
-
     /** @var string */
     protected $_handle;
 
     /** @var array */
-    protected $_options;
+    protected $_options = [];
 
     /** @var string */
     protected $_feedback;
@@ -97,6 +94,10 @@ class Filter implements FilterInterface {
         return $this->_statements;
     }
 
+    protected function getRowStatements() {
+        return array_diff($this->_statements, $this->_queryStatements);
+    }
+
     /**
      * @param ModelCriteria $query
      * @return ModelCriteria
@@ -143,12 +144,19 @@ class Filter implements FilterInterface {
 
     /**
      * @param RowInterface[] $rows
+     */
+    protected function setOptionsByRows(array $rows) {
+    }
+
+    /**
+     * @param RowInterface[] $rows
      * @return RowInterface[]
      */
     public function rowFilter(array $rows) {
-        $rows = $this->getNextFilter()->rowFilter($rows);
+        $this->setOptionsByRows($rows);
 
-        foreach ($this->_rowStatements as $statement) {
+        $rows = $this->getNextFilter()->rowFilter($rows);
+        foreach ($this->getRowStatements() as $statement) {
             $rows = $statement->applyToRows($rows);
         }
 
