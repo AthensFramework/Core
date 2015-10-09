@@ -10,6 +10,9 @@ use UWDOEMTest\TestClassQuery;
 use UWDOEM\Framework\Filter\PaginationFilter;
 use UWDOEM\Framework\Filter\FilterControls;
 use UWDOEM\Framework\Filter\SortFilter;
+use UWDOEM\Framework\Row\RowBuilder;
+use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
+use UWDOEM\Framework\Field\Field;
 
 
 class FilterTest extends PHPUnit_Framework_TestCase {
@@ -47,6 +50,35 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($fieldName, $statement->getFieldName());
         $this->assertEquals($condition, $statement->getCondition());
         $this->assertEquals($criterion, $statement->getCriterion());
+    }
+
+    public function testRowFilter() {
+        $fieldValues = [1, 3];
+        $fieldName = "field" . (string)rand();
+
+        $rows = [];
+
+        // Make one row for each of the field values
+        foreach ($fieldValues as $fieldValue) {
+            $fieldBearer = FieldBearerBuilder::begin()
+                ->addFields([$fieldName => new Field('literal', 'A literal field', $fieldValue)])
+                ->build();
+
+            $rows[] = RowBuilder::begin()
+                ->setFieldBearer($fieldBearer)
+                ->build();
+        }
+
+        $filter = FilterBuilder::begin()
+            ->setHandle("myFilter")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName($fieldName)
+            ->setCondition(FilterStatement::COND_GREATER_THAN)
+            ->setCriterion(2)
+            ->build();
+
+        $this->assertEquals(1, sizeof($filter->getStatements()));
+        $this->assertEquals(1, sizeof($filter->rowFilter($rows)));
     }
 
     public function testBuildPaginationFilter() {
@@ -170,6 +202,34 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $expectedNumPages = ceil($count/$maxPerPage);
 
         $this->assertEquals(range(1, $expectedNumPages), $filter->getOptions());
+    }
+
+    public function testSearchFilterMakeOptions() {
+        $filter = FilterBuilder::begin()
+            ->setHandle("search")
+            ->setType(Filter::TYPE_SEARCH)
+            ->build();
+
+        $field1 = new Field("text", "Text Field Label", (string)rand());
+        $field1Name = "TextField1";
+        $field2 = new Field("text", "Text Field Label", (string)rand());
+        $field2Name = "TextField2";
+
+        $row = RowBuilder::begin()
+            ->setFieldBearer(
+                FieldBearerBuilder::begin()
+                    ->addFields([
+                        $field1Name => $field1,
+                        $field2Name => $field2
+                    ])
+                    ->build()
+            )
+            ->build();
+
+        $filter->rowFilter([$row]);
+
+        $this->assertContains($field1Name, $filter->getOptions());
+        $this->assertContains($field2Name, $filter->getOptions());
     }
 
     public function testPaginationFilterFeedback() {
