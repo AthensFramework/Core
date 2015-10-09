@@ -1,0 +1,35 @@
+<div class='search-icon {{ handle }}' tabindex=0><a href='javascript:null;'>&nbsp;</a></div>
+
+<div class='search-table-content $marker' style='display:none'>
+    <form onSubmit="return false;">
+        <table>
+            {% for i in 0..4 %}
+                <tr data-row={{ i }}>
+                    <td class=fieldname>
+                        <select>
+                            <option></option>
+                            {% for option in options %}
+                                <option value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td class=operation>
+                        <select>
+                            <option></option>
+                            <option>CONTAINS</option>
+                            <option>EQUALS</option>
+                            <option>GREATER THAN</option>
+                            <option>LESS THAN</option>
+                        </select>
+                    </td>
+                    <td class=value><input type=text></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input class='search-submit {{ handle }}' type=submit value=Search>
+    </form>
+</div>
+
+<script>
+    $(function() { setupSearchFilter("{{ handle }}"); });
+</script>
