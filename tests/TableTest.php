@@ -62,7 +62,7 @@ class TableTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRows() {
         $fieldValues = [1, 3];
-        $fieldName = (string)rand();
+        $fieldName = "field" . (string)rand();
 
         $rows = [];
 
@@ -84,8 +84,6 @@ class TableTest extends PHPUnit_Framework_TestCase
             ->setCondition(FilterStatement::COND_GREATER_THAN)
             ->setCriterion(2)
             ->build();
-
-        echo sizeof($filter->rowFilter($rows));
 
         $table = TableBuilder::begin()
             ->setRows($rows)
