@@ -29,7 +29,7 @@ class Table implements TableInterface {
     }
 
     public function getRows() {
-        return $this->_rows;
+        return $this->_filter->rowFilter($this->_rows);
     }
 
     protected function getUnfilteredRows() {

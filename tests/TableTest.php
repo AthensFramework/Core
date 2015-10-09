@@ -3,10 +3,13 @@
 namespace TestVars;
 
 use UWDOEM\Framework\Filter\DummyFilter;
+use UWDOEM\Framework\Filter\FilterBuilder;
 use UWDOEM\Framework\Table\TableBuilder;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Row\RowBuilder;
+use UWDOEM\Framework\Filter\Filter;
+use UWDOEM\Framework\FilterStatement\FilterStatement;
 
 
 use PHPUnit_Framework_TestCase;
@@ -54,12 +57,46 @@ class TableTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($filter, $table->getFilter());
     }
 
-    /*
-     * The below methods are tested sufficiently above
+    /**
+     * Get rows should invoke row filtering.
+     */
     public function testGetRows() {
+        $fieldValues = [1, 3];
+        $fieldName = (string)rand();
 
+        $rows = [];
+
+        // Make one row for each of the field values
+        foreach ($fieldValues as $fieldValue) {
+            $fieldBearer = FieldBearerBuilder::begin()
+                ->addFields([$fieldName => new Field('literal', 'A literal field', $fieldValue)])
+                ->build();
+
+            $rows[] = RowBuilder::begin()
+                ->setFieldBearer($fieldBearer)
+                ->build();
+        }
+
+        $filter = FilterBuilder::begin()
+            ->setHandle("myFilter")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName($fieldName)
+            ->setCondition(FilterStatement::COND_GREATER_THAN)
+            ->setCriterion(2)
+            ->build();
+
+        echo sizeof($filter->rowFilter($rows));
+
+        $table = TableBuilder::begin()
+            ->setRows($rows)
+            ->addFilter($filter)
+            ->build();
+
+        $this->assertEquals(1, sizeof($table->getRows()));
     }
 
+    /*
+     * The below methods are tested sufficiently above
     public function testGetFilter() {
 
     }
