@@ -163,8 +163,6 @@ class Filter implements FilterInterface {
     public function rowFilter(array $rows) {
         $this->setOptionsByRows($rows);
 
-        echo sizeof($this->getRowStatements());
-
         $rows = $this->getNextFilter()->rowFilter($rows);
         foreach ($this->getRowStatements() as $statement) {
             $rows = $statement->applyToRows($rows);
