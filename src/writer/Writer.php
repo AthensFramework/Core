@@ -19,6 +19,7 @@ use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Filter\FilterInterface;
+use UWDOEM\Framework\Filter\SearchFilter;
 
 
 class Writer extends Visitor {
@@ -169,6 +170,10 @@ class Writer extends Visitor {
 
     public function visitSortFilter(SortFilter $filter) {
         return $this->visitFilterOfType($filter, "sort");
+    }
+
+    public function visitSearchFilter(SearchFilter $filter) {
+        return $this->visitFilterOfType($filter, "search");
     }
 
     public function visitStaticFilter(FilterInterface $filter) {
