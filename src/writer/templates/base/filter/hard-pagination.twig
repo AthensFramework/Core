@@ -5,17 +5,20 @@
 #}
 
 <div class="pagination-container" data-handle-for="{{ handle }}">
-    <a class="pagination-arrow back first" data-page-for="{{ options|first }}">&laquo;</a>&nbsp;
-    <a class="pagination-arrow back previous" data-page-for="{{ options|first }}">&lsaquo;</a>&nbsp;
-
+    <div class="pagination-arrow-container">
+        <a class="pagination-arrow back first" data-page-for="{{ options|first }}">&laquo;</a>&nbsp;
+        <a class="pagination-arrow back previous" data-page-for="{{ options|first }}">&lsaquo;</a>&nbsp;
+    </div>
     <select class="pagination-filter {{ handle }}">
         {% for option in options %}
         <option value="{{ option }}">{{ option }}</option>
         {% endfor %}
     </select>
 
-    &nbsp;<a class="pagination-arrow forward next" data-page-for="{{ options|last }}">&rsaquo;</a>
-    &nbsp;<a class="pagination-arrow forward last" data-page-for="{{ options|last }}">&raquo;</a>
+    <div class="pagination-arrow-container">
+        &nbsp;<a class="pagination-arrow forward next" data-page-for="{{ options|last }}">&rsaquo;</a>
+        &nbsp;<a class="pagination-arrow forward last" data-page-for="{{ options|last }}">&raquo;</a>
+    </div>
 </div>
 <script>
     $(function() {
