@@ -18,5 +18,7 @@
     &nbsp;<a class="pagination-arrow forward last" data-page-for="{{ options|last }}">&raquo;</a>
 </div>
 <script>
-    $(function() { uwdoem.pagination.setupPaginationFilter("{{ handle }}"); });
+    $(function() {
+        uwdoem.filter.setupFilter(uwdoem.pagination.setupPaginationFilter, "{{ handle }}");
+    });
 </script>

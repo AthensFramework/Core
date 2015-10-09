@@ -61,12 +61,8 @@ uwdoem.pagination = (function() {
         return parseInt(getVar ? getVar.value : 1);
     };
 
-    var initializedFilters = [];
     var setupPaginationFilter = function(handle) {
         // If we have already created this filter, return.
-        if (initializedFilters.indexOf(handle) !== -1) { return; }
-
-        initializedFilters.push(handle);
         $(function() {
             var paginationContainer, page, filterSectionName, ajaxSectionName;
 

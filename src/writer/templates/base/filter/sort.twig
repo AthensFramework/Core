@@ -8,5 +8,7 @@
 
 </div>
 <script>
-    $(function() { uwdoem.sort.setupSortFilter("{{ handle }}"); });
+    $(function() {
+        uwdoem.filter.setupFilter(uwdoem.sort.setupSortFilter, "{{ handle }}");
+    });
 </script>

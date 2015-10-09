@@ -32,6 +32,8 @@
     </div>
 
     <script>
-        $(function() { uwdoem.search.setupSearchFilter("{{ handle }}"); });
+        $(function() {
+            uwdoem.filter.setupFilter(uwdoem.search.setupSearchFilter, "{{ handle }}");
+        });
     </script>
 </div>
