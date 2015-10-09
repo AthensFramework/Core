@@ -1,4 +1,4 @@
-uwdoem.alert = (function() {
+uwdoem.filter = (function() {
 
     var initializedFilters = [];
 
