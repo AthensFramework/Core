@@ -1,34 +1,32 @@
-<table>
-<div class="filter-controls">
+<div class="table-container">
+    <div class="filter-controls">
+        {% for filter in filters %}
+            {{ filter|write|raw }}
+        {% endfor %}
+    </div>
+
+    <table>
+
+    <!-- header row -->
+    <tr>
+        {% if rows is empty %}
+            <th>No data found</th>
+        {%  else %}
+            {% for fieldName, field in rows[0].getFieldBearer.getVisibleFields %}
+                <th data-header-for="{{ fieldName }}">{{ field.getLabel }}</th>
+            {% endfor %}
+        {% endif %}
+    </tr>
+
+    <!-- data rows -->
+    {% for row in rows %}
+        {{ row|write|raw }}
+    {% endfor %}
+    </table>
+
     {% for filter in filters %}
-        {{ filter|write|raw }}
+        <p class="filter-feedback">
+            {{ filter.getFeedback }}
+        </p>
     {% endfor %}
 </div>
-
-
-<!-- header row -->
-<tr>
-    {% if rows is empty %}
-        <th>No data found</th>
-    {%  else %}
-        {% for fieldName, field in rows[0].getFieldBearer.getVisibleFields %}
-            <th data-header-for="{{ fieldName }}">{{ field.getLabel }}</th>
-        {% endfor %}
-    {% endif %}
-
-
-
-</tr>
-
-<!-- data rows -->
-{% for row in rows %}
-    {{ row|write|raw }}
-{% endfor %}
-</table>
-
-
-{% for filter in filters %}
-    <p class="filter-feedback">
-        {{ filter.getFeedback }}
-    </p>
-{% endfor %}
