@@ -6,6 +6,8 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\Criteria;
 use UWDOEM\Framework\Row\RowInterface;
 
+use Workstudy\Map\JobInformationTableMap;
+
 
 class ExcludingFilterStatement extends FilterStatement {
 
@@ -13,7 +15,11 @@ class ExcludingFilterStatement extends FilterStatement {
         $fieldName = $this->getFieldName();
         $criterion = $this->getCriterion();
 
-        $criteria = Criteria::ALL;
+        if (($pos = strpos($fieldName, ".")) !== False) {
+            $fieldName = substr($fieldName, $pos+1);
+        }
+
+        $criteria = Criteria::LIKE;
 
         switch ($this->getCondition()) {
             case static::COND_LESS_THAN:
@@ -33,11 +39,12 @@ class ExcludingFilterStatement extends FilterStatement {
                 break;
 
             case static::COND_CONTAINS:
-                $criteria = Criteria::CONTAINS_ALL;
+                $criterion = "%$criterion%";
+                $criteria = Criteria::LIKE;
                 break;
         }
 
-        return $query->addUsingAlias($fieldName, $criterion, $criteria);
+        return $query->{"filterBy" . $fieldName}($criterion, $criteria);
     }
 
     public function applyToRows(array $rows) {

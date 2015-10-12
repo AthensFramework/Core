@@ -28,6 +28,11 @@ class MockQuery extends TestClassQuery {
         return $this;
     }
 
+    public function filterBy($column, $value, $comparison = Criteria::EQUAL) {
+        $this->aliasedStatements[] = [$column, $value, $comparison];
+        return $this;
+    }
+
     public function addUsingAlias($p1, $value = null, $operator = null) {
         $this->aliasedStatements[] = [$p1, $value, $operator];
         return $this;
@@ -424,8 +429,9 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
 
         $query = $statement->applyToQuery($query);
 
+        print_r($query->aliasedStatements);
         $this->assertContains(
-            [RowMaker::STRING_FIELD_NAME, $criterion, Criteria::CONTAINS_ALL],
+            [RowMaker::STRING_FIELD_NAME, "%$criterion%", Criteria::LIKE],
             $query->aliasedStatements
         );
     }
