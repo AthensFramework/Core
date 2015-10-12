@@ -13,8 +13,9 @@ class SearchFilter extends Filter {
      * @param \UWDOEM\Framework\FilterStatement\FilterStatementInterface[] $statements
      * @param FilterInterface|null $nextFilter
      */
-    public function __construct($handle, array $statements, FilterInterface $nextFilter = null) {
+    public function __construct($handle, FilterInterface $nextFilter = null) {
 
+        $statements = [];
         for($i=0;$i<=5;$i++) {
             $fieldname = FilterControls::getControl($handle, "fieldname$i");
             $operation = FilterControls::getControl($handle, "operation$i");

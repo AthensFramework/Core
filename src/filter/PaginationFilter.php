@@ -4,6 +4,10 @@ namespace UWDOEM\Framework\Filter;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
+use UWDOEM\Framework\Etc\Settings;
+use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
+use UWDOEM\Framework\FilterStatement\FilterStatement;
+
 
 class PaginationFilter extends Filter {
 
@@ -13,6 +17,13 @@ class PaginationFilter extends Filter {
     protected $_type;
     protected $_numPages;
     protected $_page;
+
+
+    public function __construct($handle, $maxPerPage, $page, FilterInterface $nextFilter = null) {
+        $statements = [new PaginationFilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page)];
+
+        parent::__construct($handle, $statements, $nextFilter);
+    }
 
     protected function getMaxPerPage() {
         return $this->getStatements()[0]->getCriterion();

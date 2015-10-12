@@ -173,29 +173,18 @@ class FilterBuilder {
 
                 break;
             case Filter::TYPE_PAGINATION:
-
                 $maxPerPage = isset($this->_maxPerPage) ? $this->_maxPerPage : Settings::getDefaultPagination();
                 $page = isset($this->_page) ? $this->_page : FilterControls::getControl($handle, "page", 1);
 
-                $statements[] = new PaginationFilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page);
-
-                return new PaginationFilter($handle, $statements, $this->_nextFilter);
+                return new PaginationFilter($handle, $maxPerPage, $page, $this->_nextFilter);
 
                 break;
             case Filter::TYPE_SORT:
-
-                if (FilterControls::controlIsSet($handle, "fieldname")) {
-                    $fieldName = FilterControls::getControl($handle, "fieldname");
-                    $order = FilterControls::getControl($handle, "order", FilterStatement::COND_SORT_ASC);
-
-                    $statements[] = new SortingFilterStatement($fieldName, $order, null, null);
-                }
-
-                return new SortFilter($handle, $statements, $this->_nextFilter);
+                return new SortFilter($handle, $this->_nextFilter);
 
                 break;
             case Filter::TYPE_SEARCH:
-                return new SearchFilter($handle, $statements, $this->_nextFilter);
+                return new SearchFilter($handle, $this->_nextFilter);
                 break;
             default:
                 throw new \Exception("Invalid filter type.");
