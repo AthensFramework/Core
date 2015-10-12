@@ -49,7 +49,7 @@ class PaginationFilter extends Filter {
     }
 
     protected function setOptionsByQuery(ModelCriteria $query) {
-        $maxPages = $this->getMaxPagesByQuery($query);
+        $maxPages = max($this->getMaxPagesByQuery($query), 1);
         $this->_options = range(1, $maxPages);
     }
 
