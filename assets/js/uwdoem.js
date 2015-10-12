@@ -7,14 +7,19 @@ uwdoem = (function() {
      * Fades in the mask screen which is used to temporarily "deactivate" the screen.
      */
     var fadeInMask = function() {
-        $("#mask-screen").css('height', '100%').css('opacity', 1);
+        $("#mask-screen")
+            .css("display", "block")
+            .css("height", "100%")
+            .css('opacity', 1);
     };
 
     /**
      * Fades out the mask screen which is used to temporarily "deactivate" the screen.
      */
     function fadeOutMask() {
-        $("#mask-screen").css('opacity', 0).delay(300).height(0);
+        $("#mask-screen").fadeOut(300, function() {
+            $(this).css("display", "none");
+        });
     }
 
     $(function() {

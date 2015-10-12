@@ -10,6 +10,7 @@ uwdoem.search = (function() {
      * Fades in the table search div.
      */
     function fadeInSearch() {
+        uwdoem.fadeInMask();
         $(".search-div").fadeTo(1, 1);
     }
 
