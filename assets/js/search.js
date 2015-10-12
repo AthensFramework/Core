@@ -55,33 +55,34 @@ uwdoem.search = (function() {
 
     var searchIconOnclick = function() {
         var handle = $(this).data("handle-for");
+        var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest("div.ajax-loaded-section").attr("id");
+        var getVar = uwdoem.ajax_section.getVar;
 
         if ($("#search-criteria-area div.search-table-content[data-handle-for=" + handle + "]").length === 0) {
             $("div.search-table-content[data-handle-for=" + handle + "]").prependTo("#search-criteria-area");
         }
 
-
         uwdoem.fadeInMask();
         fadeInSearch();
 
-        var searchSection = $(this).parents(".ajax-loaded-section").data("section-name");
+        console.log(ajaxSectionName);
 
         // Pre-select the existing search criteria
-        //searchCriteriaArea.find('tr').each(function() {
-        //    var rowNumber = $(this).attr("data-row");
-        //
-        //    var fieldName = uwdoem.ajax_section.getGetVar(searchSection, 'search', 'fieldname' + rowNumber);
-        //    $(this).find("td.fieldname select").val(fieldName);
-        //
-        //    var operation = uwdoem.ajax_section.getGetVar(searchSection, 'search', 'operation' + rowNumber);
-        //    $(this).find("td.operation select").val(operation);
-        //
-        //    var value = uwdoem.ajax_section.getGetVar(searchSection, 'search', 'value' + rowNumber);
-        //    $(this).find("td.value input").val(value);
-        //});
+        $("#search-criteria-area").find('tr').each(function() {
+            var rowNumber = $(this).attr("data-row");
+
+            var fieldName = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname' + rowNumber);
+            $(this).find("td.fieldname select").val(fieldName);
+
+            var operation = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'operation' + rowNumber);
+            $(this).find("td.operation select").val(operation);
+
+            var value = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'value' + rowNumber);
+            $(this).find("td.value input").val(value);
+        });
     };
 
-    var setupSearchFilter = function (handle) {
+    var setupSearchFilter = function(handle) {
 
         // Move the search icon to the label
         var searchContainer = $("div.search-container[data-handle-for=" + handle + "]");
@@ -96,9 +97,30 @@ uwdoem.search = (function() {
 
         // This might suppose to be inside searchIconOnclick
         $("input.search-submit." + handle).click(searchSubmitOnclick);
+
+        // If this search filter has feedback, add a clear search link:
+        $("p.filter-feedback[data-handle-for=" + handle + "]")
+            .append(" <a onClick='uwdoem.search.clearSearch(\"" + handle + "\");'>Clear Search</a>");
+
+    };
+
+    var clearSearch = function(handle) {
+        console.log(handle);
+        var getVar = uwdoem.ajax_section.getVar;
+        var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest("div.ajax-loaded-section").attr("id");
+
+        for (var i = 0; i <= 5; i++) {
+            uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i));
+            uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'operation' + i));
+            uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'value' + i));
+        }
+
+        console.log(ajaxSectionName);
+        uwdoem.ajax_section.loadSection(ajaxSectionName);
     };
 
     return {
-        setupSearchFilter: setupSearchFilter
+        setupSearchFilter: setupSearchFilter,
+        clearSearch: clearSearch
     };
 }());
