@@ -2,9 +2,10 @@ uwdoem.filter = (function() {
 
     var initializedFilters = [];
 
+    // TODO: Remove
     function setupFilter(setupFun, handle) {
         if (initializedFilters.indexOf(handle) !== -1) {
-            // Do nothing, this filter has already been initialized
+            setupFun(handle);
         } else {
             initializedFilters.push(handle);
             setupFun(handle);

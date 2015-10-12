@@ -55,16 +55,14 @@ uwdoem.search = (function() {
 
     var searchIconOnclick = function() {
         var handle = $(this).data("handle-for");
-        $("div.search-table-content[data-handle-for=" + handle + "]").prependTo("#search-criteria-area");
+
+        if ($("#search-criteria-area div.search-table-content[data-handle-for=" + handle + "]").length === 0) {
+            $("div.search-table-content[data-handle-for=" + handle + "]").prependTo("#search-criteria-area");
+        }
 
 
         uwdoem.fadeInMask();
         fadeInSearch();
-
-
-
-
-
 
         var searchSection = $(this).parents(".ajax-loaded-section").data("section-name");
 

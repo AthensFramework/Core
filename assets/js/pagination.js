@@ -5,11 +5,7 @@ uwdoem.pagination = (function() {
     };
 
     var getAjaxSectionName = function(handle) {
-        return getPaginationContainer(handle).data("ajax-section-name");
-    };
-
-    var getFilterSectionName = function(handle) {
-        return getPaginationContainer(handle).closest('.ajax-loaded-section').data('section-name');
+        return $("")
     };
 
     var getMaxPages = function(handle) {
@@ -46,60 +42,71 @@ uwdoem.pagination = (function() {
         setSelect(handle, page);
     };
 
-    var registerPage = function(handle, page) {
-        var filterSectionName, getVar;
+    var registerPage = function(ajaxSectionName, handle, page) {
+        var getVar;
 
-        filterSectionName = getFilterSectionName(handle);
-        getVar = uwdoem.ajax_section.getVar(filterSectionName, handle, "page", page);
+        getVar = uwdoem.ajax_section.getVar(ajaxSectionName, handle, "page", page);
 
         uwdoem.ajax_section.registerGetVar(getVar);
     };
 
-    var getPage = function(handle) {
-        var getVar = uwdoem.ajax_section.getGetVarValue(getAjaxSectionName(handle), handle, 'page');
+    var getPage = function(ajaxSectionName, handle) {
+        var getVar = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'page');
 
-        return parseInt(getVar ? getVar.value : 1);
+        return parseInt(getVar ? getVar: 1);
+    };
+
+    var getActiveControls = function(handle) {
+        return $("div.section-label div.pagination-container[data-handle-for=" + handle + "]");
+    };
+
+    var getInactiveControls = function(handle) {
+        return $("div.table-container div.filter-controls div.pagination-container[data-handle-for='" + handle + "']");
     };
 
     var setupPaginationFilter = function(handle) {
         // If we have already created this filter, return.
         $(function() {
-            var paginationContainer, page, filterSectionName, ajaxSectionName;
+            var page, ajaxSectionName, inactiveControls, activeControls;
 
-            paginationContainer = getPaginationContainer(handle);
-            filterSectionName = getFilterSectionName(handle);
+            inactiveControls = getInactiveControls(handle);
+            activeControls = getActiveControls(handle);
 
-            ajaxSectionName = paginationContainer.closest("div.ajax-loaded-section").attr("id");
+            ajaxSectionName = inactiveControls.closest("div.ajax-loaded-section").attr("id");
 
-            paginationContainer.data("ajax-section-name", ajaxSectionName);
+            // If this filter is already active...
+            if (activeControls.length) {
+                // replace the active controls with the new, inactive controls
+                activeControls.replaceWith(inactiveControls);
+            } else {
+                // else just append the new controls to the label.
+                inactiveControls.appendTo(inactiveControls.closest("div.section-container").find("div.section-label"));
+            }
 
-            paginationContainer.appendTo(paginationContainer.closest("div.section-container").find("div.section-label"));
-            page = getPage(handle);
+            activeControls = inactiveControls;
+
+            page = getPage(ajaxSectionName, handle);
 
             setControls(handle, page);
 
-            $("div.pagination-container a.pagination-arrow").click(function() {
-                var targetPage;
-
-                targetPage = parseInt($(this).attr('data-page-for'));
+            activeControls.find("a.pagination-arrow").click(function() {
+                var targetPage = parseInt($(this).attr('data-page-for'));
 
                 uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
                 uwdoem.ajax_section.loadSection(ajaxSectionName);
 
-                registerPage(targetPage);
-                setControls(handle, targetPage);
+                registerPage(ajaxSectionName, handle, targetPage);
 
                 return false;
             });
 
-            $("select.pagination-filter." + handle).change(function() {
+            activeControls.find("select.pagination-filter." + handle).change(function() {
                 var targetPage = parseInt($("select.pagination-filter." + handle + " option:selected").val());
 
                 uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
                 uwdoem.ajax_section.loadSection(ajaxSectionName);
 
-                registerPage(targetPage);
-                setControls(handle, targetPage);
+                registerPage(ajaxSectionName, handle, targetPage);
             });
         });
     };
