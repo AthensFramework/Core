@@ -25,8 +25,11 @@
     </table>
 
     {% for filter in filters %}
-        <p class="filter-feedback">
-            {{ filter.getFeedback }}
-        </p>
+        {% set feedback = filter.getFeedback %}
+        {% if feedback %}
+            <p class="filter-feedback" data-handle-for="{{ filter.getHandle }}">
+                {{ feedback }}
+            </p>
+        {% endif %}
     {% endfor %}
 </div>
