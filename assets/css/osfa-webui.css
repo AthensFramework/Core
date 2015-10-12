@@ -346,7 +346,7 @@ select.pagination-filter {
     background-color:#4b2e83
 }
 
-div.pagination-arrow-container {
+span.pagination-arrow-container {
     min-width:40px;
 }
 
