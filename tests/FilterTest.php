@@ -204,6 +204,63 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(range(1, $expectedNumPages), $filter->getOptions());
     }
 
+    public function testSelectFilterOptions() {
+        $handle = (string)rand();
+
+        $optionNames = ["s".(string)rand(), "s".(string)rand(), "s".(string)rand()];
+        $optionFieldNames = [(string)rand(), (string)rand(), (string)rand()];
+        $optionConditions = [FilterStatement::COND_GREATER_THAN, FilterStatement::COND_CONTAINS, FilterStatement::COND_LESS_THAN];
+        $optionValues = [rand(), rand(), rand()];
+
+        $defaultOption = 1;
+
+        $selectFilterBuilder = FilterBuilder::begin()
+            ->setType(Filter::TYPE_SELECT)
+            ->setHandle($handle)
+            ->addOptions([
+                $optionNames[0] => [$optionFieldNames[0], $optionConditions[0], $optionValues[0]],
+                $optionNames[1] => [$optionFieldNames[1], $optionConditions[1], $optionValues[1]],
+            ])
+            ->addOptions([
+                $optionNames[2] => [$optionFieldNames[2], $optionConditions[2], $optionValues[2]],
+            ])
+            ->setDefault($optionNames[$defaultOption]);
+        
+        // Build the filter, without a selection
+        $filter1 = $selectFilterBuilder->build();
+
+        // Assert that each option name is provided as a selectable option
+        foreach ($optionNames as $name) {
+            $this->assertContains($name, $filter1->getOptions());
+        }
+
+        // Assert that only one option is being used as a filter statement
+        $this->assertEquals(1, sizeof($filter1->getStatements()));
+
+        // Assert that this is the default option
+        $statement = $filter1->getStatements()[0];
+
+        $this->assertEquals($optionFieldNames[$defaultOption], $statement->getFieldName());
+        $this->assertEquals($optionConditions[$defaultOption], $statement->getCondition());
+        $this->assertEquals($optionValues[$defaultOption], $statement->getCriterion());
+        
+        // Now, build the filter with a selected option
+        $selectedOption = 2;
+        $_GET["$handle-value"] = $optionNames[$selectedOption];
+        
+        $filter2 = $selectFilterBuilder->build();
+
+        // Assert that only one option is being used as a filter statement
+        $this->assertEquals(1, sizeof($filter2->getStatements()));
+
+        // Assert that this is the selected option
+        $statement = $filter2->getStatements()[0];
+
+        $this->assertEquals($optionFieldNames[$selectedOption], $statement->getFieldName());
+        $this->assertEquals($optionConditions[$selectedOption], $statement->getCondition());
+        $this->assertEquals($optionValues[$selectedOption], $statement->getCriterion());
+    }
+
     public function testSearchFilterMakeOptions() {
         $filter = FilterBuilder::begin()
             ->setHandle("search")

@@ -1,0 +1,14 @@
+<div class="select-container" data-handle-for="{{ handle }}">
+
+    <select data-handle-for="{{ handle }}">
+        {% for option in options %}
+            <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+    </select>
+
+</div>
+<script>
+    $(function() {
+        uwdoem.select.setupSelectFilter("{{ handle }}");
+    });
+</script>

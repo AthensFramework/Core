@@ -36,6 +36,12 @@ class FilterBuilder {
     /** @var FilterInterface */
     protected $_nextFilter;
 
+    /** @var array[] */
+    protected $_options;
+
+    /** @var string */
+    protected $_default;
+
 
     protected function __construct() {}
 
@@ -107,6 +113,29 @@ class FilterBuilder {
     }
 
     /**
+     * @param array[] $options
+     * @return FilterBuilder
+     */
+    public function addOptions($options) {
+        if (!isset($this->_options)) {
+            $this->_options = [];
+        }
+
+        $this->_options = array_merge($this->_options, $options);
+        return $this;
+    }
+
+    /**
+     * @param string $default
+     * @return FilterBuilder
+     */
+    public function setDefault($default) {
+        $this->_default = $default;
+        return $this;
+    }
+
+
+    /**
      * If it has been set, retrieve the indicated property from this builder. If not, throw exception.
      *
      * @param string $attrName The name of the attribute to retrieve, including underscore.
@@ -122,7 +151,7 @@ class FilterBuilder {
         }
 
         if (!isset($this->$attrName)) {
-            $message = $reason ? "Becase you $reason, " : "You ";
+            $message = $reason ? "Because you $reason, " : "You ";
             $message .= "must set $attrName for this object before calling $methodName.";
 
             throw new \Exception($message);
@@ -185,6 +214,24 @@ class FilterBuilder {
                 break;
             case Filter::TYPE_SEARCH:
                 return new SearchFilter($handle, $this->_nextFilter);
+                break;
+            case Filter::TYPE_SELECT:
+                $options = $this->retrieveOrException("_options", __METHOD__, "chose to create a select filter");
+                $default = $this->retrieveOrException("_default", __METHOD__, "chose to create a select filter");
+
+                if (!array_key_exists($default, $options)) {
+                    $optionsText = implode(", ", array_keys($options));
+                    throw new \Exception("For select filter '$handle', your default choice '$default' must be among options '$optionsText'.");
+                }
+
+                $statements = array_map(
+                    function($option) {
+                        return new ExcludingFilterStatement($option[0], $option[1], $option[2], null);
+                    },
+                    $options
+                );
+
+                return new SelectFilter($handle, $statements, $default, $this->_nextFilter);
                 break;
             default:
                 throw new \Exception("Invalid filter type.");
