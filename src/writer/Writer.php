@@ -180,6 +180,10 @@ class Writer extends Visitor {
         return $this->visitFilterOfType($filter, "static");
     }
 
+    public function visitSelectFilter(FilterInterface $filter) {
+        return $this->visitFilterOfType($filter, "select");
+    }
+
     public function visitDummyFilter(FilterInterface $filter) {
     }
 

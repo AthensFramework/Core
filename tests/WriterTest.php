@@ -16,6 +16,7 @@ use UWDOEM\Framework\Table\TableBuilder;
 use UWDOEM\Framework\Field\FieldBuilder;
 use UWDOEM\Framework\Filter\Filter;
 use UWDOEM\Framework\Filter\FilterBuilder;
+use UWDOEM\Framework\FilterStatement\FilterStatement;
 
 
 class SimpleMockWriter extends Writer {
@@ -355,7 +356,41 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $result = $this->stripQuotes($writer->visitSortFilter($filter));
 
         $this->assertContains("class=sort-container data-handle-for=$handle", $result);
+    }
 
+    public function testVisitSelectFilter() {
+        $writer = new Writer();
+
+        $handle = (string)rand();
+        $optionNames = ["s".(string)rand(), "s".(string)rand(), "s".(string)rand()];
+        $optionFieldNames = [(string)rand(), (string)rand(), (string)rand()];
+        $optionConditions = [FilterStatement::COND_GREATER_THAN, FilterStatement::COND_CONTAINS, FilterStatement::COND_LESS_THAN];
+        $optionValues = [rand(), rand(), rand()];
+
+        $defaultOption = 1;
+
+        $filter = FilterBuilder::begin()
+            ->setType(Filter::TYPE_SELECT)
+            ->setHandle($handle)
+            ->addOptions([
+                $optionNames[0] => [$optionFieldNames[0], $optionConditions[0], $optionValues[0]],
+                $optionNames[1] => [$optionFieldNames[1], $optionConditions[1], $optionValues[1]],
+            ])
+            ->addOptions([
+                $optionNames[2] => [$optionFieldNames[2], $optionConditions[2], $optionValues[2]],
+            ])
+            ->setDefault($optionNames[$defaultOption])
+            ->build();
+
+        $result = $this->stripQuotes($writer->visitSelectFilter($filter));
+
+        // Assert that the result contains the container for our filter controls
+        $this->assertContains("class=select-container data-handle-for=$handle", $result);
+
+        // Assert that each of the option names is presented
+        foreach ($optionNames as $name) {
+            $this->assertContains($name, $result);
+        }
     }
 
     public function testVisitPage() {
