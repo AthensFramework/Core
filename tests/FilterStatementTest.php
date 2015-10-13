@@ -428,7 +428,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase {
         );
 
         $query = $statement->applyToQuery($query);
-        
+
         $this->assertContains(
             [RowMaker::STRING_FIELD_NAME, "%$criterion%", Criteria::LIKE],
             $query->aliasedStatements
