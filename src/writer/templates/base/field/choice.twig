@@ -9,7 +9,7 @@
         <select name="{{ slug }}">
             <option {% if required %}disabled{% endif %}></option>
         {% for choiceSlug, choice in choices %}
-            <option value="{{ choiceSlug }}" {% if choiceSlug == initial %}selected{% endif %}> {{ choice }} </option>
+            <option value="{{ choiceSlug }}" {% if choice == initial %}selected{% endif %}> {{ choice }} </option>
         {% endfor %}
         </select>
     {% endif %}
