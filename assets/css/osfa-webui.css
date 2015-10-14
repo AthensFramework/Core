@@ -516,7 +516,7 @@ br.footer-break {
     line-height:90px
 }
 
-div.top-filters {
+#top-filters {
     float:right;
     margin-top:8px
 }
