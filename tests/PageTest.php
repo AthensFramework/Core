@@ -135,6 +135,46 @@ class PageTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testBuildAjaxActionPage() {
+        $status = (string)rand();
+        $messageContent = (string)rand();
+
+        $message = [
+            "status" => $status,
+            "message" => $messageContent
+        ];
+
+        $page = PageBuilder::begin()
+            ->setType(PAGE::PAGE_TYPE_AJAX_ACTION)
+            ->setMessage($message)
+            ->build();
+
+        // Assert that the page contains a section, with content equal to the json
+        // encoding of message.
+        $this->assertEquals(json_encode($message), $page->getWritable()->getContent());
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #You must provide a message.*#
+     */
+    public function testBuildAjaxActionPageWithoutMessageRaisesException() {
+        $page = PageBuilder::begin()
+            ->setType(PAGE::PAGE_TYPE_AJAX_ACTION)
+            ->build();
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #You may only set a message on an ajax-action page.*#
+     */
+    public function testBuildNonAjaxActionPageWithMessageRaisesException() {
+        $page = PageBuilder::begin()
+            ->setType(PAGE::PAGE_TYPE_MULTI_PANEL)
+            ->setMessage(["test", "messages"])
+            ->build();
+    }
+
     /*
      * The below methods are tested sufficiently above
     public function testGetWritables() {

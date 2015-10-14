@@ -3,6 +3,7 @@
 namespace UWDOEM\Framework\Page;
 
 use UWDOEM\Framework\Writer\WritableInterface;
+use UWDOEM\Framework\Section\SectionBuilder;
 
 
 class PageBuilder {
@@ -25,11 +26,14 @@ class PageBuilder {
     /** @var WritableInterface */
     protected $_writable;
 
-    /** @var  string */
+    /** @var string */
     protected $_type;
 
-    /** @var  string */
+    /** @var string */
     protected $_title;
+
+    /** @var string[] */
+    protected $_message;
 
 
     /**
@@ -49,11 +53,10 @@ class PageBuilder {
     }
 
     /**
-     * @param string $type
+     * @param string $title
      * @return PageBuilder
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->_title = $title;
         return $this;
     }
@@ -113,6 +116,16 @@ class PageBuilder {
     }
 
     /**
+     * @param string[] $message
+     * @return PageBuilder
+     */
+    public function setMessage($message) {
+        $this->_message = $message;
+        return $this;
+    }
+
+
+    /**
      * @return PageInterface
      * @throws \Exception if the type of the page has not been set
      */
@@ -120,6 +133,22 @@ class PageBuilder {
 
         if (!isset($this->_type)) {
             throw new \Exception("You must set a page type using ::setType before calling this function.");
+        }
+
+        if (isset($this->_message)) {
+            if ($this->_type !== Page::PAGE_TYPE_AJAX_ACTION) {
+                throw new \Exception("You may only set a message on an ajax-action page.");
+            }
+        }
+
+        if ($this->_type === Page::PAGE_TYPE_AJAX_ACTION ) {
+            if (!isset($this->_message)) {
+                throw new \Exception("You must provide a message for an ajax-action page using ::setMessage");
+            }
+
+            $this->_writable = SectionBuilder::begin()
+                ->setContent(json_encode($this->_message))
+                ->build();
         }
 
         return new Page(
