@@ -34,7 +34,15 @@ uwdoem.pagination = (function() {
     };
 
     var setSelect = function(handle, page) {
-        getPaginationContainer(handle).find("select").val(page);
+        var maxPages = getMaxPages(handle);
+        var paginationContainer = getPaginationContainer(handle);
+
+        if (maxPages === 1) {
+            paginationContainer.find("select").css("display", "none");
+        } else {
+            paginationContainer.find("select").css("display", "inline");
+            paginationContainer.find("select").val(page);
+        }
     };
 
     var setControls = function(handle, page) {
