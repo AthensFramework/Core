@@ -1,26 +1,49 @@
 
 
 uwdoem.select = (function() {
+    var getVar = uwdoem.ajax_section.getVar;
 
-    var setupSelectFilter = function(marker) {
+    var getActiveControls = function(handle) {
+        return $("#top-filters select[data-handle-for=" + handle + "]");
+    };
 
-        var filterSelect = $("select." + marker);
+    var getInactiveControls = function(handle) {
+        return $("div.filter-controls select[data-handle-for=" + handle + "]");
+    };
 
-        var filterSectionName = $("div." + marker).parents('.ajax-loaded-section').data('section-name');
-        var filterName = filterSelect.attr("data-filter-name");
-        filterSelect.attr("data-filter-section-for", filterSectionName);
+    var getCurrentSelection = function(ajaxSectionName, handle) {
+        var selection = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'value');
 
-        // Register a filter once on load
-        var selectedText = filterSelect.find("option:selected").text();
-        uwdoem.ajax_section.registerGetVar(filterSelect.attr("data-filter-section-for"), filterName, 'value', selectedText);
+        if (!selection) {
+            selection = getActiveControls(handle).val();
+        }
 
-        filterSelect.change(function() {
+        return selection;
+    };
 
+    var setupSelectFilter = function(handle) {
+
+        var activeControls = getActiveControls(handle);
+        var inactiveControls = getInactiveControls(handle);
+        var ajaxSectionName = inactiveControls.closest('.ajax-loaded-section').attr('id');
+
+        if (activeControls.length === 0) {
+            inactiveControls.appendTo("#top-filters");
+
+            var selectedText = inactiveControls.find("option:selected").text();
+            uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
+        } else {
+            activeControls.replaceWith(inactiveControls);
+        }
+        activeControls = inactiveControls;
+
+        activeControls.val(getCurrentSelection(ajaxSectionName, handle));
+
+        activeControls.change(function() {
             var selectedText = $(this).find("option:selected").text();
 
-            uwdoem.ajax_section.registerGetVar(filterSelect.attr("data-filter-section-for"), filterName, 'value', selectedText);
-            uwdoem.ajax_section.registerGetVar(filterSelect.attr("data-filter-section-for"), 'pagination', 'page', 1);
-            uwdoem.ajax_section.loadSection(filterSelect.attr("data-filter-section-for"));
+            uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
+            uwdoem.ajax_section.loadSection(ajaxSectionName);
         });
     };
 
