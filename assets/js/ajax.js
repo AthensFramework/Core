@@ -33,20 +33,6 @@ uwdoem.ajax = (function() {
             });
     };
 
-    //var AjaxSubmit = function (form, successCallback) {
-    //
-    //    var formVars = $(form).serializeArray();
-    //
-    //    var newVars = {};
-    //    for (var i = 0; i < formVars.length; i++) {
-    //        newVars[formVars[i].name] = formVars[i].value;
-    //    }
-    //
-    //    // Double check that this line works...
-    //    call($(form).attr('action'), newVars, successCallback);
-    //};
-
-
     function AjaxSubmitForm(form, successCallback) {
         var formVars, url, formId, postVars, fieldName;
         var doneFunction, isMultipleChoiceFieldName;
@@ -95,6 +81,9 @@ uwdoem.ajax = (function() {
                         formResult = $("<div>" + getMsg + "</div>").find("#" + formId);
                         $(form).replaceWith(formResult);
                         document.getElementById(formId).scrollIntoView();
+
+                        successCallback();
+                        uwdoem.ajax_section.doPostSectionActions();
                     });
 
                 } else {
@@ -102,7 +91,6 @@ uwdoem.ajax = (function() {
                     $(form).replaceWith(formResult);
                     document.getElementById(formId).scrollIntoView();
                     uwdoem.alert.makeAlert("failure", "Form has errors.");
-                    successCallback();
                 }
             } catch(err) {
                 uwdoem.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
