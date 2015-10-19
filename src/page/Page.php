@@ -2,6 +2,8 @@
 
 namespace UWDOEM\Framework\Page;
 
+use DOMPDF;
+
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Writer\Writer;
@@ -148,9 +150,21 @@ class Page implements PageInterface {
         }
 
         if (is_null($renderFunction)) {
-            $renderFunction = function($content) {
-                echo $content;
-            };
+            switch ($this->getType()) {
+                case static::PAGE_TYPE_PDF:
+                    $renderFunction = function($content) {
+                        $dompdf = new DOMPDF();
+                        $dompdf->load_html($content);
+                        $dompdf->render();
+                        $dompdf->stream("report.pdf");
+                    };
+                    break;
+                default:
+                    $renderFunction = function($content) {
+                        echo $content;
+                    };
+            }
+
         }
 
         $renderFunction($this->accept($writer));
