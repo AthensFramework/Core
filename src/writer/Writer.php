@@ -99,6 +99,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
+                "pageType" => $page->getType(),
                 "title" => $page->getTitle(),
                 "header" => $page->getHeader(),
                 "subHeader" => $page->getSubHeader(),

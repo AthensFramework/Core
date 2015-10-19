@@ -396,6 +396,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
     public function testVisitPage() {
         $writer = new Writer();
 
+        $pageType = Page::PAGE_TYPE_FULL_HEADER;
+
         $section = SectionBuilder::begin()
             ->setLabel("Label")
             ->setContent("Some content.")
@@ -406,11 +408,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setHeader("Page Header")
             ->setSubHeader("Page subheader")
             ->setReturnTo(["Another name" => "http://another.link"])
-            ->setType(Page::PAGE_TYPE_FULL_HEADER)
+            ->setType($pageType)
             ->setTitle("Page Title")
             ->setBaseHref(".")
             ->setBreadCrumbs(["Key" => "http://example.com", "Another name"])
             ->build();
+
+        echo $page->getType();
 
         // Add project CSS and JS
         $cssFile1 = "/path/to/file/1.css";
@@ -432,7 +436,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("<title>Page Title</title>", $result);
         $this->assertContains("<base href=.", $result);
         $this->assertContains("</head>", $result);
-        $this->assertContains("<body>", $result);
+        $this->assertContains("<body class=$pageType>", $result);
         $this->assertContains("<li><a target=_self href=http://example.com>Key</a></li>", $result);
         $this->assertContains("<h1 class=header>Page Header</h1>", $result);
         $this->assertContains("<h2 class=subheader>Page subheader</h2>", $result);
