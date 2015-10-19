@@ -127,9 +127,15 @@ class Page implements PageInterface {
     /**
      * @param Initializer|null $initializer
      * @param Writer|null $writer
+     * @param callable|null $renderFunction
      * @return null
      */
-    public function render(Initializer $initializer = null, Writer $writer = null) {
+    public function render(
+        Initializer $initializer = null,
+        Writer $writer = null,
+        callable $renderFunction = null
+    ) {
+
         if (is_null($initializer)) {
             $initializerClass = Settings::getDefaultInitializerClass();
             $initializer = new $initializerClass();
@@ -140,6 +146,13 @@ class Page implements PageInterface {
             $writerClass = Settings::getDefaultWriterClass();
             $writer = new $writerClass();
         }
-        echo $this->accept($writer);
+
+        if (is_null($renderFunction)) {
+            $renderFunction = function($content) {
+                echo $content;
+            };
+        }
+
+        $renderFunction($this->accept($writer));
     }
 }
