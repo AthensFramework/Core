@@ -1,1 +1,33 @@
 {% extends "page/base.twig" %}
+
+{% block head %}
+{# include none of the typical head #}
+{% endblock head %}
+
+{% block project_head %}
+    {% for cssFile in projectCSS %}
+        {# DOMPDF ignores baseHREF, so we have to insert it here #}
+        <link rel="stylesheet" href="{{ baseHref }}/{{ cssFile }}">
+    {% endfor %}
+{% endblock project_head %}
+
+{% block body %}
+<div id="block-logo"></div>
+{% if header %}
+    <h1 class=header>{{ header }}</h1>
+{% endif %}
+
+<br>
+
+{% if subHeader %}
+    <h2 class=subheader>{{ subHeader }}</h2>
+{% endif %}
+
+<br>
+
+
+{% block content %}
+    {{ content|raw }}
+{% endblock content %}
+
+{% endblock body %}
