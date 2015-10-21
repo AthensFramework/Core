@@ -152,11 +152,12 @@ class Page implements PageInterface {
         if (is_null($renderFunction)) {
             switch ($this->getType()) {
                 case static::PAGE_TYPE_PDF:
-                    $renderFunction = function($content) {
+                    $documentName = $this->getTitle() ? $this->getTitle() : "document";
+                    $renderFunction = function($content) use ($documentName) {
                         $dompdf = new DOMPDF();
                         $dompdf->load_html($content);
                         $dompdf->render();
-                        $dompdf->stream("report.pdf");
+                        $dompdf->stream($documentName . ".pdf");
                     };
                     break;
                 default:
