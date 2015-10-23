@@ -18,7 +18,7 @@ uwdoem.select = (function() {
             selection = getActiveControls(handle).val();
         }
 
-        return selection;
+        return decodeURIComponent(selection);
     };
 
     var setupSelectFilter = function(handle) {
@@ -30,7 +30,7 @@ uwdoem.select = (function() {
         if (activeControls.length === 0) {
             inactiveControls.appendTo("#top-filters");
 
-            var selectedText = inactiveControls.find("option:selected").text();
+            var selectedText = getCurrentSelection(ajaxSectionName, handle);
             uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
         } else {
             activeControls.replaceWith(inactiveControls);
