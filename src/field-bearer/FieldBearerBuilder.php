@@ -39,7 +39,7 @@ class FieldBearerBuilder {
      */
     public function addFieldBearers($fieldBearers)
     {
-        $this->_fieldBearers = array_merge($fieldBearers, $this->_fieldBearers);
+        $this->_fieldBearers = array_merge($this->_fieldBearers, $fieldBearers);
         return $this;
     }
 
