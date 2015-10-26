@@ -140,11 +140,11 @@ class FieldBearerBuilder {
      * @throws \Exception if neither fields nor fieldBearers has been set
      */
     public function build() {
-        if (!$this->_fields && !$this->_fieldBearers) {
-            throw new \Exception("Must make fields and/or fieldBearers before calling this method.");
-        }
+//        if (!$this->_fields && !$this->_fieldBearers) {
+//            throw new \Exception("Must make fields and/or fieldBearers before calling this method.");
+//        }
 
-        if(!$this->_saveFunction) {
+        if (!$this->_saveFunction) {
             $this->_saveFunction = function (FieldBearerInterface $fieldBearer) {
                 foreach ($fieldBearer->getFieldBearers() as $childFieldBearer) {
                     $childFieldBearer->save();

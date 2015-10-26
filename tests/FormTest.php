@@ -81,6 +81,34 @@ class FormTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $this->assertContains("field", $form->getFieldBearer()->getFieldNames());
+
+        /* Test FormBuilder::addSubForms */
+        $fields = ["field" => new Field('literal', 'A literal field', [])];
+
+        $fieldBearer = FieldBearerBuilder::begin()
+            ->addFields($fields)
+            ->build();
+
+        $form1 = FormBuilder::begin()
+            ->addFieldBearers([$fieldBearer])
+            ->build();
+
+        $form2 = FormBuilder::begin()
+            ->addFieldBearers([$fieldBearer])
+            ->build();
+
+        $form = FormBuilder::begin()
+            ->addSubForms([
+                "Form1" => $form1,
+                "Form2" => $form2
+            ])
+            ->build();
+
+//        $this->assertEquals(2, sizeof($form->getSubForms()));
+        print_r($form->getSubForms());
+        $this->assertContains($form1, $form->getSubForms());
+        $this->assertContains($form2, $form->getSubForms());
+
     }
 
     /**

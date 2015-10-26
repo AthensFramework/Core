@@ -346,12 +346,5 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($data, $object->getFieldLargeVarchar());
     }
 
-    /**
-     * @expectedException              \Exception
-     * @expectedExceptionMessageRegExp #make fields and/or fieldBearers.*#
-     */
-    public function testBuilderThrowsExceptionIfNoFieldsOrFieldBearersAdded() {
-        $field = FieldBearerBuilder::begin()->build();
-    }
 }
 

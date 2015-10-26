@@ -10,35 +10,27 @@ use UWDOEM\Framework\Field\Field;
 
 class FormBuilder {
 
-    /**
-     * @var FormAction[]
-     */
+    /** @var FormAction[] */
     protected $_actions;
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     protected $_onValidFunc;
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     protected $_onInvalidFunc;
 
-    /**
-     * @var FieldBearerBuilder
-     */
+    /** @var FieldBearerBuilder */
     protected $_fieldBearerBuilder;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $_onSuccessUrl;
 
-    /**
-     * @var array[]
-     */
+    /** @var array[] */
     protected $_validators = [];
+
+    /** @var FormInterface[] */
+    protected $_subForms = [];
+
 
     protected function __construct() {
         $this->_fieldBearerBuilder = new FieldBearerBuilder();
@@ -104,6 +96,15 @@ class FormBuilder {
      */
     public function addFieldBearers(array $fieldBearers) {
         $this->_fieldBearerBuilder->addFieldBearers($fieldBearers);
+        return $this;
+    }
+
+    /**
+     * @param FormInterface[] $subForms
+     * @return FormBuilder
+     */
+    public function addSubForms(array $subForms) {
+        $this->_subForms = array_merge($this->_subForms, $subForms);
         return $this;
     }
 
@@ -198,6 +199,7 @@ class FormBuilder {
             $this->_onValidFunc,
             $this->_onInvalidFunc,
             $this->_actions,
+            $this->_subForms,
             $this->_validators
         );
     }

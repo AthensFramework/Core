@@ -16,6 +16,11 @@ interface FormInterface extends WritableInterface, InitializableInterface {
     function getFieldBearer();
 
     /**
+     * @return FormInterface[]
+     */
+    function getSubForms();
+
+    /**
      * Maybe this should be protected??
      */
     function onValid();

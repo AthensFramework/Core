@@ -30,6 +30,9 @@ class Form implements FormInterface {
     /** @var array[]  */
     protected $_validators;
 
+    /** @var FormInterface[] */
+    protected $_subForms;
+
     use VisitableTrait;
 
     /**
@@ -116,10 +119,19 @@ class Form implements FormInterface {
     }
 
     /**
+     * @return FormInterface[]
+     */
+    public function getSubForms() {
+        return $this->_subForms;
+    }
+
+
+    /**
      * @param FieldBearerInterface $fieldBearer
      * @param callable $onValidFunc
      * @param callable $onInvalidFunc
      * @param array|null $actions
+     * @param $subForms
      * @param array[]|null $validators
      */
     public function __construct(
@@ -127,8 +139,9 @@ class Form implements FormInterface {
         callable $onValidFunc,
         callable $onInvalidFunc,
         $actions = [],
-        $validators = []) {
-
+        $subForms = [],
+        $validators = []
+    ) {
         $this->_actions = $actions;
         $this->_fieldBearer = $fieldBearer;
 
@@ -136,5 +149,6 @@ class Form implements FormInterface {
         $this->_onValidFunc = $onValidFunc;
 
         $this->_validators = $validators;
+        $this->_subForms = $subForms;
     }
 }
