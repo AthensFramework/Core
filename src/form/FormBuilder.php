@@ -99,11 +99,11 @@ class FormBuilder {
     }
 
     /**
-     * @param FieldBearerInterface $fieldBearer
+     * @param FieldBearerInterface[] $fieldBearers
      * @return FormBuilder
      */
-    public function addFieldBearer(FieldBearerInterface $fieldBearer) {
-        $this->_fieldBearerBuilder->addFieldBearers([$fieldBearer]);
+    public function addFieldBearers(array $fieldBearers) {
+        $this->_fieldBearerBuilder->addFieldBearers($fieldBearers);
         return $this;
     }
 

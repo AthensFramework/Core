@@ -77,7 +77,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $form = FormBuilder::begin()
-            ->addFieldBearer($fieldBearer)
+            ->addFieldBearers([$fieldBearer])
             ->build();
 
         $this->assertContains("field", $form->getFieldBearer()->getFieldNames());
@@ -262,7 +262,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $fieldBearer = new MockFieldBearer();
 
         $form = FormBuilder::begin()
-            ->addFieldBearer($fieldBearer)
+            ->addFieldBearers([$fieldBearer])
             ->build();
 
         // Trigger the form's onInvalid method
