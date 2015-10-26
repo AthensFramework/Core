@@ -48,7 +48,16 @@ class FieldBearerBuilder {
      * @return FieldBearerBuilder
      */
     public function addFields($fields) {
-        $this->_fields = array_merge($fields, $this->_fields);
+
+        $fieldBearer = new FieldBearer(
+            $fields,
+            [],
+            [],
+            [],
+            function() {}
+        );
+
+        $this->addFieldBearers([$fieldBearer]);
         return $this;
     }
 
