@@ -414,8 +414,6 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setBreadCrumbs(["Key" => "http://example.com", "Another name"])
             ->build();
 
-        echo $page->getType();
-
         // Add project CSS and JS
         $cssFile1 = "/path/to/file/1.css";
         $cssFile2= "/path/to/file/2.css";
