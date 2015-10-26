@@ -104,8 +104,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
             ])
             ->build();
 
-//        $this->assertEquals(2, sizeof($form->getSubForms()));
-        print_r($form->getSubForms());
+        $this->assertEquals(2, sizeof($form->getSubForms()));
         $this->assertContains($form1, $form->getSubForms());
         $this->assertContains($form2, $form->getSubForms());
 
