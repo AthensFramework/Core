@@ -94,6 +94,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         // Initialize the form to add suffixes
+        $_SERVER["REQUEST_METHOD"] = "GET";
         $initializer->visitForm($form);
 
         // Grab all of the fields from both of the sub forms
@@ -109,8 +110,6 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
             },
             $fields
         );
-
-        print_r($suffixes);
 
         // Assert that every set of suffixes is unique
         $this->assertEquals(sizeof($suffixes), sizeof(array_unique($suffixes)));
