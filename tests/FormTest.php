@@ -107,7 +107,6 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(2, sizeof($form->getSubForms()));
         $this->assertContains($form1, $form->getSubForms());
         $this->assertContains($form2, $form->getSubForms());
-
     }
 
     /**
@@ -138,6 +137,32 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, sizeof($form->getActions()));
         $this->assertEquals("POST", $form->getActions()[0]->getMethod());
         $this->assertEquals("Submit", $form->getActions()[0]->getLabel());
+    }
+
+    public function testGetSubformByName() {
+        $fields = ["field" => new Field('literal', 'A literal field', [])];
+
+        $fieldBearer = FieldBearerBuilder::begin()
+            ->addFields($fields)
+            ->build();
+
+        $form1 = FormBuilder::begin()
+            ->addFieldBearers([$fieldBearer])
+            ->build();
+
+        $form2 = FormBuilder::begin()
+            ->addFieldBearers([$fieldBearer])
+            ->build();
+
+        $form = FormBuilder::begin()
+            ->addSubForms([
+                "Form1" => $form1,
+                "Form2" => $form2
+            ])
+            ->build();
+
+        $this->assertEquals($form1, $form->getSubFormByName("Form1"));
+        $this->assertEquals($form2, $form->getSubFormByName("Form2"));
     }
 
     public function testFormAddError() {
