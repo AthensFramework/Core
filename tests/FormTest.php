@@ -139,6 +139,9 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("Submit", $form->getActions()[0]->getLabel());
     }
 
+    /**
+     * Test can retrieve a subform by assigned name
+     */
     public function testGetSubformByName() {
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 

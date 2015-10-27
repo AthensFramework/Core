@@ -35,6 +35,7 @@ class Form implements FormInterface {
 
     use VisitableTrait;
 
+
     /**
      * @return FieldBearerInterface
      */
@@ -43,7 +44,7 @@ class Form implements FormInterface {
     }
 
     /**
-     * return null
+     * @return null
      */
     protected function validate() {
         $this->_isValid = True;

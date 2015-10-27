@@ -27,6 +27,11 @@ interface FormInterface extends WritableInterface, InitializableInterface {
     function getSubFormByName($name);
 
     /**
+     * @return bool
+     */
+    function isValid();
+
+    /**
      * Maybe this should be protected??
      */
     function onValid();
@@ -35,11 +40,6 @@ interface FormInterface extends WritableInterface, InitializableInterface {
      * Maybe this should be protected??
      */
     function onInvalid();
-
-    /**
-     * @return bool
-     */
-    function isValid();
 
     /**
      * @return string[]
