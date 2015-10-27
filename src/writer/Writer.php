@@ -212,7 +212,6 @@ class Writer extends Visitor {
                 "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
                 "hiddenFields" => $form->getFieldBearer()->getHiddenFields(),
                 "actions" => $form->getActions(),
-                "requestURI" => $_SERVER["REQUEST_URI"],
                 "errors" => $form->getErrors()
             ]);
     }
