@@ -309,15 +309,61 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($input, $unrequiredField->getInitial());
     }
 
-    public function testDefaultOnValid() {
+    public function testSubFormDefaultOnInvalid() {
+        $requiredField = new Field('text', 'A required field', "", true, []);
         $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
 
-        $fields = ["unrequired" => $unrequiredField];
+        $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
+
+        $subForm = FormBuilder::begin()
+            ->addFields($fields)
+            ->build();
+
+        $form = FormBuilder::begin()
+            ->addSubForms([$subForm])
+            ->build();
+
+        // Provide input to the field that does not require input
+        $input = (string)rand();
+        $_POST[$unrequiredField->getSlug()] = $input;
+
+        // Assert that the unrequired field does not have an "initial" value
+        $this->assertNotEquals($input, $unrequiredField->getInitial());
+
+        // Trigger the form's onInvalid method
+        $form->onInvalid();
+
+        // Assert that the input has been moved into the field's initial value
+        $this->assertEquals($input, $unrequiredField->getInitial());
+    }
+
+    public function testDefaultOnValid() {
+        $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
 
         $fieldBearer = new MockFieldBearer();
 
         $form = FormBuilder::begin()
             ->addFieldBearers([$fieldBearer])
+            ->build();
+
+        // Trigger the form's onInvalid method
+        $form->onValid();
+
+        // Assert that the input has been moved into the field's initial value
+        $this->assertTrue(MockFieldBearer::$saved);
+    }
+
+    public function testSubFormDefaultOnValid() {
+        $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
+
+        $fieldBearer = new MockFieldBearer();
+
+        $subForm = FormBuilder::begin()
+            ->addFieldBearers([$fieldBearer])
+            ->build();
+
+        $form = FormBuilder::begin()
+            ->addSubForms([$subForm])
             ->build();
 
         // Trigger the form's onInvalid method
