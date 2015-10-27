@@ -67,6 +67,16 @@ class Form implements FormInterface {
             }
         }
 
+        foreach ($this->getSubForms() as $subForm) {
+
+            // Force validation on each subform via isValid()
+            // If subform isn't valid and this form is not yet invalid, mark it as invalid
+            if (!$subForm->isValid() && $this->_isValid) {
+                $this->_isValid = False;
+                $this->addError("Please correct the indicated errors and resubmit the form.");
+            }
+        }
+
         if (!empty($this->_formErrors)) {
             $this->_isValid = False;
         }
