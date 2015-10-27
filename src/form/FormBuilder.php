@@ -164,12 +164,20 @@ class FormBuilder {
                         $field->setInitial($field->getSubmitted());
                     }
                 }
+
+                foreach ($thisForm->getSubForms() as $subForm) {
+                    $subForm->onInvalid();
+                }
             };
         }
 
         if (!isset($this->_onValidFunc)) {
             $this->_onValidFunc = function(FormInterface $form) {
                 $form->getFieldBearer()->save();
+
+                foreach ($form->getSubForms() as $subForm) {
+                    $subForm->onInvalid();
+                }
             };
         }
 
