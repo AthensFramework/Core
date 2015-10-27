@@ -21,6 +21,12 @@ interface FormInterface extends WritableInterface, InitializableInterface {
     function getSubForms();
 
     /**
+     * @param string $name
+     * @return FormInterface
+     */
+    function getSubFormByName($name);
+
+    /**
      * Maybe this should be protected??
      */
     function onValid();

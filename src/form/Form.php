@@ -125,6 +125,14 @@ class Form implements FormInterface {
         return $this->_subForms;
     }
 
+    /**
+     * @param string $name
+     * @return FormInterface
+     */
+    public function getSubFormByName($name) {
+        return $this->getSubForms()[$name];
+    }
+
 
     /**
      * @param FieldBearerInterface $fieldBearer
