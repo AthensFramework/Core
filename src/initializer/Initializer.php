@@ -44,6 +44,16 @@ class Initializer extends Visitor {
     public function visitForm(FormInterface $form) {
         // Once subforms are implemented, crawl them first
 
+
+
+        foreach (array_values($form->getSubForms()) as $count => $subForm) {
+            foreach ($subForm->getFieldBearer()->getFields() as $field) {
+                $field->addSuffix($count);
+            }
+
+            $this->visitForm($subForm);
+        }
+
         $this->visitChild($form->getFieldBearer());
 
         if($_SERVER["REQUEST_METHOD"] == "POST") {

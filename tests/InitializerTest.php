@@ -6,6 +6,8 @@ use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Initializer\Initializer;
 use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Page\PageBuilder;
+use UWDOEM\Framework\Form\FormBuilder;
+use UWDOEM\Framework\Field\FieldInterface;
 
 
 class MockForm extends Form {
@@ -54,7 +56,64 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
 
         // Assert that the form's fields have been given prefixes
         $this->assertNotEmpty($form->getFieldBearer()->getFields()[0]->getSuffixes());
+    }
 
+    /**
+     * Test subforms get unique suffixes.
+     */
+    public function testUniqueSuffixesForSubforms() {
+        $initializer = new Initializer();
+
+        $fieldBearer1 = FieldBearerBuilder::begin()
+            ->addFields([
+                "field" => new Field('literal', 'A literal field', []),
+                "field2" => new Field('literal', 'A second literal field', [])
+            ])
+            ->build();
+
+        $fieldBearer2 = FieldBearerBuilder::begin()
+            ->addFields([
+                "field1" => new Field('literal', 'A literal field', []),
+                "field2" => new Field('literal', 'A second literal field', [])
+            ])
+            ->build();
+
+        $form1 = FormBuilder::begin()
+            ->addFieldBearers([$fieldBearer1])
+            ->build();
+
+        $form2 = FormBuilder::begin()
+            ->addFieldBearers([$fieldBearer2])
+            ->build();
+
+        $form = FormBuilder::begin()
+            ->addSubForms([
+                "Form1" => $form1,
+                "Form2" => $form2
+            ])
+            ->build();
+
+        // Initialize the form to add suffixes
+        $initializer->visitForm($form);
+
+        // Grab all of the fields from both of the sub forms
+        $fields = array_merge(
+            array_values($form->getSubFormByName("Form1")->getFieldBearer()->getFields()),
+            array_values($form->getSubFormByName("Form2")->getFieldBearer()->getFields())
+        );
+
+        // Map each field to a serialization of its suffixes
+        $suffixes = array_map(
+            function(FieldInterface $field) {
+                return serialize($field->getSuffixes());
+            },
+            $fields
+        );
+
+        print_r($suffixes);
+
+        // Assert that every set of suffixes is unique
+        $this->assertEquals(sizeof($suffixes), sizeof(array_unique($suffixes)));
     }
 
     /**
