@@ -1,4 +1,4 @@
-<form id={{ visibleFields|keys|join|md5 }}
+<form id={{ visibleFields|keys|merge(subForms|keys)|join|md5 }}
       class="prevent-double-submit {% if errors is not empty %}has-errors{% endif %}"
       method="post" target="_self" data-request-uri="{{ requestURI }}">
 
@@ -13,6 +13,8 @@
             {{ field|write|raw }}
         {% endfor %}
     </table>
+
+    {{ subFormContent }}
 
     <div class="form-actions">
         {% for action in actions %}

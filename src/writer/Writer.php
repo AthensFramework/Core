@@ -203,8 +203,16 @@ class Writer extends Visitor {
             ]);
     }
 
-    public function visitForm(FormInterface $form) {
-        $template = 'form/base.twig';
+
+
+    public function visitForm(FormInterface $form, $isSubForm = false) {
+
+        $template = $isSubForm ? 'form/sub-form.twig' : 'form/base.twig';
+
+        $subFormContent = "";
+        foreach ($form->getSubForms() as $subForm) {
+            $subFormContent .= $this->visitForm($subForm, true);
+        }
 
         return $this
             ->loadTemplate($template)
@@ -212,7 +220,8 @@ class Writer extends Visitor {
                 "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
                 "hiddenFields" => $form->getFieldBearer()->getHiddenFields(),
                 "actions" => $form->getActions(),
-                "errors" => $form->getErrors()
+                "errors" => $form->getErrors(),
+                "subFormContent" => $subFormContent
             ]);
     }
 
