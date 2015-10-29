@@ -97,6 +97,7 @@ $filesContent["README.md"] = getFileTemplate("README.md");
 $filesContent[".gitignore"] = getFileTemplate(".gitignore");
 $filesContent["local-settings.php"] = str_replace("SET_UWDOEM_ENCRYPTION_PASSWORD", makeEncryptionPassword(), getFileTemplate("local-settings.php"));
 $filesContent["settings.php"] = getFileTemplate("settings.php");
+$filesContent["setup.php"] = getFileTemplate("setup.php");
 $filesContent["local-settings.php"] = getFileTemplate("local-settings.php");
 
 $directories[] = "admin";
@@ -140,6 +141,8 @@ $directories[] = "project-docs/api-docs";
 $filesContent["project-docs/.htaccess"] = "Allow from all";
 $filesContent["project-docs/api-docs/notice.php"] = pageDocBlock("Leave this directory empty. If you choose to build documentation via php-documentor, build it into this directory.");
 $filesContent["project-docs/notice.php"] = pageDocBlock("Place here any narrative project documentation.");
+$filesContent["project-docs/index.php"] = getFileTemplate("index.php");
+$filesContent["project-docs/index.md"] = getFileTemplate("index.md");
 
 $directories[] = "project-schema";
 $directories[] = "project-schema/generated-classes";

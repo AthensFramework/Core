@@ -1,10 +1,13 @@
 <?php
 namespace SessionGlobals;
 
+// Setup DOMPDF
+define('DOMPDF_ENABLE_AUTOLOAD', false);
+define('DOMPDF_ENABLE_REMOTE', true);
+
 // setup the autoloading
 require_once dirname(__FILE__) . '/vendor/autoload.php';
 require_once dirname(__FILE__) . '/settings.php';
-require_once dirname(__FILE__) . '/vendor/dompdf/dompdf/dompdf_config.inc.php';
 
 define('MYSQL_DSN', 'mysql:host=' . MYSQL_HOST . ';port=' . MYSQL_PORT . ';dbname=' . MYSQL_DB_NAME);
 
@@ -19,10 +22,6 @@ session_start();
 
 // Initialize CSRF Protection
 CSRF::init();
-
-// Setup DOMPDF
-define('DOMPDF_ENABLE_AUTOLOAD', false);
-define('DOMPDF_ENABLE_REMOTE', true);
 
 // Setup Framework
 Settings::addTemplateTheme("UWBoundless2015");
