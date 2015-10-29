@@ -57,10 +57,10 @@ class Page implements PageInterface {
      * @param string $_subHeader
      * @param string[] $_breadCrumbs
      * @param string[] $_returnTo
-     * @param WritableInterface $_writable
+     * @param WritableInterface|null $_writable
      * @param string $_type
      */
-    public function __construct($_title, $_baseHref, $_header, $_subHeader, array $_breadCrumbs, array $_returnTo, WritableInterface $_writable, $_type) {
+    public function __construct($_title, $_baseHref, $_header, $_subHeader, array $_breadCrumbs, array $_returnTo, WritableInterface $_writable=null, $_type) {
         $this->_title = $_title;
         $this->_baseHref = $_baseHref;
         $this->_header = $_header;
@@ -121,7 +121,7 @@ class Page implements PageInterface {
     }
 
     /**
-     * @return WritableInterface
+     * @return WritableInterface|null
      */
     public function getWritable() {
         return $this->_writable;
