@@ -1,0 +1,11 @@
+composer.phar
+composer.lock
+vendor/
+output/
+localSettings.php
+
+project-schema/generated-conf
+project-schema/generated-migrations
+project-schema/generated-sql
+project-schema/generated-classes/*/Base/
+project-schema/generated-classes/*/Map/

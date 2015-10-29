@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="db_name" defaultIdMethod="native">
+
+    <!--An example student class-->
+    <!--<table name="student" phpName="Student">-->
+    <!--<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>-->
+
+    <!--<column name="uw_student_number" type="integer" required="true" phpName="UWStudentNumber"/>-->
+    <!--<column name="uw_email" type="varchar" size="63" required="true" phpName="UWEmail"/>-->
+    <!--<column name="uw_net_id" type="varchar" size="63" required="true" phpName="UWNetId" />-->
+    <!--<column name="first_name" type="varchar" size="63" required="true" />-->
+    <!--<column name="middle_name" type="varchar" size="63" required="false" />-->
+    <!--<column name="last_name" type="varchar" size="63" required="true" />-->
+    <!--</table>-->
+</database>
