@@ -20,6 +20,7 @@ class Page implements PageInterface {
     const PAGE_TYPE_MINI_HEADER = "mini-header";
     const PAGE_TYPE_MULTI_PANEL = "multi-panel";
     const PAGE_TYPE_PDF = "pdf";
+    const PAGE_TYPE_MARKDOWN_DOCUMENTATION = "markdown-documentation";
 
     use VisitableTrait;
 
