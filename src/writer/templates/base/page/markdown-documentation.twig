@@ -1,7 +1,6 @@
 {% extends "page/mini-header.twig" %}
 
-{% block body %}
-    {{ parent() }}
+{% block content %}
     <div id="markdown_explorer"> </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js"></script>
 
@@ -9,7 +8,7 @@
         $().ready(function() {
             var href, defaultHref, queryParameterHref;
 
-            defaultHref = "index.md";
+            defaultHref = markdown_explorer.getCurrentDirectory(window.location.href) + "index.md";
             queryParameterHref = markdown_explorer.getQueryParameterHref();
 
             if (queryParameterHref) {
@@ -21,6 +20,6 @@
             markdown_explorer.loadFromHref($('#markdown_explorer'), href);
         });
     </script>
-{% endblock body %}
+{% endblock content %}
 
 

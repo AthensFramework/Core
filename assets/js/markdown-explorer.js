@@ -33,6 +33,7 @@ markdown_explorer = (function() {
     };
 
     return {
+        getCurrentDirectory: getCurrentDirectory,
         getQueryParameterHref: getQueryParameterHref,
         loadFromHref: loadFromHref
     }
