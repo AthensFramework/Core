@@ -51,7 +51,9 @@ class Form implements FormInterface {
 
         foreach ($this->getFieldBearer()->getFields() as $name => $field) {
             $field->validate();
+        }
 
+        foreach ($this->getFieldBearer()->getFields() as $name => $field) {
             if (array_key_exists($name, $this->_validators)) {
                 foreach($this->_validators[$name] as $validator) {
                     call_user_func_array($validator, [$field, $this]);
@@ -68,7 +70,6 @@ class Form implements FormInterface {
         }
 
         foreach ($this->getSubForms() as $subForm) {
-
             // Force validation on each subform via isValid()
             // If subform isn't valid and this form is not yet invalid, mark it as invalid
             if (!$subForm->isValid() && $this->_isValid) {
