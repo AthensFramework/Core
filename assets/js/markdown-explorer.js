@@ -1,4 +1,5 @@
 markdown_explorer = (function() {
+
     var isLocalHref = function(href) {
         return href.indexOf("://") === -1;
     };
@@ -11,7 +12,7 @@ markdown_explorer = (function() {
         element.find('a').click(function() {
             var linkHref = $(this).attr('href');
             if (isLocalHref(linkHref) && isMarkdownHref(linkHref)) {
-                window.location = "?href=" + encodeURIComponent(directory + linkHref);
+                window.location = [location.protocol, '//', location.host, location.pathname].join('') + "?href=" + encodeURIComponent(directory + linkHref);
                 return false;
             }
         });
