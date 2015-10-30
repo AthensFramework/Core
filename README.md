@@ -51,7 +51,7 @@ Because Framework depends on multiple other libraries, it is *highly* recommende
 Use
 ===
 
-Instructions to follow.
+See the [documentation](doc/index.md), especially the [application creation tutorial](doc/tutorial.md).
 
 Compatibility
 =============
