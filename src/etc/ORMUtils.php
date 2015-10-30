@@ -74,6 +74,8 @@ class ORMUtils {
 
             if ($column->isPrimaryKey() || $column->isForeignKey()) {
                 // Don't accept form input for primary keys or foreign keys. These should be set at object creation.
+            } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
+                // Don't accept updates to the UpdatedAt or CreatedAt timestamps
             } else {
                 $object->{"set" . $column->getPhpName()}($field->getValidatedData());
                 $field->setInitial($field->getValidatedData());
