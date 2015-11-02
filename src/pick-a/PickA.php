@@ -23,9 +23,9 @@ class PickA implements PickAInterface {
 
     public function getWritables() {
         $writables = [];
-        foreach ($this->_manifest as $manifestItem) {
+        foreach ($this->_manifest as $key => $manifestItem) {
             if ($manifestItem instanceof WritableInterface) {
-                $writables[] = $manifestItem;
+                $writables[$key] = $manifestItem;
             }
         }
 
