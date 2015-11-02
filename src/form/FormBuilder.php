@@ -176,7 +176,7 @@ class FormBuilder {
                 $form->getFieldBearer()->save();
 
                 foreach ($form->getSubForms() as $subForm) {
-                    $subForm->onInvalid();
+                    $subForm->onValid();
                 }
             };
         }
