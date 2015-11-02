@@ -13,6 +13,11 @@ class FormAction implements FormActionInterface {
 
     use VisitableTrait;
 
+
+    public function getHash() {
+        return md5($this->getLabel() . $this->getMethod() . $this->getTarget());
+    }
+
     public function __construct($label, $method, $target) {
         $this->_label = $label;
         $this->_method = $method;

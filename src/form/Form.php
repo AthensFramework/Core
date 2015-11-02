@@ -36,6 +36,18 @@ class Form implements FormInterface {
     use VisitableTrait;
 
 
+    public function getHash() {
+        return md5(
+            json_encode(
+                array_merge(
+                    $this->getFieldBearer()->getVisibleFieldNames(),
+                    array_keys($this->getSubForms())
+                )
+            )
+        );
+    }
+
+
     /**
      * @return FieldBearerInterface
      */

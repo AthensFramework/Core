@@ -49,6 +49,10 @@ class Page implements PageInterface {
     protected $_type;
 
 
+    public function getHash() {
+        return md5($_SERVER['REQUEST_URI']);
+    }
+
     /**
      * Page constructor.
      * @param string $_title

@@ -34,6 +34,14 @@ class Row implements RowInterface {
     use VisitableTrait;
 
 
+    function getHash() {
+        return md5(
+            json_encode(
+                $this->getFieldBearer()->getVisibleFieldNames()
+            )
+        );
+    }
+
     function __construct(FieldBearerInterface $fieldBearer, $onClick, $highlightable) {
         $this->_fieldBearer = $fieldBearer;
         $this->_onClick = $onClick;

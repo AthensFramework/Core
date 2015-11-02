@@ -19,6 +19,19 @@ class Table implements TableInterface {
 
     use VisitableTrait;
 
+
+    public function getHash() {
+        $unfilteredRows = $this->getUnfilteredRows();
+
+        if ($unfilteredRows) {
+            $hash = md5($unfilteredRows[0]->getFieldBearer()->getVisibleFieldNames());
+        } else {
+            $hash = md5("table" . $_SERVER["REQUEST_URI"]);
+        }
+
+        return $hash;
+    }
+
     /**
      * @param array $rows
      * @param FilterInterface $filter

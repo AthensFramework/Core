@@ -217,6 +217,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
+                "hash" => $form->getHash(),
                 "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
                 "hiddenFields" => $form->getFieldBearer()->getHiddenFields(),
                 "actions" => $form->getActions(),

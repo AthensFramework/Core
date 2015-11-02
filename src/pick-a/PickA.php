@@ -12,6 +12,11 @@ class PickA implements PickAInterface {
 
     use VisitableTrait;
 
+
+    public function getHash() {
+        return md5(json_encode($this->getManifest()));
+    }
+
     public function __construct($manifest) {
         $this->_manifest = $manifest;
     }

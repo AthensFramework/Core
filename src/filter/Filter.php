@@ -40,6 +40,11 @@ class Filter implements FilterInterface {
 
     use VisitableTrait;
 
+
+    public function getHash() {
+        return md5($this->getHandle());
+    }
+
     /**
      * @param $handle
      * @param FilterStatementInterface[] $statements

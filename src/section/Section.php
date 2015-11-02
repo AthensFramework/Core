@@ -33,6 +33,13 @@ class Section implements SectionInterface {
 
     use VisitableTrait;
 
+
+    public function getHash() {
+        return md5(
+            $this->getLabel() . $this->getContent()
+        );
+    }
+
     /**
      * Create a new section
      *
