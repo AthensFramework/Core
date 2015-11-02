@@ -8,16 +8,18 @@ use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\FieldBearer\FieldBearer;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Form\FormInterface;
+use UWDOEM\Framework\Form\PickAFormBuilder;
+use UWDOEM\Framework\Etc\StringUtils;
 use \UWDOEMTest\TestClass;
 
 class MockFieldBearer extends FieldBearer {
 
-    public static $saved = false;
+    public $saved = false;
 
     public function __construct() {}
 
     public function save() {
-        static::$saved = true;
+        $this->saved = true;
     }
 }
 
@@ -350,7 +352,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $form->onValid();
 
         // Assert that the input has been moved into the field's initial value
-        $this->assertTrue(MockFieldBearer::$saved);
+        $this->assertTrue($fieldBearer->saved);
     }
 
     public function testSubFormDefaultOnValid() {
@@ -370,7 +372,95 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $form->onValid();
 
         // Assert that the input has been moved into the field's initial value
-        $this->assertTrue(MockFieldBearer::$saved);
+        $this->assertTrue($fieldBearer->saved);
+    }
+
+    public function testPickAFormBuilding() {
+        $actions = [new FormAction("label", "method", "")];
+
+        $forms = [];
+        $labels = [];
+        for ($i = 0; $i < 3; $i++) {
+            $forms[] = FormBuilder::begin()->addFieldBearers([new MockFieldBearer])->build();
+            $labels[] = "Form $i";
+        }
+
+        $pickAForm = PickAFormBuilder::begin()
+            ->addLabel("Label Text")
+            ->addForms([
+                $labels[0] => $forms[0],
+                $labels[1] => $forms[1]
+            ])
+            ->addLabel("Label Text2")
+            ->addForms([
+                $labels[2] => $forms[2]
+            ])
+            ->setActions($actions)
+            ->build();
+
+        $this->assertEquals(array_combine($labels, $forms), $pickAForm->getSubForms());
+        $this->assertEquals($actions, array_values($pickAForm->getActions()));
+    }
+
+    /**
+     * If no form is selected, then the pick a form is not valid.
+     */
+    public function testPickAFormValidationWithNoSelection() {
+        $forms = [];
+        $labels = [];
+        for ($i = 0; $i < 2; $i++) {
+            $labels[] = "Form $i";
+            $forms[] = FormBuilder::begin()->addFieldBearers([new MockFieldBearer])->build();
+        }
+
+        $pickAForm = PickAFormBuilder::begin()
+            ->addLabel("Label Text")
+            ->addForms([
+                $labels[0] => $forms[0],
+                $labels[1] => $forms[1]
+            ])
+            ->build();
+
+        $this->assertFalse($pickAForm->isValid());
+    }
+
+    /**
+     * If a form is selected, then validation passes to the selected subform.
+     */
+    public function testPickAFormValidationWithSelection() {
+        $fieldBearers = [];
+        $forms = [];
+        $labels = [];
+        for ($i = 0; $i < 2; $i++) {
+            $fieldBearers[] = new MockFieldBearer;
+            $labels[] = "Form $i";
+            $forms[] = FormBuilder::begin()->addFieldBearers([$fieldBearers[$i]])->build();
+        }
+
+        $pickAForm = PickAFormBuilder::begin()
+            ->addLabel("Label Text")
+            ->addForms([
+                $labels[0] => $forms[0],
+                $labels[1] => $forms[1]
+            ])
+            ->build();
+
+        $selectedForm = 0;
+        $unselectedForm = 1;
+
+        $_SERVER['REQUEST_METHOD'] = "POST";
+        $_POST[$pickAForm->getHash()] = StringUtils::slugify($labels[$selectedForm]);
+
+        $this->assertTrue($pickAForm->isValid());
+
+        $pickAForm->onValid();
+
+        $this->assertTrue($fieldBearers[$selectedForm]->saved);
+        $this->assertFalse($fieldBearers[$unselectedForm]->saved);
+
+        $_SERVER['REQUEST_METHOD'] = "GET";
+        $_POST = [];
+
     }
 }
 
