@@ -10,6 +10,7 @@ use UWDOEM\Framework\Filter\PaginationFilter;
 use UWDOEM\Framework\Filter\SortFilter;
 use UWDOEM\Framework\Form\FormInterface;
 use UWDOEM\Framework\Form\FormAction\FormActionInterface;
+use UWDOEM\Framework\PickA\PickAInterface;
 use UWDOEM\Framework\Section\SectionInterface;
 use UWDOEM\Framework\Visitor\Visitor;
 use UWDOEM\Framework\Page\PageInterface;
@@ -40,6 +41,9 @@ class Writer extends Visitor {
             $this->_environment = new \Twig_Environment($loader);
 
             $filter = new Twig_SimpleFilter('write', function(WritableInterface $host) { return $host->accept($this); });
+            $this->_environment->addFilter($filter);
+
+            $filter = new Twig_SimpleFilter('writeSubform', function(FormInterface $form) { return $this->visitForm($form, true); });
             $this->_environment->addFilter($filter);
 
             $filter = new Twig_SimpleFilter('slugify', function($string) { return StringUtils::slugify($string); });
@@ -203,8 +207,6 @@ class Writer extends Visitor {
             ]);
     }
 
-
-
     public function visitForm(FormInterface $form, $isSubForm = false) {
 
         $template = $isSubForm ? 'form/sub-form.twig' : 'form/base.twig';
@@ -236,5 +238,9 @@ class Writer extends Visitor {
                 "method" => $formAction->getMethod(),
                 "target" => $formAction->getTarget(),
             ]);
+    }
+
+    public function visitPickA(PickAInterface $pickA) {
+        $template = 'pick-a/base.twig';
     }
 }

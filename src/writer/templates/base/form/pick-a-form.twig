@@ -1,0 +1,11 @@
+{% extends "pick-a/base.twig" %}
+
+{% block right %}
+    {% foreach manifest as label, manifestItem %}
+        {% if not manifestItem is null %}
+            <div class='selection' data-selection-name='{{ label|slugify }}'>
+                {{ manifestItem|writeSubform|raw }}
+            </div>
+        {% endif %}
+    {% endforeach %}
+{% endblock right %}

@@ -1,0 +1,30 @@
+<div class=select-a-section-container>
+
+    <div class=right>
+        {% block right %}
+            {% foreach manifest as label, manifestItem %}
+                {% if not manifestItem is null %}
+                    <div class='selection' data-selection-name='{{ label|slugify }}'>
+                        {{ manifestItem|write|raw }}
+                    </div>
+                {% endif %}
+            {% endforeach %}
+        {% endblock right %}
+    </div>
+
+    <div class=left>
+        {% foreach manifest as label, manifestItem %}
+            {% if manifestItem is null %}
+                <div class='option header'>{{ label }}</div>
+            {% else %}
+                <div class='option selectable' data-section-for='{{ label|slugify }}'>
+                    <div class='control-container'></div>
+                    <div class='label-container'>{{ label }}</div>
+                </div>
+            {% endif %}
+        {% endforeach %}
+        <div class=filler></div>
+    </div>
+
+</div>
+<br style="clear:both">
