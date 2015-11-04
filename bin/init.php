@@ -94,6 +94,7 @@ $filesContent = [];
 
 $filesContent[".htaccess"] = "Deny from all";
 $filesContent["README.md"] = getFileTemplate("README.md");
+$filesContent["README.md"] = getFileTemplate("backup.sh");
 $filesContent[".gitignore"] = getFileTemplate(".gitignore");
 $filesContent["local-settings.php"] = str_replace("SET_UWDOEM_ENCRYPTION_PASSWORD", makeEncryptionPassword(), getFileTemplate("local-settings.php"));
 $filesContent["settings.php"] = getFileTemplate("settings.php");
