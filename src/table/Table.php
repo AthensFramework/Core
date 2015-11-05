@@ -2,7 +2,6 @@
 
 namespace UWDOEM\Framework\Table;
 
-
 use UWDOEM\Framework\Filter\FilterInterface;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
