@@ -20,7 +20,7 @@ class PickAFormBuilder {
      * @return PickAFormBuilder
      */
     public function addLabel($label) {
-        $this->_manifest[] = [$label => null];
+        $this->_manifest[$label] = null;
         return $this;
     }
 

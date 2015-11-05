@@ -16,7 +16,7 @@ class PickABuilder {
      * @return PickABuilder
      */
     public function addLabel($label) {
-        $this->_manifest[] = [$label => null];
+        $this->_manifest[$label] = null;
         return $this;
     }
 
