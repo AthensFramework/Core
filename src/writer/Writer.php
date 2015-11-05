@@ -52,6 +52,14 @@ class Writer extends Visitor {
             $filter = new Twig_SimpleFilter('md5', function($string) { return md5($string); });
             $this->_environment->addFilter($filter);
 
+            $filter = new Twig_SimpleFilter('stripForm', function($string) {
+                $string = preg_replace('/<form[^>]+\>/i', "", $string);
+                $string = str_replace("</form>", "", $string);
+
+                return $string;
+            });
+            $this->_environment->addFilter($filter);
+
             $filter = new Twig_SimpleFilter(
                 'saferaw',
                 function($string) {
@@ -207,14 +215,8 @@ class Writer extends Visitor {
             ]);
     }
 
-    public function visitForm(FormInterface $form, $isSubForm = false) {
-
-        $template = $isSubForm ? 'form/sub-form.twig' : 'form/base.twig';
-
-        $subFormContent = "";
-        foreach ($form->getSubForms() as $subForm) {
-            $subFormContent .= $this->visitForm($subForm, true);
-        }
+    public function visitForm(FormInterface $form) {
+        $template = 'form/base.twig';
 
         return $this
             ->loadTemplate($template)
@@ -224,7 +226,7 @@ class Writer extends Visitor {
                 "hiddenFields" => $form->getFieldBearer()->getHiddenFields(),
                 "actions" => $form->getActions(),
                 "errors" => $form->getErrors(),
-                "subFormContent" => $subFormContent
+                "subForms" => $form->getSubForms()
             ]);
     }
 

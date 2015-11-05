@@ -14,7 +14,9 @@
         {% endfor %}
     </table>
 
-    {{ subFormContent }}
+    {% for name, subform in subforms %}
+        {{ subform|write|stripForm|raw }}
+    {% endfor %}
 
     <div class="form-actions">
         {% for action in actions %}
