@@ -44,9 +44,6 @@ class Writer extends Visitor {
             $filter = new Twig_SimpleFilter('write', function(WritableInterface $host) { return $host->accept($this); });
             $this->_environment->addFilter($filter);
 
-            $filter = new Twig_SimpleFilter('writeSubform', function(FormInterface $form) { return $this->visitForm($form, true); });
-            $this->_environment->addFilter($filter);
-
             $filter = new Twig_SimpleFilter('slugify', function($string) { return StringUtils::slugify($string); });
             $this->_environment->addFilter($filter);
 
@@ -55,6 +52,8 @@ class Writer extends Visitor {
 
             $filter = new Twig_SimpleFilter('stripForm', function($string) {
                 $string = preg_replace('/<form[^>]+\>/i', "", $string);
+                $string = preg_replace('#<div class="form-actions">(.*?)</div>#', '', $string);
+                $string = str_replace("form-actions", "form-actions hidden", $string);
                 $string = str_replace("</form>", "", $string);
 
                 return $string;
@@ -250,16 +249,19 @@ class Writer extends Visitor {
             ->loadTemplate($template)
             ->render([
                 "manifest" => $pickA->getManifest(),
+                "hash" => $pickA->getHash()
             ]);
     }
 
-    public function visitPickAForm(PickAFormInterface $pickA) {
+    public function visitPickAForm(PickAFormInterface $pickAForm) {
         $template = 'form/pick-a-form.twig';
 
         return $this
             ->loadTemplate($template)
             ->render([
-                "manifest" => $pickA->getManifest(),
+                "manifest" => $pickAForm->getManifest(),
+                "selectedForm" => $pickAForm->getSelectedForm(),
+                "hash" => $pickAForm->getHash()
             ]);
     }
 }
