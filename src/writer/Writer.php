@@ -54,6 +54,7 @@ class Writer extends Visitor {
                 $string = preg_replace('/<form[^>]+\>/i', "", $string);
                 $string = preg_replace('#<div class="form-actions">(.*?)</div>#', '', $string);
                 $string = str_replace("form-actions", "form-actions hidden", $string);
+                $string = str_replace("form-errors", "form-errors hidden", $string);
                 $string = str_replace("</form>", "", $string);
 
                 return $string;
