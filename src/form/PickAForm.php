@@ -35,7 +35,7 @@ class PickAForm implements PickAFormInterface {
     /**
      * @return FormInterface
      */
-    protected function getSelectedForm() {
+    public function getSelectedForm() {
         $forms = $this->getSubForms();
         $selectedSlug = $this->getSelectedSlug();
 

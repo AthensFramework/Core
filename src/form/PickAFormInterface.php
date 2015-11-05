@@ -7,4 +7,6 @@ use UWDOEM\Framework\PickA\PickAInterface;
 
 interface PickAFormInterface extends FormInterface, PickAInterface {
 
+    /** @return FormInterface */
+    function getSelectedForm();
 }

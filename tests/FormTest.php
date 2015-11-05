@@ -424,6 +424,36 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($pickAForm->isValid());
     }
 
+    public function testPickAFormGetSelectedForm() {
+        $fieldBearers = [];
+        $forms = [];
+        $labels = [];
+        for ($i = 0; $i < 2; $i++) {
+            $fieldBearers[] = new MockFieldBearer;
+            $labels[] = "Form $i";
+            $forms[] = FormBuilder::begin()->addFieldBearers([$fieldBearers[$i]])->build();
+        }
+
+        $pickAForm = PickAFormBuilder::begin()
+            ->addLabel("Label Text")
+            ->addForms([
+                $labels[0] => $forms[0],
+                $labels[1] => $forms[1]
+            ])
+            ->build();
+
+        $selectedForm = 0;
+        $unselectedForm = 1;
+
+        $_SERVER['REQUEST_METHOD'] = "POST";
+        $_POST[$pickAForm->getHash()] = StringUtils::slugify($labels[$selectedForm]);
+
+        $this->assertEquals($forms[$selectedForm], $pickAForm->getSelectedForm());
+
+        $_SERVER['REQUEST_METHOD'] = "GET";
+        $_POST = [];
+    }
+
     /**
      * If a form is selected, then validation passes to the selected subform.
      */
@@ -460,7 +490,6 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         $_SERVER['REQUEST_METHOD'] = "GET";
         $_POST = [];
-
     }
 }
 
