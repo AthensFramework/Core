@@ -8,6 +8,7 @@ use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Page\PageBuilder;
 use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Field\FieldInterface;
+use UWDOEM\Framework\Form\PickAFormBuilder;
 
 
 class MockForm extends Form {
@@ -111,6 +112,64 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
             $fields
         );
 
+        // Assert that every set of suffixes is unique
+        $this->assertEquals(sizeof($suffixes), sizeof(array_unique($suffixes)));
+    }
+
+    /**
+     * Test pick-a-forms get unique suffixes.
+     */
+    public function testUniqueSuffixesForPickAForms() {
+        $initializer = new Initializer();
+
+        $forms = [];
+        for ($i = 0; $i <= 2; $i++) {
+            $fieldBearer = FieldBearerBuilder::begin()
+                ->addFields([
+                    "field" => new Field('literal', 'A literal field', []),
+                    "field2" => new Field('literal', 'A second literal field', [])
+                ])
+                ->build();
+
+            $forms[] = FormBuilder::begin()
+                ->addFieldBearers([$fieldBearer])
+                ->build();
+        }
+
+        $pickAForm = PickAFormBuilder::begin()
+            ->addForms([
+                $forms[0],
+                $forms[1]
+            ])
+            ->build();
+
+        $form = FormBuilder::begin()
+            ->addSubForms([
+                "PickA" => $pickAForm,
+                "Form2" => $forms[2]
+            ])
+            ->build();
+
+        // Initialize the form to add suffixes
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $initializer->visitForm($form);
+
+        // Grab all of the fields from both of the sub forms
+        $fields = array_merge(
+            array_values($forms[0]->getFieldBearer()->getFields()),
+            array_values($forms[1]->getFieldBearer()->getFields()),
+            array_values($forms[2]->getFieldBearer()->getFields())
+        );
+
+        // Map each field to a serialization of its suffixes
+        $suffixes = array_map(
+            function(FieldInterface $field) {
+                return serialize($field->getSuffixes());
+            },
+            $fields
+        );
+
+        print_r($suffixes);
         // Assert that every set of suffixes is unique
         $this->assertEquals(sizeof($suffixes), sizeof(array_unique($suffixes)));
     }

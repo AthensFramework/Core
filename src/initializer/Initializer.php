@@ -7,6 +7,7 @@ use UWDOEM\Framework\Visitor\Visitor;
 use UWDOEM\Framework\Section\SectionInterface;
 use UWDOEM\Framework\Form\FormInterface;
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
+use UWDOEM\Framework\Form\PickAFormInterface;
 
 
 class Initializer extends Visitor {
@@ -34,26 +35,56 @@ class Initializer extends Visitor {
             $this->visitChild($bearer);
         }
 
-        /** @var \UWDOEM\Framework\Field\FieldInterface $field */
-        foreach (array_values($fieldBearer->getFields()) as $count => $field) {
-            $field->addSuffix($count);
-        }
-
+        $this->suffixFieldBearerFields($fieldBearer);
     }
 
     public function visitForm(FormInterface $form) {
-        foreach (array_values($form->getSubForms()) as $count => $subForm) {
-            foreach ($subForm->getFieldBearer()->getFields() as $field) {
-                $field->addSuffix($count);
-            }
-
-            $this->visitForm($subForm);
-        }
-
-        $this->visitChild($form->getFieldBearer());
+        $this->suffixFormFields($form);
 
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $form->isValid() ? $form->onValid(): $form->onInvalid();
+        }
+    }
+
+    public function visitPickAForm(PickAFormInterface $pickAForm) {
+        $this->visitForm($pickAForm);
+    }
+
+    protected function suffixFormFieldsFixed(FormInterface $form, $suffix) {
+        foreach ($form->getFieldBearer()->getFields() as $field) {
+            $field->addSuffix($suffix);
+        }
+
+        foreach ($form->getSubForms() as $subform) {
+            foreach ($subform->getFieldBearer()->getFields() as $field) {
+                $field->addSuffix($suffix);
+            }
+
+            $this->suffixFormFieldsFixed($subform, $suffix);
+        }
+    }
+
+    protected function suffixFormFields(FormInterface $form, $countBegin = 0) {
+        foreach ($form->getFieldBearer()->getFields() as $field) {
+            $field->addSuffix(0);
+        }
+
+        $count = 1;
+        foreach ($form->getSubForms() as $subform) {
+            $this->suffixFormFieldsFixed($subform, $count);
+            $count++;
+
+            $this->suffixFormFields($subform);
+        }
+
+
+        $this->suffixFieldBearerFields($form->getFieldBearer());
+    }
+
+    protected function suffixFieldBearerFields(FieldBearerInterface $fieldBearer, $countBegin = 0) {
+        /** @var \UWDOEM\Framework\Field\FieldInterface $field */
+        foreach (array_values($fieldBearer->getFields()) as $count => $field) {
+            $field->addSuffix($countBegin + $count);
         }
     }
 
