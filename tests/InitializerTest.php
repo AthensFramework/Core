@@ -169,7 +169,6 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
             $fields
         );
 
-        print_r($suffixes);
         // Assert that every set of suffixes is unique
         $this->assertEquals(sizeof($suffixes), sizeof(array_unique($suffixes)));
     }
