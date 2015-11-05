@@ -2,6 +2,7 @@
 
 namespace UWDOEM\Framework\Form;
 
+use UWDOEM\Framework\FieldBearer\FieldBearer;
 use UWDOEM\Framework\PickA\PickA;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Etc\StringUtils;
@@ -14,6 +15,9 @@ class PickAForm implements PickAFormInterface {
 
     /** @var \UWDOEM\Framework\Form\FormAction\FormAction[] */
     protected $_actions;
+
+    /** @var \UWDOEM\Framework\FieldBearer\FieldBearerInterface */
+    protected $_fieldBearer;
 
     use VisitableTrait;
 
@@ -71,7 +75,7 @@ class PickAForm implements PickAFormInterface {
     }
 
     public function getFieldBearer() {
-        return null;
+        return $this->_fieldBearer;
     }
 
     public function getErrors() {
@@ -121,6 +125,8 @@ class PickAForm implements PickAFormInterface {
     public function __construct($manifest, $actions = []) {
         $this->_actions = $actions;
         $this->_pickA = new PickA($manifest);
+
+        $this->_fieldBearer = new FieldBearer([], [], [], [], function() {});
     }
 
     public function __call($name, $arguments) {
