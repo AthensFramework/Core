@@ -10,6 +10,7 @@ use UWDOEM\Framework\Filter\PaginationFilter;
 use UWDOEM\Framework\Filter\SortFilter;
 use UWDOEM\Framework\Form\FormInterface;
 use UWDOEM\Framework\Form\FormAction\FormActionInterface;
+use UWDOEM\Framework\Form\PickAFormInterface;
 use UWDOEM\Framework\PickA\PickAInterface;
 use UWDOEM\Framework\Section\SectionInterface;
 use UWDOEM\Framework\Visitor\Visitor;
@@ -244,5 +245,21 @@ class Writer extends Visitor {
 
     public function visitPickA(PickAInterface $pickA) {
         $template = 'pick-a/base.twig';
+
+        return $this
+            ->loadTemplate($template)
+            ->render([
+                "manifest" => $pickA->getManifest(),
+            ]);
+    }
+
+    public function visitPickAForm(PickAFormInterface $pickA) {
+        $template = 'form/pick-a-form.twig';
+
+        return $this
+            ->loadTemplate($template)
+            ->render([
+                "manifest" => $pickA->getManifest(),
+            ]);
     }
 }
