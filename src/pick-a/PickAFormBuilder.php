@@ -1,9 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Form;
+namespace UWDOEM\Framework\PickA;
 
 use UWDOEM\Framework\Form\FormAction\FormAction;
-
 
 class PickAFormBuilder {
 
@@ -25,7 +24,7 @@ class PickAFormBuilder {
     }
 
     /**
-     * @param FormInterface[] $forms
+     * @param \UWDOEM\Framework\Form\FormInterface[] $forms
      * @return PickAFormBuilder
      */
     public function addForms(array $forms) {
@@ -35,7 +34,7 @@ class PickAFormBuilder {
 
     /**
      * @param FormAction[] $actions
-     * @return FormBuilder
+     * @return \UWDOEM\Framework\Form\FormBuilder
      */
     public function setActions($actions) {
         $this->_actions = $actions;

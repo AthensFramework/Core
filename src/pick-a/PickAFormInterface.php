@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Form;
+namespace UWDOEM\Framework\PickA;
 
-use UWDOEM\Framework\PickA\PickAInterface;
+use UWDOEM\Framework\Form\FormInterface;
 
 
 interface PickAFormInterface extends FormInterface, PickAInterface {

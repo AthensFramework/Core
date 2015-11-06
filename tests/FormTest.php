@@ -9,7 +9,7 @@ use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Form\FormInterface;
-use UWDOEM\Framework\Form\PickAFormBuilder;
+use UWDOEM\Framework\PickA\PickAFormBuilder;
 use UWDOEM\Framework\Etc\StringUtils;
 use \UWDOEMTest\TestClass;
 

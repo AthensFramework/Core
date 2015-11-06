@@ -8,7 +8,7 @@ use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Page\PageBuilder;
 use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Field\FieldInterface;
-use UWDOEM\Framework\Form\PickAFormBuilder;
+use UWDOEM\Framework\PickA\PickAFormBuilder;
 
 
 class MockForm extends Form {

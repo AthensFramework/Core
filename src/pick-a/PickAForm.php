@@ -1,9 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Form;
+namespace UWDOEM\Framework\PickA;
 
 use UWDOEM\Framework\FieldBearer\FieldBearer;
-use UWDOEM\Framework\PickA\PickA;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Etc\StringUtils;
 
@@ -33,7 +32,7 @@ class PickAForm implements PickAFormInterface {
     }
 
     /**
-     * @return FormInterface
+     * @return \UWDOEM\Framework\Form\FormInterface
      */
     public function getSelectedForm() {
         $forms = $this->getSubForms();
