@@ -1,0 +1,39 @@
+<table class="multi-adder">
+
+
+    <tr>
+        {% for fieldName, field in prototypicalRow.getVisibleFields %}
+            <td class="{{ field.getSlug }}">{{ field|write|saferaw|raw }}</td>
+        {% endfor %}
+    </tr>
+
+    <tr class="prototypical form-row">
+        {% for fieldName, field in visibleFields %}
+            <td class="{{ field.getSlug }}">{{ field|write|saferaw|raw }}</td>
+        {% endfor %}
+
+        {% for fieldName, field in hiddenFields %}
+            <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|saferaw|raw }}</td>
+        {% endfor %}
+    </tr>
+
+
+    <tr class="actual form-row">
+        {% for fieldName, field in visibleFields %}
+            <td class="{{ field.getSlug }}">{{ field|write|saferaw|raw }}</td>
+        {% endfor %}
+
+        {% for fieldName, field in hiddenFields %}
+            <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|saferaw|raw }}</td>
+        {% endfor %}
+    </tr>
+
+
+    <tr class="adder clickable">
+        <td colspan=100>Click here to add another</td>
+    </tr>
+
+
+
+
+</table>

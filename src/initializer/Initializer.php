@@ -3,6 +3,7 @@
 namespace UWDOEM\Framework\Initializer;
 
 use UWDOEM\Framework\Page\PageInterface;
+use UWDOEM\Framework\Table\TableFormInterface;
 use UWDOEM\Framework\Visitor\Visitor;
 use UWDOEM\Framework\Section\SectionInterface;
 use UWDOEM\Framework\Form\FormInterface;
@@ -48,6 +49,11 @@ class Initializer extends Visitor {
 
     public function visitPickAForm(PickAFormInterface $pickAForm) {
         $this->visitForm($pickAForm);
+    }
+
+    public function visitTableForm(TableFormInterface $tableForm) {
+        // Suffix fields
+        // Create rows from post
     }
 
     protected function suffixFormFieldsFixed(FormInterface $form, $suffix) {

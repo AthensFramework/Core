@@ -1,27 +1,17 @@
 <?php
 
+require_once('Mocks.php');
+
 use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
-use UWDOEM\Framework\FieldBearer\FieldBearer;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Form\FormInterface;
 use UWDOEM\Framework\Form\PickAFormBuilder;
 use UWDOEM\Framework\Etc\StringUtils;
 use \UWDOEMTest\TestClass;
-
-class MockFieldBearer extends FieldBearer {
-
-    public $saved = false;
-
-    public function __construct() {}
-
-    public function save() {
-        $this->saved = true;
-    }
-}
 
 
 class FormTest extends PHPUnit_Framework_TestCase {

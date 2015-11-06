@@ -22,6 +22,7 @@ use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Filter\FilterInterface;
 use UWDOEM\Framework\Filter\SearchFilter;
+use UWDOEM\Framework\Table\TableFormInterface;
 
 
 class Writer extends Visitor {
@@ -263,6 +264,18 @@ class Writer extends Visitor {
                 "manifest" => $pickAForm->getManifest(),
                 "selectedForm" => $pickAForm->getSelectedForm(),
                 "hash" => $pickAForm->getHash()
+            ]);
+    }
+
+    public function visitTableForm(TableFormInterface $tableForm) {
+        $template = 'table/table-form.twig';
+
+        return $this
+            ->loadTemplate($template)
+            ->render([
+                "prototypicalRow" => $tableForm->getPrototypicalRow(),
+                "rows" => $tableForm->getRows(),
+                "hash" => $tableForm->getHash()
             ]);
     }
 }
