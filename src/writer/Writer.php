@@ -93,6 +93,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
+                "hash" => $section->getHash(),
                 "label" => $section->getLabel(),
                 "content" => $section->getContent(),
                 "writables" => $section->getWritables(),
@@ -113,6 +114,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
+                "hash" => $page->getHash(),
                 "pageType" => $page->getType(),
                 "title" => $page->getTitle(),
                 "header" => $page->getHeader(),
@@ -138,6 +140,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
+                "hash" => $field->getHash(),
                 "slug" => $field->getSlug(),
                 "initial" => $field->getInitial(),
                 "choices" => $choices,
@@ -214,7 +217,8 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "handle" => $filter->getHandle() ,
+                "hash" => $filter->getHash(),
+                "handle" => $filter->getHandle(),
                 "options" => $filter->getOptions(),
             ]);
     }
