@@ -53,7 +53,7 @@ class TableFormBuilder extends AbstractBuilder {
             };
         }
     }
-    
+
     /**
      * @return TableForm
      */
