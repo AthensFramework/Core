@@ -160,7 +160,7 @@ class FormBuilder extends AbstractBuilder {
         $this->validateOnValidFunc();
         $this->validateOnSuccessUrl();
         $this->validateActions();
-        
+
         return new Form(
             $this->getFieldBearerBuilder()->build(),
             $this->_onValidFunc,
