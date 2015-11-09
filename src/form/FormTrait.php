@@ -12,7 +12,7 @@ trait FormTrait {
     protected $_isValid;
 
     /** @var string[] */
-    protected $_formErrors = [];
+    protected $_errors = [];
 
     /** @var FormAction[] */
     protected $_actions;
@@ -70,14 +70,14 @@ trait FormTrait {
      * @param string $error
      */
     public function addError($error) {
-        $this->_formErrors[] = $error;
+        $this->_errors[] = $error;
     }
 
     /**
      * @return string[]
      */
     public function getErrors() {
-        return $this->_formErrors;
+        return $this->_errors;
     }
 
     /**

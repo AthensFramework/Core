@@ -24,9 +24,6 @@ class Form implements FormInterface {
         );
     }
 
-
-
-
     /**
      * @return null
      */
@@ -62,17 +59,10 @@ class Form implements FormInterface {
             }
         }
 
-        if (!empty($this->_formErrors)) {
+        if (!empty($this->_errors)) {
             $this->_isValid = False;
         }
     }
-
-
-
-
-
-
-
 
     /**
      * @param FieldBearerInterface $fieldBearer
