@@ -28,18 +28,16 @@ class RowTest extends PHPUnit_Framework_TestCase
      */
     public function testBuilder() {
 
-        $fieldBearer = FieldBearerBuilder::begin()
-            ->addFields([new Field('literal', 'A literal field', [])])
-            ->build();
+        $fieldName = "LiteralField";
 
         $row = RowBuilder::begin()
-            ->setFieldBearer($fieldBearer)
+            ->addFields([$fieldName => new Field('literal', 'A literal field', [])])
             ->setOnClick("console.log('Click!');")
             ->setHighlightable(true)
             ->build();
 
         $this->assertEquals("console.log('Click!');", $row->getOnClick());
-        $this->assertEquals($fieldBearer, $row->getFieldBearer());
+        $this->assertEquals([$fieldName], $row->getFieldBearer()->getFieldNames());
         $this->assertTrue($row->isHighlightable());
     }
 

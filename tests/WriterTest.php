@@ -281,7 +281,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $row = RowBuilder::begin()
-            ->setFieldBearer($fieldBearer)
+            ->addFields([
+                "TextField" => $textField,
+                "LiteralField" => $literalField,
+                "HiddenField" => $hiddenField
+            ])
+            ->setVisibleFieldNames(["TextField", "LiteralField"])
+            ->setHiddenFieldNames(["HiddenField"])
             ->setOnClick($onClick)
             ->setHighlightable(true)
             ->build();
@@ -306,21 +312,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field1 = new Field("text", "Text Field Label", (string)rand());
         $field1Name = "TextField1";
         $row1 = RowBuilder::begin()
-            ->setFieldBearer(
-                FieldBearerBuilder::begin()
-                ->addFields([$field1Name => $field1])
-                ->build()
-            )
+            ->addFields([$field1Name => $field1])
             ->build();
 
         $field2 = new Field("text", "Text Field Label", (string)rand());
         $field2Name = "TextField2";
         $row2 = RowBuilder::begin()
-            ->setFieldBearer(
-                FieldBearerBuilder::begin()
-                    ->addFields([$field2Name => $field2])
-                    ->build()
-            )
+            ->addFields([$field2Name => $field2])
             ->build();
 
         $table = TableBuilder::begin()

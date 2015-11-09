@@ -3,7 +3,7 @@
 namespace UWDOEM\Framework\Row;
 
 
-use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
+use UWDOEM\Framework\FieldBearer\FieldBearerBearerBuilderTrait;
 
 
 class RowBuilder {
@@ -14,14 +14,12 @@ class RowBuilder {
     protected $_onClick;
 
     /**
-     * @var FieldBearerInterface
-     */
-    protected $_fieldBearer;
-
-    /**
      * @var bool
      */
     protected $_highlightable = false;
+
+    use FieldBearerBearerBuilderTrait;
+
 
     /**
      * @param string $onClick
@@ -29,15 +27,6 @@ class RowBuilder {
      */
     public function setOnClick($onClick) {
         $this->_onClick = $onClick;
-        return $this;
-    }
-
-    /**
-     * @param FieldBearerInterface $fieldBearer
-     * @return RowBuilder
-     */
-    public function setFieldBearer(FieldBearerInterface $fieldBearer) {
-        $this->_fieldBearer = $fieldBearer;
         return $this;
     }
 
@@ -61,10 +50,15 @@ class RowBuilder {
      * @return Row
      */
     public function build() {
-        if (!isset($this->_fieldBearer)) {
+
+        $fieldBearer = $this->getFieldBearerBuilder()->build();
+        if (sizeof($fieldBearer->getFields()) === 0) {
             throw new \RuntimeException("You must specify an implementation of FieldBearerInterface using ::setFieldBearer before calling this method.");
         }
-        return new Row($this->_fieldBearer, $this->_onClick, $this->_highlightable);
+        return new Row(
+            $this->getFieldBearerBuilder()->build(),
+            $this->_onClick,
+            $this->_highlightable);
     }
 
 

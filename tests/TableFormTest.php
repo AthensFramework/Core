@@ -33,15 +33,11 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
             return "invalid";
         };
 
-        $fieldBearer = FieldBearerBuilder::begin()
+        $rowBuilder = RowBuilder::begin()
             ->addFields([
                 new Field('literal', 'A literal field', []),
                 new Field('literal2', 'A second literal field', [])
-            ])
-            ->build();
-
-        $rowBuilder = RowBuilder::begin()
-            ->setFieldBearer($fieldBearer);
+            ]);
 
         $form = TableFormBuilder::begin()
             ->setActions($actions)
@@ -61,15 +57,11 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
      */
     public function testPrototypicalRowCreation() {
 
-        $fieldBearer = FieldBearerBuilder::begin()
+        $rowBuilder = RowBuilder::begin()
             ->addFields([
                 new Field('literal', 'A literal field', []),
                 new Field('literal2', 'A second literal field', [])
-            ])
-            ->build();
-
-        $rowBuilder = RowBuilder::begin()
-            ->setFieldBearer($fieldBearer);
+            ]);
 
         $form = TableFormBuilder::begin()
             ->setRowBuilder($rowBuilder)
@@ -89,15 +81,11 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
         $field1 = new Field('text', 'A text field', []);
         $field2 = new Field('text', 'A second text field', []);
 
-        $fieldBearer = FieldBearerBuilder::begin()
+        $rowBuilder = RowBuilder::begin()
             ->addFields([
                 "field1" => $field1,
                 "field2" => $field2
-            ])
-            ->build();
-
-        $rowBuilder = RowBuilder::begin()
-            ->setFieldBearer($fieldBearer);
+            ]);
 
         $form = TableFormBuilder::begin()
             ->setRowBuilder($rowBuilder)

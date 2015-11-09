@@ -36,12 +36,8 @@ class TableTest extends PHPUnit_Framework_TestCase
      */
     public function testBuilder() {
 
-        $fieldBearer = FieldBearerBuilder::begin()
-            ->addFields([new Field('literal', 'A literal field', [])])
-            ->build();
-
         $row = RowBuilder::begin()
-            ->setFieldBearer($fieldBearer)
+            ->addFields([new Field('literal', 'A literal field', [])])
             ->setOnClick("console.log('Click!');")
             ->build();
 
@@ -68,12 +64,8 @@ class TableTest extends PHPUnit_Framework_TestCase
 
         // Make one row for each of the field values
         foreach ($fieldValues as $fieldValue) {
-            $fieldBearer = FieldBearerBuilder::begin()
-                ->addFields([$fieldName => new Field('literal', 'A literal field', $fieldValue)])
-                ->build();
-
             $rows[] = RowBuilder::begin()
-                ->setFieldBearer($fieldBearer)
+                ->addFields([$fieldName => new Field('literal', 'A literal field', $fieldValue)])
                 ->build();
         }
 

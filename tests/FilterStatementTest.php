@@ -73,15 +73,11 @@ class RowMaker {
         $rows = [];
         for ($i = 0; $i < 100; $i++) {
 
-            $fieldBearer = FieldBearerBuilder::begin()
+            $rows[] = RowBuilder::begin()
                 ->addFields([
                     RowMaker::INT_FIELD_NAME => new Field("literal", "a literal field", rand(1, 100)),
                     RowMaker::STRING_FIELD_NAME => new Field("literal", "a literal field", (string)rand())
                 ])
-                ->build();
-
-            $rows[] = RowBuilder::begin()
-                ->setFieldBearer($fieldBearer)
                 ->build();
         }
         return $rows;

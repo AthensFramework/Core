@@ -68,4 +68,15 @@ trait FieldBearerBearerBuilderTrait {
         return $this;
     }
 
+    /**
+     * @param string[] $hiddenFieldNames
+     * @return $this
+     */
+    public function setHiddenFieldNames(array $hiddenFieldNames) {
+        $this->createFieldBearerBuilderIfNull();
+
+        $this->_fieldBearerBuilder->setHiddenFieldNames($hiddenFieldNames);
+        return $this;
+    }
+
 }
