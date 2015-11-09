@@ -31,7 +31,6 @@ class FormBuilder extends AbstractBuilder {
     use FieldBearerBearerBuilderTrait;
 
 
-
     /**
      * @param FormAction[] $actions
      * @return FormBuilder
@@ -68,7 +67,6 @@ class FormBuilder extends AbstractBuilder {
         return $this;
     }
 
-
     /**
      * @param FormInterface[] $subForms
      * @return FormBuilder
@@ -94,11 +92,7 @@ class FormBuilder extends AbstractBuilder {
         return $this;
     }
 
-    /**
-     * @return Form
-     * @throws \Exception if setFieldBearer has not been called.
-     */
-    public function build() {
+    protected function validateOnInvalidFunc() {
         if (!isset($this->_onInvalidFunc)) {
 
             $this->_onInvalidFunc = function (FormInterface $thisForm) {
@@ -113,9 +107,13 @@ class FormBuilder extends AbstractBuilder {
                     $subForm->onInvalid();
                 }
             };
-        }
 
+        }
+    }
+
+    protected function validateOnValidFunc() {
         if (!isset($this->_onValidFunc)) {
+
             $this->_onValidFunc = function(FormInterface $form) {
                 $form->getFieldBearer()->save();
 
@@ -123,8 +121,11 @@ class FormBuilder extends AbstractBuilder {
                     $subForm->onValid();
                 }
             };
-        }
 
+        }
+    }
+
+    protected function validateOnSuccessUrl() {
         if(isset($this->_onSuccessUrl)) {
 
             $onValidFunc = $this->_onValidFunc;
@@ -141,11 +142,25 @@ class FormBuilder extends AbstractBuilder {
                 call_user_func_array($onValidFunc, $args);
             };
         }
+    }
 
+    protected function validateActions() {
         if (!isset($this->_actions)) {
             $this->_actions = [new FormAction("Submit", "POST", ".")];
         }
+    }
 
+    /**
+     * @return Form
+     * @throws \Exception if setFieldBearer has not been called.
+     */
+    public function build() {
+
+        $this->validateOnInvalidFunc();
+        $this->validateOnValidFunc();
+        $this->validateOnSuccessUrl();
+        $this->validateActions();
+        
         return new Form(
             $this->getFieldBearerBuilder()->build(),
             $this->_onValidFunc,
