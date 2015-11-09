@@ -426,6 +426,9 @@ class WriterTest extends PHPUnit_Framework_TestCase
         Settings::addProjectJS($jsFile1);
         Settings::addProjectJS($jsFile2);
 
+        // Provide a request URI, for the page's hash function
+        $_SERVER["REQUEST_URI"] = (string)rand();
+
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitPage($page));
 

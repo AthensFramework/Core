@@ -23,7 +23,7 @@ class Table implements TableInterface {
         $unfilteredRows = $this->getUnfilteredRows();
 
         if ($unfilteredRows) {
-            $hash = md5($unfilteredRows[0]->getFieldBearer()->getVisibleFieldNames());
+            $hash = md5(json_encode($unfilteredRows[0]->getFieldBearer()->getVisibleFieldNames()));
         } else {
             $hash = md5("table" . $_SERVER["REQUEST_URI"]);
         }
