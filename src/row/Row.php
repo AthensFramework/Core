@@ -37,7 +37,7 @@ class Row implements RowInterface {
     function getHash() {
         return md5(
             json_encode(
-                $this->getFieldBearer()->getVisibleFieldNames()
+                $this->getFieldBearer()->getFieldNames()
             )
         );
     }

@@ -154,6 +154,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
+                "hash" => $row->getHash(),
                 "visibleFields" => $row->getFieldBearer()->getVisibleFields(),
                 "hiddenFields" => $row->getFieldBearer()->getHiddenFields(),
                 "highlightable" => $row->isHighlightable(),
