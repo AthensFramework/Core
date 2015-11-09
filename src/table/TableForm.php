@@ -3,6 +3,7 @@
 namespace UWDOEM\Framework\Table;
 
 use UWDOEM\Framework\Filter\DummyFilter;
+use UWDOEM\Framework\Form\FormTrait;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Row\RowBuilder;
@@ -13,21 +14,12 @@ class TableForm implements TableFormInterface {
     /** @var RowInterface */
     protected $_rowBuilder;
 
+    /** @var  RowInterface[] */
     protected $_rows;
 
-    protected $_actions;
-
-    protected $_isValid;
-
-    protected $_validators;
-
-    protected $_errors = [];
-
-    protected $_onValidFunc;
-
-    protected $_onInvalidFunc;
 
     use VisitableTrait;
+    use FormTrait;
 
 
     /** @return RowInterface */
@@ -49,14 +41,6 @@ class TableForm implements TableFormInterface {
 
     public function getFieldBearer() {
         return $this->getPrototypicalRow()->getFieldBearer();
-    }
-
-    public function getSubForms() {
-        return [];
-    }
-
-    public function getSubFormByName($name) {
-        return null;
     }
 
     protected function validate() {
@@ -123,35 +107,6 @@ class TableForm implements TableFormInterface {
         }
     }
 
-    public function isValid() {
-        if (!isset($this->_isValid)) {
-            $this->validate();
-        }
-        return $this->_isValid;
-    }
-
-    public function onValid() {
-        $args = array_merge([$this], func_get_args());
-        return call_user_func_array($this->_onValidFunc, $args);
-    }
-
-    public function onInvalid() {
-        $args = array_merge([$this], func_get_args());
-        return call_user_func_array($this->_onInvalidFunc, $args);
-    }
-
-    public function getErrors() {
-        return $this->_errors;
-    }
-
-    public function getActions() {
-        return $this->_actions;
-    }
-
-    public function addError($error) {
-        $this->_errors[] = $error;
-    }
-
     public function __construct(
         RowBuilder $rowBuilder,
         callable $onValidFunc,
@@ -166,6 +121,8 @@ class TableForm implements TableFormInterface {
         $this->_onValidFunc = $onValidFunc;
 
         $this->_validators = $validators;
+
+        $this->_subForms = [];
     }
 
 }
