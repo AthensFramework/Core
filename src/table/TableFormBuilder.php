@@ -28,17 +28,14 @@ class TableFormBuilder extends AbstractBuilder {
     protected function validateOnInvalidFunc() {
         if (!isset($this->_onInvalidFunc)) {
 
-            $this->_onInvalidFunc = function (TableFormInterface $thisForm) {
-                $this->_onValidFunc = function(TableFormInterface $form) {
-                    foreach ($form->getRows() as $row) {
-                        foreach ($row->getFieldBearer()->getFields() as $field) {
-                            if ($field->getType() !== Field::FIELD_TYPE_LITERAL) {
-                                $field->setInitial($field->getSubmitted());
-                            }
+            $this->_onInvalidFunc = function (TableFormInterface $form) {
+                foreach ($form->getRows() as $row) {
+                    foreach ($row->getFieldBearer()->getFields() as $field) {
+                        if ($field->getType() !== Field::FIELD_TYPE_LITERAL) {
+                            $field->setInitial($field->getSubmitted());
                         }
                     }
-                };
-
+                }
             };
 
         }
