@@ -2,13 +2,15 @@
 
 namespace UWDOEM\Framework\Form;
 
+use UWDOEM\Framework\Etc\AbstractBuilder;
+use UWDOEM\Framework\FieldBearer\FieldBearerBearerBuilderTrait;
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\Field;
 
 
-class FormBuilder {
+class FormBuilder extends AbstractBuilder {
 
     /** @var FormAction[] */
     protected $_actions;
@@ -19,9 +21,6 @@ class FormBuilder {
     /** @var callable */
     protected $_onInvalidFunc;
 
-    /** @var FieldBearerBuilder */
-    protected $_fieldBearerBuilder;
-
     /** @var string */
     protected $_onSuccessUrl;
 
@@ -31,10 +30,9 @@ class FormBuilder {
     /** @var FormInterface[] */
     protected $_subForms = [];
 
+    use FieldBearerBearerBuilderTrait;
 
-    protected function __construct() {
-        $this->_fieldBearerBuilder = new FieldBearerBuilder();
-    }
+
 
     /**
      * @param FormAction[] $actions
@@ -72,50 +70,17 @@ class FormBuilder {
         return $this;
     }
 
-    /**
-     * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
-     * @return FormBuilder
-     */
-    public function addObject($object) {
-        $this->_fieldBearerBuilder->addObject($object);
-        return $this;
-    }
-
-    /**
-     * @param \UWDOEM\Framework\Field\FieldInterface[] $fields
-     * @return FormBuilder
-     */
-    public function addFields(array $fields) {
-        $this->_fieldBearerBuilder->addFields($fields);
-        return $this;
-    }
-
-    /**
-     * @param FieldBearerInterface[] $fieldBearers
-     * @return FormBuilder
-     */
-    public function addFieldBearers(array $fieldBearers) {
-        $this->_fieldBearerBuilder->addFieldBearers($fieldBearers);
-        return $this;
-    }
 
     /**
      * @param FormInterface[] $subForms
      * @return FormBuilder
      */
     public function addSubForms(array $subForms) {
-        $this->_subForms = array_merge($this->_subForms, $subForms);
-        return $this;
+    $this->_subForms = array_merge($this->_subForms, $subForms);
+    return $this;
     }
 
-    /**
-     * @param string[] $visibleFieldNames
-     * @return FormBuilder
-     */
-    public function setVisibleFieldNames(array $visibleFieldNames) {
-        $this->_fieldBearerBuilder->setVisibleFieldNames($visibleFieldNames);
-        return $this;
-    }
+
 
     /**
      * @param string $fieldName
@@ -127,25 +92,6 @@ class FormBuilder {
             $this->_validators[$fieldName] = [];
         }
         $this->_validators[$fieldName][] = $callable;
-
-        return $this;
-    }
-
-    /**
-     * @return FormBuilder
-     */
-    public static function begin() {
-        return new static();
-    }
-
-    /**
-     * @return FormBuilder
-     */
-    public function clear() {
-        $this->_actions = null;
-        $this->_onValidFunc = null;
-        $this->_onInvalidFunc = null;
-        $this->_fieldBearerBuilder = FieldBearerBuilder::begin();
 
         return $this;
     }
@@ -203,7 +149,7 @@ class FormBuilder {
         }
 
         return new Form(
-            $this->_fieldBearerBuilder->build(),
+            $this->getFieldBearerBuilder()->build(),
             $this->_onValidFunc,
             $this->_onInvalidFunc,
             $this->_actions,
