@@ -4,6 +4,7 @@ namespace UWDOEM\Framework\FieldBearer;
 
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Field\FieldInterface;
+use UWDOEM\Framework\Field\Field;
 
 
 class FieldBearerBuilder {
@@ -70,6 +71,15 @@ class FieldBearerBuilder {
 
             ORMUtils::fillObjectFromFields($object, $fieldBearer->getFields());
             $object->save();
+
+            $primaryKey = $object->getId();
+
+            foreach ($fieldBearer->getFields() as $field) {
+                if ($field->getType() === Field::FIELD_TYPE_PRIMARY_KEY) {
+                    $field->setInitial($primaryKey);
+                    break;
+                }
+            }
         };
         $this->addFieldBearers([new ClassFieldBearer($object, $saveFunction)]);
         return $this;
