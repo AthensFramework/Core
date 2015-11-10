@@ -2,12 +2,12 @@
 
 uwdoem.multi_adder = (function() {
 
-    var getLastRow = function() {
+    var getLastRow = function(multiAdderTable) {
         return multiAdderTable.find("tr.form-row").last();
     };
 
-    var getLastDataRowIndex = function() {
-        var lastRow = getLastRow();
+    var getLastDataRowIndex = function(multiAdderTable) {
+        var lastRow = getLastRow(multiAdderTable);
 
         var lastIndex = 0;
         if (!lastRow.hasClass("prototypical")) {
@@ -32,7 +32,7 @@ uwdoem.multi_adder = (function() {
         var defaultDataRow = multiAdderTable.find("tr.prototypical");
         dataRow = dataRow || defaultDataRow;
         
-        var lastDataRowIndex = getLastDataRowIndex();
+        var lastDataRowIndex = getLastDataRowIndex(multiAdderTable);
 
         var newRow = makeNewRow(multiAdderTable).data("row-index", lastDataRowIndex + 1);
 
@@ -41,13 +41,13 @@ uwdoem.multi_adder = (function() {
 
         for(var i = 0; i<formElements.length; i++) {
             var formElement = $(formElements[i]);
-            formElement.attr('name', formElement.attr('name') + "-" + (lastDataRowIndex + 1));
+            formElement.attr('name', (lastDataRowIndex + 1) + "-" + formElement.attr('name'));
             if ($(dataElements[i]).val() !== null) {formElement.val($(dataElements[i]).val());}
         }
 
         activateRemover(newRow);
 
-        newRow.insertAfter(getLastRow());
+        newRow.insertAfter(getLastRow(multiAdderTable));
     };
 
     var disablePrototypicalRows = function() {
