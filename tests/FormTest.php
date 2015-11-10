@@ -101,6 +101,19 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($form2, $form->getSubForms());
     }
 
+    public function testLabelFieldCreation() {
+        $labelText = (string)rand();
+
+        $form = FormBuilder::begin()
+            ->addLabel($labelText)
+            ->build();
+
+        $labelField = $form->getFieldBearer()->getFields()[0];
+
+        $this->assertEquals(Field::FIELD_TYPE_SECTION_LABEL, $labelField->getType());
+        $this->assertEquals($labelText, $labelField->getLabel());
+    }
+
     /**
      * Tests whether we can set a success-url in the FormBuilder.
      *

@@ -3,12 +3,27 @@
 namespace UWDOEM\Framework\Form;
 
 use UWDOEM\Framework\Etc\AbstractBuilder;
+use UWDOEM\Framework\Field\FieldBuilder;
+use UWDOEM\Framework\Field\Field;
 
 
 class FormBuilder extends AbstractBuilder {
 
     use FormBuilderTrait;
 
+
+    /**
+     * @param string $label
+     * @return FormBuilder
+     */
+    public function addLabel($label) {
+        $labelField = FieldBuilder::begin()
+            ->setType(Field::FIELD_TYPE_SECTION_LABEL)
+            ->setLabel($label)
+            ->build();
+
+        return $this->addFields([$labelField]);
+    }
 
     /**
      * @return Form
