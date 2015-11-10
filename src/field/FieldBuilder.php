@@ -2,7 +2,11 @@
 
 namespace UWDOEM\Framework\Field;
 
-
+/**
+ * Class FieldBuilder
+ *
+ * @package UWDOEM\Framework\Field
+ */
 class FieldBuilder {
 
     protected function __construct() {}

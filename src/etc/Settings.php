@@ -2,7 +2,10 @@
 
 namespace UWDOEM\Framework\Etc;
 
-
+/**
+ * Class Settings is a static class for maintaining application-wide settings.
+ * @package UWDOEM\Framework\Etc
+ */
 class Settings {
 
     protected static $settings = [

@@ -3,7 +3,8 @@
 namespace UWDOEM\Framework\Etc;
 
 /**
- * Class StringUtils Static class to provide some string manipulation utilities
+ * Class StringUtils is a static class to provide string manipulation utilities
+ *
  * @package UWDOEM\Framework\Etc
  */
 class StringUtils {

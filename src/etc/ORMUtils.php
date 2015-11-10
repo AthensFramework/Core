@@ -2,10 +2,17 @@
 
 namespace UWDOEM\Framework\Etc;
 
-use UWDOEM\Framework\Field\Field;
 use Propel\Runtime\Map\Exception\ColumnNotFoundException;
 
+use UWDOEM\Framework\Field\Field;
 
+
+/**
+ * Class ORMUtils provides static methods for interpreting and interfacing
+ * with ORM entities.
+ *
+ * @package UWDOEM\Framework\Etc
+ */
 class ORMUtils {
 
     static protected $db_type_to_field_type_association = [

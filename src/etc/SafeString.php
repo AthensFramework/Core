@@ -3,7 +3,9 @@
 namespace UWDOEM\Framework\Etc;
 
 /**
- * Class SafeString Wrapper class for strings that marks them as safe for printing to any display
+ * Class SafeString is a wrapper class for strings that marks them
+ * as safe for printing to any display.
+ *
  * @package UWDOEM\Framework\Etc
  */
 class SafeString {

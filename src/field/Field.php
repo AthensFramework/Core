@@ -5,7 +5,12 @@ namespace UWDOEM\Framework\Field;
 use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 
-
+/**
+ * Class Field provides a small, typed data container for display and
+ * user submission.
+ *
+ * @package UWDOEM\Framework\Field
+ */
 class Field implements FieldInterface {
 
     const FIELD_TYPE_TEXT = "text";
@@ -50,7 +55,6 @@ class Field implements FieldInterface {
 
     /** @var string[] */
     protected $_choices;
-
 
     use VisitableTrait;
 

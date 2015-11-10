@@ -2,7 +2,11 @@
 
 namespace UWDOEM\Framework\Etc;
 
-
+/**
+ * Class AbstractBuilder is a parent class for all Builder classes.
+ *
+ * @package UWDOEM\Framework\Etc
+ */
 abstract class AbstractBuilder {
 
     /** @return static */
@@ -15,6 +19,9 @@ abstract class AbstractBuilder {
         return new static();
     }
 
+    /**
+     * Returns an instance of the object type under construction.
+     */
     abstract public function build();
 
 }
