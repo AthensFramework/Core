@@ -72,8 +72,8 @@ class ORMUtils {
         foreach ($columns as $fieldName => $column) {
             $field = $fields[$fieldName];
 
-            if ($column->isPrimaryKey() || $column->isForeignKey()) {
-                // Don't accept form input for primary keys or foreign keys. These should be set at object creation.
+            if ($column->isPrimaryKey()) {
+                // Don't accept form input for primary keys. These should be set at object creation.
             } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
                 // Don't accept updates to the UpdatedAt or CreatedAt timestamps
             } else {
