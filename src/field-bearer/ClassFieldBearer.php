@@ -2,8 +2,10 @@
 
 namespace UWDOEM\Framework\FieldBearer;
 
-use UWDOEM\Framework\Etc\ORMUtils;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
+
+use UWDOEM\Framework\Etc\ORMUtils;
+use UWDOEM\Framework\Field\Field;
 
 
 class ClassFieldBearer extends FieldBearer implements FieldBearerInterface {
@@ -20,6 +22,16 @@ class ClassFieldBearer extends FieldBearer implements FieldBearerInterface {
 
         $fields = ORMUtils::makeFieldsFromObject($object);
 
-        parent::__construct($fields, [], [], [], $saveFunction);
+        $hiddenFieldNames = [];
+        foreach ($fields as $fieldName => $field) {
+            $type = $field->getType();
+            if (   $type === Field::FIELD_TYPE_PRIMARY_KEY
+                || $type === Field::FIELD_TYPE_FOREIGN_KEY
+                || $type === Field::FIELD_TYPE_AUTO_TIMESTAMP ) {
+                $hiddenFieldNames[] = $fieldName;
+            }
+        }
+
+        parent::__construct($fields, [], [], $hiddenFieldNames, $saveFunction);
     }
 }

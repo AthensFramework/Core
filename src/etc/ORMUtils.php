@@ -190,12 +190,15 @@ class ORMUtils {
             $choices = [];
 
             // The primary key ID field should be presented as a hidden html field
-            if ($label == 'id') {
-                $fieldType = "hidden";
-                $fieldRequired = False;
+            if ($column->isPrimaryKey()) {
+                $fieldType = FIELD::FIELD_TYPE_PRIMARY_KEY;
+                $fieldRequired = false;
             } elseif ($column->isForeignKey()) {
-                $fieldType = "foreignkey";
-                $fieldRequired = False;
+                $fieldType = FIELD::FIELD_TYPE_FOREIGN_KEY;
+                $fieldRequired = false;
+            } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
+                $fieldType = FIELD::FIELD_TYPE_AUTO_TIMESTAMP;
+                $fieldRequired = false;
             } else {
                 $fieldType = self::chooseFieldType($column);
                 $fieldRequired = $column->isNotNull();

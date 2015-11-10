@@ -59,7 +59,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
-        $this->assertEquals($expectedFieldNames, $form->getFieldBearer()->getVisibleFieldNames());
+        $this->assertEquals($expectedFieldNames, $form->getFieldBearer()->getFieldNames());
 
         /* Test FormBuilder::addFieldBearer */
         $fields = ["field" => new Field('literal', 'A literal field', [])];

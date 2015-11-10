@@ -5,6 +5,7 @@ use UWDOEMTest\TestClass;
 use UWDOEMTest\TestClassTwo;
 use UWDOEMTest\TestClassQuery;
 use UWDOEM\Encryption\Cipher;
+use UWDOEM\Framework\Field\Field;
 
 Cipher::createInstance("my_secret_passphrase");
 
@@ -37,7 +38,7 @@ class ORMUtilsTest extends PHPUnit_Framework_TestCase
         $fields = ORMUtils::makeFieldsFromObject($o);
 
         // Test that the inferred field types are correct
-        $this->assertEquals("hidden", $fields["TestClass.Id"]->getType());
+        $this->assertEquals(Field::FIELD_TYPE_PRIMARY_KEY, $fields["TestClass.Id"]->getType());
         $this->assertEquals("text", $fields["TestClass.FieldSmallVarchar"]->getType());
         $this->assertEquals("textarea", $fields["TestClass.FieldLargeVarchar"]->getType());
         $this->assertEquals("text", $fields["TestClass.FieldInteger"]->getType());

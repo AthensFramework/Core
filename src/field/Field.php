@@ -14,6 +14,9 @@ class Field implements FieldInterface {
     const FIELD_TYPE_MULTIPLE_CHOICE = "multiple-choice";
     const FIELD_TYPE_LITERAL = "literal";
     const FIELD_TYPE_SECTION_LABEL = "section-label";
+    const FIELD_TYPE_PRIMARY_KEY = "primary-key";
+    const FIELD_TYPE_FOREIGN_KEY = "foreign-key";
+    const FIELD_TYPE_AUTO_TIMESTAMP = "auto-timestamp";
 
     /** @var bool  */
     protected $_required;
