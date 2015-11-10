@@ -10,7 +10,22 @@
 
     <table>
         {% for fieldName, field in visibleFields %}
-            {{ field|write|raw }}
+            {% if field.getType is same as("section-label") %}
+                </table>
+                    {{ field|write|raw }}
+                <table>
+            {% else %}
+                <tr data-for="{{ field.getSlug }}">
+                    <td class="label">
+                        <label data-for="{{ field.getSlug }}">
+                            {{ field.getLabel }}{% if field.isRequired %}*{% endif %}:
+                        </label>
+                    </td>
+                    <td class="data">
+                    {{ field|write|raw }}
+                    </td>
+                </tr>
+            {% endif %}
         {% endfor %}
     </table>
 

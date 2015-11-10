@@ -1,4 +1,3 @@
-{% include "field/preamble.twig" %}
 <span class="choice-field">
 
     {% if choices|length <= 2 %}
@@ -14,6 +13,5 @@
         </select>
     {% endif %}
 
-
 </span>
-{% include "field/postamble.twig" %}
+{% include "field/errors.twig" %}
