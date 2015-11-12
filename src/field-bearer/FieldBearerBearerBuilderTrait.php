@@ -79,4 +79,15 @@ trait FieldBearerBearerBuilderTrait {
         return $this;
     }
 
+    /**
+     * @param callable $saveFunction
+     * @return $this
+     */
+    public function setSaveFunction(callable $saveFunction) {
+        $this->createFieldBearerBuilderIfNull();
+
+        $this->_fieldBearerBuilder->setSaveFunction($saveFunction);
+        return $this;
+    }
+
 }
