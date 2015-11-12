@@ -112,10 +112,14 @@ trait FormBuilderTrait {
         if (!isset($this->_onValidFunc)) {
 
             $this->_onValidFunc = function(FormInterface $form) {
-                $form->getFieldBearer()->save();
+                $args = array_merge([$form], func_get_args());
+
+                $func = [$form->getFieldBearer(), "save"];
+                call_user_func_array($func, $args);
 
                 foreach ($form->getSubForms() as $subForm) {
-                    $subForm->onValid();
+                    $func = [$subForm, "onValid"];
+                    call_user_func_array($func, $args);
                 }
             };
 

@@ -157,7 +157,10 @@ class FieldBearerBuilder {
         if (!$this->_saveFunction) {
             $this->_saveFunction = function (FieldBearerInterface $fieldBearer) {
                 foreach ($fieldBearer->getFieldBearers() as $childFieldBearer) {
-                    $childFieldBearer->save();
+                    $args = array_merge([$fieldBearer], func_get_args());
+
+                    $func = [$childFieldBearer, "save"];
+                    call_user_func_array($func, $args);
                 }
             };
         }

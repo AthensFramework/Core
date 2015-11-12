@@ -378,6 +378,26 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($fieldBearer->saved);
     }
 
+    public function testOnvalidArgumentPassing() {
+        $saveData = (string)rand();
+
+        $fieldBearer = new MockFieldBearer();
+
+        $subForm = FormBuilder::begin()
+            ->addFieldBearers([$fieldBearer])
+            ->build();
+
+        $form = FormBuilder::begin()
+            ->addSubForms([$subForm])
+            ->build();
+
+        // Trigger the form's onInvalid method
+        $form->onValid($saveData);
+
+        // Assert that the input has been moved into the field's initial value
+        $this->assertEquals($saveData, $fieldBearer->savedData);
+    }
+
     public function testPickAFormBuilding() {
         $actions = [new FormAction("label", "method", "")];
 
