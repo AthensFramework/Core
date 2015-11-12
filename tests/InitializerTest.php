@@ -1,6 +1,7 @@
 <?php
 
-use UWDOEM\Framework\Form\Form;
+require_once('Mocks.php');
+
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Initializer\Initializer;
@@ -9,20 +10,6 @@ use UWDOEM\Framework\Page\PageBuilder;
 use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\PickA\PickAFormBuilder;
-
-
-class MockForm extends Form {
-
-    public $result = "";
-
-    public function isValid() {
-        return true;
-    }
-
-    public function onValid() {
-        $this->result = "valid";
-    }
-}
 
 
 class InitializerTest extends PHPUnit_Framework_TestCase {
@@ -47,13 +34,13 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
         $this->assertEmpty($form->getFieldBearer()->getFields()[0]->getSuffixes());
 
         // Assert that the form has not yet been validated
-        $this->assertEquals("", $form->result);
+        $this->assertEquals("", $form->validated);
 
         // Visit the form with the initializer
         $initializer->visitForm($form);
 
         // Assert that the form has been validated
-        $this->assertEquals("valid", $form->result);
+        $this->assertTrue($form->validated);
 
         // Assert that the form's fields have been given prefixes
         $this->assertNotEmpty($form->getFieldBearer()->getFields()[0]->getSuffixes());
@@ -181,14 +168,14 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
         $initializer = new Initializer();
 
         $form = $this->makeMockForm();
-        $this->assertEquals("", $form->result);
+        $this->assertEquals("", $form->validated);
 
         $section = SectionBuilder::begin()
             ->addWritable($form)
             ->build();
         $initializer->visitSection($section);
 
-        $this->assertEquals("valid", $form->result);
+        $this->assertTrue($form->validated);
     }
 
     /**
@@ -199,7 +186,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
         $initializer = new Initializer();
 
         $form = $this->makeMockForm();
-        $this->assertEquals("", $form->result);
+        $this->assertEquals("", $form->validated);
 
         $page = PageBuilder::begin()
             ->setWritable(
@@ -211,7 +198,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
             ->build();
         $initializer->visitPage($page);
 
-        $this->assertEquals("valid", $form->result);
+        $this->assertTrue($form->validated);
 
     }
 
