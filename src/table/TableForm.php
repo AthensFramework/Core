@@ -11,12 +11,14 @@ use UWDOEM\Framework\Row\RowBuilder;
 
 class TableForm implements TableFormInterface {
 
+    /** @var callable */
+    protected $_rowMakingFunction;
+
     /** @var RowInterface */
-    protected $_rowBuilder;
+    protected $_prototypicalRow;
 
     /** @var  RowInterface[] */
     protected $_rows;
-
 
     use VisitableTrait;
     use FormTrait;
@@ -24,7 +26,7 @@ class TableForm implements TableFormInterface {
 
     /** @return RowInterface */
     public function getPrototypicalRow() {
-        return $this->_rowBuilder->build();
+        return $this->_prototypicalRow;
     }
 
     public function getHash() {
@@ -41,6 +43,12 @@ class TableForm implements TableFormInterface {
 
     public function getFieldBearer() {
         return $this->getPrototypicalRow()->getFieldBearer();
+    }
+
+    /** @return RowInterface */
+    protected function makeRow() {
+        $rowMakingFunction = $this->_rowMakingFunction;
+        return $rowMakingFunction();
     }
 
     protected function validate() {
@@ -61,7 +69,7 @@ class TableForm implements TableFormInterface {
 
         $rows = [];
         foreach ($rowPrefixes as $prefix) {
-            $newRow = $this->_rowBuilder->build();
+            $newRow = $this->makeRow();
 
             foreach($this->getPrototypicalRow()->getFieldBearer()->getFields() as $name=>$field) {
 
@@ -108,14 +116,16 @@ class TableForm implements TableFormInterface {
     }
 
     public function __construct(
-        RowBuilder $rowBuilder,
+        callable $rowMakingFunction,
         callable $onValidFunc,
         callable $onInvalidFunc,
         $actions = [],
         $validators = []
     ) {
         $this->_actions = $actions;
-        $this->_rowBuilder = $rowBuilder;
+        $this->_rowMakingFunction = $rowMakingFunction;
+
+        $this->_prototypicalRow = $rowMakingFunction();
 
         $this->_onInvalidFunc = $onInvalidFunc;
         $this->_onValidFunc = $onValidFunc;

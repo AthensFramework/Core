@@ -33,17 +33,20 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
             return "invalid";
         };
 
-        $rowBuilder = RowBuilder::begin()
-            ->addFields([
-                new Field('literal', 'A literal field', []),
-                new Field('literal2', 'A second literal field', [])
-            ]);
+        $rowMakingFunction = function() {
+            return RowBuilder::begin()
+                ->addFields([
+                    new Field('literal', 'A literal field', []),
+                    new Field('literal2', 'A second literal field', [])
+                ])
+                ->build();
+        };
 
         $form = TableFormBuilder::begin()
             ->setActions($actions)
             ->setOnInvalidFunc($onInvalidFunc)
             ->setOnValidFunc($onValidFunc)
-            ->setRowBuilder($rowBuilder)
+            ->setRowMakingFunction($rowMakingFunction)
             ->build();
 
         $this->assertEquals($actions, $form->getActions());
@@ -57,18 +60,21 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
      */
     public function testPrototypicalRowCreation() {
 
-        $rowBuilder = RowBuilder::begin()
-            ->addFields([
-                new Field('literal', 'A literal field', []),
-                new Field('literal2', 'A second literal field', [])
-            ]);
+        $rowMakingFunction = function() {
+            return RowBuilder::begin()
+                ->addFields([
+                    new Field('literal', 'A literal field', []),
+                    new Field('literal2', 'A second literal field', [])
+                ])
+                ->build();
+        };
 
         $form = TableFormBuilder::begin()
-            ->setRowBuilder($rowBuilder)
+            ->setRowMakingFunction($rowMakingFunction)
             ->build();
 
         $this->assertEquals(
-            $rowBuilder->build()->getFieldBearer()->getFields(),
+            $rowMakingFunction()->getFieldBearer()->getFields(),
             $form->getPrototypicalRow()->getFieldBearer()->getFields()
         );
     }
@@ -78,36 +84,48 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
      */
     public function testCreateRowsFromPost() {
 
-        $field1 = new Field('text', 'A text field', []);
-        $field2 = new Field('text', 'A second text field', []);
+        $rowMakingFunction = function() {
+            $field1 = new Field('text', 'A text field', []);
+            $field2 = new Field('text', 'A second text field', []);
 
-        $rowBuilder = RowBuilder::begin()
-            ->addFields([
-                "field1" => $field1,
-                "field2" => $field2
-            ]);
+            return RowBuilder::begin()
+                ->addFields([
+                    "field1" => $field1,
+                    "field2" => $field2
+                ])
+                ->build();
+        };
 
         $form = TableFormBuilder::begin()
-            ->setRowBuilder($rowBuilder)
+            ->setRowMakingFunction($rowMakingFunction)
             ->build();
+
+        $field1 = $form->getPrototypicalRow()->getFieldBearer()->getFieldByName("field1");
 
         $field1->addSuffix((string)rand());
         $field1->addSuffix((string)rand());
+
         $baseSlug = $field1->getSlug();
 
         $numRows = rand(2, 5);
 
         $_SERVER["REQUEST_METHOD"] = "POST";
+        $data = [];
         for($i = 0; $i < $numRows; $i++) {
             $prefix = (string)(1000*$i + rand(100, 999));
+            $data[$i] = (string)rand();
 
-            $_POST["$prefix-$baseSlug"] = true;
+            $_POST["$prefix-$baseSlug"] = $data[$i];
         }
 
         // Force validation/row creation
         $form->isValid();
 
         $this->assertEquals($numRows, sizeof($form->getRows()));
+
+        foreach ($form->getRows() as $count => $row) {
+            $this->assertEquals($data[$count], $row->getFieldBearer()->getFieldByName("field1")->getSubmitted());
+        }
 
         $_SERVER["REQUEST_METHOD"] = "GET";
     }

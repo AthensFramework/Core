@@ -12,16 +12,16 @@ class TableFormBuilder extends AbstractBuilder {
 
     use FormBuilderTrait;
 
-    /** @var RowBuilder */
-    protected $_rowBuilder;
+    /** @var callable */
+    protected $_rowMakingFunction;
 
 
     /**
-     * @param RowBuilder $rowBuilder
+     * @param callable $rowMakingFunction
      * @return TableFormBuilder
      */
-    public function setRowBuilder($rowBuilder) {
-        $this->_rowBuilder = $rowBuilder;
+    public function setRowMakingFunction(callable $rowMakingFunction) {
+        $this->_rowMakingFunction = $rowMakingFunction;
         return $this;
     }
 
@@ -62,7 +62,7 @@ class TableFormBuilder extends AbstractBuilder {
         $this->validateActions();
 
         return new TableForm(
-            $this->_rowBuilder,
+            $this->_rowMakingFunction,
             $this->_onValidFunc,
             $this->_onInvalidFunc,
             $this->_actions,
