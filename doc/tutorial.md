@@ -8,9 +8,9 @@ Prerequisites
 
 To complete this tutorial, you must first have:
 
-1.
-2.
-3.
+  1.
+  2.
+  3.
 
 Creating a New Project
 ----------------------
