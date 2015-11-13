@@ -51,10 +51,7 @@ class TableForm implements TableFormInterface {
         return $rowMakingFunction();
     }
 
-    protected function validate() {
-
-        $this->_isValid = true;
-
+    protected function findRowPrefixes() {
         $firstPrototypicalSlug = current($this->getPrototypicalRow()->getFieldBearer()->getFields())->getSlug();
 
         $submittedSlugs = array_keys($_POST);
@@ -67,8 +64,12 @@ class TableForm implements TableFormInterface {
             return str_replace($firstPrototypicalSlug, "", $name);
         }, $submittedFirstSlugMatches);
 
+        return $rowPrefixes;
+    }
+
+    protected function makeRows() {
         $rows = [];
-        foreach ($rowPrefixes as $prefix) {
+        foreach ($this->findRowPrefixes() as $prefix) {
             $newRow = $this->makeRow();
 
             foreach($this->getPrototypicalRow()->getFieldBearer()->getFields() as $name=>$field) {
@@ -85,12 +86,23 @@ class TableForm implements TableFormInterface {
                 if (isset($_POST[$slug])) {
                     $newField->setInitial($_POST[$slug]);
                 }
-
-                $newField->validate();
             }
             $rows[] = $newRow;
         }
-        $this->_rows = $rows;
+        return $rows;
+    }
+
+    protected function validate() {
+        $this->_isValid = true;
+
+        $this->_rows = $this->makeRows();
+
+        // Validate each row indogenously
+        foreach ($this->getRows() as $row) {
+            foreach ($row->getFieldBearer()->getFields() as $name => $field) {
+                $field->validate();
+            }
+        }
 
         // Validate each row exogenously
         foreach ($this->getRows() as $row) {
