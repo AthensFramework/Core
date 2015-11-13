@@ -52,7 +52,7 @@ class TableForm implements TableFormInterface {
     }
 
     protected function findRowPrefixes() {
-        $firstPrototypicalSlug = current($this->getPrototypicalRow()->getFieldBearer()->getFields())->getSlug();
+        $firstPrototypicalSlug = current($this->getPrototypicalRow()->getFieldBearer()->getVisibleFields())->getSlug();
 
         $submittedSlugs = array_keys($_POST);
 
