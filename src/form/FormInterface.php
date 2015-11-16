@@ -56,4 +56,6 @@ interface FormInterface extends WritableInterface, InitializableInterface {
      */
     function addError($error);
 
+    function propagateOnValid();
+
 }

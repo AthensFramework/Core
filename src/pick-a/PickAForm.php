@@ -61,11 +61,18 @@ class PickAForm implements PickAFormInterface {
         return $isValid;
     }
 
-    public function onValid() {
-        $args = array_merge([$this], func_get_args());
+    public function propagateOnValid() {
+        $selectedForm = $this->getSelectedForm();
 
-        $func = [$this->getSelectedForm(), "onValid"];
+        $func = [$selectedForm, "onValid"];
+        $args = array_merge([$selectedForm], func_get_args());
+
         call_user_func_array($func, $args);
+    }
+
+    public function onValid() {
+        $func = [$this, "propagateOnValid"];
+        call_user_func_array($func, func_get_args());
     }
 
     public function onInvalid() {

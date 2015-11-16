@@ -102,4 +102,17 @@ trait FormTrait {
         return $this->getSubForms()[$name];
     }
 
+
+    public function propagateOnValid() {
+        $args = array_merge([$this], func_get_args());
+
+        $func = [$this->getFieldBearer(), "save"];
+        call_user_func_array($func, $args);
+
+        foreach ($this->getSubForms() as $subForm) {
+            $func = [$subForm, "onValid"];
+            call_user_func_array($func, $args);
+        }
+    }
+
 }
