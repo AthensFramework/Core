@@ -51,7 +51,7 @@ uwdoem.multi_adder = (function() {
     };
 
     var disablePrototypicalRows = function() {
-        $(this).find('tr.prototypical input, tr.prototypical select').prop('disabled', true);
+        $('tr.prototypical input, tr.prototypical select').prop('disabled', true);
     };
 
     $(function() {
