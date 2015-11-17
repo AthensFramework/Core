@@ -45,7 +45,12 @@ class TableFormBuilder extends AbstractBuilder {
         if (!isset($this->_onValidFunc)) {
             $this->_onValidFunc = function(TableFormInterface $form) {
                 foreach ($form->getRows() as $row) {
-                    $row->getFieldBearer()->save();
+                    $fieldBearer = $row->getFieldBearer();
+
+                    $args = array_merge([$fieldBearer], func_get_args());
+                    $func = [$fieldBearer, "save"];
+
+                    call_user_func_array($func, $args);
                 }
             };
         }
