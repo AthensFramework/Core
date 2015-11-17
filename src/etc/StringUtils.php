@@ -46,13 +46,23 @@ class StringUtils {
         $name_array = explode(" ", $string);
 
         // Words not-to capitalize
-        $smallWords = array(
+        $smallWords = [
             'of','a','the','and','an','or','nor','but','is','if','then','else','when',
             'at','from','by','on','off','for','in','out','over','to','into','with'
-        );
+        ];
+
+        $acronyms = Settings::getAcronyms();
 
         foreach ($name_array as $index => $value) {
-            if (!in_array($value, $smallWords) || $index == 0) {
+            if (in_array($value, $acronyms)) {
+                $name_array[$index] = strtoupper($value);
+            }
+            elseif ($index === 0) {
+                $name_array[$index] = ucfirst($value);
+            }
+            elseif (in_array($value, $smallWords)) {
+                // do nothing
+            } else {
                 $name_array[$index] = ucfirst($value);
             }
         }

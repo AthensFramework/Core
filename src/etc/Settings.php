@@ -12,6 +12,7 @@ class Settings {
         "templateDirectories" => [],
         "projectJS" => [],
         "projectCSS" => [],
+        "acronyms" => [],
         "defaultWriterClass" => '\UWDOEM\Framework\Writer\Writer',
         "defaultInitializerClass" => '\UWDOEM\Framework\Initializer\Initializer',
         "defaultPagination" => 12
@@ -66,6 +67,17 @@ class Settings {
 
     public static function getDefaultPagination() {
         return static::getSetting("defaultPagination");
+    }
+
+    /**
+     * @param string[] $acronyms
+     */
+    public static function setAcronyms(array $acronyms) {
+        static::$settings["acronyms"] = $acronyms;
+    }
+
+    public static function getAcronyms() {
+        return static::getSetting("acronyms");
     }
 
     /**
