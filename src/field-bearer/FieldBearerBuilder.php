@@ -34,6 +34,9 @@ class FieldBearerBuilder {
      */
     protected $_saveFunction;
 
+    /** @var mixed[] */
+    private $_initialFieldValues = [];
+
     /**
      * @param FieldBearerInterface[] $fieldBearers
      * @return FieldBearerBuilder
@@ -146,6 +149,17 @@ class FieldBearerBuilder {
     }
 
     /**
+     * @param string $fieldName
+     * @param mixed $value
+     * @return $this
+     */
+    public function setInitialFieldValue($fieldName, $value) {
+        $this->_initialFieldValues[$fieldName] = $value;
+
+        return $this;
+    }
+
+    /**
      * @return FieldBearer
      * @throws \Exception if neither fields nor fieldBearers has been set
      */
@@ -165,13 +179,19 @@ class FieldBearerBuilder {
             };
         }
 
-        return new FieldBearer(
+        $fieldBearer = new FieldBearer(
             $this->_fields,
             $this->_fieldBearers,
             $this->_visibleFieldNames,
             $this->_hiddenFieldNames,
             $this->_saveFunction
         );
+
+        foreach ($this->_initialFieldValues as $fieldName => $value) {
+            $fieldBearer->getFieldByName($fieldName)->setInitial($value);
+        }
+
+        return $fieldBearer;
     }
 
 }

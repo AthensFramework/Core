@@ -8,6 +8,9 @@ trait FieldBearerBearerBuilderTrait {
     /** @var FieldBearerBuilder */
     private $_fieldBearerBuilder;
 
+    /** @var mixed[] */
+    private $_initialFieldValues = [];
+
     private function createFieldBearerBuilderIfNull() {
         if (is_null($this->_fieldBearerBuilder)) {
             $this->_fieldBearerBuilder = FieldBearerBuilder::begin();
@@ -18,10 +21,23 @@ trait FieldBearerBearerBuilderTrait {
     /**
      * @return FieldBearerBuilder
      */
-    protected function getFieldBearerBuilder() {
+    private function getFieldBearerBuilder() {
         $this->createFieldBearerBuilderIfNull();
 
         return $this->_fieldBearerBuilder;
+    }
+
+    /**
+     * @return FieldBearer
+     */
+    protected function buildFieldBearer() {
+        $fieldBearer = $this->getFieldBearerBuilder()->build();
+
+        foreach ($this->_initialFieldValues as $fieldName => $value) {
+            $fieldBearer->getFieldByName($fieldName)->setInitial($value);
+        }
+
+        return $fieldBearer;
     }
 
     /**
@@ -29,9 +45,7 @@ trait FieldBearerBearerBuilderTrait {
      * @return $this
      */
     public function addFieldBearers(array $fieldBearers) {
-        $this->createFieldBearerBuilderIfNull();
-
-        $this->_fieldBearerBuilder->addFieldBearers($fieldBearers);
+        $this->getFieldBearerBuilder()->addFieldBearers($fieldBearers);
         return $this;
     }
 
@@ -40,9 +54,7 @@ trait FieldBearerBearerBuilderTrait {
      * @return $this
      */
     public function addFields(array $fields) {
-        $this->createFieldBearerBuilderIfNull();
-
-        $this->_fieldBearerBuilder->addFields($fields);
+        $this->getFieldBearerBuilder()->addFields($fields);
         return $this;
     }
 
@@ -51,9 +63,7 @@ trait FieldBearerBearerBuilderTrait {
      * @return $this
      */
     public function addObject($object) {
-        $this->createFieldBearerBuilderIfNull();
-
-        $this->_fieldBearerBuilder->addObject($object);
+        $this->getFieldBearerBuilder()->addObject($object);
         return $this;
     }
 
@@ -62,9 +72,7 @@ trait FieldBearerBearerBuilderTrait {
      * @return $this
      */
     public function setVisibleFieldNames(array $visibleFieldNames) {
-        $this->createFieldBearerBuilderIfNull();
-
-        $this->_fieldBearerBuilder->setVisibleFieldNames($visibleFieldNames);
+        $this->getFieldBearerBuilder()->setVisibleFieldNames($visibleFieldNames);
         return $this;
     }
 
@@ -73,9 +81,7 @@ trait FieldBearerBearerBuilderTrait {
      * @return $this
      */
     public function setHiddenFieldNames(array $hiddenFieldNames) {
-        $this->createFieldBearerBuilderIfNull();
-
-        $this->_fieldBearerBuilder->setHiddenFieldNames($hiddenFieldNames);
+        $this->getFieldBearerBuilder()->setHiddenFieldNames($hiddenFieldNames);
         return $this;
     }
 
@@ -84,9 +90,18 @@ trait FieldBearerBearerBuilderTrait {
      * @return $this
      */
     public function setSaveFunction(callable $saveFunction) {
-        $this->createFieldBearerBuilderIfNull();
+        $this->getFieldBearerBuilder()->setSaveFunction($saveFunction);
+        return $this;
+    }
 
-        $this->_fieldBearerBuilder->setSaveFunction($saveFunction);
+    /**
+     * @param string $fieldName
+     * @param mixed $value
+     * @return $this
+     */
+    public function setInitialFieldValue($fieldName, $value) {
+        $this->_initialFieldValues[$fieldName] = $value;
+
         return $this;
     }
 

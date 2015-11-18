@@ -101,6 +101,26 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($form2, $form->getSubForms());
     }
 
+    public function testSetInitialWithFormBuilder() {
+        $field1 = new Field("literal", "", []);
+        $field2 = new Field("literal", "", []);
+
+        $fields = [
+            "field1" => $field1,
+            "field2" => $field2
+        ];
+
+        $newInitialValue = (string)rand();
+
+        FormBuilder::begin()
+            ->addFields($fields)
+            ->setInitialFieldValue("field1", $newInitialValue)
+            ->build();
+
+        $this->assertEquals($newInitialValue, $field1->getInitial());
+        $this->assertNotEquals($newInitialValue, $field2->getInitial());
+    }
+
     public function testLabelFieldCreation() {
         $labelText = (string)rand();
 

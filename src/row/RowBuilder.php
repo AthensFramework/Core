@@ -51,12 +51,14 @@ class RowBuilder {
      */
     public function build() {
 
-        $fieldBearer = $this->getFieldBearerBuilder()->build();
+        $fieldBearer = $this->buildFieldBearer();
+
         if (sizeof($fieldBearer->getFields()) === 0) {
             throw new \RuntimeException("You must specify an implementation of FieldBearerInterface using ::setFieldBearer before calling this method.");
         }
+
         return new Row(
-            $this->getFieldBearerBuilder()->build(),
+            $fieldBearer,
             $this->_onClick,
             $this->_highlightable);
     }

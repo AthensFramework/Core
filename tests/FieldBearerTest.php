@@ -88,6 +88,26 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedFieldNames, $classFieldBearer->getFieldNames());
     }
 
+    public function testSetInitialWithFieldBearerBuilder() {
+        $field1 = new Field("literal", "", []);
+        $field2 = new Field("literal", "", []);
+
+        $fields = [
+            "field1" => $field1,
+            "field2" => $field2
+        ];
+
+        $newInitialValue = (string)rand();
+
+        FieldBearerBuilder::begin()
+            ->addFields($fields)
+            ->setInitialFieldValue("field1", $newInitialValue)
+            ->build();
+
+        $this->assertEquals($newInitialValue, $field1->getInitial());
+        $this->assertNotEquals($newInitialValue, $field2->getInitial());
+    }
+
     public function testGetFieldBearers() {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
