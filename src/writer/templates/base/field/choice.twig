@@ -6,7 +6,7 @@
         {% endfor %}
     {% else %}
         <select name="{{ slug }}">
-            <option {% if required %}disabled{% endif %}></option>
+            <option {% if initial is empty %}selected{% endif %} {% if required %}disabled{% endif %}></option>
         {% for choiceSlug, choice in choices %}
             <option value="{{ choiceSlug }}" {% if choice == initial %}selected{% endif %}> {{ choice }} </option>
         {% endfor %}
