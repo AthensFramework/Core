@@ -41,8 +41,11 @@ uwdoem.multi_adder = (function() {
 
         for(var i = 0; i<formElements.length; i++) {
             var formElement = $(formElements[i]);
+
             formElement.attr('name', (lastDataRowIndex + 1) + "-" + formElement.attr('name'));
             if ($(dataElements[i]).val() !== null) {formElement.val($(dataElements[i]).val());}
+
+            formElement.attr('disabled', false);
         }
 
         activateRemover(newRow);
