@@ -15,6 +15,7 @@ class Field implements FieldInterface {
 
     const FIELD_TYPE_TEXT = "text";
     const FIELD_TYPE_TEXTAREA = "textarea";
+    const FIELD_TYPE_BOOLEAN = "boolean";
     const FIELD_TYPE_CHOICE = "choice";
     const FIELD_TYPE_MULTIPLE_CHOICE = "multiple-choice";
     const FIELD_TYPE_LITERAL = "literal";

@@ -44,10 +44,7 @@ class ORMUtilsTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("text", $fields["TestClass.FieldInteger"]->getType());
         $this->assertEquals("text", $fields["TestClass.FieldFloat"]->getType());
         $this->assertEquals("datetime", $fields["TestClass.FieldTimestamp"]->getType());
-        $this->assertEquals("choice", $fields["TestClass.FieldBoolean"]->getType());
-
-        // Test that the boolean field has the correct "Yes"/"No" choices
-        $this->assertEquals(["Yes", "No"], $fields["TestClass.FieldBoolean"]->getChoices());
+        $this->assertEquals("boolean", $fields["TestClass.FieldBoolean"]->getType());
 
         // Test that requirement inference is correct
         $this->assertTrue($fields["TestClass.RequiredField"]->isRequired());

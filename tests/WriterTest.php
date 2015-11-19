@@ -108,6 +108,52 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('></textarea>', $result);
     }
 
+    public function testRenderBooleanField() {
+        $writer = new Writer();
+
+        /* A required boolean field*/
+        $initialFalseField = new Field("boolean", "A boolean field", "", true, []);
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitField($initialFalseField));
+
+        // Assert that the boolean field is rendered as two radio choices
+        $this->assertEquals(2, substr_count($result, "<input type=radio"));
+
+        /* An unrequired boolean field*/
+        $initialFalseField = new Field("boolean", "A boolean field", "", false, []);
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitField($initialFalseField));
+
+        // Assert that the boolean field is rendered as two radio choices
+        $this->assertContains('<input type=checkbox', $result);
+
+        /* An unrequired boolean field with initial value */
+        $initialFalseField = new Field("boolean", "A boolean field", false, false, []);
+        $initialTrueField = new Field("boolean", "A boolean field", true, false, []);
+
+        // Get result and strip quotes, for easier analysis
+        $resultInitialFalse = $this->stripQuotes($writer->visitField($initialFalseField));
+        $resultInitialTrue = $this->stripQuotes($writer->visitField($initialTrueField));
+
+        // Assert that the boolean field is rendered as two radio choices
+        $this->assertNotContains('checked>', $resultInitialFalse);
+        $this->assertContains('checked>', $resultInitialTrue);
+
+        /* A required boolean field with initial value */
+        $initialFalseField = new Field("boolean", "A boolean field", false, true, []);
+        $initialTrueField = new Field("boolean", "A boolean field", true, true, []);
+
+        // Get result and strip quotes, for easier analysis
+        $resultInitialFalse = $this->stripQuotes($writer->visitField($initialFalseField));
+        $resultInitialTrue = $this->stripQuotes($writer->visitField($initialTrueField));
+
+        // Assert that the boolean field is rendered as two radio choices
+        $this->assertContains('value=0 checked>', $resultInitialFalse);
+        $this->assertContains('value=1 checked>', $resultInitialTrue);
+    }
+
     public function testRenderFieldErrors() {
         $writer = new Writer();
 

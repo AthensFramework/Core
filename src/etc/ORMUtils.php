@@ -20,7 +20,7 @@ class ORMUtils {
         "INTEGER"=> "text",
         "VARBINARY"=> "text",
         "TIMESTAMP"=> "datetime",
-        "BOOLEAN"=> "yorn",
+        "BOOLEAN"=> "boolean",
         "FLOAT"=> "text",
     ];
 
@@ -209,11 +209,6 @@ class ORMUtils {
             } else {
                 $fieldType = self::chooseFieldType($column);
                 $fieldRequired = $column->isNotNull();
-
-                if ($fieldType == "yorn") {
-                    $fieldType = "choice";
-                    $choices = ["Yes", "No"];
-                }
             }
 
             $label = StringUtils::toTitleCase($label);
