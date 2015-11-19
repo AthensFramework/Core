@@ -25,7 +25,7 @@ class ORMUtils {
     ];
 
     /**
-     * @param $object
+     * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
      * @return Field[]
      */
     static public function makeFieldsFromObject($object) {
@@ -33,6 +33,8 @@ class ORMUtils {
 
         $columns = array_combine($fieldNames, static::getColumns($object::TABLE_MAP));
         $fields = array_combine($fieldNames, static::makeFieldsFromColumns($columns));
+
+        $fields = static::addBehaviorConstraintsToFields($object::TABLE_MAP, $fields, $columns);
 
         foreach($columns as $fieldName=>$column) {
             $phpName = $column->getPhpName();
@@ -42,6 +44,44 @@ class ORMUtils {
         }
 
         return $fields;
+    }
+
+    /**
+     * @param $tableMapName
+     * @param \UWDOEM\Framework\Field\FieldInterface[] $fields
+     * @param $columns
+     * @return mixed
+     */
+    static public function addBehaviorConstraintsToFields($tableMapName, $fields, $columns) {
+
+        $behaviors = static::getClassTableMap($tableMapName)->getBehaviors();
+        $validateBehaviors = array_key_exists("validate", $behaviors) ? $behaviors["validate"] : [];
+
+        $validateBehaviorsByColumn = [];
+        foreach ($validateBehaviors as $behavior) {
+            $columnName = $behavior["column"];
+            if (!array_key_exists($columnName, $validateBehaviorsByColumn)) {
+                $validateBehaviorsByColumn[$columnName] = [];
+            }
+
+            $validateBehaviorsByColumn[$columnName][] = $behavior;
+        }
+
+        foreach($columns as $fieldName=>$column) {
+            $columnName = $column->getName();
+
+            if (array_key_exists($columnName, $validateBehaviorsByColumn)) {
+                foreach ($validateBehaviorsByColumn[$columnName] as $behavior) {
+                    if($behavior["validator"] === "Choice") {
+                        $fields[$fieldName]->setType("choice");
+                        $fields[$fieldName]->setChoices($behavior["options"]["choices"]);
+                    }
+                }
+            }
+        }
+
+        return $fields;
+
     }
 
     /**
@@ -92,7 +132,7 @@ class ORMUtils {
     }
 
     /**
-     * @param $object
+     * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
      * @return string[]
      */
     static protected function makeFieldNamesFromObject($object) {
