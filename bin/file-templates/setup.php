@@ -9,8 +9,6 @@ define('DOMPDF_ENABLE_REMOTE', true);
 require_once dirname(__FILE__) . '/vendor/autoload.php';
 require_once dirname(__FILE__) . '/settings.php';
 
-define('MYSQL_DSN', 'mysql:host=' . MYSQL_HOST . ';port=' . MYSQL_PORT . ';dbname=' . MYSQL_DB_NAME);
-
 use Propel\Runtime\Propel;
 use Propel\Runtime\Connection\ConnectionManagerSingle;
 use UWDOEM\CSRF\CSRF;

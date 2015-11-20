@@ -13,3 +13,5 @@ define('MYSQL_USER', SET_ME);
 define('MYSQL_PASSWORD', SET_ME);
 
 define('UWDOEM_ENCRYPTION_PASSWORD', SET_UWDOEM_ENCRYPTION_PASSWORD);
+
+define('MYSQL_DSN', 'mysql:host=' . MYSQL_HOST . ';port=' . MYSQL_PORT . ';dbname=' . MYSQL_DB_NAME);
