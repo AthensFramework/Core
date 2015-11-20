@@ -1,40 +1,48 @@
 <?php
 
+require_once dirname(__FILE__) . "/common.php";
+
+
 /* BEGIN FUNCTIONS AND CONSTANTS */
 
 /**
- * Creates a 16 byte encryption password, suitable for use with UWDOEM\Encryption
+ * Makes a complete project composer.json string, given an existing composer.json string
  *
+ * @param string $baseComposerJson
  * @return string
  */
-function makeEncryptionPassword() {
-    $key = base64_encode(openssl_random_pseudo_bytes(16));
-    return str_replace("'", "+", $key);
-}
+function makeComposerJson($baseComposerJson = "{}") {
+    $struct = json_decode($baseComposerJson);
 
-/**
- * Returns the base project directory.
- *
- * @return string
- */
-function getBaseDirectory() {
-    $thisDirectory = getcwd();
+    $default = [
+        "require" => [
+            "propel/propel" => "~2.0@dev",
+            "uwdoem/framework" => ">=0.3"
+        ],
+        "require-dev" => [
+            "phpunit/phpunit" => "4.5.*",
+            "phpunit/phpunit-selenium" => ">=1.2",
+            "phpdocumentor/phpdocumentor" => "2.7.*"
+        ],
+        "autoload" => [
+            "classmap" => [
+                "project-schema/generated-classes/",
+                "project-components",
+                "project-templates"
+            ]
+        ]
+    ];
 
-    $search = ["/vendor/uwdoem/framework/bin", "\\vendor\\uwdoem\\framework\\bin"];
-    $replace = ["", ""];
+    if (!array_key_exists("require", $struct)) { $struct["require"] = []; }
+    if (!array_key_exists("require-dev", $struct)) { $struct["require-dev"] = []; }
+    if (!array_key_exists("autoload", $struct)) { $struct["autoload"] = []; }
+    if (!array_key_exists("classmap", $struct["autoload"])) { $struct["autoload"]["classmap"] = []; }
 
-    return str_replace($search, $replace, $thisDirectory);
-}
+    $struct["require"] = array_merge($default["require"], $struct["require"]);
+    $struct["require-dev"] = array_merge($default["require-dev"], $struct["require-dev"]);
+    $struct["autoload"]["classmap"] = array_unique(array_merge($default["autoload"]["classmap"], $struct["autoload"]["classmap"]));
 
-/**
- * Retrieves the text of a file from the file-templates directory.
- *
- * @param string $fileName
- * @return string
- */
-function getFileTemplate($fileName) {
-    $templatePath = dirname(__FILE__) . "/file-templates";
-    return file_get_contents($templatePath . "/" . $fileName);
+    return str_replace('\/', '/', json_encode($struct, JSON_PRETTY_PRINT));
 }
 
 /**
@@ -92,19 +100,20 @@ function jsCommentBlock($text) {
 $directories = [];
 $filesContent = [];
 
-$filesContent[".htaccess"] = "Deny from all";
+$filesContent[".htaccess"] = "# Do not edit. \nDeny from all";
 $filesContent["README.md"] = getFileTemplate("README.md");
 $filesContent["README.md"] = getFileTemplate("backup.sh");
 $filesContent[".gitignore"] = getFileTemplate(".gitignore");
 $filesContent["local-settings.php"] = str_replace("SET_UWDOEM_ENCRYPTION_PASSWORD", "'" . makeEncryptionPassword() . "'", getFileTemplate("local-settings.php"));
 $filesContent["settings.php"] = getFileTemplate("settings.php");
 $filesContent["setup.php"] = getFileTemplate("setup.php");
+$filesContent["composer.json"] = makeComposerJson(file_get_contents(getBaseDirectory() . "composer.json"));
 
 $directories[] = "admin";
 $directories[] = "admin/ajax-pages";
 $directories[] = "admin/ajax-actions";
 
-$filesContent["admin/.htaccess"] = "Deny from all";
+$filesContent["admin/.htaccess"] = "# Edit to allow access only to your administrative users. \nDeny from all";
 $filesContent["admin/notice.php"] = pageDocBlock("Place here any pages which you wish to restrict to privileged users. Edit your .htaccess appropriately!");
 $filesContent["admin/ajax-actions/notice.php"] = pageDocBlock("Place here any actions which are accomplished by AJAX, and not displayed directly to the screen.");
 $filesContent["admin/ajax-pages/notice.php"] = pageDocBlock("Place here any pages which are loaded to the screen via AJAX.");
@@ -114,7 +123,7 @@ $directories[] = "pages";
 $directories[] = "pages/ajax-pages";
 $directories[] = "pages/ajax-actions";
 
-$filesContent["pages/.htaccess"] = "Deny from all";
+$filesContent["pages/.htaccess"] = "# Edit to allow access to your 'public' users. \nDeny from all";
 $filesContent["pages/notice.php"] = pageDocBlock("Place here any pages which you wish to restrict to administrators. Edit your .htaccess appropriately!");
 $filesContent["pages/ajax-actions/notice.php"] = pageDocBlock("Place here any actions which are accomplished by AJAX, and not displayed directly to the screen.");
 $filesContent["pages/ajax-pages/notice.php"] = pageDocBlock("Place here any pages which are loaded to the screen via AJAX.");
