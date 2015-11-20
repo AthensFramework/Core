@@ -55,13 +55,6 @@ This tutorial assumes that you're creating this new project in your development 
       "phpunit/phpunit": "4.5.*",
       "phpunit/phpunit-selenium": ">=1.2",
       "phpdocumentor/phpdocumentor": "2.7.*"
-    },
-    "autoload": {
-      "classmap": [
-        "project-schema/generated-classes/",
-        "project-components",
-        "project-templates"
-      ]
     }
   }
   ```
@@ -72,10 +65,8 @@ This tutorial assumes that you're creating this new project in your development 
 
   Now we tell composer to download our project's dependencies:
   ```
-  php composer.phar install --no-autoloader
+  php composer.phar install
   ```
-  
-  This is *the only time* we will use the `--no-autoloader` flag.
 
 * Initialize the project:
   
@@ -84,13 +75,17 @@ This tutorial assumes that you're creating this new project in your development 
   php vendor/uwdoem/framework/bin/manage.php init
   ```
   
-  This command creates a handful of directories and files in your project web root.
+  This command creates a handful of directories and files in your project web root, as well as adding a few directives to your composer.json.
   
 * Edit the local settings
 
   Edit the file `local-settings.php` and replace all instances of `SET_ME` with the appropriate values. All of the settings should be string literals--enclosed in quotes--unless otherwise indicated.
   
   Note that `local-settings.php` is *excluded* from version control. This means that it will *not* be synchronized between your development and production environments. It also doesn't go into your code repository, so it's *OK* to put passwords into it, unless you expose it to other risks.
+  
+* Edit the file `settings.php`:
+
+  Edit the database `APPLICATION_NAME` constant to the same value as `MYSQL_DB_NAME` in `local-settings.php`.
 
 * Edit the file `project-schema/schema.xml':
 
@@ -107,9 +102,9 @@ This tutorial assumes that you're creating this new project in your development 
   `cd` into `project-schema` and then issue the following commands:
   
   ```
-  ../vendor/bin/propel model:build;
-  ../vendor/bin/propel sql:build;
-  ../vendor/bin/propel sql:insert;
+  php ../vendor/propel/propel/bin/propel.php model:build;
+  php ../vendor/propel/propel/bin/propel.php sql:build;
+  php ../vendor/propel/propel/bin/propel.php sql:insert;
   ```
   
   Then `cd` back into your project web root and issue the following:
@@ -201,7 +196,9 @@ This tutorial assumes that you're creating this new project in your development 
   
   * Upload to your code repository:
 
-  Creating a code repository, initializing your code directory, and pushing it to the repo are beyond the scope of this tutorial.
+  If you use an IDE, it may place files into your project web root. Before uploading your code to your repository, be sure to exclude those files using your .gitignore file.
+  
+  However, creating a code repository, initializing your code directory, and pushing it to the repo are beyond the scope of this tutorial.
  
 Deploying an Existing Project
 -----------------------------
@@ -213,6 +210,7 @@ Deploying an Existing Project
 
   * Link to your repository and pull:
   
+  The technical details of linking to your repository and pulling code down from it are beyond the scope of this tutorial.
 
   * Create and edit local-settings.php:
   
