@@ -163,7 +163,7 @@ $filesContent["project-tests/notice.php"] = pageDocBlock("Place here your softwa
 
 
 foreach ($directories as $directory) {
-    mkdir(getBaseDirectory() . "/". $directory, 755);
+    mkdir(getBaseDirectory() . "/". $directory);
 }
 
 foreach ($filesContent as $relativeFilePath => $content) {
