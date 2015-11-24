@@ -57,6 +57,14 @@ class RowBuilder {
             throw new \RuntimeException("You must specify an implementation of FieldBearerInterface using ::setFieldBearer before calling this method.");
         }
 
+        if ($this->_highlightable && $this->_onClick) {
+            throw new \Exception("You cannot both make a row highlightable and provide an onClick.");
+        }
+
+        if ($this->_highlightable) {
+            $this->_onClick = "uwdoem.highlightRow(this)";
+        }
+
         return new Row(
             $fieldBearer,
             $this->_onClick,

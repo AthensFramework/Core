@@ -326,7 +326,30 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setHiddenFieldNames(["HiddenField"])
             ->build();
 
-        $row = RowBuilder::begin()
+        $highlightableRow = RowBuilder::begin()
+            ->addFields([
+                "TextField" => $textField,
+                "LiteralField" => $literalField,
+                "HiddenField" => $hiddenField
+            ])
+            ->setVisibleFieldNames(["TextField", "LiteralField"])
+            ->setHiddenFieldNames(["HiddenField"])
+            ->setHighlightable(true)
+            ->build();
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitRow($highlightableRow));
+
+        $this->assertContains("<tr", $result);
+        $this->assertContains("</tr>", $result);
+        $this->assertContains("<td class=" . $textField->getSlug(), $result);
+        $this->assertContains("<td class=" . $literalField->getSlug(), $result);
+        $this->assertContains("highlightable", $result);
+        $this->assertContains("class=clickable", $result);
+        $this->assertContains($this->stripQuotes($initialLiteral), $result);
+        $this->assertContains("style=display:none>$initialHidden</td>", $result);
+
+        $clickableRow = RowBuilder::begin()
             ->addFields([
                 "TextField" => $textField,
                 "LiteralField" => $literalField,
@@ -335,21 +358,11 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setVisibleFieldNames(["TextField", "LiteralField"])
             ->setHiddenFieldNames(["HiddenField"])
             ->setOnClick($onClick)
-            ->setHighlightable(true)
             ->build();
 
         // Get result and strip quotes, for easier analysis
-        $result = $this->stripQuotes($writer->visitRow($row));
-
-        $this->assertContains("<tr", $result);
-        $this->assertContains("</tr>", $result);
-        $this->assertContains("<td class=" . $textField->getSlug(), $result);
-        $this->assertContains("<td class=" . $literalField->getSlug(), $result);
-        $this->assertContains("highlightable", $result);
+        $result = $this->stripQuotes($writer->visitRow($clickableRow));
         $this->assertContains("class=clickable", $result);
-        $this->assertContains($this->stripQuotes("onClick=" . $onClick), $result);
-        $this->assertContains($this->stripQuotes($initialLiteral), $result);
-        $this->assertContains("style=display:none>$initialHidden</td>", $result);
     }
 
     public function testVisitTable() {

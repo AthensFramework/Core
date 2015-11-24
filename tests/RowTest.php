@@ -29,29 +29,37 @@ class RowTest extends PHPUnit_Framework_TestCase
     public function testBuilder() {
 
         $fieldName = "LiteralField";
+        $onClick = "console.log('Click!');";
 
-        $row = RowBuilder::begin()
+        $highlightableRow = RowBuilder::begin()
             ->addFields([$fieldName => new Field('literal', 'A literal field', [])])
-            ->setOnClick("console.log('Click!');")
             ->setHighlightable(true)
             ->build();
 
-        $this->assertEquals("console.log('Click!');", $row->getOnClick());
-        $this->assertEquals([$fieldName], $row->getFieldBearer()->getFieldNames());
-        $this->assertTrue($row->isHighlightable());
+        $this->assertEquals([$fieldName], $highlightableRow->getFieldBearer()->getFieldNames());
+        $this->assertTrue($highlightableRow->isHighlightable());
+
+        $clickableRow = RowBuilder::begin()
+            ->addFields([$fieldName => new Field('literal', 'A literal field', [])])
+            ->setOnClick($onClick)
+            ->build();
+
+        $this->assertEquals($onClick, $clickableRow->getOnClick());
+        $this->assertEquals([$fieldName], $clickableRow->getFieldBearer()->getFieldNames());
+        $this->assertFalse($clickableRow->isHighlightable());
     }
 
-    /*
-     * The below methods are tested sufficiently above
-    public function testGetFieldBearer() {
-
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #You cannot both make a.*#
+     */
+    public function testBuilderThrowsExceptionSetContentOnAjaxLoaded() {
+        $row = RowBuilder::begin()
+            ->addFields(["fieldName" => new Field('literal', 'A literal field', [])])
+            ->setHighlightable(true)
+            ->setOnClick("console.log('Click');")
+            ->build();
     }
-
-    public function testGetOnClick() {
-
-    }
-    */
-
 
 }
 

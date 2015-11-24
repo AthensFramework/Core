@@ -666,3 +666,15 @@ div.breadcrumbs-container {
     position:relative;
     margin-top:10px;
 }
+
+tr.highlightable:hover {
+    background-color: #eee4ff;
+}
+
+tr.highlightable.highlighted:hover {
+    background-color:#e1caff;
+}
+
+tr.highlightable {
+    cursor: pointer;
+}

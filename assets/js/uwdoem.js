@@ -22,6 +22,10 @@ uwdoem = (function() {
         });
     }
 
+    function highlightRow(row) {
+        $(row).toggleClass("highlighted");
+    }
+
     $(function() {
         $("form.prevent-double-submit").submit(function() {
             $(this).find("input[type=submit]").click(function() {
@@ -51,7 +55,8 @@ uwdoem = (function() {
 
     return {
         fadeInMask: fadeInMask,
-        fadeOutMask: fadeOutMask
+        fadeOutMask: fadeOutMask,
+        highlightRow: highlightRow
     };
 }());
 
