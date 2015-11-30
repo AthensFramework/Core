@@ -10,6 +10,9 @@ class PickAFormBuilder {
 
     protected $_actions = [];
 
+    /**
+     * @return PickAFormInterface
+     */
     public function build() {
         return new PickAForm($this->_manifest, $this->_actions);
     }
