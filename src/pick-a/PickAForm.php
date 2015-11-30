@@ -18,6 +18,8 @@ class PickAForm implements PickAFormInterface {
     /** @var \UWDOEM\Framework\FieldBearer\FieldBearerInterface */
     protected $_fieldBearer;
 
+    protected $_errors = [];
+
     use VisitableTrait;
 
 
@@ -54,6 +56,7 @@ class PickAForm implements PickAFormInterface {
 
         if (is_null($selectedForm)) {
             $isValid = False;
+            $this->addError("You must select an option at left.");
         } else {
             $isValid = $selectedForm->isValid();
         }
@@ -76,7 +79,11 @@ class PickAForm implements PickAFormInterface {
     }
 
     public function onInvalid() {
-        $this->getSelectedForm()->onInvalid();
+        $selectedForm  = $this->getSelectedForm();
+
+        if ($selectedForm) {
+            $selectedForm->onInvalid();
+        }
     }
 
     public function getHash() {
@@ -88,15 +95,7 @@ class PickAForm implements PickAFormInterface {
     }
 
     public function getErrors() {
-        $selectedForm = $this->getSelectedForm();
-
-        if (is_null($selectedForm)) {
-            $errors = ["Please choose one of the following options."];
-        } else {
-            $errors = $selectedForm->getErrors();
-        }
-
-        return $errors;
+        return $this->_errors;
     }
 
     function getManifest() {
@@ -124,7 +123,7 @@ class PickAForm implements PickAFormInterface {
     }
 
     function addError($error) {
-        $this->getSelectedForm()->addError($error);
+        $this->_errors[] = $error;
     }
 
     /**

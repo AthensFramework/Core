@@ -3,6 +3,12 @@
 {% block right %}
     <div class="selection default">
         Select one of the form types at left.
+
+        {%  if errors is not empty %}
+        <span class=pickaform-errors><br>
+            {% for error in errors %} {{ error }} {% endfor %}
+        </span>
+        {% endif %}
     </div>
     {% for label, manifestItem in manifest %}
         {% if not manifestItem is null %}

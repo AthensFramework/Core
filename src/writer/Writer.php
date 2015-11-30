@@ -55,7 +55,8 @@ class Writer extends Visitor {
                 $string = preg_replace('/<form[^>]+\>/i', "", $string);
                 $string = preg_replace('#<div class="form-actions">(.*?)</div>#', '', $string);
                 $string = str_replace("form-actions", "form-actions hidden", $string);
-                $string = str_replace("form-errors", "form-errors hidden", $string);
+                $string = str_replace(" form-errors", "form-errors hidden", $string);
+                $string = str_replace("\"form-errors", "form-errors hidden", $string);
                 $string = str_replace("</form>", "", $string);
 
                 return $string;
@@ -262,14 +263,15 @@ class Writer extends Visitor {
     }
 
     public function visitPickAForm(PickAFormInterface $pickAForm) {
-        $template = 'form/pick-a-form.twig';
+        $template = 'pick-a/pick-a-form.twig';
 
         return $this
             ->loadTemplate($template)
             ->render([
                 "manifest" => $pickAForm->getManifest(),
                 "selectedForm" => $pickAForm->getSelectedForm(),
-                "hash" => $pickAForm->getHash()
+                "hash" => $pickAForm->getHash(),
+                "errors" => $pickAForm->getErrors()
             ]);
     }
 

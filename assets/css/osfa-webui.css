@@ -184,7 +184,7 @@ span.field-errors {
     color:red;
 }
 
-.form-errors {
+.form-errors, .pickaform-errors {
     color:red;
 }
 
