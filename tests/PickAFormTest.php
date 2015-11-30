@@ -38,6 +38,36 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($actions, array_values($pickAForm->getActions()));
     }
 
+    public function testGetSelectedSlug() {
+        $fieldBearers = [];
+        $forms = [];
+        $labels = [];
+        for ($i = 0; $i < 2; $i++) {
+            $fieldBearers[] = new MockFieldBearer;
+            $labels[] = "Form $i";
+            $forms[] = FormBuilder::begin()->addFieldBearers([$fieldBearers[$i]])->build();
+        }
+
+        $pickAForm = PickAFormBuilder::begin()
+            ->addLabel("Label Text")
+            ->addForms([
+                $labels[0] => $forms[0],
+                $labels[1] => $forms[1]
+            ])
+            ->build();
+
+        $selectedForm = 0;
+        $unselectedForm = 1;
+
+        $_SERVER['REQUEST_METHOD'] = "POST";
+        $_POST[$pickAForm->getHash()] = StringUtils::slugify($labels[$selectedForm]);
+
+        $this->assertEquals(StringUtils::slugify($labels[$selectedForm]), $pickAForm->getSelectedSlug());
+
+        $_SERVER['REQUEST_METHOD'] = "GET";
+        $_POST = [];
+    }
+
     /**
      * If no form is selected, then the pick a form is not valid.
      */

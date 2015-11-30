@@ -23,9 +23,11 @@ class PickAForm implements PickAFormInterface {
     use VisitableTrait;
 
 
-    protected function getSelectedSlug() {
-        if (array_key_exists($this->getHash(), $_POST))
-            $slug = $_POST[$this->getHash()];
+    public function getSelectedSlug() {
+        $hash = $this->getHash();
+
+        if (array_key_exists($hash, $_POST))
+            $slug = $_POST[$hash];
         else {
             $slug = null;
         }
