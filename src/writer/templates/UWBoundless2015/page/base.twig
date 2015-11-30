@@ -77,7 +77,7 @@
 
     {% endblock project_head %}
 </head>
-<body class={{ pageType }}>
+<body class="{{ pageType }} {{ [header, subHeader]|join('-')|slugify }}">
 {% block body %}
 
 <div class="loading-gif hidden"></div>

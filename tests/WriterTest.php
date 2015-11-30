@@ -454,6 +454,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $pageType = Page::PAGE_TYPE_FULL_HEADER;
+        $pageHeader = "Page Header";
+        $pageSubHeader = "Page subheader";
+
+        $expectedBodyClass = StringUtils::slugify(implode("-", [$pageHeader, $pageSubHeader]));
 
         $section = SectionBuilder::begin()
             ->setLabel("Label")
@@ -462,8 +466,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $page = PageBuilder::begin()
             ->setWritable($section)
-            ->setHeader("Page Header")
-            ->setSubHeader("Page subheader")
+            ->setHeader($pageHeader)
+            ->setSubHeader($pageSubHeader)
             ->setReturnTo(["Another name" => "http://another.link"])
             ->setType($pageType)
             ->setTitle("Page Title")
@@ -494,10 +498,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("<title>Page Title</title>", $result);
         $this->assertContains("<base href=.", $result);
         $this->assertContains("</head>", $result);
-        $this->assertContains("<body class=$pageType>", $result);
+        $this->assertContains("<body class=$pageType $expectedBodyClass>", $result);
         $this->assertContains("<li><a target=_self href=http://example.com>Key</a></li>", $result);
-        $this->assertContains("<h1 class=header>Page Header</h1>", $result);
-        $this->assertContains("<h2 class=subheader>Page subheader</h2>", $result);
+        $this->assertContains("<h1 class=header>$pageHeader</h1>", $result);
+        $this->assertContains("<h2 class=subheader>$pageSubHeader</h2>", $result);
         $this->assertContains("<div class=section-label>Label</div>", $result);
 
         $this->assertContains($cssFile1, $result);
