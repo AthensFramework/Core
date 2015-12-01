@@ -57,7 +57,7 @@ class StringUtils {
             if (in_array($value, $acronyms)) {
                 $name_array[$index] = strtoupper($value);
             }
-            elseif ($index === 0) {
+            elseif ($index === 0 || $index === sizeof($name_array) - 1) {
                 $name_array[$index] = ucfirst($value);
             }
             elseif (in_array($value, $smallWords)) {
