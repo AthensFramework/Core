@@ -365,5 +365,11 @@ class FieldTest extends PHPUnit_Framework_TestCase
             $this->assertContains($choice, $field->getValidatedData(), "Failure on class: " . get_class($field));
         }
     }
+
+    public function testFieldDatetimeWrapper() {
+        $field = new Field("any", "label", new DateTime());
+
+        $this->assertInstanceOf('UWDOEM\Framework\Field\DateTimeWrapper', $field->getInitial());
+    }
 }
 

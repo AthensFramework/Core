@@ -4,6 +4,7 @@ namespace UWDOEM\Framework\Field;
 
 use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Visitor\VisitableTrait;
+use DateTime;
 
 /**
  * Class Field provides a small, typed data container for display and
@@ -75,7 +76,9 @@ class Field implements FieldInterface {
     function __construct($type, $label = "", $initial = "", $required = False, $choices = [], $fieldSize = 255) {
         $this->_type = $type;
         $this->_label = $label;
-        $this->_initial = $initial;
+
+        $this->setInitial($initial);
+        
         $this->_required = $required;
         $this->_choices = $choices;
         $this->_fieldSize = $fieldSize;
@@ -221,6 +224,10 @@ class Field implements FieldInterface {
      * @param string $value
      */
     public function setInitial($value) {
+        if ($value instanceof DateTime) {
+            $value = new DateTimeWrapper($value->format('Y-m-d'));
+        }
+
         $this->_initial = $value;
     }
 
@@ -335,5 +342,11 @@ class Field implements FieldInterface {
      */
     public function getValidatedData() {
         return $this->_validatedData;
+    }
+}
+
+class DateTimeWrapper extends DateTime {
+    public function __toString() {
+        return $this->format('Y-m-d');
     }
 }
