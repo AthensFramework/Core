@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<database name="SET_ME" defaultIdMethod="native">
+<database name="SET_ME" defaultIdMethod="native" namespace="SET_ME">
 
     <!--An example student class; uncomment to use. You may delete this line, but do not uncomment it-->
     <!--<table name="student" phpName="Student">-->

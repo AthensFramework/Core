@@ -22,7 +22,7 @@ class FormBuilder extends AbstractBuilder {
             ->setLabel($label)
             ->build();
 
-        return $this->addFields([$labelField]);
+        return $this->addFields([$label => $labelField]);
     }
 
     /**

@@ -107,7 +107,7 @@ $filesContent[".gitignore"] = getFileTemplate(".gitignore");
 $filesContent["local-settings.php"] = str_replace("SET_UWDOEM_ENCRYPTION_PASSWORD", "'" . makeEncryptionPassword() . "'", getFileTemplate("local-settings.php"));
 $filesContent["settings.php"] = getFileTemplate("settings.php");
 $filesContent["setup.php"] = getFileTemplate("setup.php");
-$filesContent["composer.json"] = makeComposerJson(file_get_contents(getBaseDirectory() . "composer.json"));
+$filesContent["composer.json"] = makeComposerJson(file_get_contents(getBaseDirectory() . "/composer.json"));
 
 $directories[] = "admin";
 $directories[] = "admin/ajax-pages";

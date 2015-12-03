@@ -1,39 +1,53 @@
 <table class="multi-adder">
 
-
     <tr>
-        {% for fieldName, field in prototypicalRow.getVisibleFields %}
-            <td class="{{ field.getSlug }}">{{ field|write|saferaw|raw }}</td>
+        {% for fieldName, field in prototypicalRow.getFieldBearer.getVisibleFields %}
+            <th class="{{ field.getSlug }}" data-header-for="{{ fieldName }}">{{ field.getLabel }}</td>
         {% endfor %}
+        <th data-header-for="remove">Remove</th>
     </tr>
 
     <tr class="prototypical form-row">
-        {% for fieldName, field in visibleFields %}
-            <td class="{{ field.getSlug }}">{{ field|write|saferaw|raw }}</td>
+        {% for fieldName, field in prototypicalRow.getFieldBearer.getVisibleFields %}
+            <td class="{{ field.getSlug }}">{{ field|write|raw }}</td>
         {% endfor %}
 
-        {% for fieldName, field in hiddenFields %}
-            <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|saferaw|raw }}</td>
+        {% for fieldName, field in prototypicalRow.getFieldBearer.getHiddenFields %}
+            <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|raw }}</td>
         {% endfor %}
+            <td class="remove"> - </td>
+
     </tr>
 
 
-    <tr class="actual form-row">
-        {% for fieldName, field in visibleFields %}
-            <td class="{{ field.getSlug }}">{{ field|write|saferaw|raw }}</td>
-        {% endfor %}
+    {% for row in rows %}
+        <tr class="actual form-row">
+            {% for fieldName, field in row.getFieldBearer.getVisibleFields %}
+                <td class="{{ field.getSlug }}">
+                    {{ field|write|raw }}
+                    {% if field.getErrors %}
+                        <br>
+                        {% for error in field.getErrors %}
+                            <span class="field-errors">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </td>
+            {% endfor %}
+                <td class="remove"> - </td>
 
-        {% for fieldName, field in hiddenFields %}
-            <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|saferaw|raw }}</td>
-        {% endfor %}
-    </tr>
+            {% for fieldName, field in row.getFieldBearer.getHiddenFields %}
+                <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|raw }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
 
 
     <tr class="adder clickable">
-        <td colspan=100>Click here to add another</td>
+        <td colspan=100>&nbsp; + Add another</td>
     </tr>
 
-
-
-
 </table>
+
+<script>
+    uwdoem.multi_adder.disablePrototypicalRows();
+</script>

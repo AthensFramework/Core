@@ -474,8 +474,12 @@ table.multi-adder tr.prototypical, table.multi-adder tr.actual {
     display: none;
 }
 
-table.multi-adder td.remove p {
+tr.form-row td[class*="remove"] {
     cursor:pointer;
+    text-align:center;
+    font-weight:bold;
+    font-size:2em;
+    color: #950000;
 }
 
 div.code {
