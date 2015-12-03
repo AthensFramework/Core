@@ -49,7 +49,7 @@ Steps
   
     Now we tell composer to download our project's dependencies:
     ```
-    php composer.phar install
+    php composer.phar install --no-dev
     ```
 
   * Create and edit local-settings.php:
