@@ -1,25 +1,32 @@
 Application Creation Tutorial
 =============================
 
-This tutorial is under construction.
+This tutorial is the first of three parts:
+
+  1. Application creation
+  
+  2. [Application deployment](application-deployment.md)
+  
+  3. [Application modification](application-modification.md)
+  
+This tutorial assumes that you're creating this new project in your development environment, and then later deploying the code into your production environment. If you have no development environment, you can follow these same instructions to create a new project into your development environment.
 
 Prerequisites
 -------------
 
 To complete this tutorial, you must first have:
 
-  1. A working php web server environment
+  1. A working development php web server environment
   
   2. Access to the command-line command `php`
   
-  3. A MySQL database which can be dedicated to this project, plus user credentials for a user with full privileges on that database
+  3. A development MySQL database which can be dedicated to this project, plus user credentials for a user with full privileges on that database
 
-Creating a New Project
-----------------------
 
-This tutorial assumes that you're creating this new project in your development environment, and then later deploying the code into your production environment. If you have no development environment, you can follow these same instructions to create a new project into your development environment.
+Steps
+-----
 
-* Create the project web root:
+* Create the development project web root:
 
   Like any other Php project, your Framework project needs to live inside of a web root. You can create a directory inside of your server's web root and use that as a project web root, or you can use the server's web root directly as your project web root.
   
@@ -31,7 +38,7 @@ This tutorial assumes that you're creating this new project in your development 
 
   Composer is a dependency manager for Php: you tell it what packages your project requires, and it fetches the appropriate versions of those packages, along with any packages required by *those* packages.
   
-  There are two flavors of installation available: local or global. In a local install, Composer resides as a file `composer.phar` in your web root. In a global install, Composer resides in your system files and may be called from any directory.
+  There are two flavors of Composer installation available: local or global. In a local install, Composer resides as a file `composer.phar` in your web root. In a global install, Composer resides in your system files and may be called from any directory.
   
   In a local install, you invoke Composer using `php composer.phar ...` from your project web root. In a global install, you invoke Composer using `composer ...`. This tutorial assumes that you are using a local install, but if you have a global install then replace all examples which use `php composer.phar ...` with `composer ...`.
   
@@ -77,11 +84,11 @@ This tutorial assumes that you're creating this new project in your development 
   
   This command creates a handful of directories and files in your project web root, as well as adding a few directives to your composer.json.
   
-* Edit the local settings
+* Edit the local settings:
 
   Edit the file `local-settings.php` and replace all instances of `SET_ME` with the appropriate values. All of the settings should be string literals--enclosed in quotes--unless otherwise indicated.
   
-  Note that `local-settings.php` is *excluded* from version control. This means that it will *not* be synchronized between your development and production environments. It also doesn't go into your code repository, so it's *OK* to put passwords into it, unless you expose it to other risks.
+  Note that `local-settings.php` is *excluded* from version control. This means that it will *not* be synchronized between your development and production environments. It also doesn't go into your code repository, so it's *OK* to put passwords into it, unless you expose `local-settings.php` to other risks.
   
 * Edit the file `settings.php`:
 
@@ -93,7 +100,7 @@ This tutorial assumes that you're creating this new project in your development 
 
   Framework uses [Propel](http://propelorm.org/) to manage the code<->database interface. This kind of helper library is known as an [ORM](http://stackoverflow.com/a/1279678).
   
-  The file `project-schema/schema.xml` is where we define the database tables which will house our data. Propel then both creates these tables in our database and also creates a set of Php classes which allow us to retrieve and insert records using the object interface. To learn more about schema creation read the Propel documentation, beginning with ['The Build Time'](http://propelorm.org/documentation/02-buildtime.html).
+  The file `project-schema/schema.xml` is where we define the database tables which will house our data. Propel then both creates these tables in our database and also creates a set of Php classes which allow us to retrieve and insert records using an object interface. To learn more about schema creation read the Propel documentation, beginning with ['The Build Time'](http://propelorm.org/documentation/02-buildtime.html).
   
   The initial Framework project includes a commented-out definition for a student table. To proceed with this tutorial, *uncomment that definition*. If you are already familiar with Framework, then at this point you could delete the student table definition and create your own table definitions.
   
@@ -107,13 +114,16 @@ This tutorial assumes that you're creating this new project in your development 
   php ../vendor/propel/propel/bin/propel.php sql:insert;
   ```
   
-  Then `cd` back into your project web root and issue the following:
+  These commands generate Php classes from your `project-schema/schema.xml`, generate SQL statements to create a database table for each of your schema classes, and then insert those tables into your database.
+  
+  Now `cd` back into your project web root and issue the following:
   ```
   php composer.phar dump-autoload
   ```
+  
 * Edit your .htaccess files:
 
-  The default project assumes that you may have some set of pages which will be accessible to all users, and some set of pages which will only be accessible to some priviliged class of users. The former can be placed in `pages/` and the latter can be placed in `admin/`.
+  The default project assumes that you may have some set of pages which will be accessible to all users, and some set of pages which will only be accessible to some privileged class of users. The former can be placed in `pages/` and the latter can be placed in `admin/`.
   
   You **must** edit `pages/.htaccess` and `admin/.htaccess` to reflect these rules. By default, both `pages/.htaccess` and `admin/.htaccess` will block *all* requests.
 
@@ -134,7 +144,6 @@ This tutorial assumes that you're creating this new project in your development 
   
   use MyProject\Student;
   
-  
   $form = FormBuilder::begin()
       ->addObject(new Student())
       ->build();
@@ -151,7 +160,7 @@ This tutorial assumes that you're creating this new project in your development 
   $page->render(null, null);
   ```
   
-  Now try visiting `pages/enter-student.php` in your web browser. Try submitting a student. Try submitting a student while neglecting to provide a required field. Try submitting a student and then viewing the results in your database in whatever database explorer tool you use.
+  Now try visiting `pages/enter-student.php` in your web browser. Try submitting a student. Try submitting a student while neglecting to provide a required field. Try submitting a student and then viewing the results in your databas.
   
   It's an extremely basic form, but it already knows how to detect and report form errors, and how to save its results in the database. We'll make some improvements to this form in the section below on making changes to an existing project.
 
@@ -200,25 +209,7 @@ This tutorial assumes that you're creating this new project in your development 
   
   However, creating a code repository, initializing your code directory, and pushing it to the repo are beyond the scope of this tutorial.
  
-Deploying an Existing Project
------------------------------
+Next Steps
+----------
 
-  So far, this tutorial has assumed that you were creating a project in your development environment. Now we'll discuss deploying that project to your production environment.
-  
-  * Create a production web root:
-  
-
-  * Link to your repository and pull:
-  
-  The technical details of linking to your repository and pulling code down from it are beyond the scope of this tutorial.
-
-  * Create and edit local-settings.php:
-  
-
-  * Build the database and objects:
-  
-
-  
-
-Making Changes to an Existing Project
--------------------------------------
+See the next step in this tutorial: [Application deployment](application-deployment.md).
