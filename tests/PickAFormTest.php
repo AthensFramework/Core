@@ -17,7 +17,10 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $forms = [];
         $labels = [];
         for ($i = 0; $i < 3; $i++) {
-            $forms[] = FormBuilder::begin()->addFieldBearers([new MockFieldBearer])->build();
+            $forms[] = FormBuilder::begin()
+                ->setId("f-" . (string)rand())
+                ->addFieldBearers([new MockFieldBearer])
+                ->build();
             $labels[] = "Form $i";
         }
 
@@ -45,7 +48,10 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         for ($i = 0; $i < 2; $i++) {
             $fieldBearers[] = new MockFieldBearer;
             $labels[] = "Form $i";
-            $forms[] = FormBuilder::begin()->addFieldBearers([$fieldBearers[$i]])->build();
+            $forms[] = FormBuilder::begin()
+                ->setId("f-" . (string)rand())
+                ->addFieldBearers([$fieldBearers[$i]])
+                ->build();
         }
 
         $pickAForm = PickAFormBuilder::begin()
@@ -76,7 +82,10 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $labels = [];
         for ($i = 0; $i < 2; $i++) {
             $labels[] = "Form $i";
-            $forms[] = FormBuilder::begin()->addFieldBearers([new MockFieldBearer])->build();
+            $forms[] = FormBuilder::begin()
+                ->setId("f-" . (string)rand())
+                ->addFieldBearers([new MockFieldBearer])
+                ->build();
         }
 
         $pickAForm = PickAFormBuilder::begin()
@@ -97,7 +106,10 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         for ($i = 0; $i < 2; $i++) {
             $fieldBearers[] = new MockFieldBearer;
             $labels[] = "Form $i";
-            $forms[] = FormBuilder::begin()->addFieldBearers([$fieldBearers[$i]])->build();
+            $forms[] = FormBuilder::begin()
+                ->setId("f-" . (string)rand())
+                ->addFieldBearers([$fieldBearers[$i]])
+                ->build();
         }
 
         $pickAForm = PickAFormBuilder::begin()
@@ -130,7 +142,10 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         for ($i = 0; $i < 2; $i++) {
             $fieldBearers[] = new MockFieldBearer;
             $labels[] = "Form $i";
-            $forms[] = FormBuilder::begin()->addFieldBearers([$fieldBearers[$i]])->build();
+            $forms[] = FormBuilder::begin()
+                ->setId("f-" . (string)rand())
+                ->addFieldBearers([$fieldBearers[$i]])
+                ->build();
         }
 
         $pickAForm = PickAFormBuilder::begin()

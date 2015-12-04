@@ -37,6 +37,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         $form = FormBuilder::begin()
             ->clear()
+            ->setId("f-" . (string)rand())
             ->setActions($actions)
             ->addFields($fields)
             ->setOnInvalidFunc($onInvalidFunc)
@@ -55,6 +56,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $object = new TestClass();
 
         $form = FormBuilder::begin()->clear()
+            ->setId("f-" . (string)rand())
             ->addObject($object)
             ->build();
 
@@ -69,6 +71,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFieldBearers([$fieldBearer])
             ->build();
 
@@ -82,14 +85,17 @@ class FormTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $form1 = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFieldBearers([$fieldBearer])
             ->build();
 
         $form2 = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFieldBearers([$fieldBearer])
             ->build();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addSubForms([
                 "Form1" => $form1,
                 "Form2" => $form2
@@ -113,6 +119,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $newInitialValue = (string)rand();
 
         FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->setInitialFieldValue("field1", $newInitialValue)
             ->build();
@@ -125,6 +132,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $labelText = (string)rand();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addLabel($labelText)
             ->build();
 
@@ -145,6 +153,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
      */
     public function testSetOnSuccessUrl() {
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields(["field" => new Field('literal', 'A literal field', [])])
             ->setOnSuccessUrl("http://example.com")
             ->build();
@@ -156,6 +165,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->build();
 
@@ -175,14 +185,17 @@ class FormTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $form1 = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFieldBearers([$fieldBearer])
             ->build();
 
         $form2 = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFieldBearers([$fieldBearer])
             ->build();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addSubForms([
                 "Form1" => $form1,
                 "Form2" => $form2
@@ -197,6 +210,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->build();
 
@@ -218,6 +232,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         /* Do not provide input to the field which requires input */
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->build();
 
@@ -226,6 +241,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         /* Provide input to the field which requires input */
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->build();
         $requiredField->removeErrors();
@@ -254,6 +270,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         /* Provide no input for the specific field */
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->addValidator("specific", $validator)
             ->build();
@@ -265,6 +282,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         /* Provide the wrong input to the specific field */
         $specificField->removeErrors();
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->addValidator("specific", $validator)
             ->build();
@@ -278,6 +296,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         /* Provide the correct input to the specific field */
         $specificField->removeErrors();
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->addValidator("specific", $validator)
             ->build();
@@ -301,6 +320,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         };
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields(["field" => $field])
             ->addValidator("field", $validator)
             ->build();
@@ -317,6 +337,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->build();
 
@@ -341,10 +362,12 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
 
         $subForm = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->build();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addSubForms([$subForm])
             ->build();
 
@@ -368,6 +391,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $fieldBearer = new MockFieldBearer();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFieldBearers([$fieldBearer])
             ->build();
 
@@ -384,10 +408,12 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $fieldBearer = new MockFieldBearer();
 
         $subForm = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFieldBearers([$fieldBearer])
             ->build();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addSubForms([$subForm])
             ->build();
 
@@ -404,10 +430,12 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $fieldBearer = new MockFieldBearer();
 
         $subForm = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFieldBearers([$fieldBearer])
             ->build();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addSubForms([$subForm])
             ->build();
 

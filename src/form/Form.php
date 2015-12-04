@@ -13,6 +13,11 @@ class Form implements FormInterface {
     use VisitableTrait;
 
 
+    /**
+     * @var
+     */
+    private $id;
+
     public function getId() {
         return md5(
             json_encode(
@@ -65,20 +70,16 @@ class Form implements FormInterface {
     }
 
     /**
+     * @param string $id
      * @param FieldBearerInterface $fieldBearer
      * @param callable $onValidFunc
      * @param callable $onInvalidFunc
      * @param array|null $actions
-     * @param $subForms
+     * @param array $subForms
      * @param array[]|null $validators
      */
     public function __construct(
-        FieldBearerInterface $fieldBearer,
-        callable $onValidFunc,
-        callable $onInvalidFunc,
-        $actions = [],
-        $subForms = [],
-        $validators = []
+        $id, FieldBearerInterface $fieldBearer, callable $onValidFunc, callable $onInvalidFunc, $actions = [], $subForms = [], $validators = []
     ) {
         $this->_actions = $actions;
         $this->_fieldBearer = $fieldBearer;
@@ -88,5 +89,6 @@ class Form implements FormInterface {
 
         $this->_validators = $validators;
         $this->_subForms = $subForms;
+        $this->id = $id;
     }
 }

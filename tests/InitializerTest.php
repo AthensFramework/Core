@@ -18,7 +18,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
         $fieldBearer = FieldBearerBuilder::begin()
             ->addFields([new Field("literal", "A literal field", [])])
             ->build();
-        return new MockForm($fieldBearer, function(){}, function(){});
+        return new MockForm("f-" . (string)rand(), $fieldBearer, function(){}, function(){});
     }
 
     /**
@@ -68,13 +68,16 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
 
         $form1 = FormBuilder::begin()
             ->addFieldBearers([$fieldBearer1])
+            ->setId("f-" . (string)rand())
             ->build();
 
         $form2 = FormBuilder::begin()
             ->addFieldBearers([$fieldBearer2])
+            ->setId("f-" . (string)rand())
             ->build();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addSubForms([
                 "Form1" => $form1,
                 "Form2" => $form2
@@ -119,6 +122,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
                 ->build();
 
             $forms[] = FormBuilder::begin()
+                ->setId("f-" . (string)rand())
                 ->addFieldBearers([$fieldBearer])
                 ->build();
         }
@@ -131,6 +135,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
             ->build();
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addSubForms([
                 "PickA" => $pickAForm,
                 "Form2" => $forms[2]

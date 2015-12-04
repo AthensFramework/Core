@@ -8,6 +8,9 @@ use UWDOEM\Framework\Form\FormAction\FormAction;
 
 trait FormTrait {
 
+    /** @var string */
+    protected $_id;
+
     /** @var bool */
     protected $_isValid;
 

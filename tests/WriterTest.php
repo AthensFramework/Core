@@ -197,6 +197,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $onInvalidFunc = function() { return "invalid"; };
 
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->setActions($actions)
             ->addFields([
                 "literalField" => new Field('literal', 'A literal field', 'Literal field content', true, []),
@@ -236,6 +237,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         /* Field not required, no data provided: no field errors */
         $field = new Field("text", "An unrequired field", "5", false, [], 200);
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields([$field])
             ->build();
 
@@ -252,6 +254,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         /* Field required, but no data provided: field errors */
         $field = new Field("text", "A required field", "5", true, [], 200);
         $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addFields([$field])
             ->build();
 

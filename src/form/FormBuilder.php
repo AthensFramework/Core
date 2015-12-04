@@ -9,6 +9,9 @@ use UWDOEM\Framework\Field\Field;
 
 class FormBuilder extends AbstractBuilder {
 
+    /** @var string */
+    protected $_id;
+
     use FormBuilderTrait;
 
 
@@ -26,10 +29,23 @@ class FormBuilder extends AbstractBuilder {
     }
 
     /**
+     * @param string $id
+     * @return FormBuilder
+     */
+    public function setId($id) {
+        $this->_id = $id;
+        return $this;
+    }
+
+    /**
      * @return Form
      * @throws \Exception if setFieldBearer has not been called.
      */
     public function build() {
+
+        if (!isset($this->_id)) {
+            throw new \RuntimeException("Must use ::setId to provide a form id before calling this method.");
+        }
 
         $this->validateOnInvalidFunc();
         $this->validateOnValidFunc();
@@ -37,12 +53,7 @@ class FormBuilder extends AbstractBuilder {
         $this->validateActions();
 
         return new Form(
-            $this->buildFieldBearer(),
-            $this->_onValidFunc,
-            $this->_onInvalidFunc,
-            $this->_actions,
-            $this->_subForms,
-            $this->_validators
+            "", $this->buildFieldBearer(), $this->_onValidFunc, $this->_onInvalidFunc, $this->_actions, $this->_subForms, $this->_validators
         );
     }
 }
