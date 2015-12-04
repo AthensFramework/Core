@@ -19,7 +19,7 @@ class Table implements TableInterface {
     use VisitableTrait;
 
 
-    public function getHash() {
+    public function getId() {
         $unfilteredRows = $this->getUnfilteredRows();
 
         if ($unfilteredRows) {

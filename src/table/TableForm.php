@@ -29,8 +29,8 @@ class TableForm implements TableFormInterface {
         return $this->_prototypicalRow;
     }
 
-    public function getHash() {
-        return $this->getPrototypicalRow()->getHash();
+    public function getId() {
+        return $this->getPrototypicalRow()->getId();
     }
 
     public function getRows() {

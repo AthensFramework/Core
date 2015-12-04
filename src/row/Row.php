@@ -34,7 +34,7 @@ class Row implements RowInterface {
     use VisitableTrait;
 
 
-    function getHash() {
+    function getId() {
         return md5(
             json_encode(
                 $this->getFieldBearer()->getFieldNames()

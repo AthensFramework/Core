@@ -24,7 +24,7 @@ class PickAForm implements PickAFormInterface {
 
 
     public function getSelectedSlug() {
-        $hash = $this->getHash();
+        $hash = $this->getId();
 
         if (array_key_exists($hash, $_POST))
             $slug = $_POST[$hash];
@@ -88,8 +88,8 @@ class PickAForm implements PickAFormInterface {
         }
     }
 
-    public function getHash() {
-        return $this->_pickA->getHash();
+    public function getId() {
+        return $this->_pickA->getId();
     }
 
     public function getFieldBearer() {

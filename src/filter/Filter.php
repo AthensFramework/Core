@@ -41,7 +41,7 @@ class Filter implements FilterInterface {
     use VisitableTrait;
 
 
-    public function getHash() {
+    public function getId() {
         return md5($this->getHandle());
     }
 

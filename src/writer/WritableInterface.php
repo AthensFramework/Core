@@ -13,6 +13,6 @@ interface WritableInterface extends VisitableInterface {
      *
      * @return string
      */
-    public function getHash();
+    public function getId();
 
 }

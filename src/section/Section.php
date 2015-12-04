@@ -34,7 +34,7 @@ class Section implements SectionInterface {
     use VisitableTrait;
 
 
-    public function getHash() {
+    public function getId() {
         return md5(
             $this->getLabel() . $this->getContent()
         );

@@ -94,7 +94,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "hash" => $section->getHash(),
+                "hash" => $section->getId(),
                 "label" => $section->getLabel(),
                 "content" => $section->getContent(),
                 "writables" => $section->getWritables(),
@@ -115,7 +115,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "hash" => $page->getHash(),
+                "hash" => $page->getId(),
                 "pageType" => $page->getType(),
                 "title" => $page->getTitle(),
                 "header" => $page->getHeader(),
@@ -141,7 +141,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "hash" => $field->getHash(),
+                "hash" => $field->getId(),
                 "slug" => $field->getSlug(),
                 "initial" => $field->getInitial(),
                 "choices" => $choices,
@@ -158,7 +158,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "hash" => $row->getHash(),
+                "hash" => $row->getId(),
                 "visibleFields" => $row->getFieldBearer()->getVisibleFields(),
                 "hiddenFields" => $row->getFieldBearer()->getHiddenFields(),
                 "highlightable" => $row->isHighlightable(),
@@ -177,7 +177,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "hash" => $table->getHash(),
+                "hash" => $table->getId(),
                 "rows" => $table->getRows(),
                 "filters" => $filters,
             ]);
@@ -218,7 +218,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "hash" => $filter->getHash(),
+                "hash" => $filter->getId(),
                 "handle" => $filter->getHandle(),
                 "options" => $filter->getOptions(),
             ]);
@@ -230,7 +230,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "hash" => $form->getHash(),
+                "hash" => $form->getId(),
                 "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
                 "hiddenFields" => $form->getFieldBearer()->getHiddenFields(),
                 "actions" => $form->getActions(),
@@ -258,7 +258,7 @@ class Writer extends Visitor {
             ->loadTemplate($template)
             ->render([
                 "manifest" => $pickA->getManifest(),
-                "hash" => $pickA->getHash()
+                "hash" => $pickA->getId()
             ]);
     }
 
@@ -270,7 +270,7 @@ class Writer extends Visitor {
             ->render([
                 "manifest" => $pickAForm->getManifest(),
                 "selectedForm" => $pickAForm->getSelectedForm(),
-                "hash" => $pickAForm->getHash(),
+                "hash" => $pickAForm->getId(),
                 "errors" => $pickAForm->getErrors()
             ]);
     }
@@ -283,7 +283,7 @@ class Writer extends Visitor {
             ->render([
                 "prototypicalRow" => $tableForm->getPrototypicalRow(),
                 "rows" => $tableForm->getRows(),
-                "hash" => $tableForm->getHash()
+                "hash" => $tableForm->getId()
             ]);
     }
 }

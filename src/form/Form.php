@@ -13,7 +13,7 @@ class Form implements FormInterface {
     use VisitableTrait;
 
 
-    public function getHash() {
+    public function getId() {
         return md5(
             json_encode(
                 array_merge(

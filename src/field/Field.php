@@ -61,7 +61,7 @@ class Field implements FieldInterface {
     use VisitableTrait;
 
 
-    function getHash() {
+    function getId() {
         return md5($this->getSlug());
     }
 

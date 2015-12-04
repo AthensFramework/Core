@@ -60,7 +60,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $unselectedForm = 1;
 
         $_SERVER['REQUEST_METHOD'] = "POST";
-        $_POST[$pickAForm->getHash()] = StringUtils::slugify($labels[$selectedForm]);
+        $_POST[$pickAForm->getId()] = StringUtils::slugify($labels[$selectedForm]);
 
         $this->assertEquals(StringUtils::slugify($labels[$selectedForm]), $pickAForm->getSelectedSlug());
 
@@ -112,7 +112,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $unselectedForm = 1;
 
         $_SERVER['REQUEST_METHOD'] = "POST";
-        $_POST[$pickAForm->getHash()] = StringUtils::slugify($labels[$selectedForm]);
+        $_POST[$pickAForm->getId()] = StringUtils::slugify($labels[$selectedForm]);
 
         $this->assertEquals($forms[$selectedForm], $pickAForm->getSelectedForm());
 
@@ -145,7 +145,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $unselectedForm = 1;
 
         $_SERVER['REQUEST_METHOD'] = "POST";
-        $_POST[$pickAForm->getHash()] = StringUtils::slugify($labels[$selectedForm]);
+        $_POST[$pickAForm->getId()] = StringUtils::slugify($labels[$selectedForm]);
 
         $this->assertTrue($pickAForm->isValid());
 

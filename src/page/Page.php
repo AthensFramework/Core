@@ -49,7 +49,7 @@ class Page implements PageInterface {
     protected $_type;
 
 
-    public function getHash() {
+    public function getId() {
         return md5($_SERVER['REQUEST_URI']);
     }
 
