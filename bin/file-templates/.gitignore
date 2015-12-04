@@ -2,7 +2,7 @@ composer.phar
 composer.lock
 vendor/
 output/
-localSettings.php
+local-settings.php
 
 project-schema/generated-conf
 project-schema/generated-migrations
