@@ -53,7 +53,7 @@ class FormBuilder extends AbstractBuilder {
         $this->validateActions();
 
         return new Form(
-            "", $this->buildFieldBearer(), $this->_onValidFunc, $this->_onInvalidFunc, $this->_actions, $this->_subForms, $this->_validators
+            $this->_id, $this->buildFieldBearer(), $this->_onValidFunc, $this->_onInvalidFunc, $this->_actions, $this->_subForms, $this->_validators
         );
     }
 }

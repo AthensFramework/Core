@@ -35,9 +35,11 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 
+        $formId = "f-" . (string)rand();
+
         $form = FormBuilder::begin()
             ->clear()
-            ->setId("f-" . (string)rand())
+            ->setId($formId)
             ->setActions($actions)
             ->addFields($fields)
             ->setOnInvalidFunc($onInvalidFunc)
@@ -48,6 +50,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($actions, $form->getActions());
         $this->assertEquals($fields, $form->getFieldBearer()->getFields());
         $this->assertEquals(array_keys($fields), $form->getFieldBearer()->getVisibleFieldNames());
+        $this->assertEquals($formId, $form->getId());
 
         $this->assertEquals("valid", $form->onValid());
         $this->assertEquals("invalid", $form->onInvalid());

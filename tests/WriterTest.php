@@ -196,8 +196,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $onValidFunc = function() { return "valid"; };
         $onInvalidFunc = function() { return "invalid"; };
 
+        $formId = "f-" . (string)rand();
+
         $form = FormBuilder::begin()
-            ->setId("f-" . (string)rand())
+            ->setId($formId)
             ->setActions($actions)
             ->addFields([
                 "literalField" => new Field('literal', 'A literal field', 'Literal field content', true, []),
@@ -213,6 +215,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $result = $this->stripQuotes($writer->visitForm($form));
 
         $this->assertContains("<form", $result);
+        $this->assertContains("id=$formId", $result);
         $this->assertContains("data-request-uri=http://example.com", $result);
         $this->assertContains("data-for=a-literal-field", $result);
         $this->assertContains("A literal field*:", $result);

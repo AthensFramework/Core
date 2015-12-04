@@ -12,21 +12,11 @@ class Form implements FormInterface {
     use FormTrait;
     use VisitableTrait;
 
-
-    /**
-     * @var
-     */
-    private $id;
+    /** @var string */
+    protected $_id;
 
     public function getId() {
-        return md5(
-            json_encode(
-                array_merge(
-                    $this->getFieldBearer()->getVisibleFieldNames(),
-                    array_keys($this->getSubForms())
-                )
-            )
-        );
+        return $this->_id;
     }
 
     /**
@@ -89,6 +79,6 @@ class Form implements FormInterface {
 
         $this->_validators = $validators;
         $this->_subForms = $subForms;
-        $this->id = $id;
+        $this->_id = $id;
     }
 }
