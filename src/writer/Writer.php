@@ -52,12 +52,12 @@ class Writer extends Visitor {
             $this->_environment->addFilter($filter);
 
             $filter = new Twig_SimpleFilter('stripForm', function($string) {
-                $string = preg_replace('/<form[^>]+\>/i', "", $string);
+                $string = str_replace("<form", "<div", $string);
                 $string = preg_replace('#<div class="form-actions">(.*?)</div>#', '', $string);
                 $string = str_replace("form-actions", "form-actions hidden", $string);
                 $string = str_replace(" form-errors", " form-errors hidden", $string);
                 $string = str_replace('"form-errors', '"form-errors hidden', $string);
-                $string = str_replace("</form>", "", $string);
+                $string = str_replace("</form>", "</div>", $string);
 
                 return $string;
             });

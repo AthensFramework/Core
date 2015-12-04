@@ -541,6 +541,29 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(StringUtils::slugify($var), $result);
     }
 
+    public function testStripFormFilter() {
+        $writer = new SimpleMockWriter();
+        $env = $writer->getEnvironment();
+
+        $template = "{{ var|stripForm|raw }}";
+
+        $var = <<<HTML
+<form id="formid">
+    <div class="form-actions"><button>Press me!</button></div>
+    <span class="form-errors">You made a mistake!</span>
+</form>
+HTML;
+        $expected = <<<HTML
+<div id="formid">
+    <span class="form-errors hidden">You made a mistake!</span>
+</div>
+HTML;
+
+        // Render the unsafe string
+        $result = $env->createTemplate($template)->render(["var" => $var]);
+        $this->assertEquals(preg_replace('/\s+/', '', $expected), preg_replace('/\s+/', '', $result));
+    }
+
     public function testMD5Filter() {
         $writer = new SimpleMockWriter();
         $env = $writer->getEnvironment();
