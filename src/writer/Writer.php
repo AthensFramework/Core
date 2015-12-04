@@ -30,7 +30,7 @@ class Writer extends Visitor {
     protected $_environment;
 
     protected function getTemplatesDirectories() {
-        return array_merge(Settings::getTemplateDirectories(), [dirname(__FILE__) . '/templates/base']);
+        return array_merge(Settings::getTemplateDirectories(), [dirname(__FILE__) . '/../../templates/base']);
     }
 
     protected function write(WritableInterface $host) {
