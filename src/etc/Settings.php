@@ -21,7 +21,7 @@ class Settings {
     protected function __construct() {}
 
     public static function addTemplateTheme($theme) {
-        $templateDirectory = dirname(__FILE__) . '/../writer/templates/' . $theme;
+        $templateDirectory = dirname(__FILE__) . '/../../templates/' . $theme;
         static::addTemplateDirectory($templateDirectory);
     }
 
