@@ -1,4 +1,4 @@
-<div id="{{ id }}" class="section-container">
+<div id="{{ id }}" class="section-container" data-request-uri="{{ requestURI }}">
     {% if label %}<div class="section-label">{{ label }}</div>{% endif %}
     <div class="section-content">{{ content|saferaw|raw }}</div>
     <div class="section-writables">

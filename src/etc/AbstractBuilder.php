@@ -9,6 +9,9 @@ namespace UWDOEM\Framework\Etc;
  */
 abstract class AbstractBuilder {
 
+    /** @var string */
+    protected $_id;
+
     /** @return static */
     public static function begin() {
         return new static();
@@ -17,6 +20,21 @@ abstract class AbstractBuilder {
     /** @return $this */
     public function clear() {
         return new static();
+    }
+
+    /**
+     * @param string $id
+     * @return $this
+     */
+    public function setId($id) {
+        $this->_id = $id;
+        return $this;
+    }
+
+    protected function validateId() {
+        if (!isset($this->_id)) {
+            throw new \RuntimeException("Must use ::setId to provide a form id before calling this method.");
+        }
     }
 
     /**

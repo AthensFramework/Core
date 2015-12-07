@@ -3,12 +3,13 @@
 namespace UWDOEM\Framework\Table;
 
 
+use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Filter\DummyFilter;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Filter\FilterInterface;
 
 
-class TableBuilder {
+class TableBuilder extends AbstractBuilder {
 
     /** @var string */
     protected $_id;
@@ -18,16 +19,6 @@ class TableBuilder {
 
     /** @var FilterInterface */
     protected $_filter;
-
-
-    /**
-     * @param string $id
-     * @return TableBuilder
-     */
-    public function setId($id) {
-        $this->_id = $id;
-        return $this;
-    }
 
     /**
      * @param RowInterface[] $rows
@@ -58,9 +49,7 @@ class TableBuilder {
     }
 
     public function build() {
-        if (!isset($this->_id)) {
-            throw new \RuntimeException("Must use ::setId to provide a form id before calling this method.");
-        }
+        $this->validateId();
 
         if (!isset($this->_filter)) {
             $this->_filter = new DummyFilter();

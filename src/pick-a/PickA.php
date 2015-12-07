@@ -8,17 +8,24 @@ use UWDOEM\Framework\Writer\WritableInterface;
 
 class PickA implements PickAInterface {
 
+    /** @var string */
+    protected $_id;
+
     protected $_manifest = [];
+    /**
+     * @var
+     */
 
     use VisitableTrait;
 
 
     public function getId() {
-        return md5(json_encode($this->getManifest()));
+        return $this->_id;
     }
 
-    public function __construct($manifest) {
+    public function __construct($id, $manifest) {
         $this->_manifest = $manifest;
+        $this->_id = $id;
     }
 
     public function getWritables() {

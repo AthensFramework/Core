@@ -134,7 +134,7 @@ class PickAForm implements PickAFormInterface {
      */
     public function __construct($manifest, $actions = []) {
         $this->_actions = $actions;
-        $this->_pickA = new PickA($manifest);
+        $this->_pickA = new PickA("", $manifest);
 
         $this->_fieldBearer = new FieldBearer([], [], [], [], function() {});
     }

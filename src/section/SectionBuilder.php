@@ -9,9 +9,6 @@ use UWDOEM\Framework\Writer\WritableInterface;
 class SectionBuilder extends AbstractBuilder {
 
     /** @var string */
-    protected $_id;
-
-    /** @var string */
     protected $_label = "";
 
     /** @var string */
@@ -23,15 +20,6 @@ class SectionBuilder extends AbstractBuilder {
     /** @var WritableInterface[] */
     protected $_writables = [];
 
-
-    /**
-     * @param string $id
-     * @return SectionBuilder
-     */
-    public function setId($id) {
-        $this->_id = $id;
-        return $this;
-    }
 
     /**
      * @param string $label
@@ -116,9 +104,7 @@ class SectionBuilder extends AbstractBuilder {
      */
     public function build() {
 
-        if (!isset($this->_id)) {
-            throw new \RuntimeException("Must use ::setId to provide a form id before calling this method.");
-        }
+        $this->validateId();
 
         if (!isset($this->_type)) {
             $this->_type = "base";

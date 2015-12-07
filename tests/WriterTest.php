@@ -17,6 +17,7 @@ use UWDOEM\Framework\Field\FieldBuilder;
 use UWDOEM\Framework\Filter\Filter;
 use UWDOEM\Framework\Filter\FilterBuilder;
 use UWDOEM\Framework\FilterStatement\FilterStatement;
+use UWDOEM\Framework\PickA\PickABuilder;
 
 
 class SimpleMockWriter extends Writer {
@@ -209,14 +210,15 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setOnValidFunc($onValidFunc)
             ->build();
 
-        $_SERVER["REQUEST_URI"] = "http://example.com";
+        $requestURI = (string)rand();
+        $_SERVER["REQUEST_URI"] = $requestURI;
 
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitForm($form));
 
         $this->assertContains("<form", $result);
         $this->assertContains("id=$formId", $result);
-        $this->assertContains("data-request-uri=http://example.com", $result);
+        $this->assertContains("data-request-uri=$requestURI", $result);
         $this->assertContains("data-for=a-literal-field", $result);
         $this->assertContains("A literal field*:", $result);
         $this->assertContains("Literal field content", $result);
@@ -279,6 +281,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $id = "s" . (string)rand();
+        $requestURI = (string)rand();
 
         $subSection = SectionBuilder::begin()
             ->setId("s" . (string)rand())
@@ -292,13 +295,71 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->addWritable($subSection)
             ->build();
 
+        $_SERVER["REQUEST_URI"] = $requestURI;
+
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitSection($section));
 
-        $this->assertContains("<div id=$id class=section-container>", $result);
+        $this->assertContains("<div id=$id class=section-container", $result);
+        $this->assertContains("data-request-uri=$requestURI", $result);
         $this->assertContains("<div class=section-label>Label</div>", $result);
         $this->assertContains("<div class=section-writables>", $result);
         $this->assertContains("Some sub-content.", $result);
+    }
+
+    public function testVisitPickA() {
+        $writer = new Writer();
+
+        $id = "p" . (string)rand();
+        $requestURI = (string)rand();
+
+        $contents = [
+            "Some content",
+            "Some other content"
+        ];
+
+        $labels = [
+            "." . (string)rand(),
+            "." . (string)rand(),
+            ];
+
+        $sections = [
+            SectionBuilder::begin()
+            ->setId("s" . (string)rand())
+            ->setContent($contents[0])
+            ->build(),
+
+            SectionBuilder::begin()
+            ->setId("s" . (string)rand())
+            ->setLabel("Label")
+            ->setContent($contents[1])
+            ->build()
+        ];
+
+        $pickA = PickABuilder::begin()
+            ->setId($id)
+            ->addLabel($labels[0])
+            ->addWritables([
+                "l1" => $sections[0],
+                "l2" => $sections[1]
+            ])
+            ->addLabel($labels[1])
+            ->build();
+
+        $_SERVER["REQUEST_URI"] = $requestURI;
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitPickA($pickA));
+
+        $this->assertContains("<div id=$id class=select-a-section-container", $result);
+        $this->assertContains("data-request-uri=$requestURI", $result);
+
+        $this->assertContains($labels[0], $result);
+
+
+        $this->assertContains($contents[0], $result);
+        $this->assertContains($labels[0], $result);
+        $this->assertContains($contents[1], $result);
     }
 
     public function testVisitRow() {
@@ -380,6 +441,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $id = "t" . (string)rand();
+        $requestURI = (string)rand();
 
         $field1 = new Field("text", "Text Field Label", (string)rand());
         $field1Name = "TextField1";
@@ -398,13 +460,16 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setRows([$row1, $row2])
             ->build();
 
+        $_SERVER["REQUEST_URI"] = $requestURI;
+
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitTable($table));
 
         $row1Written = $this->stripQuotes($writer->visitRow($row1));
         $row2Written = $this->stripQuotes($writer->visitRow($row2));
 
-        $this->assertContains("<table id=$id>", $result);
+        $this->assertContains("<table id=$id", $result);
+        $this->assertContains("data-request-uri=$requestURI", $result);
         $this->assertContains("</table>", $result);
 
         $this->assertContains("<th data-header-for=$field1Name>{$field1->getLabel()}</th>", $result);
@@ -503,7 +568,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         Settings::addProjectJS($jsFile2);
 
         // Provide a request URI, for the page's hash function
-        $_SERVER["REQUEST_URI"] = (string)rand();
+        $requestURI = (string)rand();
+        $_SERVER["REQUEST_URI"] = $requestURI;
 
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitPage($page));

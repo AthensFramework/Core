@@ -2,13 +2,20 @@
 
 namespace UWDOEM\Framework\PickA;
 
+use UWDOEM\Framework\Etc\AbstractBuilder;
 
-class PickABuilder {
+
+class PickABuilder extends AbstractBuilder {
 
     protected $_manifest = [];
 
+    /**
+     * @return PickA
+     */
     public function build() {
-        return new PickA($this->_manifest);
+        $this->validateId();
+
+        return new PickA($this->_id, $this->_manifest);
     }
 
     /**
@@ -27,13 +34,6 @@ class PickABuilder {
     public function addWritables(array $writables) {
         $this->_manifest = array_merge($this->_manifest, $writables);
         return $this;
-    }
-
-    /**
-     * @return PickABuilder
-     */
-    public static function begin() {
-        return new static();
     }
 
 }
