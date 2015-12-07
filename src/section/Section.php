@@ -14,6 +14,9 @@ use UWDOEM\Framework\Writer\WritableInterface;
 class Section implements SectionInterface {
 
     /** @var string */
+    protected $_id;
+
+    /** @var string */
     protected $_label;
 
     /** @var string */
@@ -30,28 +33,34 @@ class Section implements SectionInterface {
 
     /** @var  string */
     protected $_type;
+    /**
+     * @var
+     */
+    private $id;
 
     use VisitableTrait;
 
 
     public function getId() {
-        return md5(
-            $this->getLabel() . $this->getContent()
-        );
+        return $this->_id;
     }
 
     /**
      * Create a new section
      *
+     * @param string $id
      * @param string $content
      * @param WritableInterface[] $writables
      * @param string $label
+     * @param $type
      */
-    public function __construct($content, array $writables, $label, $type) {
+    public function __construct($id, $content, array $writables, $label, $type) {
+        $this->_id = $id;
         $this->_label = $label;
         $this->_content = $content;
         $this->_writables = $writables;
         $this->_type = $type;
+        $this->id = $id;
     }
 
     /**

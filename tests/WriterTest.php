@@ -279,10 +279,12 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $subSection = SectionBuilder::begin()
+            ->setId("s" . (string)rand())
             ->setContent("Some sub-content.")
             ->build();
 
         $section = SectionBuilder::begin()
+            ->setId("s" . (string)rand())
             ->setLabel("Label")
             ->setContent("Some content.")
             ->addWritable($subSection)
@@ -466,6 +468,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $expectedBodyClass = StringUtils::slugify(implode("-", [$pageHeader, $pageSubHeader]));
 
         $section = SectionBuilder::begin()
+            ->setId("s" . (string)rand())
             ->setLabel("Label")
             ->setContent("Some content.")
             ->build();

@@ -147,6 +147,7 @@ class PageBuilder {
             }
 
             $this->_writable = SectionBuilder::begin()
+                ->setId("ajax-action-" . $_SERVER["REQUEST_URI"])
                 ->setContent(json_encode($this->_message))
                 ->build();
         }

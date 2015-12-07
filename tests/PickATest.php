@@ -13,6 +13,7 @@ class PickATest extends PHPUnit_Framework_TestCase {
         $sections = [];
         for($i = 1; $i <= 3; $i++) {
             $sections["l" . (string)$i] = SectionBuilder::begin()
+                ->setId("s" . (string)rand())
                 ->setContent((string)rand())
                 ->build();
         }
@@ -50,6 +51,7 @@ class PickATest extends PHPUnit_Framework_TestCase {
         $sections = [];
         for($i = 1; $i <= 3; $i++) {
             $sections["l" . (string)$i] = SectionBuilder::begin()
+                ->setId("s" . (string)rand())
                 ->setContent((string)rand())
                 ->build();
         }
@@ -79,6 +81,7 @@ class PickATest extends PHPUnit_Framework_TestCase {
         $sections = [];
         for($i = 1; $i <= 3; $i++) {
             $sections["l" . (string)$i] = SectionBuilder::begin()
+                ->setId("s" . (string)rand())
                 ->setContent((string)rand())
                 ->build();
         }

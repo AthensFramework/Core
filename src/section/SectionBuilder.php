@@ -2,10 +2,14 @@
 
 namespace UWDOEM\Framework\Section;
 
+use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Writer\WritableInterface;
 
 
-class SectionBuilder {
+class SectionBuilder extends AbstractBuilder {
+
+    /** @var string */
+    protected $_id;
 
     /** @var string */
     protected $_label = "";
@@ -18,6 +22,16 @@ class SectionBuilder {
 
     /** @var WritableInterface[] */
     protected $_writables = [];
+
+
+    /**
+     * @param string $id
+     * @return SectionBuilder
+     */
+    public function setId($id) {
+        $this->_id = $id;
+        return $this;
+    }
 
     /**
      * @param string $label
@@ -98,16 +112,14 @@ class SectionBuilder {
     }
 
     /**
-     * @return SectionBuilder
-     */
-    public static function begin() {
-        return new static();
-    }
-
-    /**
      * @return SectionInterface
      */
     public function build() {
+
+        if (!isset($this->_id)) {
+            throw new \RuntimeException("Must use ::setId to provide a form id before calling this method.");
+        }
+
         if (!isset($this->_type)) {
             $this->_type = "base";
         }
@@ -116,7 +128,7 @@ class SectionBuilder {
             $this->_content = "";
         }
 
-        return new Section($this->_content, $this->_writables, $this->_label, $this->_type);
+        return new Section($this->_id, $this->_content, $this->_writables, $this->_label, $this->_type);
     }
 
 }

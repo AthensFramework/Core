@@ -54,6 +54,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $label = "label";
 
         $writable = SectionBuilder::begin()
+            ->setId("s" . (string)rand())
             ->setContent($content)
             ->setLabel($label)
             ->build();
@@ -101,7 +102,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $page = PageBuilder::begin()
             ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
             ->setTitle($title)
-            ->setWritable(SectionBuilder::begin()->setContent("content")->build())
+            ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->setContent("content")->build())
             ->build();
 
         // Our mock writer will simply echo the title of the page
@@ -121,7 +122,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         /* Writer provided to render */
         $page = PageBuilder::begin()
             ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
-            ->setWritable(SectionBuilder::begin()->setContent("content")->build())
+            ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->setContent("content")->build())
             ->build();
 
         $writer = new MockWriter();
@@ -144,14 +145,21 @@ class PageTest extends PHPUnit_Framework_TestCase
             "message" => $messageContent
         ];
 
+        $requestURI = (string)rand();
+
+        $_SERVER["REQUEST_URI"] = $requestURI;
+
         $page = PageBuilder::begin()
             ->setType(PAGE::PAGE_TYPE_AJAX_ACTION)
             ->setMessage($message)
             ->build();
 
+        $_SERVER["REQUEST_URI"] = null;
+
         // Assert that the page contains a section, with content equal to the json
         // encoding of message.
         $this->assertEquals(json_encode($message), $page->getWritable()->getContent());
+        $this->assertContains($requestURI, $page->getWritable()->getId());
     }
 
     /**

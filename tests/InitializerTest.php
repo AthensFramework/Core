@@ -176,6 +176,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("", $form->validated);
 
         $section = SectionBuilder::begin()
+            ->setId("s" . (string)rand())
             ->addWritable($form)
             ->build();
         $initializer->visitSection($section);
@@ -196,6 +197,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
         $page = PageBuilder::begin()
             ->setWritable(
                 SectionBuilder::begin()
+                    ->setId("s" . (string)rand())
                     ->addWritable($form)
                     ->build()
             )
