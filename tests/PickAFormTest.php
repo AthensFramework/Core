@@ -14,6 +14,8 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
     public function testPickAFormBuilding() {
         $actions = [new FormAction("label", "method", "")];
 
+        $id = "f" . (string)rand();
+
         $forms = [];
         $labels = [];
         for ($i = 0; $i < 3; $i++) {
@@ -25,6 +27,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         }
 
         $pickAForm = PickAFormBuilder::begin()
+            ->setId($id)
             ->addLabel("Label Text")
             ->addForms([
                 $labels[0] => $forms[0],
@@ -39,6 +42,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(array_combine($labels, $forms), $pickAForm->getSubForms());
         $this->assertEquals($actions, array_values($pickAForm->getActions()));
+        $this->assertEquals($id, $pickAForm->getId());
     }
 
     public function testGetSelectedSlug() {
@@ -55,6 +59,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         }
 
         $pickAForm = PickAFormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addLabel("Label Text")
             ->addForms([
                 $labels[0] => $forms[0],
@@ -89,6 +94,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         }
 
         $pickAForm = PickAFormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addLabel("Label Text")
             ->addForms([
                 $labels[0] => $forms[0],
@@ -113,6 +119,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         }
 
         $pickAForm = PickAFormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addLabel("Label Text")
             ->addForms([
                 $labels[0] => $forms[0],
@@ -149,6 +156,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         }
 
         $pickAForm = PickAFormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addLabel("Label Text")
             ->addForms([
                 $labels[0] => $forms[0],

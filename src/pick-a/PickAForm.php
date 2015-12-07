@@ -9,6 +9,9 @@ use UWDOEM\Framework\Etc\StringUtils;
 
 class PickAForm implements PickAFormInterface {
 
+    /** @var string */
+    protected $_id;
+
     /** @var \UWDOEM\Framework\PickA\PickA */
     protected $_pickA;
 
@@ -129,12 +132,13 @@ class PickAForm implements PickAFormInterface {
     }
 
     /**
-     * @param array|null $actions
+     * @param $id
      * @param array $manifest
+     * @param array|null $actions
      */
-    public function __construct($manifest, $actions = []) {
+    public function __construct($id, $manifest, $actions = []) {
         $this->_actions = $actions;
-        $this->_pickA = new PickA("", $manifest);
+        $this->_pickA = new PickA($id, $manifest);
 
         $this->_fieldBearer = new FieldBearer([], [], [], [], function() {});
     }

@@ -128,6 +128,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
         }
 
         $pickAForm = PickAFormBuilder::begin()
+            ->setId("f-" . (string)rand())
             ->addForms([
                 $forms[0],
                 $forms[1]

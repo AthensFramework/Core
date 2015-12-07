@@ -18,6 +18,7 @@ use UWDOEM\Framework\Filter\Filter;
 use UWDOEM\Framework\Filter\FilterBuilder;
 use UWDOEM\Framework\FilterStatement\FilterStatement;
 use UWDOEM\Framework\PickA\PickABuilder;
+use UWDOEM\Framework\PickA\PickAFormBuilder;
 
 
 class SimpleMockWriter extends Writer {
@@ -360,6 +361,55 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains($contents[0], $result);
         $this->assertContains($labels[0], $result);
         $this->assertContains($contents[1], $result);
+    }
+
+    public function testVisitPickAForm() {
+        $writer = new Writer();
+
+        $actions = [new FormAction("label", "method", "")];
+
+        $requestURI = (string)rand();
+        $id = "f" . (string)rand();
+
+        $forms = [];
+        $labels = [];
+        for ($i = 0; $i < 3; $i++) {
+            $forms[] = FormBuilder::begin()
+                ->setId("f-" . (string)rand())
+                ->addFieldBearers([new MockFieldBearer])
+                ->build();
+            $labels[] = "Form $i";
+        }
+
+        $pickAForm = PickAFormBuilder::begin()
+            ->setId($id)
+            ->addLabel("Label Text")
+            ->addForms([
+                $labels[0] => $forms[0],
+                $labels[1] => $forms[1]
+            ])
+            ->addLabel("Label Text2")
+            ->addForms([
+                $labels[2] => $forms[2]
+            ])
+            ->setActions($actions)
+            ->build();
+
+        $_SERVER["REQUEST_URI"] = $requestURI;
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitPickAForm($pickAForm));
+
+        $this->assertContains("<div id=$id class=select-a-section-container", $result);
+        $this->assertContains("data-request-uri=$requestURI", $result);
+
+        $this->assertContains($labels[0], $result);
+        $this->assertContains($labels[1], $result);
+        $this->assertContains($labels[2], $result);
+
+        $this->assertContains($forms[0]->getId(), $result);
+        $this->assertContains($forms[1]->getId(), $result);
+        $this->assertContains($forms[2]->getId(), $result);
     }
 
     public function testVisitRow() {

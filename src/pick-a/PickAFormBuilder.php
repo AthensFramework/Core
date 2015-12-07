@@ -2,20 +2,15 @@
 
 namespace UWDOEM\Framework\PickA;
 
+use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 
-class PickAFormBuilder {
+class PickAFormBuilder extends AbstractBuilder {
 
     protected $_manifest = [];
 
     protected $_actions = [];
 
-    /**
-     * @return PickAFormInterface
-     */
-    public function build() {
-        return new PickAForm($this->_manifest, $this->_actions);
-    }
 
     /**
      * @param string $label
@@ -45,10 +40,12 @@ class PickAFormBuilder {
     }
 
     /**
-     * @return PickAFormBuilder
+     * @return PickAFormInterface
      */
-    public static function begin() {
-        return new static();
+    public function build() {
+        $this->validateId();
+
+        return new PickAForm($this->_id, $this->_manifest, $this->_actions);
     }
     
 }

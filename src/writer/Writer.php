@@ -268,9 +268,9 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
+                "id" => $pickAForm->getId(),
                 "manifest" => $pickAForm->getManifest(),
                 "selectedForm" => $pickAForm->getSelectedForm(),
-                "hash" => $pickAForm->getId(),
                 "errors" => $pickAForm->getErrors()
             ]);
     }
