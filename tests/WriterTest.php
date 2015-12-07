@@ -278,13 +278,15 @@ class WriterTest extends PHPUnit_Framework_TestCase
     public function testVisitSection() {
         $writer = new Writer();
 
+        $id = "s" . (string)rand();
+
         $subSection = SectionBuilder::begin()
             ->setId("s" . (string)rand())
             ->setContent("Some sub-content.")
             ->build();
 
         $section = SectionBuilder::begin()
-            ->setId("s" . (string)rand())
+            ->setId($id)
             ->setLabel("Label")
             ->setContent("Some content.")
             ->addWritable($subSection)
@@ -293,6 +295,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitSection($section));
 
+        $this->assertContains("<div id=$id class=section-container>", $result);
         $this->assertContains("<div class=section-label>Label</div>", $result);
         $this->assertContains("<div class=section-writables>", $result);
         $this->assertContains("Some sub-content.", $result);

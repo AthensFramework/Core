@@ -94,7 +94,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "hash" => $section->getId(),
+                "id" => $section->getId(),
                 "label" => $section->getLabel(),
                 "content" => $section->getContent(),
                 "writables" => $section->getWritables(),
