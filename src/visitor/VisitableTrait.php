@@ -11,7 +11,9 @@ trait VisitableTrait
 
         $visitorMethods = array_map(
             function ($className) {
-                $className = strrpos($className, "\\") === false ? $className : substr($className, strrpos($className, "\\") + 1);
+                if (strrpos($className, "\\") !== false) {
+                    $className = substr($className, strrpos($className, "\\") + 1);
+                }
                 return "visit" . $className;
             },
             $hierarchy
@@ -27,6 +29,7 @@ trait VisitableTrait
             return $visitor->visit($this);
         }
 
-        throw new \RuntimeException("No visit method in " . get_class($visitor) . " found among " . implode(", ", $visitorMethods) . ", or default method ::visit.");
+        throw new \RuntimeException("No visit method in " . get_class($visitor) . " found among " .
+            implode(", ", $visitorMethods) . ", or default method ::visit.");
     }
 }

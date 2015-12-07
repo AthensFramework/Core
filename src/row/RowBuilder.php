@@ -10,12 +10,12 @@ class RowBuilder
     /**
      * @var string
      */
-    protected $_onClick;
+    protected $onClick;
 
     /**
      * @var bool
      */
-    protected $_highlightable = false;
+    protected $highlightable = false;
 
     use FieldBearerBearerBuilderTrait;
 
@@ -26,7 +26,7 @@ class RowBuilder
      */
     public function setOnClick($onClick)
     {
-        $this->_onClick = $onClick;
+        $this->onClick = $onClick;
         return $this;
     }
 
@@ -36,7 +36,7 @@ class RowBuilder
      */
     public function setHighlightable($highlightable)
     {
-        $this->_highlightable = $highlightable;
+        $this->highlightable = $highlightable;
         return $this;
     }
 
@@ -57,21 +57,22 @@ class RowBuilder
         $fieldBearer = $this->buildFieldBearer();
 
         if (sizeof($fieldBearer->getFields()) === 0) {
-            throw new \RuntimeException("You must specify an implementation of FieldBearerInterface using ::setFieldBearer before calling this method.");
+            throw new \RuntimeException("You must specify an implementation of " .
+            "FieldBearerInterface using ::setFieldBearer before calling this method.");
         }
 
-        if ($this->_highlightable && $this->_onClick) {
+        if ($this->highlightable && $this->onClick) {
             throw new \Exception("You cannot both make a row highlightable and provide an onClick.");
         }
 
-        if ($this->_highlightable) {
-            $this->_onClick = "uwdoem.highlightRow(this)";
+        if ($this->highlightable) {
+            $this->onClick = "uwdoem.highlightRow(this)";
         }
 
         return new Row(
             $fieldBearer,
-            $this->_onClick,
-            $this->_highlightable
+            $this->onClick,
+            $this->highlightable
         );
     }
 }

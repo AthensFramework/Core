@@ -12,13 +12,13 @@ class TableForm implements TableFormInterface
 {
 
     /** @var callable */
-    protected $_rowMakingFunction;
+    protected $rowMakingFunction;
 
     /** @var RowInterface */
-    protected $_prototypicalRow;
+    protected $prototypicalRow;
 
     /** @var  RowInterface[] */
-    protected $_rows;
+    protected $rows;
 
     use VisitableTrait;
     use FormTrait;
@@ -27,7 +27,7 @@ class TableForm implements TableFormInterface
     /** @return RowInterface */
     public function getPrototypicalRow()
     {
-        return $this->_prototypicalRow;
+        return $this->prototypicalRow;
     }
 
     public function getId()
@@ -37,7 +37,7 @@ class TableForm implements TableFormInterface
 
     public function getRows()
     {
-        return $this->_rows;
+        return $this->rows;
     }
 
     public function getFilter()
@@ -53,7 +53,7 @@ class TableForm implements TableFormInterface
     /** @return RowInterface */
     protected function makeRow()
     {
-        $rowMakingFunction = $this->_rowMakingFunction;
+        $rowMakingFunction = $this->rowMakingFunction;
         return $rowMakingFunction();
     }
 
@@ -102,9 +102,9 @@ class TableForm implements TableFormInterface
 
     protected function validate()
     {
-        $this->_isValid = true;
+        $this->isValid = true;
 
-        $this->_rows = $this->makeRows();
+        $this->rows = $this->makeRows();
 
         // Validate each row indogenously
         foreach ($this->getRows() as $row) {
@@ -116,8 +116,8 @@ class TableForm implements TableFormInterface
         // Validate each row exogenously
         foreach ($this->getRows() as $row) {
             foreach ($row->getFieldBearer()->getFields() as $name => $field) {
-                if (array_key_exists($name, $this->_validators)) {
-                    foreach ($this->_validators[$name] as $validator) {
+                if (array_key_exists($name, $this->validators)) {
+                    foreach ($this->validators[$name] as $validator) {
                         call_user_func_array($validator, [$field, $this]);
                     }
                 }
@@ -128,7 +128,7 @@ class TableForm implements TableFormInterface
         foreach ($this->getRows() as $row) {
             foreach ($row->getFieldBearer()->getFields() as $name => $field) {
                 if (!$field->isValid()) {
-                    $this->_isValid = false;
+                    $this->isValid = false;
                     $this->addError("Please correct the indicated errors and resubmit the form.");
                     break;
                 }
@@ -143,16 +143,16 @@ class TableForm implements TableFormInterface
         $actions = [],
         $validators = []
     ) {
-        $this->_actions = $actions;
-        $this->_rowMakingFunction = $rowMakingFunction;
+        $this->actions = $actions;
+        $this->rowMakingFunction = $rowMakingFunction;
 
-        $this->_prototypicalRow = $rowMakingFunction();
+        $this->prototypicalRow = $rowMakingFunction();
 
-        $this->_onInvalidFunc = $onInvalidFunc;
-        $this->_onValidFunc = $onValidFunc;
+        $this->onInvalidFunc = $onInvalidFunc;
+        $this->onValidFunc = $onValidFunc;
 
-        $this->_validators = $validators;
+        $this->validators = $validators;
 
-        $this->_subForms = [];
+        $this->subForms = [];
     }
 }

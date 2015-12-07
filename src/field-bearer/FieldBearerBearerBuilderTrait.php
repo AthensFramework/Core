@@ -6,15 +6,15 @@ trait FieldBearerBearerBuilderTrait
 {
 
     /** @var FieldBearerBuilder */
-    private $_fieldBearerBuilder;
+    private $fieldBearerBuilder;
 
     /** @var mixed[] */
-    private $_initialFieldValues = [];
+    private $initialFieldValues = [];
 
     private function createFieldBearerBuilderIfNull()
     {
-        if (is_null($this->_fieldBearerBuilder)) {
-            $this->_fieldBearerBuilder = FieldBearerBuilder::begin();
+        if (is_null($this->fieldBearerBuilder)) {
+            $this->fieldBearerBuilder = FieldBearerBuilder::begin();
         }
     }
 
@@ -26,7 +26,7 @@ trait FieldBearerBearerBuilderTrait
     {
         $this->createFieldBearerBuilderIfNull();
 
-        return $this->_fieldBearerBuilder;
+        return $this->fieldBearerBuilder;
     }
 
     /**
@@ -36,7 +36,7 @@ trait FieldBearerBearerBuilderTrait
     {
         $fieldBearer = $this->getFieldBearerBuilder()->build();
 
-        foreach ($this->_initialFieldValues as $fieldName => $value) {
+        foreach ($this->initialFieldValues as $fieldName => $value) {
             $fieldBearer->getFieldByName($fieldName)->setInitial($value);
         }
 
@@ -110,7 +110,7 @@ trait FieldBearerBearerBuilderTrait
      */
     public function setInitialFieldValue($fieldName, $value)
     {
-        $this->_initialFieldValues[$fieldName] = $value;
+        $this->initialFieldValues[$fieldName] = $value;
 
         return $this;
     }

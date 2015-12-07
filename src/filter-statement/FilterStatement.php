@@ -9,31 +9,31 @@ abstract class FilterStatement implements FilterStatementInterface
 {
 
     /** @var string */
-    protected $_fieldName;
+    protected $fieldName;
 
     /** @var string */
-    protected $_condition;
+    protected $condition;
 
     /** @var  mixed */
-    protected $_criterion;
+    protected $criterion;
 
     /** @var  mixed */
-    protected $_control;
+    protected $control;
 
 
     /**
      * FilterStatement constructor.
-     * @param string $_fieldName
-     * @param string $_condition
-     * @param mixed $_criterion
-     * @param $_control
+     * @param string $fieldName
+     * @param string $condition
+     * @param mixed $criterion
+     * @param $control
      */
-    public function __construct($_fieldName, $_condition, $_criterion, $_control)
+    public function __construct($fieldName, $condition, $criterion, $control)
     {
-        $this->_fieldName = $_fieldName;
-        $this->_condition = $_condition;
-        $this->_criterion = $_criterion;
-        $this->_control = $_control;
+        $this->fieldName = $fieldName;
+        $this->condition = $condition;
+        $this->criterion = $criterion;
+        $this->control = $control;
     }
 
     /**
@@ -41,7 +41,7 @@ abstract class FilterStatement implements FilterStatementInterface
      */
     public function getFieldName()
     {
-        return $this->_fieldName;
+        return $this->fieldName;
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class FilterStatement implements FilterStatementInterface
      */
     public function getCondition()
     {
-        return $this->_condition;
+        return $this->condition;
     }
 
     /**
@@ -57,7 +57,7 @@ abstract class FilterStatement implements FilterStatementInterface
      */
     public function getCriterion()
     {
-        return $this->_criterion;
+        return $this->criterion;
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class FilterStatement implements FilterStatementInterface
      */
     public function getControl()
     {
-        return $this->_control;
+        return $this->control;
     }
 
     /**

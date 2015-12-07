@@ -11,13 +11,13 @@ class TableBuilder extends AbstractBuilder
 {
 
     /** @var string */
-    protected $_id;
+    protected $id;
 
     /** @var RowInterface[] */
-    protected $_rows = [];
+    protected $rows = [];
 
     /** @var FilterInterface */
-    protected $_filter;
+    protected $filter;
 
     /**
      * @param RowInterface[] $rows
@@ -25,7 +25,7 @@ class TableBuilder extends AbstractBuilder
      */
     public function setRows($rows)
     {
-        $this->_rows = $rows;
+        $this->rows = $rows;
         return $this;
     }
 
@@ -35,10 +35,10 @@ class TableBuilder extends AbstractBuilder
      */
     public function addFilter(FilterInterface $filter)
     {
-        if (isset($this->_filter)) {
-            $filter->combine($this->_filter);
+        if (isset($this->filter)) {
+            $filter->combine($this->filter);
         }
-        $this->_filter = $filter;
+        $this->filter = $filter;
         return $this;
     }
 
@@ -54,10 +54,10 @@ class TableBuilder extends AbstractBuilder
     {
         $this->validateId();
 
-        if (!isset($this->_filter)) {
-            $this->_filter = new DummyFilter();
+        if (!isset($this->filter)) {
+            $this->filter = new DummyFilter();
         }
 
-        return new Table($this->_id, $this->_rows, $this->_filter);
+        return new Table($this->id, $this->rows, $this->filter);
     }
 }

@@ -172,7 +172,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #You must set _handle.*#
+     * @expectedExceptionMessageRegExp #You must set handle.*#
      */
     public function testBuildFilterErrorWithoutHandle() {
         $filter = FilterBuilder::begin()

@@ -11,15 +11,15 @@ interface RowInterface extends WritableInterface
     /**
      * @return FieldBearerInterface
      */
-    function getFieldBearer();
+    public function getFieldBearer();
 
     /**
      * @return string
      */
-    function getOnClick();
+    public function getOnClick();
 
     /**
      * @return bool
      */
-    function isHighlightable();
+    public function isHighlightable();
 }

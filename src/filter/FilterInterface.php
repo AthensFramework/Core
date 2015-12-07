@@ -14,42 +14,42 @@ interface FilterInterface extends WritableInterface
     /**
      * @param FilterInterface $filter
      */
-    function combine(FilterInterface $filter);
+    public function combine(FilterInterface $filter);
 
     /**
      * @return string[]
      */
-    function getFeedback();
+    public function getFeedback();
 
     /**
      * @return string
      */
-    function getHandle();
+    public function getHandle();
 
     /**
      * @return FilterInterface
      */
-    function getNextFilter();
+    public function getNextFilter();
 
     /**
      * @return FilterStatementInterface[]
      */
-    function getStatements();
+    public function getStatements();
 
     /**
      * @return array
      */
-    function getOptions();
+    public function getOptions();
 
     /**
      * @param ModelCriteria $query
      * @return ModelCriteria
      */
-    function queryFilter(ModelCriteria $query);
+    public function queryFilter(ModelCriteria $query);
 
     /**
      * @param \UWDOEM\Framework\Row\Row[] $rows
      * @return \UWDOEM\Framework\Row\Row[]
      */
-    function rowFilter(array $rows);
+    public function rowFilter(array $rows);
 }

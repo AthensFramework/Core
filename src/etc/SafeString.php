@@ -11,16 +11,17 @@ namespace UWDOEM\Framework\Etc;
 class SafeString
 {
 
-    protected $_value;
+    /** @var string */
+    protected $value;
 
     protected function __construct($value)
     {
-        $this->_value = $value;
+        $this->value = $value;
     }
 
     public function __toString()
     {
-        return $this->_value;
+        return $this->value;
     }
 
     /**

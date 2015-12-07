@@ -19,24 +19,24 @@ class Filter implements FilterInterface
     const TYPE_PAGINATION = "pagination";
 
     /** @var array|FilterStatementInterface[] */
-    protected $_statements = [];
+    protected $statements = [];
 
     /** @var array|FilterStatementInterface[] */
-    protected $_queryStatements = [];
+    protected $queryStatements = [];
 
     /** @var string */
-    protected $_handle;
+    protected $handle;
 
     /** @var array */
-    protected $_options = [];
+    protected $options = [];
 
     /** @var string */
-    protected $_feedback;
+    protected $feedback;
 
     /**
      * @var FilterInterface The next filter in this chain
      */
-    protected $_nextFilter;
+    protected $nextFilter;
 
     use VisitableTrait;
 
@@ -55,13 +55,13 @@ class Filter implements FilterInterface
     {
 
         if (is_null($nextFilter)) {
-            $this->_nextFilter = new DummyFilter();
+            $this->nextFilter = new DummyFilter();
         } else {
-            $this->_nextFilter = $nextFilter;
+            $this->nextFilter = $nextFilter;
         }
 
-        $this->_handle = $handle;
-        $this->_statements = $statements;
+        $this->handle = $handle;
+        $this->statements = $statements;
     }
 
     /**
@@ -69,7 +69,7 @@ class Filter implements FilterInterface
      */
     public function getFeedback()
     {
-        return $this->_feedback;
+        return $this->feedback;
     }
 
     /**
@@ -78,7 +78,7 @@ class Filter implements FilterInterface
      */
     public function combine(FilterInterface $filter)
     {
-        $this->_nextFilter = $filter;
+        $this->nextFilter = $filter;
         return $this;
     }
 
@@ -87,15 +87,15 @@ class Filter implements FilterInterface
      */
     public function getHandle()
     {
-        return $this->_handle;
+        return $this->handle;
     }
 
     /**
      * @return null|FilterInterface
      */
-    function getNextFilter()
+    public function getNextFilter()
     {
-        return $this->_nextFilter;
+        return $this->nextFilter;
     }
 
     /**
@@ -103,7 +103,7 @@ class Filter implements FilterInterface
      */
     public function getStatements()
     {
-        return $this->_statements;
+        return $this->statements;
     }
 
     /**
@@ -111,9 +111,9 @@ class Filter implements FilterInterface
      */
     protected function getRowStatements()
     {
-        $queryStatements = $this->_queryStatements;
+        $queryStatements = $this->queryStatements;
         return array_filter(
-            $this->_statements,
+            $this->statements,
             function ($statement) use ($queryStatements) {
                 return array_search($statement, $queryStatements) === false;
             }
@@ -134,7 +134,7 @@ class Filter implements FilterInterface
             $queryFilterBroken = true;
         }
 
-        foreach ($this->_statements as $statement) {
+        foreach ($this->statements as $statement) {
 
             $fieldName = $statement->getFieldName();
             if ($fieldName && !ORMUtils::queryContainsFieldName($query, $fieldName)) {
@@ -146,7 +146,7 @@ class Filter implements FilterInterface
                 $this->setFeedbackByQuery($query);
                 $query = $statement->applyToQuery($query);
 
-                $this->_queryStatements[] = $statement;
+                $this->queryStatements[] = $statement;
             }
         }
         return $query;
@@ -191,44 +191,6 @@ class Filter implements FilterInterface
 
     public function getOptions()
     {
-        return $this->_options;
-    }
-}
-
-
-/**
- * Class DummyFilter Filter class to sit at the end of a chain of filters. Provides no filtering.
- * @package OSFAFramework\Table\Filter
- */
-class DummyFilter extends Filter
-{
-    function getFeedback()
-    {
-        return "";
-    }
-
-    function combine(FilterInterface $filter)
-    {
-        return $filter;
-    }
-
-    function queryFilter(ModelCriteria $query)
-    {
-        return $query;
-    }
-
-    function rowFilter(array $rows)
-    {
-        return $rows;
-    }
-
-    function getNextFilter()
-    {
-        return null;
-    }
-
-    public function __construct()
-    {
-        // Do NOT place a DummyFilter at the end of this DummyFilter
+        return $this->options;
     }
 }

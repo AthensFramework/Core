@@ -10,13 +10,13 @@ class Table implements TableInterface
 {
 
     /** @var FilterInterface */
-    protected $_filter;
+    protected $filter;
 
     /** @var RowInterface[] */
-    protected $_rows = [];
+    protected $rows = [];
 
     /** @var string */
-    protected $_id;
+    protected $id;
 
     use VisitableTrait;
 
@@ -25,7 +25,7 @@ class Table implements TableInterface
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -36,23 +36,23 @@ class Table implements TableInterface
     public function __construct($id, array $rows, FilterInterface $filter)
     {
 
-        $this->_rows = $rows;
-        $this->_filter = $filter;
-        $this->_id = $id;
+        $this->rows = $rows;
+        $this->filter = $filter;
+        $this->id = $id;
     }
 
     public function getRows()
     {
-        return $this->_filter->rowFilter($this->_rows);
+        return $this->filter->rowFilter($this->rows);
     }
 
     protected function getUnfilteredRows()
     {
-        return $this->_rows;
+        return $this->rows;
     }
 
     public function getFilter()
     {
-        return $this->_filter;
+        return $this->filter;
     }
 }

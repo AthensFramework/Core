@@ -27,42 +27,42 @@ class Field implements FieldInterface
     const FIELD_TYPE_AUTO_TIMESTAMP = "auto-timestamp";
 
     /** @var bool  */
-    protected $_required;
+    protected $required;
 
     /** @var int  */
-    protected $_fieldSize;
+    protected $fieldSize;
 
     /** @var string */
-    protected $_type;
+    protected $type;
 
     /** @var string */
-    protected $_label;
+    protected $label;
 
     /** @var string|string[]  */
-    protected $_initial;
+    protected $initial;
 
     /** @var string[] */
-    protected $_fieldErrors = [];
+    protected $fieldErrors = [];
 
     /** @var string[] */
-    protected $_prefixes = [];
+    protected $prefixes = [];
 
     /** @var string[] */
-    protected $_suffixes = [];
+    protected $suffixes = [];
 
     /** @var string */
-    protected $_validatedData;
+    protected $validatedData;
 
     /** @var bool */
-    protected $_isValid;
+    protected $isValid;
 
     /** @var string[] */
-    protected $_choices;
+    protected $choices;
 
     use VisitableTrait;
 
 
-    function getId()
+    public function getId()
     {
         return md5($this->getSlug());
     }
@@ -75,16 +75,16 @@ class Field implements FieldInterface
      * @param $choices
      * @param int $fieldSize
      */
-    function __construct($type, $label = "", $initial = "", $required = false, $choices = [], $fieldSize = 255)
+    public function __construct($type, $label = "", $initial = "", $required = false, $choices = [], $fieldSize = 255)
     {
-        $this->_type = $type;
-        $this->_label = $label;
+        $this->type = $type;
+        $this->label = $label;
 
         $this->setInitial($initial);
         
-        $this->_required = $required;
-        $this->_choices = $choices;
-        $this->_fieldSize = $fieldSize;
+        $this->required = $required;
+        $this->choices = $choices;
+        $this->fieldSize = $fieldSize;
     }
 
     /**
@@ -120,7 +120,7 @@ class Field implements FieldInterface
      */
     public function getLabel()
     {
-        return $this->_label;
+        return $this->label;
     }
 
     /**
@@ -128,7 +128,7 @@ class Field implements FieldInterface
      */
     public function setLabel($label)
     {
-        $this->_label = $label;
+        $this->label = $label;
     }
 
     /**
@@ -136,7 +136,7 @@ class Field implements FieldInterface
      */
     public function getChoices()
     {
-        return $this->_choices;
+        return $this->choices;
     }
 
     /**
@@ -148,7 +148,7 @@ class Field implements FieldInterface
             function ($choice) {
                 return StringUtils::slugify($choice);
             },
-            $this->_choices
+            $this->choices
         );
     }
 
@@ -157,7 +157,7 @@ class Field implements FieldInterface
      */
     public function setChoices(array $choices)
     {
-        $this->_choices = $choices;
+        $this->choices = $choices;
     }
 
     /**
@@ -165,7 +165,7 @@ class Field implements FieldInterface
      */
     public function getSize()
     {
-        return $this->_fieldSize;
+        return $this->fieldSize;
     }
 
     /**
@@ -173,7 +173,7 @@ class Field implements FieldInterface
      */
     public function setSize($size)
     {
-        $this->_fieldSize = $size;
+        $this->fieldSize = $size;
     }
 
     /**
@@ -181,7 +181,7 @@ class Field implements FieldInterface
      */
     public function getType()
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -189,7 +189,7 @@ class Field implements FieldInterface
      */
     public function setType($type)
     {
-        $this->_type = $type;
+        $this->type = $type;
     }
 
     /**
@@ -197,7 +197,7 @@ class Field implements FieldInterface
      */
     public function addSuffix($suffix)
     {
-        $this->_suffixes[] = $suffix;
+        $this->suffixes[] = $suffix;
     }
 
     /**
@@ -205,7 +205,7 @@ class Field implements FieldInterface
      */
     public function getSuffixes()
     {
-        return $this->_suffixes;
+        return $this->suffixes;
     }
 
     /**
@@ -213,7 +213,7 @@ class Field implements FieldInterface
      */
     public function addPrefix($prefix)
     {
-        $this->_prefixes[] = $prefix;
+        $this->prefixes[] = $prefix;
     }
 
     /**
@@ -221,7 +221,7 @@ class Field implements FieldInterface
      */
     public function getPrefixes()
     {
-        return $this->_prefixes;
+        return $this->prefixes;
     }
 
     /**
@@ -229,7 +229,7 @@ class Field implements FieldInterface
      */
     public function getLabelSlug()
     {
-        return StringUtils::slugify($this->_label);
+        return StringUtils::slugify($this->label);
     }
 
     /**
@@ -249,7 +249,7 @@ class Field implements FieldInterface
             $value = new DateTimeWrapper($value->format('Y-m-d'));
         }
 
-        $this->_initial = $value;
+        $this->initial = $value;
     }
 
     /**
@@ -257,7 +257,7 @@ class Field implements FieldInterface
      */
     public function getInitial()
     {
-        return $this->_initial;
+        return $this->initial;
     }
 
     /**
@@ -265,7 +265,7 @@ class Field implements FieldInterface
      */
     public function addError($error)
     {
-        $this->_fieldErrors[] = $error;
+        $this->fieldErrors[] = $error;
     }
 
     /**
@@ -273,7 +273,7 @@ class Field implements FieldInterface
      */
     public function getErrors()
     {
-        return $this->_fieldErrors;
+        return $this->fieldErrors;
     }
 
     /**
@@ -281,7 +281,7 @@ class Field implements FieldInterface
      */
     public function removeErrors()
     {
-        $this->_fieldErrors = [];
+        $this->fieldErrors = [];
     }
 
     /**
@@ -342,7 +342,7 @@ class Field implements FieldInterface
      */
     public function isRequired()
     {
-        return $this->_required && $this->getType() != "hidden";
+        return $this->required && $this->getType() != "hidden";
     }
 
     /**
@@ -350,7 +350,7 @@ class Field implements FieldInterface
      */
     public function setRequired($required)
     {
-        $this->_required = $required;
+        $this->required = $required;
     }
 
     /**
@@ -358,7 +358,7 @@ class Field implements FieldInterface
      */
     public function isValid()
     {
-        return empty($this->_fieldErrors);
+        return empty($this->fieldErrors);
     }
 
     /**
@@ -366,7 +366,7 @@ class Field implements FieldInterface
      */
     public function setValidatedData($data)
     {
-        $this->_validatedData = $data;
+        $this->validatedData = $data;
     }
 
     /**
@@ -374,14 +374,6 @@ class Field implements FieldInterface
      */
     public function getValidatedData()
     {
-        return $this->_validatedData;
-    }
-}
-
-class DateTimeWrapper extends DateTime
-{
-    public function __toString()
-    {
-        return $this->format('Y-m-d');
+        return $this->validatedData;
     }
 }

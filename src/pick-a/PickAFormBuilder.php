@@ -8,9 +8,9 @@ use UWDOEM\Framework\Form\FormAction\FormAction;
 class PickAFormBuilder extends AbstractBuilder
 {
 
-    protected $_manifest = [];
+    protected $manifest = [];
 
-    protected $_actions = [];
+    protected $actions = [];
 
 
     /**
@@ -19,7 +19,7 @@ class PickAFormBuilder extends AbstractBuilder
      */
     public function addLabel($label)
     {
-        $this->_manifest[$label] = null;
+        $this->manifest[$label] = null;
         return $this;
     }
 
@@ -29,7 +29,7 @@ class PickAFormBuilder extends AbstractBuilder
      */
     public function addForms(array $forms)
     {
-        $this->_manifest = array_merge($this->_manifest, $forms);
+        $this->manifest = array_merge($this->manifest, $forms);
         return $this;
     }
 
@@ -39,7 +39,7 @@ class PickAFormBuilder extends AbstractBuilder
      */
     public function setActions($actions)
     {
-        $this->_actions = $actions;
+        $this->actions = $actions;
         return $this;
     }
 
@@ -50,6 +50,6 @@ class PickAFormBuilder extends AbstractBuilder
     {
         $this->validateId();
 
-        return new PickAForm($this->_id, $this->_manifest, $this->_actions);
+        return new PickAForm($this->id, $this->manifest, $this->actions);
     }
 }

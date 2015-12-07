@@ -3,7 +3,6 @@
 namespace UWDOEM\Framework\Form;
 
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
-use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 
 class Form implements FormInterface
@@ -12,28 +11,21 @@ class Form implements FormInterface
     use FormTrait;
     use VisitableTrait;
 
-    /** @var string */
-    protected $_id;
-
-    public function getId()
-    {
-        return $this->_id;
-    }
 
     /**
      * @return null
      */
     protected function validate()
     {
-        $this->_isValid = true;
+        $this->isValid = true;
 
         foreach ($this->getFieldBearer()->getFields() as $name => $field) {
             $field->validate();
         }
 
         foreach ($this->getFieldBearer()->getFields() as $name => $field) {
-            if (array_key_exists($name, $this->_validators)) {
-                foreach ($this->_validators[$name] as $validator) {
+            if (array_key_exists($name, $this->validators)) {
+                foreach ($this->validators[$name] as $validator) {
                     call_user_func_array($validator, [$field, $this]);
                 }
             }
@@ -41,7 +33,7 @@ class Form implements FormInterface
 
         foreach ($this->getFieldBearer()->getVisibleFields() as $name => $field) {
             if (!$field->isValid()) {
-                $this->_isValid = false;
+                $this->isValid = false;
                 $this->addError("Please correct the indicated errors and resubmit the form.");
                 break;
             }
@@ -50,14 +42,14 @@ class Form implements FormInterface
         foreach ($this->getSubForms() as $subForm) {
             // Force validation on each subform via isValid()
             // If subform isn't valid and this form is not yet invalid, mark it as invalid
-            if (!$subForm->isValid() && $this->_isValid) {
-                $this->_isValid = false;
+            if (!$subForm->isValid() && $this->isValid) {
+                $this->isValid = false;
                 $this->addError("Please correct the indicated errors and resubmit the form.");
             }
         }
 
-        if (!empty($this->_errors)) {
-            $this->_isValid = false;
+        if (!empty($this->errors)) {
+            $this->isValid = false;
         }
     }
 
@@ -79,14 +71,14 @@ class Form implements FormInterface
         $subForms = [],
         $validators = []
     ) {
-        $this->_actions = $actions;
-        $this->_fieldBearer = $fieldBearer;
+        $this->actions = $actions;
+        $this->fieldBearer = $fieldBearer;
 
-        $this->_onInvalidFunc = $onInvalidFunc;
-        $this->_onValidFunc = $onValidFunc;
+        $this->onInvalidFunc = $onInvalidFunc;
+        $this->onValidFunc = $onValidFunc;
 
-        $this->_validators = $validators;
-        $this->_subForms = $subForms;
-        $this->_id = $id;
+        $this->validators = $validators;
+        $this->subForms = $subForms;
+        $this->id = $id;
     }
 }

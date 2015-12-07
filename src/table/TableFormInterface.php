@@ -8,5 +8,5 @@ interface TableFormInterface extends TableInterface, FormInterface
 {
 
     /** @return \UWDOEM\Framework\Row\RowInterface */
-    function getPrototypicalRow();
+    public function getPrototypicalRow();
 }

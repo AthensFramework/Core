@@ -17,7 +17,7 @@ class SelectFilter extends Filter
     public function __construct($handle, array $statements, $default, FilterInterface $nextFilter = null)
     {
 
-        $this->_options = array_keys($statements);
+        $this->options = array_keys($statements);
 
         $selection = FilterControls::getControl($handle, "value", $default);
 

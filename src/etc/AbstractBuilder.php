@@ -11,7 +11,7 @@ abstract class AbstractBuilder
 {
 
     /** @var string */
-    protected $_id;
+    protected $id;
 
     /** @return static */
     public static function begin()
@@ -31,13 +31,13 @@ abstract class AbstractBuilder
      */
     public function setId($id)
     {
-        $this->_id = $id;
+        $this->id = $id;
         return $this;
     }
 
     protected function validateId()
     {
-        if (!isset($this->_id)) {
+        if (!isset($this->id)) {
             throw new \RuntimeException("Must use ::setId to provide a form id before calling this method.");
         }
     }

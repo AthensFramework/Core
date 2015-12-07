@@ -10,39 +10,39 @@ class FieldBearer implements FieldBearerInterface
     /**
      * @var FieldBearerInterface[]
      */
-    protected $_fieldBearers = [];
+    protected $fieldBearers = [];
 
     /**
      * @var \UWDOEM\Framework\Field\FieldInterface[]
      */
-    protected $_fields = [];
+    protected $fields = [];
 
     /**
      * @var String[]
      */
-    protected $_visibleFieldNames;
+    protected $visibleFieldNames;
 
     /**
      * @var String[]
      */
-    protected $_hiddenFieldNames = [];
+    protected $hiddenFieldNames = [];
 
     /**
      * @var callable
      */
-    protected $_saveFunction;
+    protected $saveFunction;
 
     use VisitableTrait;
 
     public function __construct($fields, $fieldBearers, $visibleFieldNames, $hiddenFieldNames, $saveFunction)
     {
-        $this->_fields = $fields ? $fields : [];
-        $this->_fieldBearers = $fieldBearers ? $fieldBearers : [];
-        $this->_visibleFieldNames = $visibleFieldNames ? $visibleFieldNames : null;
-        $this->_hiddenFieldNames = $hiddenFieldNames ? $hiddenFieldNames : null;
+        $this->fields = $fields ? $fields : [];
+        $this->fieldBearers = $fieldBearers ? $fieldBearers : [];
+        $this->visibleFieldNames = $visibleFieldNames ? $visibleFieldNames : null;
+        $this->hiddenFieldNames = $hiddenFieldNames ? $hiddenFieldNames : null;
 
         if (is_callable($saveFunction)) {
-            $this->_saveFunction = $saveFunction;
+            $this->saveFunction = $saveFunction;
         }
     }
 
@@ -53,7 +53,7 @@ class FieldBearer implements FieldBearerInterface
      */
     public function getFieldsBase($fieldGetterFunction, $initial)
     {
-        foreach ($this->_fieldBearers as $name => $fieldBearer) {
+        foreach ($this->fieldBearers as $name => $fieldBearer) {
 
             $fields = $fieldBearer->$fieldGetterFunction();
 
@@ -76,7 +76,7 @@ class FieldBearer implements FieldBearerInterface
      */
     public function getFields()
     {
-        $base = $this->_fields;
+        $base = $this->fields;
         return $this->getFieldsBase("getFields", $base);
     }
 
@@ -100,14 +100,14 @@ class FieldBearer implements FieldBearerInterface
      */
     public function getVisibleFields()
     {
-        $base = $this->_fields;
+        $base = $this->fields;
         $visibleFields = $this->getFieldsBase("getVisibleFields", $base);
 
-        if (isset($this->_visibleFieldNames)) {
-            $visibleFields = array_intersect_key($visibleFields, array_flip($this->_visibleFieldNames));
-            $visibleFields = array_merge(array_flip($this->_visibleFieldNames), $visibleFields);
-        } elseif (isset($this->_hiddenFieldNames)) {
-            $visibleFields = array_diff_key($visibleFields, array_flip($this->_hiddenFieldNames));
+        if (isset($this->visibleFieldNames)) {
+            $visibleFields = array_intersect_key($visibleFields, array_flip($this->visibleFieldNames));
+            $visibleFields = array_merge(array_flip($this->visibleFieldNames), $visibleFields);
+        } elseif (isset($this->hiddenFieldNames)) {
+            $visibleFields = array_diff_key($visibleFields, array_flip($this->hiddenFieldNames));
         }
         return $visibleFields;
     }
@@ -121,17 +121,17 @@ class FieldBearer implements FieldBearerInterface
         $hiddenFields = $this->getFieldsBase("getHiddenFields", []);
 
         // If we have specified which fields should be hidden for this field bearer...
-        if (isset($this->_hiddenFieldNames)) {
+        if (isset($this->hiddenFieldNames)) {
             // then get those fields should be hidden...
-            $myHiddenFields = array_intersect_key($this->getFields(), array_flip($this->_hiddenFieldNames));
+            $myHiddenFields = array_intersect_key($this->getFields(), array_flip($this->hiddenFieldNames));
             // and merge them into the list
             $hiddenFields = array_merge($hiddenFields, $myHiddenFields);
         }
 
         // If we have specified which should be visible...
-        if (isset($this->_visibleFieldNames)) {
+        if (isset($this->visibleFieldNames)) {
             // then subtract those fields from the list of hidden fields
-            $hiddenFields = array_diff_key($hiddenFields, array_flip($this->_visibleFieldNames));
+            $hiddenFields = array_diff_key($hiddenFields, array_flip($this->visibleFieldNames));
         }
 
         return $hiddenFields;
@@ -195,7 +195,7 @@ class FieldBearer implements FieldBearerInterface
 
     public function getFieldBearers()
     {
-        return $this->_fieldBearers;
+        return $this->fieldBearers;
     }
 
     protected function baseGetThingByName($thingType, $name)
@@ -225,11 +225,11 @@ class FieldBearer implements FieldBearerInterface
 
     public function save()
     {
-        if (is_callable($this->_saveFunction)) {
+        if (is_callable($this->saveFunction)) {
             $args = func_get_args();
             $args = array_merge([$this], $args);
 
-            return call_user_func_array($this->_saveFunction, $args);
+            return call_user_func_array($this->saveFunction, $args);
         } else {
             return null;
         }

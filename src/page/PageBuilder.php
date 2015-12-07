@@ -9,31 +9,31 @@ class PageBuilder
 {
 
     /** @var string */
-    protected $_baseHref;
+    protected $baseHref;
 
     /** @var string */
-    protected $_header;
+    protected $header;
 
     /** @var string */
-    protected $_subHeader;
+    protected $subHeader;
 
     /** @var string[] */
-    protected $_breadCrumbs = [];
+    protected $breadCrumbs = [];
 
     /** @var string[] */
-    protected $_returnTo = [];
+    protected $returnTo = [];
 
     /** @var WritableInterface */
-    protected $_writable;
+    protected $writable;
 
     /** @var string */
-    protected $_type;
+    protected $type;
 
     /** @var string */
-    protected $_title;
+    protected $title;
 
     /** @var string[] */
-    protected $_message;
+    protected $message;
 
 
     /**
@@ -50,7 +50,7 @@ class PageBuilder
      */
     public function setType($type)
     {
-        $this->_type = $type;
+        $this->type = $type;
         return $this;
     }
 
@@ -60,7 +60,7 @@ class PageBuilder
      */
     public function setTitle($title)
     {
-        $this->_title = $title;
+        $this->title = $title;
         return $this;
     }
 
@@ -70,7 +70,7 @@ class PageBuilder
      */
     public function setBaseHref($baseHref)
     {
-        $this->_baseHref = $baseHref;
+        $this->baseHref = $baseHref;
         return $this;
     }
 
@@ -80,7 +80,7 @@ class PageBuilder
      */
     public function setHeader($header)
     {
-        $this->_header = $header;
+        $this->header = $header;
         return $this;
     }
 
@@ -90,7 +90,7 @@ class PageBuilder
      */
     public function setSubHeader($subHeader)
     {
-        $this->_subHeader = $subHeader;
+        $this->subHeader = $subHeader;
         return $this;
     }
 
@@ -100,7 +100,7 @@ class PageBuilder
      */
     public function setBreadCrumbs($breadCrumbs)
     {
-        $this->_breadCrumbs = $breadCrumbs;
+        $this->breadCrumbs = $breadCrumbs;
         return $this;
     }
 
@@ -110,7 +110,7 @@ class PageBuilder
      */
     public function setReturnTo($returnTo)
     {
-        $this->_returnTo = $returnTo;
+        $this->returnTo = $returnTo;
         return $this;
     }
 
@@ -120,7 +120,7 @@ class PageBuilder
      */
     public function setWritable($writable)
     {
-        $this->_writable = $writable;
+        $this->writable = $writable;
         return $this;
     }
 
@@ -130,7 +130,7 @@ class PageBuilder
      */
     public function setMessage($message)
     {
-        $this->_message = $message;
+        $this->message = $message;
         return $this;
     }
 
@@ -142,36 +142,36 @@ class PageBuilder
     public function build()
     {
 
-        if (!isset($this->_type)) {
+        if (!isset($this->type)) {
             throw new \Exception("You must set a page type using ::setType before calling this function.");
         }
 
-        if (isset($this->_message)) {
-            if ($this->_type !== Page::PAGE_TYPE_AJAX_ACTION) {
+        if (isset($this->message)) {
+            if ($this->type !== Page::PAGE_TYPE_AJAX_ACTION) {
                 throw new \Exception("You may only set a message on an ajax-action page.");
             }
         }
 
-        if ($this->_type === Page::PAGE_TYPE_AJAX_ACTION) {
-            if (!isset($this->_message)) {
+        if ($this->type === Page::PAGE_TYPE_AJAX_ACTION) {
+            if (!isset($this->message)) {
                 throw new \Exception("You must provide a message for an ajax-action page using ::setMessage");
             }
 
-            $this->_writable = SectionBuilder::begin()
+            $this->writable = SectionBuilder::begin()
                 ->setId("ajax-action-" . $_SERVER["REQUEST_URI"])
-                ->setContent(json_encode($this->_message))
+                ->setContent(json_encode($this->message))
                 ->build();
         }
 
         return new Page(
-            $this->_title,
-            $this->_baseHref,
-            $this->_header,
-            $this->_subHeader,
-            $this->_breadCrumbs,
-            $this->_returnTo,
-            $this->_writable,
-            $this->_type
+            $this->type,
+            $this->title,
+            $this->baseHref,
+            $this->header,
+            $this->subHeader,
+            $this->breadCrumbs,
+            $this->returnTo,
+            $this->writable
         );
     }
 }

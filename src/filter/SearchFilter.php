@@ -28,14 +28,14 @@ class SearchFilter extends Filter
 
         }
 
-        $this->_feedback = "";
+        $this->feedback = "";
         foreach ($statements as $statement) {
             $fieldname = $statement->getFieldName();
             $value = $statement->getCriterion();
             $operation = $statement->getCondition();
 
-            $this->_feedback .= $this->_feedback ? ", " : "";
-            $this->_feedback .= $fieldname . " " . $operation . " " . $value;
+            $this->feedback .= $this->feedback ? ", " : "";
+            $this->feedback .= $fieldname . " " . $operation . " " . $value;
         }
         parent::__construct($handle, $statements, $nextFilter);
     }
@@ -46,7 +46,7 @@ class SearchFilter extends Filter
     protected function setOptionsByRows(array $rows)
     {
         if (sizeof($rows) >= 1) {
-            $this->_options = $rows[0]->getFieldBearer()->getFieldNames();
+            $this->options = $rows[0]->getFieldBearer()->getFieldNames();
         }
     }
 }

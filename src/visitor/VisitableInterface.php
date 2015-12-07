@@ -5,5 +5,5 @@ namespace UWDOEM\Framework\Visitor;
 interface VisitableInterface
 {
 
-    function accept(Visitor $visitor);
+    public function accept(Visitor $visitor);
 }

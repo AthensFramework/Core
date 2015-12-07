@@ -12,30 +12,30 @@ class FieldBearerBuilder
     /**
      * @var FieldBearerInterface[]
      */
-    protected $_fieldBearers = [];
+    protected $fieldBearers = [];
 
     /**
      * @var FieldInterface[]
      */
-    protected $_fields = [];
+    protected $fields = [];
 
     /**
      * @var string[]
      */
-    protected $_visibleFieldNames;
+    protected $visibleFieldNames;
 
     /**
      * @var string[]
      */
-    protected $_hiddenFieldNames;
+    protected $hiddenFieldNames;
 
     /**
      * @var callable
      */
-    protected $_saveFunction;
+    protected $saveFunction;
 
     /** @var mixed[] */
-    private $_initialFieldValues = [];
+    private $initialFieldValues = [];
 
     /**
      * @param FieldBearerInterface[] $fieldBearers
@@ -43,7 +43,7 @@ class FieldBearerBuilder
      */
     public function addFieldBearers($fieldBearers)
     {
-        $this->_fieldBearers = array_merge($this->_fieldBearers, $fieldBearers);
+        $this->fieldBearers = array_merge($this->fieldBearers, $fieldBearers);
         return $this;
     }
 
@@ -107,7 +107,7 @@ class FieldBearerBuilder
      */
     public function setVisibleFieldNames($visibleFieldNames)
     {
-        $this->_visibleFieldNames = $visibleFieldNames;
+        $this->visibleFieldNames = $visibleFieldNames;
         return $this;
     }
 
@@ -117,7 +117,7 @@ class FieldBearerBuilder
      */
     public function setHiddenFieldNames($hiddenFieldNames)
     {
-        $this->_hiddenFieldNames = $hiddenFieldNames;
+        $this->hiddenFieldNames = $hiddenFieldNames;
         return $this;
     }
 
@@ -127,7 +127,7 @@ class FieldBearerBuilder
      */
     public function setSaveFunction($saveFunction)
     {
-        $this->_saveFunction = $saveFunction;
+        $this->saveFunction = $saveFunction;
         return $this;
     }
 
@@ -145,11 +145,11 @@ class FieldBearerBuilder
      */
     public function clear()
     {
-        $this->_fieldBearers = [];
-        $this->_fields = [];
-        $this->_visibleFieldNames = null;
-        $this->_hiddenFieldNames = null;
-        $this->_saveFunction = null;
+        $this->fieldBearers = [];
+        $this->fields = [];
+        $this->visibleFieldNames = null;
+        $this->hiddenFieldNames = null;
+        $this->saveFunction = null;
 
         return $this;
     }
@@ -161,7 +161,7 @@ class FieldBearerBuilder
      */
     public function setInitialFieldValue($fieldName, $value)
     {
-        $this->_initialFieldValues[$fieldName] = $value;
+        $this->initialFieldValues[$fieldName] = $value;
 
         return $this;
     }
@@ -176,8 +176,8 @@ class FieldBearerBuilder
 //            throw new \Exception("Must make fields and/or fieldBearers before calling this method.");
 //        }
 
-        if (!$this->_saveFunction) {
-            $this->_saveFunction = function (FieldBearerInterface $fieldBearer) {
+        if (!$this->saveFunction) {
+            $this->saveFunction = function (FieldBearerInterface $fieldBearer) {
                 foreach ($fieldBearer->getFieldBearers() as $childFieldBearer) {
                     $args = array_merge([$fieldBearer], func_get_args());
 
@@ -188,14 +188,14 @@ class FieldBearerBuilder
         }
 
         $fieldBearer = new FieldBearer(
-            $this->_fields,
-            $this->_fieldBearers,
-            $this->_visibleFieldNames,
-            $this->_hiddenFieldNames,
-            $this->_saveFunction
+            $this->fields,
+            $this->fieldBearers,
+            $this->visibleFieldNames,
+            $this->hiddenFieldNames,
+            $this->saveFunction
         );
 
-        foreach ($this->_initialFieldValues as $fieldName => $value) {
+        foreach ($this->initialFieldValues as $fieldName => $value) {
             $fieldBearer->getFieldByName($fieldName)->setInitial($value);
         }
 

@@ -11,13 +11,13 @@ interface FieldBearerInterface extends InitializableInterface
     /**
      * @return FieldBearerInterface[]
      */
-    function getFieldBearers();
+    public function getFieldBearers();
 
     /**
      * @param String $name
      * @return FieldBearerInterface
      */
-    function getFieldBearerByName($name);
+    public function getFieldBearerByName($name);
 
     /**
      * Given a field's string name, return the field.
@@ -26,65 +26,65 @@ interface FieldBearerInterface extends InitializableInterface
      * @return Field
      * @throws \Exception
      */
-    function getFieldByName($name);
+    public function getFieldByName($name);
 
     /**
      * @param Field $field
      * @return String
      */
-    function getNameByField($field);
+    public function getNameByField($field);
 
     /**
      * Return the array of child fields.
      * @return Field[]
      */
-    function getFields();
+    public function getFields();
 
     /**
      * @return Field[]
      */
-    function getVisibleFields();
+    public function getVisibleFields();
 
     /**
      * @return Field[]
      */
-    function getHiddenFields();
+    public function getHiddenFields();
 
     /**
      * @return String[]
      */
-    function getFieldNames();
+    public function getFieldNames();
 
     /**
      * @return String[]
      */
-    function getVisibleFieldNames();
+    public function getVisibleFieldNames();
 
     /**
      * @return String[]
      */
-    function getHiddenFieldNames();
+    public function getHiddenFieldNames();
 
     /**
      * Return the labels of the child fields.
      *
      * @return String[]
      */
-    function getLabels();
+    public function getLabels();
 
     /**
      * @return String[]
      */
-    function getVisibleLabels();
+    public function getVisibleLabels();
 
     /**
      * @return String[]
      */
-    function getHiddenLabels();
+    public function getHiddenLabels();
 
     /**
      * @param mixed ...
      * @return mixed
      */
-    function save();
+    public function save();
 }

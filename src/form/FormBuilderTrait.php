@@ -10,22 +10,22 @@ trait FormBuilderTrait
 {
 
     /** @var FormAction[] */
-    protected $_actions;
+    protected $actions;
 
     /** @var callable */
-    protected $_onValidFunc;
+    protected $onValidFunc;
 
     /** @var callable */
-    protected $_onInvalidFunc;
+    protected $onInvalidFunc;
 
     /** @var string */
-    protected $_onSuccessUrl;
+    protected $onSuccessUrl;
 
     /** @var callable[] */
-    protected $_validators = [];
+    protected $validators = [];
 
     /** @var FormInterface[] */
-    protected $_subForms = [];
+    protected $subForms = [];
 
     use FieldBearerBearerBuilderTrait;
 
@@ -36,7 +36,7 @@ trait FormBuilderTrait
      */
     public function setActions($actions)
     {
-        $this->_actions = $actions;
+        $this->actions = $actions;
         return $this;
     }
 
@@ -46,7 +46,7 @@ trait FormBuilderTrait
      */
     public function setOnValidFunc($onValidFunc)
     {
-        $this->_onValidFunc = $onValidFunc;
+        $this->onValidFunc = $onValidFunc;
         return $this;
     }
 
@@ -56,7 +56,7 @@ trait FormBuilderTrait
      */
     public function setOnInvalidFunc($onInvalidFunc)
     {
-        $this->_onInvalidFunc = $onInvalidFunc;
+        $this->onInvalidFunc = $onInvalidFunc;
         return $this;
     }
 
@@ -66,7 +66,7 @@ trait FormBuilderTrait
      */
     public function setOnSuccessUrl($onSuccessRedirect)
     {
-        $this->_onSuccessUrl = $onSuccessRedirect;
+        $this->onSuccessUrl = $onSuccessRedirect;
         return $this;
     }
 
@@ -76,7 +76,7 @@ trait FormBuilderTrait
      */
     public function addSubForms(array $subForms)
     {
-        $this->_subForms = array_merge($this->_subForms, $subForms);
+        $this->subForms = array_merge($this->subForms, $subForms);
         return $this;
     }
 
@@ -87,19 +87,19 @@ trait FormBuilderTrait
      */
     public function addValidator($fieldName, callable $callable)
     {
-        if (!array_key_exists($fieldName, $this->_validators)) {
-            $this->_validators[$fieldName] = [];
+        if (!array_key_exists($fieldName, $this->validators)) {
+            $this->validators[$fieldName] = [];
         }
-        $this->_validators[$fieldName][] = $callable;
+        $this->validators[$fieldName][] = $callable;
 
         return $this;
     }
 
     protected function validateOnInvalidFunc()
     {
-        if (!isset($this->_onInvalidFunc)) {
+        if (!isset($this->onInvalidFunc)) {
 
-            $this->_onInvalidFunc = function (FormInterface $thisForm) {
+            $this->onInvalidFunc = function (FormInterface $thisForm) {
                 foreach ($thisForm->getFieldBearer()->getFields() as $field) {
 
                     if ($field->getType() !== Field::FIELD_TYPE_LITERAL) {
@@ -117,9 +117,9 @@ trait FormBuilderTrait
 
     protected function validateOnValidFunc()
     {
-        if (!isset($this->_onValidFunc)) {
+        if (!isset($this->onValidFunc)) {
 
-            $this->_onValidFunc = function (FormInterface $form) {
+            $this->onValidFunc = function (FormInterface $form) {
                 $func = [$form, "propagateOnValid"];
                 call_user_func_array($func, func_get_args());
             };
@@ -129,12 +129,12 @@ trait FormBuilderTrait
 
     protected function validateOnSuccessUrl()
     {
-        if (isset($this->_onSuccessUrl)) {
+        if (isset($this->onSuccessUrl)) {
 
-            $onValidFunc = $this->_onValidFunc;
-            $url = $this->_onSuccessUrl;
+            $onValidFunc = $this->onValidFunc;
+            $url = $this->onSuccessUrl;
 
-            $this->_onValidFunc = function (FormInterface $form) use ($onValidFunc, $url) {
+            $this->onValidFunc = function (FormInterface $form) use ($onValidFunc, $url) {
                 if (headers_sent()) {
                     throw new \Exception("Form success redirection cannot proceed, output has already begun.");
                 } else {
@@ -149,8 +149,8 @@ trait FormBuilderTrait
 
     protected function validateActions()
     {
-        if (!isset($this->_actions)) {
-            $this->_actions = [new FormAction("Submit", "POST", ".")];
+        if (!isset($this->actions)) {
+            $this->actions = [new FormAction("Submit", "POST", ".")];
         }
     }
 }

@@ -7,9 +7,9 @@ use UWDOEM\Framework\Writer\WritableInterface;
 interface FormActionInterface extends WritableInterface
 {
 
-    function getMethod();
-    
-    function getTarget();
+    public function getMethod();
 
-    function getLabel();
+    public function getTarget();
+
+    public function getLabel();
 }

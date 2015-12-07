@@ -14,36 +14,32 @@ class Section implements SectionInterface
 {
 
     /** @var string */
-    protected $_id;
+    protected $id;
 
     /** @var string */
-    protected $_label;
+    protected $label;
 
     /** @var string */
-    protected $_content;
+    protected $content;
 
     /** @var WritableInterface[] */
-    protected $_writables;
+    protected $writables;
 
     /** @var callable */
-    protected $_initFromPost;
+    protected $initFromPost;
 
     /** @var callable */
-    protected $_initFromGet;
+    protected $initFromGet;
 
     /** @var  string */
-    protected $_type;
-    /**
-     * @var
-     */
-    private $id;
+    protected $type;
 
     use VisitableTrait;
 
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -57,11 +53,11 @@ class Section implements SectionInterface
      */
     public function __construct($id, $content, array $writables, $label, $type)
     {
-        $this->_id = $id;
-        $this->_label = $label;
-        $this->_content = $content;
-        $this->_writables = $writables;
-        $this->_type = $type;
+        $this->id = $id;
+        $this->label = $label;
+        $this->content = $content;
+        $this->writables = $writables;
+        $this->type = $type;
         $this->id = $id;
     }
 
@@ -71,7 +67,7 @@ class Section implements SectionInterface
      */
     public function getLabel()
     {
-        return $this->_label;
+        return $this->label;
     }
 
     /**
@@ -79,7 +75,7 @@ class Section implements SectionInterface
      */
     public function getContent()
     {
-        return $this->_content;
+        return $this->content;
     }
 
     /**
@@ -87,7 +83,7 @@ class Section implements SectionInterface
      */
     public function getType()
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -95,6 +91,6 @@ class Section implements SectionInterface
      */
     public function getWritables()
     {
-        return $this->_writables;
+        return $this->writables;
     }
 }

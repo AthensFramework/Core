@@ -21,7 +21,7 @@ class StringUtils
      * @param string $string
      * @return string
      */
-    static function slugify($string)
+    public static function slugify($string)
     {
         // Replace non-alpha-numerics with dashes
         $string = strtolower(preg_replace(array('/[^a-zA-Z0-9 -]/','/[ -]+/','/^-|-$/'), array('','-',''), $string));
@@ -41,7 +41,7 @@ class StringUtils
      * @param string $string
      * @return string
      */
-    static function toTitleCase($string)
+    public static function toTitleCase($string)
     {
 
         // Replace underscores, dashes with spaces
@@ -82,7 +82,7 @@ class StringUtils
      * @param string $string
      * @return string
      */
-    static function toUpperCamelCase($string)
+    public static function toUpperCamelCase($string)
     {
         return str_replace(" ", "", ucwords(str_replace(["_", ".", "-"], " ", $string)));
     }

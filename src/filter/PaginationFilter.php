@@ -14,9 +14,9 @@ class PaginationFilter extends Filter
     const TYPE_HARD_PAGINATION = "hard";
     const TYPE_SOFT_PAGINATION = "soft";
 
-    protected $_type;
-    protected $_numPages;
-    protected $_page;
+    protected $type;
+    protected $numPages;
+    protected $page;
 
 
     public function __construct($handle, $maxPerPage, $page, FilterInterface $nextFilter = null)
@@ -41,23 +41,23 @@ class PaginationFilter extends Filter
 
     public function getType()
     {
-        return $this->_type;
+        return $this->type;
     }
 
     public function getNumPages()
     {
-        return $this->_numPages;
+        return $this->numPages;
     }
 
     public function getPage()
     {
-        return $this->_page;
+        return $this->page;
     }
 
     protected function setOptionsByQuery(ModelCriteria $query)
     {
         $maxPages = max($this->getMaxPagesByQuery($query), 1);
-        $this->_options = range(1, $maxPages);
+        $this->options = range(1, $maxPages);
     }
 
     protected function setFeedbackByQuery(ModelCriteria $query)
@@ -71,10 +71,10 @@ class PaginationFilter extends Filter
         $firstRow = min($totalRows, ($page - 1)*$maxPerPage + 1);
         $lastRow = min($firstRow + $maxPerPage - 1, $query->count());
 
-        $this->_feedback = "Displaying results $firstRow-$lastRow of $totalRows.";
+        $this->feedback = "Displaying results $firstRow-$lastRow of $totalRows.";
 
-        $this->_type = static::TYPE_HARD_PAGINATION;
-        $this->_page = $page;
-        $this->_numPages = $this->getMaxPagesByQuery($query);
+        $this->type = static::TYPE_HARD_PAGINATION;
+        $this->page = $page;
+        $this->numPages = $this->getMaxPagesByQuery($query);
     }
 }

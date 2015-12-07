@@ -2,6 +2,7 @@
 
 namespace UWDOEM\Framework\Filter;
 
+use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\FilterStatement\FilterStatement;
 use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
@@ -9,48 +10,39 @@ use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
 use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
 use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
 
-class FilterBuilder
+class FilterBuilder extends AbstractBuilder
 {
 
     /** @var string */
-    protected $_type;
+    protected $type;
 
     /** @var int */
-    protected $_page;
+    protected $page;
 
     /** @var int */
-    protected $_maxPerPage;
+    protected $maxPerPage;
 
     /** @var string */
-    protected $_fieldName;
+    protected $fieldName;
 
     /** @var string */
-    protected $_condition;
+    protected $condition;
 
     /** @var mixed */
-    protected $_criterion;
+    protected $criterion;
 
     /** @var string */
-    protected $_handle;
+    protected $handle;
 
     /** @var FilterInterface */
-    protected $_nextFilter;
+    protected $nextFilter;
 
     /** @var array[] */
-    protected $_options;
+    protected $options;
 
     /** @var string */
-    protected $_default;
+    protected $default;
 
-
-    protected function __construct()
-    {
-    }
-
-    public static function begin()
-    {
-        return new static();
-    }
 
     /**
      * @param string $type
@@ -58,7 +50,7 @@ class FilterBuilder
      */
     public function setType($type)
     {
-        $this->_type = $type;
+        $this->type = $type;
         return $this;
     }
 
@@ -68,7 +60,7 @@ class FilterBuilder
      */
     public function setPage($page)
     {
-        $this->_page = $page;
+        $this->page = $page;
         return $this;
     }
 
@@ -78,7 +70,7 @@ class FilterBuilder
      */
     public function setMaxPerPage($maxPerPage)
     {
-        $this->_maxPerPage = $maxPerPage;
+        $this->maxPerPage = $maxPerPage;
         return $this;
     }
 
@@ -88,7 +80,7 @@ class FilterBuilder
      */
     public function setCondition($condition)
     {
-        $this->_condition = $condition;
+        $this->condition = $condition;
         return $this;
     }
 
@@ -98,7 +90,7 @@ class FilterBuilder
      */
     public function setCriterion($criterion)
     {
-        $this->_criterion = $criterion;
+        $this->criterion = $criterion;
         return $this;
     }
 
@@ -108,7 +100,7 @@ class FilterBuilder
      */
     public function setHandle($name)
     {
-        $this->_handle = $name;
+        $this->handle = $name;
         return $this;
     }
 
@@ -118,7 +110,7 @@ class FilterBuilder
      */
     public function setFieldName($fieldName)
     {
-        $this->_fieldName = $fieldName;
+        $this->fieldName = $fieldName;
         return $this;
     }
 
@@ -128,11 +120,11 @@ class FilterBuilder
      */
     public function addOptions($options)
     {
-        if (!isset($this->_options)) {
-            $this->_options = [];
+        if (!isset($this->options)) {
+            $this->options = [];
         }
 
-        $this->_options = array_merge($this->_options, $options);
+        $this->options = array_merge($this->options, $options);
         return $this;
     }
 
@@ -142,7 +134,7 @@ class FilterBuilder
      */
     public function setDefault($default)
     {
-        $this->_default = $default;
+        $this->default = $default;
         return $this;
     }
 
@@ -179,7 +171,7 @@ class FilterBuilder
      */
     public function setNextFilter($nextFilter)
     {
-        $this->_nextFilter = $nextFilter;
+        $this->nextFilter = $nextFilter;
         return $this;
     }
 
@@ -192,51 +184,52 @@ class FilterBuilder
     public function build()
     {
 
-        $handle = $this->retrieveOrException("_handle", __METHOD__);
-        $type = $this->retrieveOrException("_type", __METHOD__);
+        $handle = $this->retrieveOrException("handle", __METHOD__);
+        $type = $this->retrieveOrException("type", __METHOD__);
 
         $statements = [];
         switch ($type) {
             case Filter::TYPE_STATIC:
-                $fieldName = $this->retrieveOrException("_fieldName", __METHOD__);
-                $condition = $this->retrieveOrException("_condition", __METHOD__);
+                $fieldName = $this->retrieveOrException("fieldName", __METHOD__);
+                $condition = $this->retrieveOrException("condition", __METHOD__);
 
                 if (in_array(
                     $condition,
                     [FilterStatementInterface::COND_SORT_ASC, FilterStatementInterface::COND_SORT_DESC]
                 )
                 ) {
-                    $criterion = $this->_criterion;
+                    $criterion = $this->criterion;
                     $statements[] = new SortingFilterStatement($fieldName, $condition, $criterion, null);
                 } else {
-                    $criterion = $this->retrieveOrException("_criterion", __METHOD__);
+                    $criterion = $this->retrieveOrException("criterion", __METHOD__);
                     $statements[] = new ExcludingFilterStatement($fieldName, $condition, $criterion, null);
                 }
 
-                return new Filter($handle, $statements, $this->_nextFilter);
+                return new Filter($handle, $statements, $this->nextFilter);
 
                 break;
             case Filter::TYPE_PAGINATION:
-                $maxPerPage = isset($this->_maxPerPage) ? $this->_maxPerPage : Settings::getDefaultPagination();
-                $page = isset($this->_page) ? $this->_page : FilterControls::getControl($handle, "page", 1);
+                $maxPerPage = isset($this->maxPerPage) ? $this->maxPerPage : Settings::getDefaultPagination();
+                $page = isset($this->page) ? $this->page : FilterControls::getControl($handle, "page", 1);
 
-                return new PaginationFilter($handle, $maxPerPage, $page, $this->_nextFilter);
+                return new PaginationFilter($handle, $maxPerPage, $page, $this->nextFilter);
 
                 break;
             case Filter::TYPE_SORT:
-                return new SortFilter($handle, $this->_nextFilter);
+                return new SortFilter($handle, $this->nextFilter);
 
                 break;
             case Filter::TYPE_SEARCH:
-                return new SearchFilter($handle, $this->_nextFilter);
+                return new SearchFilter($handle, $this->nextFilter);
                 break;
             case Filter::TYPE_SELECT:
-                $options = $this->retrieveOrException("_options", __METHOD__, "chose to create a select filter");
-                $default = $this->retrieveOrException("_default", __METHOD__, "chose to create a select filter");
+                $options = $this->retrieveOrException("options", __METHOD__, "chose to create a select filter");
+                $default = $this->retrieveOrException("default", __METHOD__, "chose to create a select filter");
 
                 if (!array_key_exists($default, $options)) {
                     $optionsText = implode(", ", array_keys($options));
-                    throw new \Exception("For select filter '$handle', your default choice '$default' must be among options '$optionsText'.");
+                    throw new \Exception("For select filter '$handle', your default choice " .
+                        "'$default' must be among options '$optionsText'.");
                 }
 
                 $statements = array_map(
@@ -246,7 +239,7 @@ class FilterBuilder
                     $options
                 );
 
-                return new SelectFilter($handle, $statements, $default, $this->_nextFilter);
+                return new SelectFilter($handle, $statements, $default, $this->nextFilter);
                 break;
             default:
                 throw new \Exception("Invalid filter type.");

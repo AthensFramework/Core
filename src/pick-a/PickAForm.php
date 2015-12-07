@@ -10,18 +10,18 @@ class PickAForm implements PickAFormInterface
 {
 
     /** @var string */
-    protected $_id;
+    protected $id;
 
     /** @var \UWDOEM\Framework\PickA\PickA */
-    protected $_pickA;
+    protected $pickA;
 
     /** @var \UWDOEM\Framework\Form\FormAction\FormAction[] */
-    protected $_actions;
+    protected $actions;
 
     /** @var \UWDOEM\Framework\FieldBearer\FieldBearerInterface */
-    protected $_fieldBearer;
+    protected $fieldBearer;
 
-    protected $_errors = [];
+    protected $errors = [];
 
     use VisitableTrait;
 
@@ -99,35 +99,35 @@ class PickAForm implements PickAFormInterface
 
     public function getId()
     {
-        return $this->_pickA->getId();
+        return $this->pickA->getId();
     }
 
     public function getFieldBearer()
     {
-        return $this->_fieldBearer;
+        return $this->fieldBearer;
     }
 
     public function getErrors()
     {
-        return $this->_errors;
+        return $this->errors;
     }
 
-    function getManifest()
+    public function getManifest()
     {
-        return $this->_pickA->getManifest();
+        return $this->pickA->getManifest();
     }
 
-    function getLabels()
+    public function getLabels()
     {
-        return $this->_pickA->getLabels();
+        return $this->pickA->getLabels();
     }
 
-    function getWritables()
+    public function getWritables()
     {
-        return $this->_pickA->getWritables();
+        return $this->pickA->getWritables();
     }
 
-    function getSubForms()
+    public function getSubForms()
     {
         return $this->getWritables();
     }
@@ -137,14 +137,14 @@ class PickAForm implements PickAFormInterface
         return $this->getSubForms()[$name];
     }
 
-    function getActions()
+    public function getActions()
     {
-        return $this->_actions;
+        return $this->actions;
     }
 
-    function addError($error)
+    public function addError($error)
     {
-        $this->_errors[] = $error;
+        $this->errors[] = $error;
     }
 
     /**
@@ -154,10 +154,10 @@ class PickAForm implements PickAFormInterface
      */
     public function __construct($id, $manifest, $actions = [])
     {
-        $this->_actions = $actions;
-        $this->_pickA = new PickA($id, $manifest);
+        $this->actions = $actions;
+        $this->pickA = new PickA($id, $manifest);
 
-        $this->_fieldBearer = new FieldBearer([], [], [], [], function () {
+        $this->fieldBearer = new FieldBearer([], [], [], [], function () {
         });
     }
 

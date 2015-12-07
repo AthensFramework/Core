@@ -2,43 +2,34 @@
 
 namespace UWDOEM\Framework\Field;
 
+use UWDOEM\Framework\Etc\AbstractBuilder;
+
 /**
  * Class FieldBuilder
  *
  * @package UWDOEM\Framework\Field
  */
-class FieldBuilder
+class FieldBuilder extends AbstractBuilder
 {
 
-    protected function __construct()
-    {
-    }
-
     /** @var bool  */
-    protected $_required;
+    protected $required;
 
     /** @var int  */
-    protected $_fieldSize;
+    protected $fieldSize;
 
     /** @var string */
-    protected $_type;
+    protected $type;
 
     /** @var string */
-    protected $_label;
+    protected $label;
 
     /** @var string|string[]  */
-    protected $_initial;
+    protected $initial;
 
     /** @var string[] */
-    protected $_choices;
+    protected $choices;
 
-    /**
-     * @return FieldBuilder
-     */
-    public static function begin()
-    {
-        return new static();
-    }
 
     /**
      * @param boolean $required
@@ -46,7 +37,7 @@ class FieldBuilder
      */
     public function setRequired($required)
     {
-        $this->_required = $required;
+        $this->required = $required;
         return $this;
     }
 
@@ -56,7 +47,7 @@ class FieldBuilder
      */
     public function setFieldSize($fieldSize)
     {
-        $this->_fieldSize = $fieldSize;
+        $this->fieldSize = $fieldSize;
         return $this;
     }
 
@@ -66,7 +57,7 @@ class FieldBuilder
      */
     public function setType($type)
     {
-        $this->_type = $type;
+        $this->type = $type;
         return $this;
     }
 
@@ -76,7 +67,7 @@ class FieldBuilder
      */
     public function setLabel($label)
     {
-        $this->_label = $label;
+        $this->label = $label;
         return $this;
     }
 
@@ -86,7 +77,7 @@ class FieldBuilder
      */
     public function setInitial($initial)
     {
-        $this->_initial = $initial;
+        $this->initial = $initial;
         return $this;
     }
 
@@ -96,33 +87,33 @@ class FieldBuilder
      */
     public function setChoices($choices)
     {
-        $this->_choices = $choices;
+        $this->choices = $choices;
         return $this;
     }
 
     public function build()
     {
-        if (!isset($this->_type)) {
+        if (!isset($this->type)) {
             throw new \Exception("Must use ::setType to set a field type before building");
         }
 
-        if (!isset($this->_label)) {
+        if (!isset($this->label)) {
             throw new \Exception("Must use ::setLabel to set a field label before building");
         }
 
-        if ($this->_type == Field::FIELD_TYPE_CHOICE || $this->_type == Field::FIELD_TYPE_MULTIPLE_CHOICE) {
-            if (!isset($this->_choices)) {
+        if ($this->type == Field::FIELD_TYPE_CHOICE || $this->type == Field::FIELD_TYPE_MULTIPLE_CHOICE) {
+            if (!isset($this->choices)) {
                 throw new \Exception("For the chosen field type, you must include choices using ::setChoices");
             }
         }
 
         return new Field(
-            $this->_type,
-            $this->_label,
-            $this->_initial,
-            $this->_required,
-            $this->_choices,
-            $this->_fieldSize
+            $this->type,
+            $this->label,
+            $this->initial,
+            $this->required,
+            $this->choices,
+            $this->fieldSize
         );
     }
 }

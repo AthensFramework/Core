@@ -25,28 +25,28 @@ class Page implements PageInterface
     use VisitableTrait;
 
     /** @var string */
-    protected $_title;
+    protected $title;
 
     /** @var string */
-    protected $_baseHref;
+    protected $baseHref;
 
     /** @var string */
-    protected $_header;
+    protected $header;
     
     /** @var string */
-    protected $_subHeader;
+    protected $subHeader;
 
     /** @var string[] */
-    protected $_breadCrumbs;
+    protected $breadCrumbs;
     
     /** @var string[] */
-    protected $_returnTo;
+    protected $returnTo;
 
     /** @var WritableInterface */
-    protected $_writable;
+    protected $writable;
 
     /** @var string */
-    protected $_type;
+    protected $type;
 
 
     public function getId()
@@ -56,25 +56,33 @@ class Page implements PageInterface
 
     /**
      * Page constructor.
-     * @param string $_title
-     * @param string $_baseHref
-     * @param string $_header
-     * @param string $_subHeader
-     * @param string[] $_breadCrumbs
-     * @param string[] $_returnTo
-     * @param WritableInterface|null $_writable
-     * @param string $_type
+     * @param string $type
+     * @param string $title
+     * @param string $baseHref
+     * @param string $header
+     * @param string $subHeader
+     * @param string[] $breadCrumbs
+     * @param string[] $returnTo
+     * @param WritableInterface|null $writable
      */
-    public function __construct($_title, $_baseHref, $_header, $_subHeader, array $_breadCrumbs, array $_returnTo, WritableInterface $_writable = null, $_type)
-    {
-        $this->_title = $_title;
-        $this->_baseHref = $_baseHref;
-        $this->_header = $_header;
-        $this->_subHeader = $_subHeader;
-        $this->_breadCrumbs = $_breadCrumbs;
-        $this->_returnTo = $_returnTo;
-        $this->_writable = $_writable;
-        $this->_type = $_type;
+    public function __construct(
+        $type,
+        $title,
+        $baseHref,
+        $header,
+        $subHeader,
+        array $breadCrumbs,
+        array $returnTo,
+        WritableInterface $writable = null
+    ) {
+        $this->title = $title;
+        $this->baseHref = $baseHref;
+        $this->header = $header;
+        $this->subHeader = $subHeader;
+        $this->breadCrumbs = $breadCrumbs;
+        $this->returnTo = $returnTo;
+        $this->writable = $writable;
+        $this->type = $type;
     }
 
     /**
@@ -82,7 +90,7 @@ class Page implements PageInterface
      */
     public function getType()
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -90,7 +98,7 @@ class Page implements PageInterface
      */
     public function getTitle()
     {
-        return $this->_title;
+        return $this->title;
     }
 
     /**
@@ -98,7 +106,7 @@ class Page implements PageInterface
      */
     public function getBaseHref()
     {
-        return $this->_baseHref;
+        return $this->baseHref;
     }
 
     /**
@@ -106,7 +114,7 @@ class Page implements PageInterface
      */
     public function getHeader()
     {
-        return $this->_header;
+        return $this->header;
     }
 
     /**
@@ -114,7 +122,7 @@ class Page implements PageInterface
      */
     public function getSubHeader()
     {
-        return $this->_subHeader;
+        return $this->subHeader;
     }
 
     /**
@@ -122,7 +130,7 @@ class Page implements PageInterface
      */
     public function getBreadCrumbs()
     {
-        return $this->_breadCrumbs;
+        return $this->breadCrumbs;
     }
 
     /**
@@ -130,7 +138,7 @@ class Page implements PageInterface
      */
     public function getReturnTo()
     {
-        return $this->_returnTo;
+        return $this->returnTo;
     }
 
     /**
@@ -138,7 +146,7 @@ class Page implements PageInterface
      */
     public function getWritable()
     {
-        return $this->_writable;
+        return $this->writable;
     }
 
     protected function makeDefaultInitializer()

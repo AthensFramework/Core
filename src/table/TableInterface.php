@@ -12,10 +12,10 @@ interface TableInterface extends WritableInterface
     /**
      * @return RowInterface[]
      */
-    function getRows();
+    public function getRows();
 
     /**
      * @return FilterInterface
      */
-    function getFilter();
+    public function getFilter();
 }

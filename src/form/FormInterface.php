@@ -13,48 +13,48 @@ interface FormInterface extends WritableInterface, InitializableInterface
     /**
      * @return FieldBearerInterface
      */
-    function getFieldBearer();
+    public function getFieldBearer();
 
     /**
      * @return FormInterface[]
      */
-    function getSubForms();
+    public function getSubForms();
 
     /**
      * @param string $name
      * @return FormInterface
      */
-    function getSubFormByName($name);
+    public function getSubFormByName($name);
 
     /**
      * @return bool
      */
-    function isValid();
+    public function isValid();
 
     /**
      * Maybe this should be protected??
      */
-    function onValid();
+    public function onValid();
 
     /**
      * Maybe this should be protected??
      */
-    function onInvalid();
+    public function onInvalid();
 
     /**
      * @return string[]
      */
-    function getErrors();
+    public function getErrors();
 
     /**
      * @return FormAction[]
      */
-    function getActions();
+    public function getActions();
 
     /**
      * @param string $error
      */
-    function addError($error);
+    public function addError($error);
 
-    function propagateOnValid();
+    public function propagateOnValid();
 }

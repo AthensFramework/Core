@@ -11,7 +11,7 @@ class ClassFieldBearer extends FieldBearer implements FieldBearerInterface
 {
 
     /** @var ActiveRecordInterface  */
-    protected $_object;
+    protected $object;
 
     /**
      * @param ActiveRecordInterface $object
@@ -19,7 +19,7 @@ class ClassFieldBearer extends FieldBearer implements FieldBearerInterface
      */
     public function __construct(ActiveRecordInterface $object, callable $saveFunction)
     {
-        $this->_object = $object;
+        $this->object = $object;
 
         $fields = ORMUtils::makeFieldsFromObject($object);
 

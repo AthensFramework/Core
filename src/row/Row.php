@@ -18,22 +18,22 @@ class Row implements RowInterface
      *
      * @var string
      */
-    protected $_onClick;
+    protected $onClick;
 
     /**
      * @var FieldBearerInterface
      */
-    protected $_fieldBearer;
+    protected $fieldBearer;
 
     /**
      * @var bool
      */
-    protected $_highlightable;
+    protected $highlightable;
 
     use VisitableTrait;
 
 
-    function getId()
+    public function getId()
     {
         return md5(
             json_encode(
@@ -42,11 +42,11 @@ class Row implements RowInterface
         );
     }
 
-    function __construct(FieldBearerInterface $fieldBearer, $onClick, $highlightable)
+    public function __construct(FieldBearerInterface $fieldBearer, $onClick, $highlightable)
     {
-        $this->_fieldBearer = $fieldBearer;
-        $this->_onClick = $onClick;
-        $this->_highlightable = $highlightable;
+        $this->fieldBearer = $fieldBearer;
+        $this->onClick = $onClick;
+        $this->highlightable = $highlightable;
     }
 
     /**
@@ -54,7 +54,7 @@ class Row implements RowInterface
      */
     public function getOnClick()
     {
-        return $this->_onClick;
+        return $this->onClick;
     }
 
     /**
@@ -62,7 +62,7 @@ class Row implements RowInterface
      */
     public function getFieldBearer()
     {
-        return $this->_fieldBearer;
+        return $this->fieldBearer;
     }
 
     /**
@@ -70,6 +70,6 @@ class Row implements RowInterface
      */
     public function isHighlightable()
     {
-        return $this->_highlightable;
+        return $this->highlightable;
     }
 }

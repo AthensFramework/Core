@@ -27,7 +27,7 @@ use UWDOEM\Framework\Table\TableFormInterface;
 class Writer extends Visitor
 {
 
-    protected $_environment;
+    protected $environment;
 
     protected function getTemplatesDirectories()
     {
@@ -41,27 +41,27 @@ class Writer extends Visitor
 
     protected function getEnvironment()
     {
-        if (!isset($this->_environment)) {
+        if (!isset($this->environment)) {
             $loader = new \Twig_Loader_Filesystem($this->getTemplatesDirectories());
-            $this->_environment = new \Twig_Environment($loader);
+            $this->environment = new \Twig_Environment($loader);
 
             $filter = new Twig_SimpleFilter('write', function (WritableInterface $host) {
                 return $host->accept($this);
 
             });
-            $this->_environment->addFilter($filter);
+            $this->environment->addFilter($filter);
 
             $filter = new Twig_SimpleFilter('slugify', function ($string) {
                 return StringUtils::slugify($string);
 
             });
-            $this->_environment->addFilter($filter);
+            $this->environment->addFilter($filter);
 
             $filter = new Twig_SimpleFilter('md5', function ($string) {
                 return md5($string);
 
             });
-            $this->_environment->addFilter($filter);
+            $this->environment->addFilter($filter);
 
             $filter = new Twig_SimpleFilter('stripForm', function ($string) {
                 $string = str_replace("<form", "<div", $string);
@@ -73,7 +73,7 @@ class Writer extends Visitor
 
                 return $string;
             });
-            $this->_environment->addFilter($filter);
+            $this->environment->addFilter($filter);
 
             $filter = new Twig_SimpleFilter(
                 'saferaw',
@@ -87,13 +87,13 @@ class Writer extends Visitor
                     return $string;
                 }
             );
-            $this->_environment->addFilter($filter);
+            $this->environment->addFilter($filter);
 
             $requestURI = array_key_exists("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : "";
-            $this->_environment->addGlobal("requestURI", $requestURI);
+            $this->environment->addGlobal("requestURI", $requestURI);
         }
 
-        return $this->_environment;
+        return $this->environment;
     }
 
     protected function loadTemplate($subpath)

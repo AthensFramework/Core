@@ -9,39 +9,44 @@ trait FormTrait
 {
 
     /** @var string */
-    protected $_id;
+    protected $id;
 
     /** @var bool */
-    protected $_isValid;
+    protected $isValid;
 
     /** @var string[] */
-    protected $_errors = [];
+    protected $errors = [];
 
     /** @var FormAction[] */
-    protected $_actions;
+    protected $actions;
 
     /** @var FieldBearerInterface  */
-    protected $_fieldBearer;
+    protected $fieldBearer;
 
     /** @var callable */
-    protected $_onValidFunc;
+    protected $onValidFunc;
 
     /** @var callable */
-    protected $_onInvalidFunc;
+    protected $onInvalidFunc;
 
     /** @var array[]  */
-    protected $_validators;
+    protected $validators;
 
     /** @var FormInterface[] */
-    protected $_subForms;
+    protected $subForms;
 
+
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return FieldBearerInterface
      */
     public function getFieldBearer()
     {
-        return $this->_fieldBearer;
+        return $this->fieldBearer;
     }
 
     /**
@@ -50,7 +55,7 @@ trait FormTrait
     public function onValid()
     {
         $args = array_merge([$this], func_get_args());
-        return call_user_func_array($this->_onValidFunc, $args);
+        return call_user_func_array($this->onValidFunc, $args);
     }
 
     /**
@@ -59,7 +64,7 @@ trait FormTrait
     public function onInvalid()
     {
         $args = array_merge([$this], func_get_args());
-        return call_user_func_array($this->_onInvalidFunc, $args);
+        return call_user_func_array($this->onInvalidFunc, $args);
     }
 
     /**
@@ -67,10 +72,10 @@ trait FormTrait
      */
     public function isValid()
     {
-        if (!isset($this->_isValid)) {
+        if (!isset($this->isValid)) {
             $this->validate();
         }
-        return $this->_isValid;
+        return $this->isValid;
     }
 
     /**
@@ -78,7 +83,7 @@ trait FormTrait
      */
     public function addError($error)
     {
-        $this->_errors[] = $error;
+        $this->errors[] = $error;
     }
 
     /**
@@ -86,7 +91,7 @@ trait FormTrait
      */
     public function getErrors()
     {
-        return $this->_errors;
+        return $this->errors;
     }
 
     /**
@@ -94,7 +99,7 @@ trait FormTrait
      */
     public function getActions()
     {
-        return $this->_actions;
+        return $this->actions;
     }
 
     /**
@@ -102,7 +107,7 @@ trait FormTrait
      */
     public function getSubForms()
     {
-        return $this->_subForms;
+        return $this->subForms;
     }
 
     /**

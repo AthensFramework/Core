@@ -13,7 +13,7 @@ class TableFormBuilder extends AbstractBuilder
     use FormBuilderTrait;
 
     /** @var callable */
-    protected $_rowMakingFunction;
+    protected $rowMakingFunction;
 
 
     /**
@@ -22,15 +22,15 @@ class TableFormBuilder extends AbstractBuilder
      */
     public function setRowMakingFunction(callable $rowMakingFunction)
     {
-        $this->_rowMakingFunction = $rowMakingFunction;
+        $this->rowMakingFunction = $rowMakingFunction;
         return $this;
     }
 
     protected function validateOnInvalidFunc()
     {
-        if (!isset($this->_onInvalidFunc)) {
+        if (!isset($this->onInvalidFunc)) {
 
-            $this->_onInvalidFunc = function (TableFormInterface $form) {
+            $this->onInvalidFunc = function (TableFormInterface $form) {
                 foreach ($form->getRows() as $row) {
                     foreach ($row->getFieldBearer()->getFields() as $field) {
                         if ($field->getType() !== Field::FIELD_TYPE_LITERAL) {
@@ -45,8 +45,8 @@ class TableFormBuilder extends AbstractBuilder
 
     protected function validateOnValidFunc()
     {
-        if (!isset($this->_onValidFunc)) {
-            $this->_onValidFunc = function (TableFormInterface $form) {
+        if (!isset($this->onValidFunc)) {
+            $this->onValidFunc = function (TableFormInterface $form) {
                 foreach ($form->getRows() as $row) {
                     $fieldBearer = $row->getFieldBearer();
 
@@ -71,11 +71,11 @@ class TableFormBuilder extends AbstractBuilder
         $this->validateActions();
 
         return new TableForm(
-            $this->_rowMakingFunction,
-            $this->_onValidFunc,
-            $this->_onInvalidFunc,
-            $this->_actions,
-            $this->_validators
+            $this->rowMakingFunction,
+            $this->onValidFunc,
+            $this->onInvalidFunc,
+            $this->actions,
+            $this->validators
         );
     }
 }

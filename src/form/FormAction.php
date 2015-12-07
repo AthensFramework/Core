@@ -7,9 +7,11 @@ use UWDOEM\Framework\Visitor\VisitableTrait;
 class FormAction implements FormActionInterface
 {
 
-    protected $_label;
-    protected $_method;
-    protected $_target;
+    protected $label;
+
+    protected $method;
+
+    protected $target;
 
     use VisitableTrait;
 
@@ -21,23 +23,23 @@ class FormAction implements FormActionInterface
 
     public function __construct($label, $method, $target)
     {
-        $this->_label = $label;
-        $this->_method = $method;
-        $this->_target = $target;
+        $this->label = $label;
+        $this->method = $method;
+        $this->target = $target;
     }
 
     public function getMethod()
     {
-        return $this->_method;
+        return $this->method;
     }
     
     public function getTarget()
     {
-        return $this->_target;
+        return $this->target;
     }
 
     public function getLabel()
     {
-        return $this->_label;
+        return $this->label;
     }
 }

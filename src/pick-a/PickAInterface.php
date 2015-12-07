@@ -10,15 +10,15 @@ interface PickAInterface extends WritableInterface
     /**
      * @return array
      */
-    function getManifest();
+    public function getManifest();
 
     /**
      * @return string[]
      */
-    function getLabels();
+    public function getLabels();
 
     /**
      * @return WritableInterface[]
      */
-    function getWritables();
+    public function getWritables();
 }

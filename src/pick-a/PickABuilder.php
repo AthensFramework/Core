@@ -7,7 +7,7 @@ use UWDOEM\Framework\Etc\AbstractBuilder;
 class PickABuilder extends AbstractBuilder
 {
 
-    protected $_manifest = [];
+    protected $manifest = [];
 
     /**
      * @return PickA
@@ -16,7 +16,7 @@ class PickABuilder extends AbstractBuilder
     {
         $this->validateId();
 
-        return new PickA($this->_id, $this->_manifest);
+        return new PickA($this->id, $this->manifest);
     }
 
     /**
@@ -25,7 +25,7 @@ class PickABuilder extends AbstractBuilder
      */
     public function addLabel($label)
     {
-        $this->_manifest[$label] = null;
+        $this->manifest[$label] = null;
         return $this;
     }
 
@@ -35,7 +35,7 @@ class PickABuilder extends AbstractBuilder
      */
     public function addWritables(array $writables)
     {
-        $this->_manifest = array_merge($this->_manifest, $writables);
+        $this->manifest = array_merge($this->manifest, $writables);
         return $this;
     }
 }

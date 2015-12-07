@@ -9,31 +9,28 @@ class PickA implements PickAInterface
 {
 
     /** @var string */
-    protected $_id;
+    protected $id;
 
-    protected $_manifest = [];
-    /**
-     * @var
-     */
+    protected $manifest = [];
 
     use VisitableTrait;
 
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     public function __construct($id, $manifest)
     {
-        $this->_manifest = $manifest;
-        $this->_id = $id;
+        $this->manifest = $manifest;
+        $this->id = $id;
     }
 
     public function getWritables()
     {
         $writables = [];
-        foreach ($this->_manifest as $key => $manifestItem) {
+        foreach ($this->manifest as $key => $manifestItem) {
             if ($manifestItem instanceof WritableInterface) {
                 $writables[$key] = $manifestItem;
             }
@@ -45,7 +42,7 @@ class PickA implements PickAInterface
     public function getLabels()
     {
         $labels = [];
-        foreach ($this->_manifest as $key => $manifestItem) {
+        foreach ($this->manifest as $key => $manifestItem) {
             if (!($manifestItem instanceof WritableInterface)) {
                 $labels[] = $key;
             }
@@ -56,6 +53,6 @@ class PickA implements PickAInterface
 
     public function getManifest()
     {
-        return $this->_manifest;
+        return $this->manifest;
     }
 }

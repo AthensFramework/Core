@@ -8,8 +8,8 @@ interface PickAFormInterface extends FormInterface, PickAInterface
 {
 
     /** @return FormInterface */
-    function getSelectedForm();
+    public function getSelectedForm();
 
     /** @return string */
-    function getSelectedSlug();
+    public function getSelectedSlug();
 }

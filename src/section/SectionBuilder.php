@@ -9,16 +9,16 @@ class SectionBuilder extends AbstractBuilder
 {
 
     /** @var string */
-    protected $_label = "";
+    protected $label = "";
 
     /** @var string */
-    protected $_content;
+    protected $content;
 
     /** @var string */
-    protected $_type;
+    protected $type;
 
     /** @var WritableInterface[] */
-    protected $_writables = [];
+    protected $writables = [];
 
 
     /**
@@ -27,7 +27,7 @@ class SectionBuilder extends AbstractBuilder
      */
     public function setLabel($label)
     {
-        $this->_label = $label;
+        $this->label = $label;
         return $this;
     }
 
@@ -39,12 +39,12 @@ class SectionBuilder extends AbstractBuilder
     public function setHandle($handle)
     {
 
-        if ($this->_type !== "ajax-loaded") {
+        if ($this->type !== "ajax-loaded") {
             throw new \Exception("Handle may only be set on an ajax-loaded section. " .
                 "Set type to 'ajax-loaded' before invoking this method.");
         }
 
-        $this->_label = $handle;
+        $this->label = $handle;
         return $this;
     }
 
@@ -55,11 +55,11 @@ class SectionBuilder extends AbstractBuilder
      */
     public function setContent($content)
     {
-        if ($this->_type === "ajax-loaded") {
+        if ($this->type === "ajax-loaded") {
             throw new \Exception("Cannot set content on an ajax-loaded section.");
         }
 
-        $this->_content = $content;
+        $this->content = $content;
         return $this;
     }
 
@@ -70,11 +70,11 @@ class SectionBuilder extends AbstractBuilder
      */
     public function setType($type)
     {
-        if ($type === "ajax-loaded" && isset($this->_content)) {
+        if ($type === "ajax-loaded" && isset($this->content)) {
             throw new \Exception("Cannot set type to 'ajax-loaded' because content has already been set; " .
                 "an ajax-loaded section must not have content.");
         }
-        $this->_type = $type;
+        $this->type = $type;
         return $this;
     }
 
@@ -85,12 +85,12 @@ class SectionBuilder extends AbstractBuilder
      */
     public function setTarget($target)
     {
-        if ($this->_type !== "ajax-loaded") {
+        if ($this->type !== "ajax-loaded") {
             throw new \Exception("Target may only be set on an ajax-loaded section. " .
             "Set type to 'ajax-loaded' before invoking this method.");
         }
 
-        $this->_content = $target;
+        $this->content = $target;
 
         return $this;
     }
@@ -101,7 +101,7 @@ class SectionBuilder extends AbstractBuilder
      */
     public function addWritable($writable)
     {
-        $this->_writables[] = $writable;
+        $this->writables[] = $writable;
         return $this;
     }
 
@@ -113,14 +113,14 @@ class SectionBuilder extends AbstractBuilder
 
         $this->validateId();
 
-        if (!isset($this->_type)) {
-            $this->_type = "base";
+        if (!isset($this->type)) {
+            $this->type = "base";
         }
 
-        if (!isset($this->_content)) {
-            $this->_content = "";
+        if (!isset($this->content)) {
+            $this->content = "";
         }
 
-        return new Section($this->_id, $this->_content, $this->_writables, $this->_label, $this->_type);
+        return new Section($this->id, $this->content, $this->writables, $this->label, $this->type);
     }
 }
