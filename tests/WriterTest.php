@@ -376,6 +376,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
     public function testVisitTable() {
         $writer = new Writer();
 
+        $id = "t" . (string)rand();
+
         $field1 = new Field("text", "Text Field Label", (string)rand());
         $field1Name = "TextField1";
         $row1 = RowBuilder::begin()
@@ -389,6 +391,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $table = TableBuilder::begin()
+            ->setId($id)
             ->setRows([$row1, $row2])
             ->build();
 
@@ -398,7 +401,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $row1Written = $this->stripQuotes($writer->visitRow($row1));
         $row2Written = $this->stripQuotes($writer->visitRow($row2));
 
-        $this->assertContains("<table>", $result);
+        $this->assertContains("<table id=$id>", $result);
         $this->assertContains("</table>", $result);
 
         $this->assertContains("<th data-header-for=$field1Name>{$field1->getLabel()}</th>", $result);

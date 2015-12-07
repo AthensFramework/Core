@@ -9,35 +9,34 @@ use UWDOEM\Framework\Visitor\VisitableTrait;
 
 class Table implements TableInterface {
 
+    /** @var FilterInterface */
     protected $_filter;
 
-    /**
-     * @var RowInterface[]
-     */
+    /** @var RowInterface[] */
     protected $_rows = [];
+
+    /** @var string */
+    protected $_id;
 
     use VisitableTrait;
 
-
+    /**
+     * @return string
+     */
     public function getId() {
-        $unfilteredRows = $this->getUnfilteredRows();
-
-        if ($unfilteredRows) {
-            $hash = md5(json_encode($unfilteredRows[0]->getFieldBearer()->getVisibleFieldNames()));
-        } else {
-            $hash = md5("table" . $_SERVER["REQUEST_URI"]);
-        }
-
-        return $hash;
+        return $this->_id;
     }
 
     /**
+     * @param $id
      * @param array $rows
      * @param FilterInterface $filter
      */
-    public function __construct(array $rows, FilterInterface $filter) {
+    public function __construct($id, array $rows, FilterInterface $filter) {
+
         $this->_rows = $rows;
         $this->_filter = $filter;
+        $this->_id = $id;
     }
 
     public function getRows() {

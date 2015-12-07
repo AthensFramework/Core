@@ -10,15 +10,24 @@ use UWDOEM\Framework\Filter\FilterInterface;
 
 class TableBuilder {
 
-    /**
-     * @var RowInterface[]
-     */
+    /** @var string */
+    protected $_id;
+
+    /** @var RowInterface[] */
     protected $_rows = [];
 
-    /**
-     * @var FilterInterface
-     */
+    /** @var FilterInterface */
     protected $_filter;
+
+
+    /**
+     * @param string $id
+     * @return TableBuilder
+     */
+    public function setId($id) {
+        $this->_id = $id;
+        return $this;
+    }
 
     /**
      * @param RowInterface[] $rows
@@ -49,10 +58,15 @@ class TableBuilder {
     }
 
     public function build() {
+        if (!isset($this->_id)) {
+            throw new \RuntimeException("Must use ::setId to provide a form id before calling this method.");
+        }
+
         if (!isset($this->_filter)) {
             $this->_filter = new DummyFilter();
         }
-        return new Table($this->_rows, $this->_filter);
+
+        return new Table($this->_id, $this->_rows, $this->_filter);
     }
 
 

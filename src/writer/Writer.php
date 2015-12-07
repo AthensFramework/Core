@@ -177,7 +177,7 @@ class Writer extends Visitor {
         return $this
             ->loadTemplate($template)
             ->render([
-                "hash" => $table->getId(),
+                "id" => $table->getId(),
                 "rows" => $table->getRows(),
                 "filters" => $filters,
             ]);

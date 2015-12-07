@@ -43,12 +43,15 @@ class TableTest extends PHPUnit_Framework_TestCase
 
         $rows = [$row];
         $filter = new DummyFilter();
+        $id = "t" . (string)rand();
 
         $table = TableBuilder::begin()
+            ->setId($id)
             ->setRows($rows)
             ->addFilter($filter)
             ->build();
 
+        $this->assertEquals($id, $table->getId());
         $this->assertEquals($rows, $table->getRows());
         $this->assertEquals($filter, $table->getFilter());
     }
@@ -78,6 +81,7 @@ class TableTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $table = TableBuilder::begin()
+            ->setId("t" . (string)rand())
             ->setRows($rows)
             ->addFilter($filter)
             ->build();
