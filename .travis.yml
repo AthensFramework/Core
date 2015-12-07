@@ -9,7 +9,6 @@ addons:
 before_script:
   - sed -i '/phpdoc/d' composer.json
   - sed -i '/twig/d' composer.json
-  - sed -i '/propel/d' composer.json
   - sed -i '/dompdf/d' composer.json
   - sed -i '/person/d' composer.json
   - sed -i '/encryption/d' composer.json
