@@ -141,6 +141,38 @@ class Page implements PageInterface
         return $this->_writable;
     }
 
+    protected function makeDefaultInitializer()
+    {
+        $initializerClass = Settings::getDefaultInitializerClass();
+        return new $initializerClass();
+    }
+
+    protected function makeDefaultWriter()
+    {
+        $writerClass = Settings::getDefaultWriterClass();
+        return new $writerClass();
+    }
+
+    protected function makeDefaultRendererFunction()
+    {
+
+        if ($this->getType() === static::PAGE_TYPE_PDF) {
+            $documentName = $this->getTitle() ? $this->getTitle() : "document";
+            $renderFunction = function ($content) use ($documentName) {
+                $dompdf = new DOMPDF();
+                $dompdf->load_html($content);
+                $dompdf->render();
+                $dompdf->stream($documentName . ".pdf");
+            };
+        } else {
+            $renderFunction = function ($content) {
+                echo $content;
+            };
+        }
+
+        return $renderFunction;
+    }
+
     /**
      * @param Initializer|null $initializer
      * @param Writer|null $writer
@@ -154,35 +186,18 @@ class Page implements PageInterface
     ) {
 
         if (is_null($initializer)) {
-            $initializerClass = Settings::getDefaultInitializerClass();
-            $initializer = new $initializerClass();
+            $initializer = $this->makeDefaultInitializer();
         }
-        $this->accept($initializer);
         
         if (is_null($writer)) {
-            $writerClass = Settings::getDefaultWriterClass();
-            $writer = new $writerClass();
+            $writer = $this->makeDefaultWriter();
         }
 
         if (is_null($renderFunction)) {
-            switch ($this->getType()) {
-                case static::PAGE_TYPE_PDF:
-                    $documentName = $this->getTitle() ? $this->getTitle() : "document";
-                    $renderFunction = function ($content) use ($documentName) {
-                        $dompdf = new DOMPDF();
-                        $dompdf->load_html($content);
-                        $dompdf->render();
-                        $dompdf->stream($documentName . ".pdf");
-                    };
-                    break;
-                default:
-                    $renderFunction = function ($content) {
-                        echo $content;
-                    };
-            }
-
+            $renderFunction = $this->makeDefaultRendererFunction();
         }
 
+        $this->accept($initializer);
         $renderFunction($this->accept($writer));
     }
 }
