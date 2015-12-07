@@ -5,8 +5,8 @@ namespace UWDOEM\Framework\FieldBearer;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Initializer\InitializableInterface;
 
-
-interface FieldBearerInterface extends InitializableInterface {
+interface FieldBearerInterface extends InitializableInterface
+{
 
     /**
      * @return FieldBearerInterface[]
@@ -87,5 +87,4 @@ interface FieldBearerInterface extends InitializableInterface {
      * @return mixed
      */
     function save();
-
 }

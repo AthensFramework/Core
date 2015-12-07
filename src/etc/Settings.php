@@ -6,7 +6,8 @@ namespace UWDOEM\Framework\Etc;
  * Class Settings is a static class for maintaining application-wide settings.
  * @package UWDOEM\Framework\Etc
  */
-class Settings {
+class Settings
+{
 
     protected static $settings = [
         "templateDirectories" => [],
@@ -18,76 +19,94 @@ class Settings {
         "defaultPagination" => 12
     ];
 
-    protected function __construct() {}
+    protected function __construct()
+    {
+    }
 
-    public static function addTemplateTheme($theme) {
+    public static function addTemplateTheme($theme)
+    {
         $templateDirectory = dirname(__FILE__) . '/../../templates/' . $theme;
         static::addTemplateDirectory($templateDirectory);
     }
 
-    public static function addTemplateDirectory($directory) {
+    public static function addTemplateDirectory($directory)
+    {
         static::$settings["templateDirectories"][] = $directory;
     }
 
-    public static function addProjectCSS($file) {
+    public static function addProjectCSS($file)
+    {
         static::$settings["projectCSS"][] = $file;
     }
 
-    public static function addProjectJS($file) {
+    public static function addProjectJS($file)
+    {
         static::$settings["projectJS"][] = $file;
     }
 
-    public static function getTemplateDirectories() {
+    public static function getTemplateDirectories()
+    {
         return static::getSetting("templateDirectories");
     }
 
-    public static function setDefaultWriterClass($writerClass) {
+    public static function setDefaultWriterClass($writerClass)
+    {
         static::$settings["defaultWriterClass"] = $writerClass;
     }
 
-    public static function getDefaultWriterClass() {
+    public static function getDefaultWriterClass()
+    {
         return static::getSetting("defaultWriterClass");
     }
 
-    public static function setDefaultInitializerClass($initializerClass) {
+    public static function setDefaultInitializerClass($initializerClass)
+    {
         static::$settings["defaultInitializerClass"] = $initializerClass;
     }
 
-    public static function getDefaultInitializerClass() {
+    public static function getDefaultInitializerClass()
+    {
         return static::getSetting("defaultInitializerClass");
     }
 
-    public static function getProjectJS() {
+    public static function getProjectJS()
+    {
         return static::getSetting("projectJS");
     }
 
-    public static function getProjectCSS() {
+    public static function getProjectCSS()
+    {
         return static::getSetting("projectCSS");
     }
 
-    public static function getDefaultPagination() {
+    public static function getDefaultPagination()
+    {
         return static::getSetting("defaultPagination");
     }
 
     /**
      * @param string[] $acronyms
      */
-    public static function setAcronyms(array $acronyms) {
+    public static function setAcronyms(array $acronyms)
+    {
         static::$settings["acronyms"] = $acronyms;
     }
 
-    public static function getAcronyms() {
+    public static function getAcronyms()
+    {
         return static::getSetting("acronyms");
     }
 
     /**
      * @param int $value The default number of rows per page to display, when paginating
      */
-    public static function setDefaultPagination($value) {
+    public static function setDefaultPagination($value)
+    {
         static::$settings["defaultPagination"] = $value;
     }
 
-    protected static function getSetting($key) {
+    protected static function getSetting($key)
+    {
         if (array_key_exists($key, static::$settings)) {
             return static::$settings[$key];
         } else {

@@ -5,8 +5,8 @@ namespace UWDOEM\Framework\Section;
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Initializer\InitializableInterface;
 
-
-interface SectionInterface extends WritableInterface, InitializableInterface {
+interface SectionInterface extends WritableInterface, InitializableInterface
+{
 
     /**
      * @return string
@@ -27,5 +27,4 @@ interface SectionInterface extends WritableInterface, InitializableInterface {
      * @return SectionInterface[]
      */
     public function getWritables();
-
 }

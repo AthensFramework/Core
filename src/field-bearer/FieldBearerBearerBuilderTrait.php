@@ -2,8 +2,8 @@
 
 namespace UWDOEM\Framework\FieldBearer;
 
-
-trait FieldBearerBearerBuilderTrait {
+trait FieldBearerBearerBuilderTrait
+{
 
     /** @var FieldBearerBuilder */
     private $_fieldBearerBuilder;
@@ -11,7 +11,8 @@ trait FieldBearerBearerBuilderTrait {
     /** @var mixed[] */
     private $_initialFieldValues = [];
 
-    private function createFieldBearerBuilderIfNull() {
+    private function createFieldBearerBuilderIfNull()
+    {
         if (is_null($this->_fieldBearerBuilder)) {
             $this->_fieldBearerBuilder = FieldBearerBuilder::begin();
         }
@@ -21,7 +22,8 @@ trait FieldBearerBearerBuilderTrait {
     /**
      * @return FieldBearerBuilder
      */
-    private function getFieldBearerBuilder() {
+    private function getFieldBearerBuilder()
+    {
         $this->createFieldBearerBuilderIfNull();
 
         return $this->_fieldBearerBuilder;
@@ -30,7 +32,8 @@ trait FieldBearerBearerBuilderTrait {
     /**
      * @return FieldBearer
      */
-    protected function buildFieldBearer() {
+    protected function buildFieldBearer()
+    {
         $fieldBearer = $this->getFieldBearerBuilder()->build();
 
         foreach ($this->_initialFieldValues as $fieldName => $value) {
@@ -44,7 +47,8 @@ trait FieldBearerBearerBuilderTrait {
      * @param FieldBearerInterface[] $fieldBearers
      * @return $this
      */
-    public function addFieldBearers(array $fieldBearers) {
+    public function addFieldBearers(array $fieldBearers)
+    {
         $this->getFieldBearerBuilder()->addFieldBearers($fieldBearers);
         return $this;
     }
@@ -53,7 +57,8 @@ trait FieldBearerBearerBuilderTrait {
      * @param \UWDOEM\Framework\Field\FieldInterface[] $fields
      * @return $this
      */
-    public function addFields(array $fields) {
+    public function addFields(array $fields)
+    {
         $this->getFieldBearerBuilder()->addFields($fields);
         return $this;
     }
@@ -62,7 +67,8 @@ trait FieldBearerBearerBuilderTrait {
      * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
      * @return $this
      */
-    public function addObject($object) {
+    public function addObject($object)
+    {
         $this->getFieldBearerBuilder()->addObject($object);
         return $this;
     }
@@ -71,7 +77,8 @@ trait FieldBearerBearerBuilderTrait {
      * @param string[] $visibleFieldNames
      * @return $this
      */
-    public function setVisibleFieldNames(array $visibleFieldNames) {
+    public function setVisibleFieldNames(array $visibleFieldNames)
+    {
         $this->getFieldBearerBuilder()->setVisibleFieldNames($visibleFieldNames);
         return $this;
     }
@@ -80,7 +87,8 @@ trait FieldBearerBearerBuilderTrait {
      * @param string[] $hiddenFieldNames
      * @return $this
      */
-    public function setHiddenFieldNames(array $hiddenFieldNames) {
+    public function setHiddenFieldNames(array $hiddenFieldNames)
+    {
         $this->getFieldBearerBuilder()->setHiddenFieldNames($hiddenFieldNames);
         return $this;
     }
@@ -89,7 +97,8 @@ trait FieldBearerBearerBuilderTrait {
      * @param callable $saveFunction
      * @return $this
      */
-    public function setSaveFunction(callable $saveFunction) {
+    public function setSaveFunction(callable $saveFunction)
+    {
         $this->getFieldBearerBuilder()->setSaveFunction($saveFunction);
         return $this;
     }
@@ -99,10 +108,10 @@ trait FieldBearerBearerBuilderTrait {
      * @param mixed $value
      * @return $this
      */
-    public function setInitialFieldValue($fieldName, $value) {
+    public function setInitialFieldValue($fieldName, $value)
+    {
         $this->_initialFieldValues[$fieldName] = $value;
 
         return $this;
     }
-
 }

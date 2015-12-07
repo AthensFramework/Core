@@ -7,8 +7,8 @@ use UWDOEM\Framework\Initializer\InitializableInterface;
 use UWDOEM\Framework\Writer\Writer;
 use UWDOEM\Framework\Initializer\Initializer;
 
-
-interface PageInterface extends WritableInterface, InitializableInterface {
+interface PageInterface extends WritableInterface, InitializableInterface
+{
 
     /**
      * @return string
@@ -56,5 +56,4 @@ interface PageInterface extends WritableInterface, InitializableInterface {
      * @return mixed
      */
     public function render(Initializer $initializer, Writer $writer);
-
 }

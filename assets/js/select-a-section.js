@@ -1,7 +1,7 @@
 
 
-uwdoem.select_a_section = (function() {
-    var revealSelectASection = function(selectASection, targetSelectionName) {
+uwdoem.select_a_section = (function () {
+    var revealSelectASection = function (selectASection, targetSelectionName) {
         var selectedOption = selectASection.find("div.option.selectable[data-section-for=" + targetSelectionName + "]");
         var selectedSelection = selectASection.find("div.selection[data-selection-name=" + targetSelectionName +"]");
 
@@ -19,15 +19,15 @@ uwdoem.select_a_section = (function() {
     };
 
     // Move these to always do
-    $(function() {
-        $("div.select-a-section-container div.option.selectable").click(function() {
+    $(function () {
+        $("div.select-a-section-container div.option.selectable").click(function () {
             var selectASection = $(this).closest("div.select-a-section-container");
             var targetSelectionName = ($(this).attr('data-section-for'));
 
             revealSelectASection(selectASection, targetSelectionName);
         });
 
-        $("div.select-a-section-container div.option.selectable div.control-container input[type=radio]:checked").each( function() {
+        $("div.select-a-section-container div.option.selectable div.control-container input[type=radio]:checked").each(function () {
             var selectASection = $(this).closest("div.select-a-section-container");
             var targetSelectionName = $(this).val();
 

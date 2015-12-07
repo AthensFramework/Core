@@ -4,8 +4,8 @@ namespace UWDOEM\Framework\PickA;
 
 use UWDOEM\Framework\Writer\WritableInterface;
 
-
-interface PickAInterface extends WritableInterface {
+interface PickAInterface extends WritableInterface
+{
 
     /**
      * @return array
@@ -21,5 +21,4 @@ interface PickAInterface extends WritableInterface {
      * @return WritableInterface[]
      */
     function getWritables();
-
 }

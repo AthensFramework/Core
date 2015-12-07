@@ -9,8 +9,8 @@ use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 
-
-class Filter implements FilterInterface {
+class Filter implements FilterInterface
+{
 
     const TYPE_SEARCH = "search";
     const TYPE_SORT = "sort";
@@ -41,7 +41,8 @@ class Filter implements FilterInterface {
     use VisitableTrait;
 
 
-    public function getId() {
+    public function getId()
+    {
         return md5($this->getHandle());
     }
 
@@ -50,7 +51,8 @@ class Filter implements FilterInterface {
      * @param FilterStatementInterface[] $statements
      * @param FilterInterface|null $nextFilter
      */
-    public function __construct($handle, array $statements, FilterInterface $nextFilter = null) {
+    public function __construct($handle, array $statements, FilterInterface $nextFilter = null)
+    {
 
         if (is_null($nextFilter)) {
             $this->_nextFilter = new DummyFilter();
@@ -65,7 +67,8 @@ class Filter implements FilterInterface {
     /**
      * @return string[]
      */
-    public function getFeedback() {
+    public function getFeedback()
+    {
         return $this->_feedback;
     }
 
@@ -73,7 +76,8 @@ class Filter implements FilterInterface {
      * @param FilterInterface $filter
      * @return FilterInterface
      */
-    public function combine(FilterInterface $filter) {
+    public function combine(FilterInterface $filter)
+    {
         $this->_nextFilter = $filter;
         return $this;
     }
@@ -81,32 +85,36 @@ class Filter implements FilterInterface {
     /**
      * @return string
      */
-    public function getHandle() {
+    public function getHandle()
+    {
         return $this->_handle;
     }
 
     /**
      * @return null|FilterInterface
      */
-    function getNextFilter() {
+    function getNextFilter()
+    {
         return $this->_nextFilter;
     }
 
     /**
      * @return FilterStatement[]
      */
-    public function getStatements() {
+    public function getStatements()
+    {
         return $this->_statements;
     }
 
     /**
      * @return FilterStatement[]
      */
-    protected function getRowStatements() {
+    protected function getRowStatements()
+    {
         $queryStatements = $this->_queryStatements;
         return array_filter(
             $this->_statements,
-            function($statement) use ($queryStatements) {
+            function ($statement) use ($queryStatements) {
                 return array_search($statement, $queryStatements) === false;
             }
         );
@@ -116,7 +124,8 @@ class Filter implements FilterInterface {
      * @param ModelCriteria $query
      * @return ModelCriteria
      */
-    public function queryFilter(ModelCriteria $query) {
+    public function queryFilter(ModelCriteria $query)
+    {
         $query = $this->getNextFilter()->queryFilter($query);
 
         $queryFilterBroken = false;
@@ -146,26 +155,30 @@ class Filter implements FilterInterface {
     /**
      * @param ModelCriteria $query
      */
-    protected function setOptionsByQuery(ModelCriteria $query) {
+    protected function setOptionsByQuery(ModelCriteria $query)
+    {
     }
 
     /**
      * @param ModelCriteria $query
      */
-    protected function setFeedbackByQuery(ModelCriteria $query) {
+    protected function setFeedbackByQuery(ModelCriteria $query)
+    {
     }
 
     /**
      * @param RowInterface[] $rows
      */
-    protected function setOptionsByRows(array $rows) {
+    protected function setOptionsByRows(array $rows)
+    {
     }
 
     /**
      * @param RowInterface[] $rows
      * @return RowInterface[]
      */
-    public function rowFilter(array $rows) {
+    public function rowFilter(array $rows)
+    {
         $this->setOptionsByRows($rows);
 
         $rows = $this->getNextFilter()->rowFilter($rows);
@@ -176,7 +189,8 @@ class Filter implements FilterInterface {
         return $rows;
     }
 
-    public function getOptions() {
+    public function getOptions()
+    {
         return $this->_options;
     }
 }
@@ -186,28 +200,35 @@ class Filter implements FilterInterface {
  * Class DummyFilter Filter class to sit at the end of a chain of filters. Provides no filtering.
  * @package OSFAFramework\Table\Filter
  */
-class DummyFilter extends Filter {
-    function getFeedback() {
+class DummyFilter extends Filter
+{
+    function getFeedback()
+    {
         return "";
     }
 
-    function combine(FilterInterface $filter) {
+    function combine(FilterInterface $filter)
+    {
         return $filter;
     }
 
-    function queryFilter(ModelCriteria $query) {
+    function queryFilter(ModelCriteria $query)
+    {
         return $query;
     }
 
-    function rowFilter(array $rows) {
+    function rowFilter(array $rows)
+    {
         return $rows;
     }
 
-    function getNextFilter() {
+    function getNextFilter()
+    {
         return null;
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         // Do NOT place a DummyFilter at the end of this DummyFilter
     }
 }

@@ -8,15 +8,18 @@ namespace UWDOEM\Framework\Etc;
  *
  * @package UWDOEM\Framework\Etc
  */
-class SafeString {
+class SafeString
+{
 
     protected $_value;
 
-    protected function __construct($value) {
+    protected function __construct($value)
+    {
         $this->_value = $value;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->_value;
     }
 
@@ -26,9 +29,9 @@ class SafeString {
      * @param string $value
      * @return SafeString
      */
-    public static function fromString($value) {
+    public static function fromString($value)
+    {
         $safeString = new self($value);
         return $safeString;
     }
-
 }

@@ -7,10 +7,13 @@ namespace UWDOEM\Framework\Etc;
  *
  * @package UWDOEM\Framework\Etc
  */
-class StringUtils {
+class StringUtils
+{
 
     // Disallow class instantiation
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     /**
      * Turn a string into a slug
@@ -18,9 +21,10 @@ class StringUtils {
      * @param string $string
      * @return string
      */
-    static function slugify($string) {
+    static function slugify($string)
+    {
         // Replace non-alpha-numerics with dashes
-        $string = strtolower(preg_replace(array('/[^a-zA-Z0-9 -]/','/[ -]+/','/^-|-$/'),array('','-',''), $string));
+        $string = strtolower(preg_replace(array('/[^a-zA-Z0-9 -]/','/[ -]+/','/^-|-$/'), array('','-',''), $string));
 
         // Trim dashes from the left side of the string
         $string = ltrim($string, "-");
@@ -37,7 +41,8 @@ class StringUtils {
      * @param string $string
      * @return string
      */
-    static function toTitleCase($string) {
+    static function toTitleCase($string)
+    {
 
         // Replace underscores, dashes with spaces
         $string = str_replace(["_", "-"], " ", $string);
@@ -56,11 +61,9 @@ class StringUtils {
         foreach ($name_array as $index => $value) {
             if (in_array($value, $acronyms)) {
                 $name_array[$index] = strtoupper($value);
-            }
-            elseif ($index === 0 || $index === sizeof($name_array) - 1) {
+            } elseif ($index === 0 || $index === sizeof($name_array) - 1) {
                 $name_array[$index] = ucfirst($value);
-            }
-            elseif (in_array($value, $smallWords)) {
+            } elseif (in_array($value, $smallWords)) {
                 // do nothing
             } else {
                 $name_array[$index] = ucfirst($value);
@@ -79,7 +82,8 @@ class StringUtils {
      * @param string $string
      * @return string
      */
-    static function toUpperCamelCase($string) {
+    static function toUpperCamelCase($string)
+    {
         return str_replace(" ", "", ucwords(str_replace(["_", ".", "-"], " ", $string)));
     }
 }

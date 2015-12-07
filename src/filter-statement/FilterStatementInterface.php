@@ -4,8 +4,8 @@ namespace UWDOEM\Framework\FilterStatement;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-
-interface FilterStatementInterface {
+interface FilterStatementInterface
+{
 
     const COND_SORT_ASC = "ascending";
     const COND_SORT_DESC = "descending";
@@ -47,5 +47,4 @@ interface FilterStatementInterface {
      * @return \UWDOEM\Framework\Row\Row[]
      */
     public function applyToRows(array $rows);
-
 }

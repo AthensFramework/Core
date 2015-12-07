@@ -7,8 +7,8 @@ use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Row\RowBuilder;
 use UWDOEM\Framework\Form\FormBuilderTrait;
 
-
-class TableFormBuilder extends AbstractBuilder {
+class TableFormBuilder extends AbstractBuilder
+{
 
     use FormBuilderTrait;
 
@@ -20,12 +20,14 @@ class TableFormBuilder extends AbstractBuilder {
      * @param callable $rowMakingFunction
      * @return TableFormBuilder
      */
-    public function setRowMakingFunction(callable $rowMakingFunction) {
+    public function setRowMakingFunction(callable $rowMakingFunction)
+    {
         $this->_rowMakingFunction = $rowMakingFunction;
         return $this;
     }
 
-    protected function validateOnInvalidFunc() {
+    protected function validateOnInvalidFunc()
+    {
         if (!isset($this->_onInvalidFunc)) {
 
             $this->_onInvalidFunc = function (TableFormInterface $form) {
@@ -41,9 +43,10 @@ class TableFormBuilder extends AbstractBuilder {
         }
     }
 
-    protected function validateOnValidFunc() {
+    protected function validateOnValidFunc()
+    {
         if (!isset($this->_onValidFunc)) {
-            $this->_onValidFunc = function(TableFormInterface $form) {
+            $this->_onValidFunc = function (TableFormInterface $form) {
                 foreach ($form->getRows() as $row) {
                     $fieldBearer = $row->getFieldBearer();
 
@@ -59,7 +62,8 @@ class TableFormBuilder extends AbstractBuilder {
     /**
      * @return TableForm
      */
-    public function build() {
+    public function build()
+    {
 
         $this->validateOnInvalidFunc();
         $this->validateOnValidFunc();

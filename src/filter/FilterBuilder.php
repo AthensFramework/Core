@@ -9,8 +9,8 @@ use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
 use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
 use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
 
-
-class FilterBuilder {
+class FilterBuilder
+{
 
     /** @var string */
     protected $_type;
@@ -43,9 +43,12 @@ class FilterBuilder {
     protected $_default;
 
 
-    protected function __construct() {}
+    protected function __construct()
+    {
+    }
 
-    public static function begin() {
+    public static function begin()
+    {
         return new static();
     }
 
@@ -53,7 +56,8 @@ class FilterBuilder {
      * @param string $type
      * @return FilterBuilder
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->_type = $type;
         return $this;
     }
@@ -62,7 +66,8 @@ class FilterBuilder {
      * @param int $page
      * @return FilterBuilder
      */
-    public function setPage($page) {
+    public function setPage($page)
+    {
         $this->_page = $page;
         return $this;
     }
@@ -71,7 +76,8 @@ class FilterBuilder {
      * @param int $maxPerPage
      * @return FilterBuilder
      */
-    public function setMaxPerPage($maxPerPage) {
+    public function setMaxPerPage($maxPerPage)
+    {
         $this->_maxPerPage = $maxPerPage;
         return $this;
     }
@@ -80,7 +86,8 @@ class FilterBuilder {
      * @param string $condition
      * @return FilterBuilder
      */
-    public function setCondition($condition) {
+    public function setCondition($condition)
+    {
         $this->_condition = $condition;
         return $this;
     }
@@ -89,7 +96,8 @@ class FilterBuilder {
      * @param mixed $criterion
      * @return FilterBuilder
      */
-    public function setCriterion($criterion) {
+    public function setCriterion($criterion)
+    {
         $this->_criterion = $criterion;
         return $this;
     }
@@ -98,7 +106,8 @@ class FilterBuilder {
      * @param string $name
      * @return FilterBuilder
      */
-    public function setHandle($name) {
+    public function setHandle($name)
+    {
         $this->_handle = $name;
         return $this;
     }
@@ -107,7 +116,8 @@ class FilterBuilder {
      * @param string $fieldName
      * @return FilterBuilder
      */
-    public function setFieldName($fieldName) {
+    public function setFieldName($fieldName)
+    {
         $this->_fieldName = $fieldName;
         return $this;
     }
@@ -116,7 +126,8 @@ class FilterBuilder {
      * @param array[] $options
      * @return FilterBuilder
      */
-    public function addOptions($options) {
+    public function addOptions($options)
+    {
         if (!isset($this->_options)) {
             $this->_options = [];
         }
@@ -129,7 +140,8 @@ class FilterBuilder {
      * @param string $default
      * @return FilterBuilder
      */
-    public function setDefault($default) {
+    public function setDefault($default)
+    {
         $this->_default = $default;
         return $this;
     }
@@ -144,7 +156,8 @@ class FilterBuilder {
      * @return mixed The indicated attribute, if set.
      * @throws \Exception if the indicated attribute has not been set, or if the attribute does not exist
      */
-    protected function retrieveOrException($attrName, $methodName = "this method", $reason = "") {
+    protected function retrieveOrException($attrName, $methodName = "this method", $reason = "")
+    {
 
         if (!property_exists($this, $attrName)) {
             throw new \Exception("Property $attrName not found in class.");
@@ -164,7 +177,8 @@ class FilterBuilder {
      * @param FilterInterface $nextFilter
      * @return FilterBuilder
      */
-    public function setNextFilter($nextFilter) {
+    public function setNextFilter($nextFilter)
+    {
         $this->_nextFilter = $nextFilter;
         return $this;
     }
@@ -175,7 +189,8 @@ class FilterBuilder {
      * @return FilterInterface
      * @throws \Exception if an appropriate combination of fields have not been set.
      */
-    public function build() {
+    public function build()
+    {
 
         $handle = $this->retrieveOrException("_handle", __METHOD__);
         $type = $this->retrieveOrException("_type", __METHOD__);
@@ -183,13 +198,13 @@ class FilterBuilder {
         $statements = [];
         switch ($type) {
             case Filter::TYPE_STATIC:
-
                 $fieldName = $this->retrieveOrException("_fieldName", __METHOD__);
                 $condition = $this->retrieveOrException("_condition", __METHOD__);
 
                 if (in_array(
                     $condition,
-                    [FilterStatementInterface::COND_SORT_ASC, FilterStatementInterface::COND_SORT_DESC])
+                    [FilterStatementInterface::COND_SORT_ASC, FilterStatementInterface::COND_SORT_DESC]
+                )
                 ) {
                     $criterion = $this->_criterion;
                     $statements[] = new SortingFilterStatement($fieldName, $condition, $criterion, null);
@@ -225,7 +240,7 @@ class FilterBuilder {
                 }
 
                 $statements = array_map(
-                    function($option) {
+                    function ($option) {
                         return new ExcludingFilterStatement($option[0], $option[1], $option[2], null);
                     },
                     $options

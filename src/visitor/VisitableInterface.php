@@ -2,9 +2,8 @@
 
 namespace UWDOEM\Framework\Visitor;
 
-
-interface VisitableInterface {
+interface VisitableInterface
+{
 
     function accept(Visitor $visitor);
-
 }

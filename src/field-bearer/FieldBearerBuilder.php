@@ -6,8 +6,8 @@ use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Field\Field;
 
-
-class FieldBearerBuilder {
+class FieldBearerBuilder
+{
 
     /**
      * @var FieldBearerInterface[]
@@ -51,14 +51,16 @@ class FieldBearerBuilder {
      * @param FieldInterface[] $fields
      * @return FieldBearerBuilder
      */
-    public function addFields($fields) {
+    public function addFields($fields)
+    {
 
         $fieldBearer = new FieldBearer(
             $fields,
             [],
             [],
             [],
-            function() {}
+            function () {
+            }
         );
 
         $this->addFieldBearers([$fieldBearer]);
@@ -69,8 +71,9 @@ class FieldBearerBuilder {
      * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
      * @return FieldBearerBuilder
      */
-    public function addObject($object) {
-        $saveFunction = function(ClassFieldBearer $fieldBearer) use ($object) {
+    public function addObject($object)
+    {
+        $saveFunction = function (ClassFieldBearer $fieldBearer) use ($object) {
 
             ORMUtils::fillObjectFromFields($object, $fieldBearer->getFields());
             $object->save();
@@ -92,7 +95,8 @@ class FieldBearerBuilder {
      * @param string $classTableMapName
      * @return FieldBearerBuilder
      */
-    public function addClassTableMapName($classTableMapName) {
+    public function addClassTableMapName($classTableMapName)
+    {
         $object = ORMUtils::makeNewObjectFromClassTableMapName($classTableMapName);
         return $this->addObject($object);
     }
@@ -131,14 +135,16 @@ class FieldBearerBuilder {
     /**
      * @return FieldBearerBuilder
      */
-    public static function begin() {
+    public static function begin()
+    {
         return new static();
     }
 
     /**
      * @return FieldBearerBuilder
      */
-    public function clear() {
+    public function clear()
+    {
         $this->_fieldBearers = [];
         $this->_fields = [];
         $this->_visibleFieldNames = null;
@@ -153,7 +159,8 @@ class FieldBearerBuilder {
      * @param mixed $value
      * @return $this
      */
-    public function setInitialFieldValue($fieldName, $value) {
+    public function setInitialFieldValue($fieldName, $value)
+    {
         $this->_initialFieldValues[$fieldName] = $value;
 
         return $this;
@@ -163,7 +170,8 @@ class FieldBearerBuilder {
      * @return FieldBearer
      * @throws \Exception if neither fields nor fieldBearers has been set
      */
-    public function build() {
+    public function build()
+    {
 //        if (!$this->_fields && !$this->_fieldBearers) {
 //            throw new \Exception("Must make fields and/or fieldBearers before calling this method.");
 //        }
@@ -193,5 +201,4 @@ class FieldBearerBuilder {
 
         return $fieldBearer;
     }
-
 }

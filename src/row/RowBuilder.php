@@ -2,11 +2,10 @@
 
 namespace UWDOEM\Framework\Row;
 
-
 use UWDOEM\Framework\FieldBearer\FieldBearerBearerBuilderTrait;
 
-
-class RowBuilder {
+class RowBuilder
+{
 
     /**
      * @var string
@@ -25,7 +24,8 @@ class RowBuilder {
      * @param string $onClick
      * @return RowBuilder
      */
-    public function setOnClick($onClick) {
+    public function setOnClick($onClick)
+    {
         $this->_onClick = $onClick;
         return $this;
     }
@@ -34,7 +34,8 @@ class RowBuilder {
      * @param boolean $highlightable
      * @return RowBuilder
      */
-    public function setHighlightable($highlightable) {
+    public function setHighlightable($highlightable)
+    {
         $this->_highlightable = $highlightable;
         return $this;
     }
@@ -42,14 +43,16 @@ class RowBuilder {
     /**
      * @return RowBuilder
      */
-    public static function begin() {
+    public static function begin()
+    {
         return new static();
     }
 
     /**
      * @return Row
      */
-    public function build() {
+    public function build()
+    {
 
         $fieldBearer = $this->buildFieldBearer();
 
@@ -68,9 +71,7 @@ class RowBuilder {
         return new Row(
             $fieldBearer,
             $this->_onClick,
-            $this->_highlightable);
+            $this->_highlightable
+        );
     }
-
-
-
 }

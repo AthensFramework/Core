@@ -1,6 +1,6 @@
 
 
-uwdoem.sort = (function() {
+uwdoem.sort = (function () {
     
     var setupSortFilter = function (handle) {
         var filterSection = $("div.sort-container[data-handle-for=" + handle + "]").parents('.ajax-loaded-section');
@@ -15,7 +15,7 @@ uwdoem.sort = (function() {
         var order = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'order');
         filterSection.find("th[data-header-for='" + fieldname + "']").addClass("sorted " + order);
 
-        headers.click(function() {
+        headers.click(function () {
             var fieldname = $(this).attr("data-header-for");
 
             var oldOrder = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'order');

@@ -6,8 +6,8 @@ use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Field\FieldBuilder;
 use UWDOEM\Framework\Field\Field;
 
-
-class FormBuilder extends AbstractBuilder {
+class FormBuilder extends AbstractBuilder
+{
 
     use FormBuilderTrait;
 
@@ -16,7 +16,8 @@ class FormBuilder extends AbstractBuilder {
      * @param string $label
      * @return FormBuilder
      */
-    public function addLabel($label) {
+    public function addLabel($label)
+    {
         $labelField = FieldBuilder::begin()
             ->setType(Field::FIELD_TYPE_SECTION_LABEL)
             ->setLabel($label)
@@ -29,7 +30,8 @@ class FormBuilder extends AbstractBuilder {
      * @return Form
      * @throws \Exception if setFieldBearer has not been called.
      */
-    public function build() {
+    public function build()
+    {
 
         $this->validateId();
 
@@ -39,7 +41,13 @@ class FormBuilder extends AbstractBuilder {
         $this->validateActions();
 
         return new Form(
-            $this->_id, $this->buildFieldBearer(), $this->_onValidFunc, $this->_onInvalidFunc, $this->_actions, $this->_subForms, $this->_validators
+            $this->_id,
+            $this->buildFieldBearer(),
+            $this->_onValidFunc,
+            $this->_onInvalidFunc,
+            $this->_actions,
+            $this->_subForms,
+            $this->_validators
         );
     }
 }

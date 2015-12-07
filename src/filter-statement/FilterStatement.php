@@ -5,8 +5,8 @@ namespace UWDOEM\Framework\FilterStatement;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use UWDOEM\Framework\Row\RowInterface;
 
-
-abstract class FilterStatement implements FilterStatementInterface {
+abstract class FilterStatement implements FilterStatementInterface
+{
 
     /** @var string */
     protected $_fieldName;
@@ -28,7 +28,8 @@ abstract class FilterStatement implements FilterStatementInterface {
      * @param mixed $_criterion
      * @param $_control
      */
-    public function __construct($_fieldName, $_condition, $_criterion, $_control) {
+    public function __construct($_fieldName, $_condition, $_criterion, $_control)
+    {
         $this->_fieldName = $_fieldName;
         $this->_condition = $_condition;
         $this->_criterion = $_criterion;
@@ -38,28 +39,32 @@ abstract class FilterStatement implements FilterStatementInterface {
     /**
      * @return string
      */
-    public function getFieldName() {
+    public function getFieldName()
+    {
         return $this->_fieldName;
     }
 
     /**
      * @return string
      */
-    public function getCondition() {
+    public function getCondition()
+    {
         return $this->_condition;
     }
 
     /**
      * @return mixed
      */
-    public function getCriterion() {
+    public function getCriterion()
+    {
         return $this->_criterion;
     }
 
     /**
      * @return mixed
      */
-    public function getControl() {
+    public function getControl()
+    {
         return $this->_control;
     }
 
@@ -74,6 +79,4 @@ abstract class FilterStatement implements FilterStatementInterface {
      * @return RowInterface[]
      */
     abstract public function applyToRows(array $rows);
-
-
 }

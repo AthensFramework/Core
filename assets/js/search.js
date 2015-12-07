@@ -1,6 +1,6 @@
 
 
-uwdoem.search = (function() {
+uwdoem.search = (function () {
 
     var searchDiv = $(".search-div");
 
@@ -9,7 +9,8 @@ uwdoem.search = (function() {
     /**
      * Fades in the table search div.
      */
-    function fadeInSearch() {
+    function fadeInSearch()
+    {
         uwdoem.fadeInMask();
         $(".search-div").fadeTo(1, 1);
     }
@@ -17,22 +18,23 @@ uwdoem.search = (function() {
     /**
      * Fades out the table search div.
      */
-    function fadeOutSearch() {
+    function fadeOutSearch()
+    {
 
-        searchDiv.fadeTo(150, 0,  function() {
+        searchDiv.fadeTo(150, 0,  function () {
             $(this).css("display", "none");
         });
 
     }
 
-    var searchSubmitOnclick = function() {
+    var searchSubmitOnclick = function () {
         var handle = $(this).closest("div.search-table-content").data("handle-for");
         var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest("div.ajax-loaded-section").attr("id");
         var i = 0;
 
         var getVar = uwdoem.ajax_section.getVar;
 
-        $(this).parent().find('tr').each(function() {
+        $(this).parent().find('tr').each(function () {
             var fieldname = $(this).find('td.fieldname select option:selected').val();
             var operation = $(this).find('td.operation select option:selected').text();
             var value = $(this).find('td.value input').val();
@@ -53,7 +55,7 @@ uwdoem.search = (function() {
         fadeOutSearch();
     };
 
-    var searchIconOnclick = function() {
+    var searchIconOnclick = function () {
         var handle = $(this).data("handle-for");
         var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest("div.ajax-loaded-section").attr("id");
         var getVar = uwdoem.ajax_section.getVar;
@@ -68,7 +70,7 @@ uwdoem.search = (function() {
         console.log(ajaxSectionName);
 
         // Pre-select the existing search criteria
-        $("#search-criteria-area").find('tr').each(function() {
+        $("#search-criteria-area").find('tr').each(function () {
             var rowNumber = $(this).attr("data-row");
 
             var fieldName = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname' + rowNumber);
@@ -82,7 +84,7 @@ uwdoem.search = (function() {
         });
     };
 
-    var setupSearchFilter = function(handle) {
+    var setupSearchFilter = function (handle) {
 
         // Move the search icon to the label
         var searchContainer = $("div.search-container[data-handle-for=" + handle + "]");
@@ -104,7 +106,7 @@ uwdoem.search = (function() {
 
     };
 
-    var clearSearch = function(handle) {
+    var clearSearch = function (handle) {
         console.log(handle);
         var getVar = uwdoem.ajax_section.getVar;
         var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest("div.ajax-loaded-section").attr("id");

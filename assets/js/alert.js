@@ -1,6 +1,6 @@
 
 
-uwdoem.alert = (function() {
+uwdoem.alert = (function () {
     /**
      * Creates an alert div, appends it to the notification area, and schedules it for removal.
      *
@@ -8,7 +8,7 @@ uwdoem.alert = (function() {
      * @param {string} msg The message to be displayed on the alert.
      * @param {number} duration How long to leave the alert displayed, in milliseconds.
      */
-    var makeAlert = function(type, msg, duration) {
+    var makeAlert = function (type, msg, duration) {
         duration = typeof duration !== 'undefined' ? duration : 3000;
 
         $("<div class='notification '></div>").

@@ -5,8 +5,8 @@ namespace UWDOEM\Framework\Page;
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Section\SectionBuilder;
 
-
-class PageBuilder {
+class PageBuilder
+{
 
     /** @var string */
     protected $_baseHref;
@@ -39,7 +39,8 @@ class PageBuilder {
     /**
      * @return PageBuilder
      */
-    public static function begin() {
+    public static function begin()
+    {
         return new static();
     }
 
@@ -47,7 +48,8 @@ class PageBuilder {
      * @param string $type
      * @return PageBuilder
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->_type = $type;
         return $this;
     }
@@ -56,7 +58,8 @@ class PageBuilder {
      * @param string $title
      * @return PageBuilder
      */
-    public function setTitle($title) {
+    public function setTitle($title)
+    {
         $this->_title = $title;
         return $this;
     }
@@ -65,7 +68,8 @@ class PageBuilder {
      * @param string $baseHref
      * @return PageBuilder
      */
-    public function setBaseHref($baseHref) {
+    public function setBaseHref($baseHref)
+    {
         $this->_baseHref = $baseHref;
         return $this;
     }
@@ -74,7 +78,8 @@ class PageBuilder {
      * @param string $header
      * @return PageBuilder
      */
-    public function setHeader($header) {
+    public function setHeader($header)
+    {
         $this->_header = $header;
         return $this;
     }
@@ -83,7 +88,8 @@ class PageBuilder {
      * @param string $subHeader
      * @return PageBuilder
      */
-    public function setSubHeader($subHeader) {
+    public function setSubHeader($subHeader)
+    {
         $this->_subHeader = $subHeader;
         return $this;
     }
@@ -92,7 +98,8 @@ class PageBuilder {
      * @param string[] $breadCrumbs
      * @return PageBuilder
      */
-    public function setBreadCrumbs($breadCrumbs) {
+    public function setBreadCrumbs($breadCrumbs)
+    {
         $this->_breadCrumbs = $breadCrumbs;
         return $this;
     }
@@ -101,7 +108,8 @@ class PageBuilder {
      * @param string[] $returnTo
      * @return PageBuilder
      */
-    public function setReturnTo($returnTo) {
+    public function setReturnTo($returnTo)
+    {
         $this->_returnTo = $returnTo;
         return $this;
     }
@@ -110,7 +118,8 @@ class PageBuilder {
      * @param WritableInterface $writable
      * @return PageBuilder
      */
-    public function setWritable($writable) {
+    public function setWritable($writable)
+    {
         $this->_writable = $writable;
         return $this;
     }
@@ -119,7 +128,8 @@ class PageBuilder {
      * @param string[] $message
      * @return PageBuilder
      */
-    public function setMessage($message) {
+    public function setMessage($message)
+    {
         $this->_message = $message;
         return $this;
     }
@@ -129,7 +139,8 @@ class PageBuilder {
      * @return PageInterface
      * @throws \Exception if the type of the page has not been set
      */
-    public function build() {
+    public function build()
+    {
 
         if (!isset($this->_type)) {
             throw new \Exception("You must set a page type using ::setType before calling this function.");
@@ -141,7 +152,7 @@ class PageBuilder {
             }
         }
 
-        if ($this->_type === Page::PAGE_TYPE_AJAX_ACTION ) {
+        if ($this->_type === Page::PAGE_TYPE_AJAX_ACTION) {
             if (!isset($this->_message)) {
                 throw new \Exception("You must provide a message for an ajax-action page using ::setMessage");
             }
@@ -154,12 +165,13 @@ class PageBuilder {
 
         return new Page(
             $this->_title,
-            $this->_baseHref, 
-            $this->_header, 
-            $this->_subHeader, 
-            $this->_breadCrumbs, 
-            $this->_returnTo, 
+            $this->_baseHref,
+            $this->_header,
+            $this->_subHeader,
+            $this->_breadCrumbs,
+            $this->_returnTo,
             $this->_writable,
-            $this->_type);
+            $this->_type
+        );
     }
 }

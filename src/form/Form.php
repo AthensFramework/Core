@@ -6,8 +6,8 @@ use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 
-
-class Form implements FormInterface {
+class Form implements FormInterface
+{
 
     use FormTrait;
     use VisitableTrait;
@@ -15,15 +15,17 @@ class Form implements FormInterface {
     /** @var string */
     protected $_id;
 
-    public function getId() {
+    public function getId()
+    {
         return $this->_id;
     }
 
     /**
      * @return null
      */
-    protected function validate() {
-        $this->_isValid = True;
+    protected function validate()
+    {
+        $this->_isValid = true;
 
         foreach ($this->getFieldBearer()->getFields() as $name => $field) {
             $field->validate();
@@ -31,7 +33,7 @@ class Form implements FormInterface {
 
         foreach ($this->getFieldBearer()->getFields() as $name => $field) {
             if (array_key_exists($name, $this->_validators)) {
-                foreach($this->_validators[$name] as $validator) {
+                foreach ($this->_validators[$name] as $validator) {
                     call_user_func_array($validator, [$field, $this]);
                 }
             }
@@ -39,7 +41,7 @@ class Form implements FormInterface {
 
         foreach ($this->getFieldBearer()->getVisibleFields() as $name => $field) {
             if (!$field->isValid()) {
-                $this->_isValid = False;
+                $this->_isValid = false;
                 $this->addError("Please correct the indicated errors and resubmit the form.");
                 break;
             }
@@ -49,13 +51,13 @@ class Form implements FormInterface {
             // Force validation on each subform via isValid()
             // If subform isn't valid and this form is not yet invalid, mark it as invalid
             if (!$subForm->isValid() && $this->_isValid) {
-                $this->_isValid = False;
+                $this->_isValid = false;
                 $this->addError("Please correct the indicated errors and resubmit the form.");
             }
         }
 
         if (!empty($this->_errors)) {
-            $this->_isValid = False;
+            $this->_isValid = false;
         }
     }
 
@@ -69,7 +71,13 @@ class Form implements FormInterface {
      * @param array[]|null $validators
      */
     public function __construct(
-        $id, FieldBearerInterface $fieldBearer, callable $onValidFunc, callable $onInvalidFunc, $actions = [], $subForms = [], $validators = []
+        $id,
+        FieldBearerInterface $fieldBearer,
+        callable $onValidFunc,
+        callable $onInvalidFunc,
+        $actions = [],
+        $subForms = [],
+        $validators = []
     ) {
         $this->_actions = $actions;
         $this->_fieldBearer = $fieldBearer;

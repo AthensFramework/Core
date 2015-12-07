@@ -10,8 +10,8 @@ use UWDOEM\Framework\Writer\Writer;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Initializer\Initializer;
 
-
-class Page implements PageInterface {
+class Page implements PageInterface
+{
 
     const PAGE_TYPE_AJAX_ACTION = "ajax-action";
     const PAGE_TYPE_AJAX_PAGE = "ajax-page";
@@ -49,7 +49,8 @@ class Page implements PageInterface {
     protected $_type;
 
 
-    public function getId() {
+    public function getId()
+    {
         return md5($_SERVER['REQUEST_URI']);
     }
 
@@ -64,7 +65,8 @@ class Page implements PageInterface {
      * @param WritableInterface|null $_writable
      * @param string $_type
      */
-    public function __construct($_title, $_baseHref, $_header, $_subHeader, array $_breadCrumbs, array $_returnTo, WritableInterface $_writable=null, $_type) {
+    public function __construct($_title, $_baseHref, $_header, $_subHeader, array $_breadCrumbs, array $_returnTo, WritableInterface $_writable = null, $_type)
+    {
         $this->_title = $_title;
         $this->_baseHref = $_baseHref;
         $this->_header = $_header;
@@ -78,56 +80,64 @@ class Page implements PageInterface {
     /**
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->_type;
     }
 
     /**
      * @return string
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->_title;
     }
 
     /**
      * @return string
      */
-    public function getBaseHref() {
+    public function getBaseHref()
+    {
         return $this->_baseHref;
     }
 
     /**
      * @return string
      */
-    public function getHeader() {
+    public function getHeader()
+    {
         return $this->_header;
     }
 
     /**
      * @return string
      */
-    public function getSubHeader() {
+    public function getSubHeader()
+    {
         return $this->_subHeader;
     }
 
     /**
      * @return string[]
      */
-    public function getBreadCrumbs() {
+    public function getBreadCrumbs()
+    {
         return $this->_breadCrumbs;
     }
 
     /**
      * @return string[]
      */
-    public function getReturnTo() {
+    public function getReturnTo()
+    {
         return $this->_returnTo;
     }
 
     /**
      * @return WritableInterface|null
      */
-    public function getWritable() {
+    public function getWritable()
+    {
         return $this->_writable;
     }
 
@@ -158,7 +168,7 @@ class Page implements PageInterface {
             switch ($this->getType()) {
                 case static::PAGE_TYPE_PDF:
                     $documentName = $this->getTitle() ? $this->getTitle() : "document";
-                    $renderFunction = function($content) use ($documentName) {
+                    $renderFunction = function ($content) use ($documentName) {
                         $dompdf = new DOMPDF();
                         $dompdf->load_html($content);
                         $dompdf->render();
@@ -166,7 +176,7 @@ class Page implements PageInterface {
                     };
                     break;
                 default:
-                    $renderFunction = function($content) {
+                    $renderFunction = function ($content) {
                         echo $content;
                     };
             }

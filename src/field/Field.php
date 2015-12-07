@@ -12,7 +12,8 @@ use DateTime;
  *
  * @package UWDOEM\Framework\Field
  */
-class Field implements FieldInterface {
+class Field implements FieldInterface
+{
 
     const FIELD_TYPE_TEXT = "text";
     const FIELD_TYPE_TEXTAREA = "textarea";
@@ -61,7 +62,8 @@ class Field implements FieldInterface {
     use VisitableTrait;
 
 
-    function getId() {
+    function getId()
+    {
         return md5($this->getSlug());
     }
 
@@ -73,7 +75,8 @@ class Field implements FieldInterface {
      * @param $choices
      * @param int $fieldSize
      */
-    function __construct($type, $label = "", $initial = "", $required = False, $choices = [], $fieldSize = 255) {
+    function __construct($type, $label = "", $initial = "", $required = false, $choices = [], $fieldSize = 255)
+    {
         $this->_type = $type;
         $this->_label = $label;
 
@@ -87,7 +90,8 @@ class Field implements FieldInterface {
     /**
      * @return string
      */
-    public function getSubmitted() {
+    public function getSubmitted()
+    {
         $fieldType = $this->getType();
 
         if ($fieldType == "checkbox") {
@@ -96,7 +100,7 @@ class Field implements FieldInterface {
             $data = array_key_exists($this->getSlug(), $_POST) ? $_POST[$this->getSlug()]: "";
         }
 
-        if (in_array($fieldType, [static::FIELD_TYPE_CHOICE, static::FIELD_TYPE_MULTIPLE_CHOICE])){
+        if (in_array($fieldType, [static::FIELD_TYPE_CHOICE, static::FIELD_TYPE_MULTIPLE_CHOICE])) {
             $data = $this->parseChoiceSlugs($data);
         }
 
@@ -106,37 +110,42 @@ class Field implements FieldInterface {
     /**
      * @return bool
      */
-    public function wasSubmitted() {
+    public function wasSubmitted()
+    {
         return array_key_exists($this->getSlug(), $_POST) && $_POST[$this->getSlug()] !== "";
     }
 
     /**
      * @return string
      */
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->_label;
     }
 
     /**
      * @param string $label
      */
-    public function setLabel($label) {
+    public function setLabel($label)
+    {
         $this->_label = $label;
     }
 
     /**
      * @return string[]
      */
-    public function getChoices() {
+    public function getChoices()
+    {
         return $this->_choices;
     }
 
     /**
      * @return string[]
      */
-    public function getChoiceSlugs() {
+    public function getChoiceSlugs()
+    {
         return array_map(
-            function($choice) {
+            function ($choice) {
                 return StringUtils::slugify($choice);
             },
             $this->_choices
@@ -146,84 +155,96 @@ class Field implements FieldInterface {
     /**
      * @param array $choices
      */
-    public function setChoices(array $choices) {
+    public function setChoices(array $choices)
+    {
         $this->_choices = $choices;
     }
 
     /**
      * @return int
      */
-    public function getSize() {
+    public function getSize()
+    {
         return $this->_fieldSize;
     }
 
     /**
      * @param int $size
      */
-    public function setSize($size) {
+    public function setSize($size)
+    {
         $this->_fieldSize = $size;
     }
 
     /**
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->_type;
     }
 
     /**
      * @param string $type
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->_type = $type;
     }
 
     /**
      * @param string $suffix
      */
-    public function addSuffix($suffix) {
+    public function addSuffix($suffix)
+    {
         $this->_suffixes[] = $suffix;
     }
 
     /**
      * @return string[]
      */
-    public function getSuffixes() {
+    public function getSuffixes()
+    {
         return $this->_suffixes;
     }
 
     /**
      * @param string $prefix
      */
-    public function addPrefix($prefix) {
+    public function addPrefix($prefix)
+    {
         $this->_prefixes[] = $prefix;
     }
 
     /**
      * @return string[]
      */
-    public function getPrefixes() {
+    public function getPrefixes()
+    {
         return $this->_prefixes;
     }
 
     /**
      * @return string
      */
-    public function getLabelSlug() {
+    public function getLabelSlug()
+    {
         return StringUtils::slugify($this->_label);
     }
 
     /**
      * @return string
      */
-    public function getSlug() {
+    public function getSlug()
+    {
         return implode("-", array_merge($this->getPrefixes(), [$this->getLabelSlug()], $this->getSuffixes()));
     }
 
     /**
      * @param string $value
      */
-    public function setInitial($value) {
+    public function setInitial($value)
+    {
         if ($value instanceof DateTime) {
             $value = new DateTimeWrapper($value->format('Y-m-d'));
         }
@@ -234,35 +255,40 @@ class Field implements FieldInterface {
     /**
      * @return string
      */
-    public function getInitial() {
+    public function getInitial()
+    {
         return $this->_initial;
     }
 
     /**
      * @param string $error
      */
-    public function addError($error) {
+    public function addError($error)
+    {
         $this->_fieldErrors[] = $error;
     }
 
     /**
      * @return string[]
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->_fieldErrors;
     }
 
     /**
      * @return null
      */
-    public function removeErrors() {
+    public function removeErrors()
+    {
         $this->_fieldErrors = [];
     }
 
     /**
      * @return null
      */
-    public function validate() {
+    public function validate()
+    {
 
         $data = $this->wasSubmitted() ? $this->getSubmitted() : null;
 
@@ -283,11 +309,13 @@ class Field implements FieldInterface {
     /**
      * @return bool
      */
-    protected function hasChoices() {
+    protected function hasChoices()
+    {
         return (bool)$this->getChoices();
     }
 
-    protected function parseChoiceSlugs($slugs) {
+    protected function parseChoiceSlugs($slugs)
+    {
         $choices = array_combine($this->getChoiceSlugs(), $this->getChoices());
 
         if ($this->getType() === static::FIELD_TYPE_CHOICE) {
@@ -295,7 +323,7 @@ class Field implements FieldInterface {
         }
 
         $result = [];
-        foreach($slugs as $choiceSlug) {
+        foreach ($slugs as $choiceSlug) {
             if (array_key_exists($choiceSlug, $choices)) {
                 $result[] = $choices[$choiceSlug];
             }
@@ -312,41 +340,48 @@ class Field implements FieldInterface {
     /**
      * @return bool
      */
-    public function isRequired() {
+    public function isRequired()
+    {
         return $this->_required && $this->getType() != "hidden";
     }
 
     /**
      * @param bool $required
      */
-    public function setRequired($required) {
+    public function setRequired($required)
+    {
         $this->_required = $required;
     }
 
     /**
      * @return bool
      */
-    public function isValid() {
+    public function isValid()
+    {
         return empty($this->_fieldErrors);
     }
 
     /**
      * @param string $data
      */
-    public function setValidatedData($data) {
+    public function setValidatedData($data)
+    {
         $this->_validatedData = $data;
     }
 
     /**
      * @return string
      */
-    public function getValidatedData() {
+    public function getValidatedData()
+    {
         return $this->_validatedData;
     }
 }
 
-class DateTimeWrapper extends DateTime {
-    public function __toString() {
+class DateTimeWrapper extends DateTime
+{
+    public function __toString()
+    {
         return $this->format('Y-m-d');
     }
 }

@@ -5,8 +5,8 @@ namespace UWDOEM\Framework\Section;
 use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Writer\WritableInterface;
 
-
-class SectionBuilder extends AbstractBuilder {
+class SectionBuilder extends AbstractBuilder
+{
 
     /** @var string */
     protected $_label = "";
@@ -25,7 +25,8 @@ class SectionBuilder extends AbstractBuilder {
      * @param string $label
      * @return SectionBuilder
      */
-    public function setLabel($label) {
+    public function setLabel($label)
+    {
         $this->_label = $label;
         return $this;
     }
@@ -35,7 +36,8 @@ class SectionBuilder extends AbstractBuilder {
      * @return SectionBuilder
      * @throws \Exception if type has not been set to ajax-loaded
      */
-    public function setHandle($handle) {
+    public function setHandle($handle)
+    {
 
         if ($this->_type !== "ajax-loaded") {
             throw new \Exception("Handle may only be set on an ajax-loaded section. " .
@@ -51,7 +53,8 @@ class SectionBuilder extends AbstractBuilder {
      * @return SectionBuilder
      * @throws \Exception if type is ajax-loaded
      */
-    public function setContent($content) {
+    public function setContent($content)
+    {
         if ($this->_type === "ajax-loaded") {
             throw new \Exception("Cannot set content on an ajax-loaded section.");
         }
@@ -65,7 +68,8 @@ class SectionBuilder extends AbstractBuilder {
      * @return SectionBuilder
      * @throws \Exception if setting type to ajax-loaded and content has been set
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         if ($type === "ajax-loaded" && isset($this->_content)) {
             throw new \Exception("Cannot set type to 'ajax-loaded' because content has already been set; " .
                 "an ajax-loaded section must not have content.");
@@ -79,7 +83,8 @@ class SectionBuilder extends AbstractBuilder {
      * @return SectionBuilder
      * @throws \Exception if type has not been set to 'ajax-loaded'
      */
-    public function setTarget($target) {
+    public function setTarget($target)
+    {
         if ($this->_type !== "ajax-loaded") {
             throw new \Exception("Target may only be set on an ajax-loaded section. " .
             "Set type to 'ajax-loaded' before invoking this method.");
@@ -94,7 +99,8 @@ class SectionBuilder extends AbstractBuilder {
      * @param WritableInterface $writable
      * @return SectionBuilder
      */
-    public function addWritable($writable) {
+    public function addWritable($writable)
+    {
         $this->_writables[] = $writable;
         return $this;
     }
@@ -102,7 +108,8 @@ class SectionBuilder extends AbstractBuilder {
     /**
      * @return SectionInterface
      */
-    public function build() {
+    public function build()
+    {
 
         $this->validateId();
 
@@ -116,5 +123,4 @@ class SectionBuilder extends AbstractBuilder {
 
         return new Section($this->_id, $this->_content, $this->_writables, $this->_label, $this->_type);
     }
-
 }

@@ -5,13 +5,13 @@ namespace UWDOEM\Framework\Section;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Writer\WritableInterface;
 
-
 /**
  * A very general display element. May contain other writable elements.
  *
  * @package UWDOEM\Framework\Section
  */
-class Section implements SectionInterface {
+class Section implements SectionInterface
+{
 
     /** @var string */
     protected $_id;
@@ -41,7 +41,8 @@ class Section implements SectionInterface {
     use VisitableTrait;
 
 
-    public function getId() {
+    public function getId()
+    {
         return $this->_id;
     }
 
@@ -54,7 +55,8 @@ class Section implements SectionInterface {
      * @param string $label
      * @param $type
      */
-    public function __construct($id, $content, array $writables, $label, $type) {
+    public function __construct($id, $content, array $writables, $label, $type)
+    {
         $this->_id = $id;
         $this->_label = $label;
         $this->_content = $content;
@@ -67,32 +69,32 @@ class Section implements SectionInterface {
      * Return the section's label.
      * @return string
      */
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->_label;
     }
 
     /**
      * @return string
      */
-    public function getContent() {
+    public function getContent()
+    {
         return $this->_content;
     }
 
     /**
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->_type;
     }
 
     /**
      * @return SectionInterface[]
      */
-    public function getWritables() {
+    public function getWritables()
+    {
         return $this->_writables;
     }
-
-
-
-
 }

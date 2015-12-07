@@ -1,6 +1,6 @@
 
 
-uwdoem.ajax_section = (function() {
+uwdoem.ajax_section = (function () {
 
     /**
      * The set of get variables which shall be included when requesting a section
@@ -46,12 +46,12 @@ uwdoem.ajax_section = (function() {
      *
      * @param getVar
      */
-    var registerGetVar = function(getVar) {
-        if(!(getVar.sectionName in getVarRegistry)) {
+    var registerGetVar = function (getVar) {
+        if (!(getVar.sectionName in getVarRegistry)) {
             getVarRegistry[getVar.sectionName] = {};
         }
 
-        if(!(getVar.filterName in getVarRegistry[getVar.sectionName])) {
+        if (!(getVar.filterName in getVarRegistry[getVar.sectionName])) {
             getVarRegistry[getVar.sectionName][getVar.filterName] = {};
         }
 
@@ -63,8 +63,8 @@ uwdoem.ajax_section = (function() {
      *
      * @param getVar
      */
-    var unsetGetVar = function(getVar) {
-        if(
+    var unsetGetVar = function (getVar) {
+        if (
             getVar.sectionName in getVarRegistry &&
             getVar.filterName in getVarRegistry[getVar.sectionName] &&
             getVar.argName in getVarRegistry[getVar.sectionName][getVar.filterName]
@@ -80,9 +80,9 @@ uwdoem.ajax_section = (function() {
      * @param argName
      * @returns {*}
      */
-    var getGetVarValue = function(sectionName, filterName, argName) {
+    var getGetVarValue = function (sectionName, filterName, argName) {
 
-        if(
+        if (
             sectionName in getVarRegistry &&
             filterName in getVarRegistry[sectionName] &&
             argName in getVarRegistry[sectionName][filterName]
@@ -98,9 +98,9 @@ uwdoem.ajax_section = (function() {
      * @param {string} name The name or handle of the AJAXSection for which we are encoding the get variables
      * @returns {string} The URL-encoded string of get variables
      */
-    var renderGetVars = function(name) {
+    var renderGetVars = function (name) {
 
-        if(!(name in getVarRegistry)) {
+        if (!(name in getVarRegistry)) {
             return "";
         }
 
@@ -125,17 +125,17 @@ uwdoem.ajax_section = (function() {
      *
      * @param {string} id The name or handle of the sction, as registered in sectionRegistry by registerAJAXSection
      */
-    var loadSection = function(id) {
+    var loadSection = function (id) {
 
         var targetDiv, targetUrl;
 
-        targetDiv = $( "#" + id);
+        targetDiv = $("#" + id);
         targetUrl = targetDiv.data("target");
 
         targetDiv.css("opacity", 0.7).append("<div class='loading-gif class-loader'></div>");
 
-        $.get( targetUrl + renderGetVars(id), function( data ) {
-            targetDiv.html( data ).css("opacity", 1);
+        $.get(targetUrl + renderGetVars(id), function ( data ) {
+            targetDiv.html(data).css("opacity", 1);
             doPostSectionActions(targetDiv);
         });
     };
@@ -145,7 +145,7 @@ uwdoem.ajax_section = (function() {
      *
      * @param f
      */
-    var registerPostSectionAction = function(f) {
+    var registerPostSectionAction = function (f) {
         postSectionActions.push(f);
     };
 
@@ -153,7 +153,7 @@ uwdoem.ajax_section = (function() {
      * Execute those callables which should be called after every section load
      * @param target
      */
-    var doPostSectionActions = function(target) {
+    var doPostSectionActions = function (target) {
         for (var i = 0; i < postSectionActions.length; i++) {
             postSectionActions[i](target);
         }

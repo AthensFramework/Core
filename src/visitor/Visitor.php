@@ -2,7 +2,7 @@
 
 namespace UWDOEM\Framework\Visitor;
 
-
-class Visitor {
+class Visitor
+{
 
 }

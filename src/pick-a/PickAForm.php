@@ -6,8 +6,8 @@ use UWDOEM\Framework\FieldBearer\FieldBearer;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Etc\StringUtils;
 
-
-class PickAForm implements PickAFormInterface {
+class PickAForm implements PickAFormInterface
+{
 
     /** @var string */
     protected $_id;
@@ -26,12 +26,13 @@ class PickAForm implements PickAFormInterface {
     use VisitableTrait;
 
 
-    public function getSelectedSlug() {
+    public function getSelectedSlug()
+    {
         $hash = $this->getId();
 
-        if (array_key_exists($hash, $_POST))
+        if (array_key_exists($hash, $_POST)) {
             $slug = $_POST[$hash];
-        else {
+        } else {
             $slug = null;
         }
 
@@ -41,7 +42,8 @@ class PickAForm implements PickAFormInterface {
     /**
      * @return \UWDOEM\Framework\Form\FormInterface
      */
-    public function getSelectedForm() {
+    public function getSelectedForm()
+    {
         $forms = $this->getSubForms();
         $selectedSlug = $this->getSelectedSlug();
 
@@ -56,11 +58,12 @@ class PickAForm implements PickAFormInterface {
         return $selectedForm;
     }
 
-    public function isValid() {
+    public function isValid()
+    {
         $selectedForm = $this->getSelectedForm();
 
         if (is_null($selectedForm)) {
-            $isValid = False;
+            $isValid = false;
             $this->addError("You must select an option at left.");
         } else {
             $isValid = $selectedForm->isValid();
@@ -69,7 +72,8 @@ class PickAForm implements PickAFormInterface {
         return $isValid;
     }
 
-    public function propagateOnValid() {
+    public function propagateOnValid()
+    {
         $selectedForm = $this->getSelectedForm();
 
         $func = [$selectedForm, "onValid"];
@@ -78,12 +82,14 @@ class PickAForm implements PickAFormInterface {
         call_user_func_array($func, $args);
     }
 
-    public function onValid() {
+    public function onValid()
+    {
         $func = [$this, "propagateOnValid"];
         call_user_func_array($func, func_get_args());
     }
 
-    public function onInvalid() {
+    public function onInvalid()
+    {
         $selectedForm  = $this->getSelectedForm();
 
         if ($selectedForm) {
@@ -91,43 +97,53 @@ class PickAForm implements PickAFormInterface {
         }
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->_pickA->getId();
     }
 
-    public function getFieldBearer() {
+    public function getFieldBearer()
+    {
         return $this->_fieldBearer;
     }
 
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->_errors;
     }
 
-    function getManifest() {
+    function getManifest()
+    {
         return $this->_pickA->getManifest();
     }
 
-    function getLabels() {
+    function getLabels()
+    {
         return $this->_pickA->getLabels();
     }
 
-    function getWritables() {
+    function getWritables()
+    {
         return $this->_pickA->getWritables();
     }
 
-    function getSubForms() {
+    function getSubForms()
+    {
         return $this->getWritables();
     }
 
-    public function getSubFormByName($name) {
+    public function getSubFormByName($name)
+    {
         return $this->getSubForms()[$name];
     }
 
-    function getActions() {
+    function getActions()
+    {
         return $this->_actions;
     }
 
-    function addError($error) {
+    function addError($error)
+    {
         $this->_errors[] = $error;
     }
 
@@ -136,14 +152,17 @@ class PickAForm implements PickAFormInterface {
      * @param array $manifest
      * @param array|null $actions
      */
-    public function __construct($id, $manifest, $actions = []) {
+    public function __construct($id, $manifest, $actions = [])
+    {
         $this->_actions = $actions;
         $this->_pickA = new PickA($id, $manifest);
 
-        $this->_fieldBearer = new FieldBearer([], [], [], [], function() {});
+        $this->_fieldBearer = new FieldBearer([], [], [], [], function () {
+        });
     }
 
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $selectedForm = $this->getSelectedForm();
 
         if (!$selectedForm) {
@@ -151,5 +170,4 @@ class PickAForm implements PickAFormInterface {
         }
         call_user_func_array([$selectedForm, $name], $arguments);
     }
-
 }

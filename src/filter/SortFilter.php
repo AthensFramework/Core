@@ -5,10 +5,11 @@ namespace UWDOEM\Framework\Filter;
 use UWDOEM\Framework\FilterStatement\FilterStatement;
 use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
 
+class SortFilter extends Filter
+{
 
-class SortFilter extends Filter {
-
-    public function __construct($handle, FilterInterface $nextFilter = null) {
+    public function __construct($handle, FilterInterface $nextFilter = null)
+    {
 
         $statements = [];
         if (FilterControls::controlIsSet($handle, "fieldname")) {
@@ -20,5 +21,4 @@ class SortFilter extends Filter {
 
         parent::__construct($handle, $statements, $nextFilter);
     }
-
 }

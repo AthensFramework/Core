@@ -1,8 +1,8 @@
 
 
-uwdoem.soft_pagination = (function() {
-    var setupSoftPaginationFilter = function(div) {
-        $(function() {
+uwdoem.soft_pagination = (function () {
+    var setupSoftPaginationFilter = function (div) {
+        $(function () {
 
             var paginateBy = 12;
 
@@ -28,7 +28,8 @@ uwdoem.soft_pagination = (function() {
             reVisArrows();
             updateFeedback();
 
-            function getPage() {
+            function getPage()
+            {
                 if (!$.isNumeric(page) || page < 1 || page > numPages) {
                     page = 1;
                 }
@@ -36,26 +37,31 @@ uwdoem.soft_pagination = (function() {
                 return parseInt(page);
             }
 
-            function setPage(newPage) {
+            function setPage(newPage)
+            {
                 page = newPage;
             }
 
-            function firstRowToDisplay() {
+            function firstRowToDisplay()
+            {
                 return (getPage() - 1)*paginateBy;
             }
 
-            function lastRowToDisplay() {
+            function lastRowToDisplay()
+            {
                 return Math.min(rows.length, (getPage() - 1)*paginateBy + paginateBy);
             }
 
-            function revealRows() {
+            function revealRows()
+            {
                 var rowsToDisplay = rows.slice(firstRowToDisplay(), lastRowToDisplay());
 
                 rows.css('display', 'none');
                 rowsToDisplay.css('display', 'table-row');
             }
 
-            function updateFeedback() {
+            function updateFeedback()
+            {
                 var feedback = "";
                 if (rows.length !== 0) {
                     feedback = "Displaying " + (firstRowToDisplay() + 1) + "-" + lastRowToDisplay() + " of " + rows.length + " records.";
@@ -63,7 +69,8 @@ uwdoem.soft_pagination = (function() {
                 $("#soft-pagination-feedback").html(feedback);
             }
 
-            function recalculateArrowPageFor() {
+            function recalculateArrowPageFor()
+            {
                 var page = getPage();
 
                 div.find('.pagination-arrow.first').data("page-for", 1);
@@ -72,7 +79,8 @@ uwdoem.soft_pagination = (function() {
                 div.find('.pagination-arrow.last').data("page-for", numPages);
             }
 
-            function reVisArrows() {
+            function reVisArrows()
+            {
                 var page = getPage();
 
                 if (page === 1) {
@@ -88,13 +96,15 @@ uwdoem.soft_pagination = (function() {
                 }
             }
 
-            function resetPulldownVal() {
+            function resetPulldownVal()
+            {
                 div.find("select.pagination-filter").val(getPage());
             }
 
-            function renewPage() {
+            function renewPage()
+            {
                 table.fadeTo(200, 0.25);
-                setTimeout(function(){
+                setTimeout(function () {
                     revealRows();
                     recalculateArrowPageFor();
                     resetPulldownVal();
@@ -104,14 +114,14 @@ uwdoem.soft_pagination = (function() {
                 }, 200);
             }
 
-            $("div.soft-pagination-container a.pagination-arrow").click(function() {
+            $("div.soft-pagination-container a.pagination-arrow").click(function () {
                 setPage($(this).data('page-for'));
                 renewPage();
 
                 return false;
             });
 
-            div.find("select.pagination-filter").change(function() {
+            div.find("select.pagination-filter").change(function () {
                 setPage($(this).val());
                 renewPage();
             });

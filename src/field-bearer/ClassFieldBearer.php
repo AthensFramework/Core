@@ -7,8 +7,8 @@ use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Field\Field;
 
-
-class ClassFieldBearer extends FieldBearer implements FieldBearerInterface {
+class ClassFieldBearer extends FieldBearer implements FieldBearerInterface
+{
 
     /** @var ActiveRecordInterface  */
     protected $_object;
@@ -17,7 +17,8 @@ class ClassFieldBearer extends FieldBearer implements FieldBearerInterface {
      * @param ActiveRecordInterface $object
      * @param callable $saveFunction
      */
-    public function __construct(ActiveRecordInterface $object, callable $saveFunction) {
+    public function __construct(ActiveRecordInterface $object, callable $saveFunction)
+    {
         $this->_object = $object;
 
         $fields = ORMUtils::makeFieldsFromObject($object);
@@ -25,7 +26,7 @@ class ClassFieldBearer extends FieldBearer implements FieldBearerInterface {
         $hiddenFieldNames = [];
         foreach ($fields as $fieldName => $field) {
             $type = $field->getType();
-            if (   $type === Field::FIELD_TYPE_PRIMARY_KEY
+            if ($type === Field::FIELD_TYPE_PRIMARY_KEY
                 || $type === Field::FIELD_TYPE_FOREIGN_KEY ) {
                 $hiddenFieldNames[] = $fieldName;
             }

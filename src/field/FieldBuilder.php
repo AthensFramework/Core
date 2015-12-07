@@ -7,9 +7,12 @@ namespace UWDOEM\Framework\Field;
  *
  * @package UWDOEM\Framework\Field
  */
-class FieldBuilder {
+class FieldBuilder
+{
 
-    protected function __construct() {}
+    protected function __construct()
+    {
+    }
 
     /** @var bool  */
     protected $_required;
@@ -32,7 +35,8 @@ class FieldBuilder {
     /**
      * @return FieldBuilder
      */
-    public static function begin() {
+    public static function begin()
+    {
         return new static();
     }
 
@@ -40,7 +44,8 @@ class FieldBuilder {
      * @param boolean $required
      * @return FieldBuilder
      */
-    public function setRequired($required) {
+    public function setRequired($required)
+    {
         $this->_required = $required;
         return $this;
     }
@@ -49,7 +54,8 @@ class FieldBuilder {
      * @param int $fieldSize
      * @return FieldBuilder
      */
-    public function setFieldSize($fieldSize) {
+    public function setFieldSize($fieldSize)
+    {
         $this->_fieldSize = $fieldSize;
         return $this;
     }
@@ -58,7 +64,8 @@ class FieldBuilder {
      * @param string $type
      * @return FieldBuilder
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->_type = $type;
         return $this;
     }
@@ -67,7 +74,8 @@ class FieldBuilder {
      * @param string $label
      * @return FieldBuilder
      */
-    public function setLabel($label) {
+    public function setLabel($label)
+    {
         $this->_label = $label;
         return $this;
     }
@@ -76,7 +84,8 @@ class FieldBuilder {
      * @param string|string[] $initial
      * @return FieldBuilder
      */
-    public function setInitial($initial) {
+    public function setInitial($initial)
+    {
         $this->_initial = $initial;
         return $this;
     }
@@ -85,12 +94,14 @@ class FieldBuilder {
      * @param array $choices
      * @return FieldBuilder
      */
-    public function setChoices($choices) {
+    public function setChoices($choices)
+    {
         $this->_choices = $choices;
         return $this;
     }
 
-    public function build() {
+    public function build()
+    {
         if (!isset($this->_type)) {
             throw new \Exception("Must use ::setType to set a field type before building");
         }

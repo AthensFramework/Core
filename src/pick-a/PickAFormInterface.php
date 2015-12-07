@@ -4,8 +4,8 @@ namespace UWDOEM\Framework\PickA;
 
 use UWDOEM\Framework\Form\FormInterface;
 
-
-interface PickAFormInterface extends FormInterface, PickAInterface {
+interface PickAFormInterface extends FormInterface, PickAInterface
+{
 
     /** @return FormInterface */
     function getSelectedForm();

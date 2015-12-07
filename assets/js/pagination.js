@@ -1,18 +1,18 @@
-uwdoem.pagination = (function() {
+uwdoem.pagination = (function () {
 
-    var getPaginationContainer = function(handle) {
+    var getPaginationContainer = function (handle) {
         return $("div.pagination-container[data-handle-for=" + handle +"]");
     };
 
-    var getAjaxSectionName = function(handle) {
+    var getAjaxSectionName = function (handle) {
         return $("")
     };
 
-    var getMaxPages = function(handle) {
+    var getMaxPages = function (handle) {
         return parseInt(getPaginationContainer(handle).find("option").last().html());
     };
 
-    var setArrows = function(handle, page) {
+    var setArrows = function (handle, page) {
         var paginationContainer, maxPages;
 
         paginationContainer = getPaginationContainer(handle);
@@ -33,7 +33,7 @@ uwdoem.pagination = (function() {
         }
     };
 
-    var setSelect = function(handle, page) {
+    var setSelect = function (handle, page) {
         var maxPages = getMaxPages(handle);
         var paginationContainer = getPaginationContainer(handle);
 
@@ -45,12 +45,12 @@ uwdoem.pagination = (function() {
         }
     };
 
-    var setControls = function(handle, page) {
+    var setControls = function (handle, page) {
         setArrows(handle, page);
         setSelect(handle, page);
     };
 
-    var registerPage = function(ajaxSectionName, handle, page) {
+    var registerPage = function (ajaxSectionName, handle, page) {
         var getVar;
 
         getVar = uwdoem.ajax_section.getVar(ajaxSectionName, handle, "page", page);
@@ -58,23 +58,23 @@ uwdoem.pagination = (function() {
         uwdoem.ajax_section.registerGetVar(getVar);
     };
 
-    var getPage = function(ajaxSectionName, handle) {
+    var getPage = function (ajaxSectionName, handle) {
         var getVar = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'page');
 
         return parseInt(getVar ? getVar: 1);
     };
 
-    var getActiveControls = function(handle) {
+    var getActiveControls = function (handle) {
         return $("div.section-label div.pagination-container[data-handle-for=" + handle + "]");
     };
 
-    var getInactiveControls = function(handle) {
+    var getInactiveControls = function (handle) {
         return $("div.table-container div.filter-controls div.pagination-container[data-handle-for='" + handle + "']");
     };
 
-    var setupPaginationFilter = function(handle) {
+    var setupPaginationFilter = function (handle) {
         // If we have already created this filter, return.
-        $(function() {
+        $(function () {
             var page, ajaxSectionName, inactiveControls, activeControls;
 
             inactiveControls = getInactiveControls(handle);
@@ -97,7 +97,7 @@ uwdoem.pagination = (function() {
 
             setControls(handle, page);
 
-            activeControls.find("a.pagination-arrow").click(function() {
+            activeControls.find("a.pagination-arrow").click(function () {
                 var targetPage = parseInt($(this).attr('data-page-for'));
 
                 uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
@@ -108,7 +108,7 @@ uwdoem.pagination = (function() {
                 return false;
             });
 
-            activeControls.find("select.pagination-filter." + handle).change(function() {
+            activeControls.find("select.pagination-filter." + handle).change(function () {
                 var targetPage = parseInt($("select.pagination-filter." + handle + " option:selected").val());
 
                 uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));

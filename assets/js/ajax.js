@@ -1,10 +1,10 @@
-uwdoem.ajax = (function() {
+uwdoem.ajax = (function () {
     
-    var defaultSuccessCallback = function() {};
+    var defaultSuccessCallback = function () {};
 
-    var call = function(url, postVars, successCallback, doneFunction) {
+    var call = function (url, postVars, successCallback, doneFunction) {
         var defaultPostVars = [];
-        var defaultDoneFunction = function(msg) {
+        var defaultDoneFunction = function (msg) {
             try {
                 msg = JSON.parse(msg);
                 uwdoem.alert.makeAlert(msg.status, msg.message);
@@ -28,16 +28,17 @@ uwdoem.ajax = (function() {
             data: postVars
         })
             .done(doneFunction)
-            .fail(function(msg) {
+            .fail(function (msg) {
                 uwdoem.alert.makeAlert("failure", msg);
             });
     };
 
-    function AjaxSubmitForm(form, successCallback) {
+    function AjaxSubmitForm(form, successCallback)
+    {
         var formVars, url, formId, postVars, fieldName;
         var doneFunction, isMultipleChoiceFieldName;
 
-        isMultipleChoiceFieldName = function(fieldName) {
+        isMultipleChoiceFieldName = function (fieldName) {
             return fieldName.indexOf("[]") !== -1;
         };
 
@@ -64,7 +65,7 @@ uwdoem.ajax = (function() {
             }
         }
         
-        doneFunction = function(msg) {
+        doneFunction = function (msg) {
             var formResult, hasErrors;
 
             try {
@@ -76,7 +77,7 @@ uwdoem.ajax = (function() {
                     $.ajax({
                         type: "GET",
                         url: url
-                    }).done(function(getMsg) {
+                    }).done(function (getMsg) {
                         uwdoem.alert.makeAlert("success", "Form subitted.");
                         formResult = $("<div>" + getMsg + "</div>").find("#" + formId);
                         $(form).replaceWith(formResult);
@@ -92,7 +93,7 @@ uwdoem.ajax = (function() {
                     document.getElementById(formId).scrollIntoView();
                     uwdoem.alert.makeAlert("failure", "Form has errors.");
                 }
-            } catch(err) {
+            } catch (err) {
                 uwdoem.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
             }
         };

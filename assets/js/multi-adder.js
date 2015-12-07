@@ -1,12 +1,12 @@
 
 
-uwdoem.multi_adder = (function() {
+uwdoem.multi_adder = (function () {
 
-    var getLastRow = function(multiAdderTable) {
+    var getLastRow = function (multiAdderTable) {
         return multiAdderTable.find("tr.form-row").last();
     };
 
-    var getLastDataRowIndex = function(multiAdderTable) {
+    var getLastDataRowIndex = function (multiAdderTable) {
         var lastRow = getLastRow(multiAdderTable);
 
         var lastIndex = 0;
@@ -17,18 +17,18 @@ uwdoem.multi_adder = (function() {
         return lastIndex;
     };
 
-    var makeNewRow = function(multiAdderTable) {
+    var makeNewRow = function (multiAdderTable) {
         var baseRow = multiAdderTable.find("tr.prototypical");
         return baseRow.clone().removeClass("prototypical actual");
     };
 
-    var activateRemover = function(row) {
-        row.find("td[class*='remove']").click(function() {
+    var activateRemover = function (row) {
+        row.find("td[class*='remove']").click(function () {
             $(this).closest("tr.form-row").remove();
         });
     };
 
-    var addMultiAdderRow = function(multiAdderTable, dataRow) {
+    var addMultiAdderRow = function (multiAdderTable, dataRow) {
         var defaultDataRow = multiAdderTable.find("tr.prototypical");
         dataRow = dataRow || defaultDataRow;
         
@@ -39,11 +39,12 @@ uwdoem.multi_adder = (function() {
         var formElements = newRow.find("input, select");
         var dataElements = dataRow.find("input, select");
 
-        for(var i = 0; i<formElements.length; i++) {
+        for (var i = 0; i<formElements.length; i++) {
             var formElement = $(formElements[i]);
 
             formElement.attr('name', (lastDataRowIndex + 1) + "-" + formElement.attr('name'));
-            if ($(dataElements[i]).val() !== null) {formElement.val($(dataElements[i]).val());}
+            if ($(dataElements[i]).val() !== null) {
+                formElement.val($(dataElements[i]).val());}
 
             formElement.attr('disabled', false);
         }
@@ -53,26 +54,26 @@ uwdoem.multi_adder = (function() {
         newRow.insertAfter(getLastRow(multiAdderTable));
     };
 
-    var disablePrototypicalRows = function() {
+    var disablePrototypicalRows = function () {
         $('tr.prototypical input, tr.prototypical select').prop('disabled', true);
     };
 
-    $(function() {
+    $(function () {
         disablePrototypicalRows();
 
-        $("table.multi-adder tbody").each(function() {
+        $("table.multi-adder tbody").each(function () {
             var actualRows = $(this).find('tr.actual');
 
             if (actualRows.length === 0) {
                 addMultiAdderRow($(this));
             } else {
                 var table = $(this);
-                actualRows.each(function() {
+                actualRows.each(function () {
                     addMultiAdderRow(table, $(this));
                 });
             }
         });
-        $("table.multi-adder tr.adder").click(function() {
+        $("table.multi-adder tr.adder").click(function () {
             addMultiAdderRow($(this).parent());
         });
     });

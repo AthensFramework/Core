@@ -110,7 +110,7 @@
   padding: 0;
   height: 43px;
   margin: 0 10px 0 -5px;
-  overflow: hidden;  
+  overflow: hidden;
   -webkit-transform: skew(-15deg,0);
   -ms-transform: skewX(-15deg) skewY(0);
   transform: skew(-15deg,0);
@@ -212,4 +212,5 @@
   }
 
 }
+
 

@@ -2,11 +2,10 @@
 
 namespace UWDOEM\Framework\Writer;
 
-
 use UWDOEM\Framework\Visitor\VisitableInterface;
 
-
-interface WritableInterface extends VisitableInterface {
+interface WritableInterface extends VisitableInterface
+{
 
     /**
      * Return a unique identifier that will be consistent between requests.
@@ -14,5 +13,4 @@ interface WritableInterface extends VisitableInterface {
      * @return string
      */
     public function getId();
-
 }

@@ -8,8 +8,8 @@ use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Row\RowBuilder;
 
-
-class TableForm implements TableFormInterface {
+class TableForm implements TableFormInterface
+{
 
     /** @var callable */
     protected $_rowMakingFunction;
@@ -25,56 +25,64 @@ class TableForm implements TableFormInterface {
 
 
     /** @return RowInterface */
-    public function getPrototypicalRow() {
+    public function getPrototypicalRow()
+    {
         return $this->_prototypicalRow;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->getPrototypicalRow()->getId();
     }
 
-    public function getRows() {
+    public function getRows()
+    {
         return $this->_rows;
     }
 
-    public function getFilter() {
+    public function getFilter()
+    {
         return new DummyFilter();
     }
 
-    public function getFieldBearer() {
+    public function getFieldBearer()
+    {
         return $this->getPrototypicalRow()->getFieldBearer();
     }
 
     /** @return RowInterface */
-    protected function makeRow() {
+    protected function makeRow()
+    {
         $rowMakingFunction = $this->_rowMakingFunction;
         return $rowMakingFunction();
     }
 
-    protected function findRowPrefixes() {
+    protected function findRowPrefixes()
+    {
         $firstPrototypicalSlug = current($this->getPrototypicalRow()->getFieldBearer()->getVisibleFields())->getSlug();
 
         $submittedSlugs = array_keys($_POST);
 
-        $submittedFirstSlugMatches = array_filter($submittedSlugs, function($postSlug) use ($firstPrototypicalSlug) {
+        $submittedFirstSlugMatches = array_filter($submittedSlugs, function ($postSlug) use ($firstPrototypicalSlug) {
             return strpos($postSlug, $firstPrototypicalSlug) !== false;
         });
 
-        $rowPrefixes = array_map(function($name) use ($firstPrototypicalSlug) {
+        $rowPrefixes = array_map(function ($name) use ($firstPrototypicalSlug) {
             return str_replace($firstPrototypicalSlug, "", $name);
         }, $submittedFirstSlugMatches);
 
         return $rowPrefixes;
     }
 
-    protected function makeRows() {
+    protected function makeRows()
+    {
         $rows = [];
         foreach ($this->findRowPrefixes() as $prefix) {
             $newRow = $this->makeRow();
 
-            foreach($this->getPrototypicalRow()->getFieldBearer()->getFields() as $name=>$field) {
+            foreach ($this->getPrototypicalRow()->getFieldBearer()->getFields() as $name => $field) {
 
-                $suffix = implode("-",$field->getSuffixes());
+                $suffix = implode("-", $field->getSuffixes());
 
                 $newField = $newRow->getFieldBearer()->getFieldByName($name);
 
@@ -92,7 +100,8 @@ class TableForm implements TableFormInterface {
         return $rows;
     }
 
-    protected function validate() {
+    protected function validate()
+    {
         $this->_isValid = true;
 
         $this->_rows = $this->makeRows();
@@ -108,7 +117,7 @@ class TableForm implements TableFormInterface {
         foreach ($this->getRows() as $row) {
             foreach ($row->getFieldBearer()->getFields() as $name => $field) {
                 if (array_key_exists($name, $this->_validators)) {
-                    foreach($this->_validators[$name] as $validator) {
+                    foreach ($this->_validators[$name] as $validator) {
                         call_user_func_array($validator, [$field, $this]);
                     }
                 }
@@ -119,7 +128,7 @@ class TableForm implements TableFormInterface {
         foreach ($this->getRows() as $row) {
             foreach ($row->getFieldBearer()->getFields() as $name => $field) {
                 if (!$field->isValid()) {
-                    $this->_isValid = False;
+                    $this->_isValid = false;
                     $this->addError("Please correct the indicated errors and resubmit the form.");
                     break;
                 }
@@ -146,5 +155,4 @@ class TableForm implements TableFormInterface {
 
         $this->_subForms = [];
     }
-
 }

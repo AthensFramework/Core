@@ -2,12 +2,11 @@
 
 namespace UWDOEM\Framework\Row;
 
-
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
 use UWDOEM\Framework\Writer\WritableInterface;
 
-
-interface RowInterface extends WritableInterface {
+interface RowInterface extends WritableInterface
+{
 
     /**
      * @return FieldBearerInterface
@@ -23,5 +22,4 @@ interface RowInterface extends WritableInterface {
      * @return bool
      */
     function isHighlightable();
-
 }

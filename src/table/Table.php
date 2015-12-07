@@ -6,8 +6,8 @@ use UWDOEM\Framework\Filter\FilterInterface;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 
-
-class Table implements TableInterface {
+class Table implements TableInterface
+{
 
     /** @var FilterInterface */
     protected $_filter;
@@ -23,7 +23,8 @@ class Table implements TableInterface {
     /**
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->_id;
     }
 
@@ -32,23 +33,26 @@ class Table implements TableInterface {
      * @param array $rows
      * @param FilterInterface $filter
      */
-    public function __construct($id, array $rows, FilterInterface $filter) {
+    public function __construct($id, array $rows, FilterInterface $filter)
+    {
 
         $this->_rows = $rows;
         $this->_filter = $filter;
         $this->_id = $id;
     }
 
-    public function getRows() {
+    public function getRows()
+    {
         return $this->_filter->rowFilter($this->_rows);
     }
 
-    protected function getUnfilteredRows() {
+    protected function getUnfilteredRows()
+    {
         return $this->_rows;
     }
 
-    public function getFilter() {
+    public function getFilter()
+    {
         return $this->_filter;
     }
-
 }

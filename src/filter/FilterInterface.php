@@ -8,8 +8,8 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
 use UWDOEM\Framework\Writer\WritableInterface;
 
-
-interface FilterInterface  extends WritableInterface {
+interface FilterInterface extends WritableInterface
+{
 
     /**
      * @param FilterInterface $filter
@@ -52,6 +52,4 @@ interface FilterInterface  extends WritableInterface {
      * @return \UWDOEM\Framework\Row\Row[]
      */
     function rowFilter(array $rows);
-
-
 }

@@ -4,8 +4,8 @@ namespace UWDOEM\Framework\Form\FormAction;
 
 use UWDOEM\Framework\Visitor\VisitableTrait;
 
-
-class FormAction implements FormActionInterface {
+class FormAction implements FormActionInterface
+{
 
     protected $_label;
     protected $_method;
@@ -14,25 +14,30 @@ class FormAction implements FormActionInterface {
     use VisitableTrait;
 
 
-    public function getId() {
+    public function getId()
+    {
         return md5($this->getLabel() . $this->getMethod() . $this->getTarget());
     }
 
-    public function __construct($label, $method, $target) {
+    public function __construct($label, $method, $target)
+    {
         $this->_label = $label;
         $this->_method = $method;
         $this->_target = $target;
     }
 
-    public function getMethod() {
+    public function getMethod()
+    {
         return $this->_method;
     }
     
-    public function getTarget() {
+    public function getTarget()
+    {
         return $this->_target;
     }
 
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->_label;
     }
 }

@@ -6,8 +6,8 @@ use UWDOEM\Framework\FieldBearer\FieldBearerBearerBuilderTrait;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\Field\Field;
 
-
-trait FormBuilderTrait {
+trait FormBuilderTrait
+{
 
     /** @var FormAction[] */
     protected $_actions;
@@ -34,7 +34,8 @@ trait FormBuilderTrait {
      * @param FormAction[] $actions
      * @return $this
      */
-    public function setActions($actions) {
+    public function setActions($actions)
+    {
         $this->_actions = $actions;
         return $this;
     }
@@ -43,7 +44,8 @@ trait FormBuilderTrait {
      * @param callable $onValidFunc
      * @return $this
      */
-    public function setOnValidFunc($onValidFunc) {
+    public function setOnValidFunc($onValidFunc)
+    {
         $this->_onValidFunc = $onValidFunc;
         return $this;
     }
@@ -52,7 +54,8 @@ trait FormBuilderTrait {
      * @param callable $onInvalidFunc
      * @return $this
      */
-    public function setOnInvalidFunc($onInvalidFunc) {
+    public function setOnInvalidFunc($onInvalidFunc)
+    {
         $this->_onInvalidFunc = $onInvalidFunc;
         return $this;
     }
@@ -61,7 +64,8 @@ trait FormBuilderTrait {
      * @param string $onSuccessRedirect
      * @return $this
      */
-    public function setOnSuccessUrl($onSuccessRedirect) {
+    public function setOnSuccessUrl($onSuccessRedirect)
+    {
         $this->_onSuccessUrl = $onSuccessRedirect;
         return $this;
     }
@@ -70,7 +74,8 @@ trait FormBuilderTrait {
      * @param FormInterface[] $subForms
      * @return FormBuilder
      */
-    public function addSubForms(array $subForms) {
+    public function addSubForms(array $subForms)
+    {
         $this->_subForms = array_merge($this->_subForms, $subForms);
         return $this;
     }
@@ -80,7 +85,8 @@ trait FormBuilderTrait {
      * @param callable $callable
      * @return $this
      */
-    public function addValidator($fieldName, callable $callable) {
+    public function addValidator($fieldName, callable $callable)
+    {
         if (!array_key_exists($fieldName, $this->_validators)) {
             $this->_validators[$fieldName] = [];
         }
@@ -89,7 +95,8 @@ trait FormBuilderTrait {
         return $this;
     }
 
-    protected function validateOnInvalidFunc() {
+    protected function validateOnInvalidFunc()
+    {
         if (!isset($this->_onInvalidFunc)) {
 
             $this->_onInvalidFunc = function (FormInterface $thisForm) {
@@ -108,10 +115,11 @@ trait FormBuilderTrait {
         }
     }
 
-    protected function validateOnValidFunc() {
+    protected function validateOnValidFunc()
+    {
         if (!isset($this->_onValidFunc)) {
 
-            $this->_onValidFunc = function(FormInterface $form) {
+            $this->_onValidFunc = function (FormInterface $form) {
                 $func = [$form, "propagateOnValid"];
                 call_user_func_array($func, func_get_args());
             };
@@ -119,13 +127,14 @@ trait FormBuilderTrait {
         }
     }
 
-    protected function validateOnSuccessUrl() {
-        if(isset($this->_onSuccessUrl)) {
+    protected function validateOnSuccessUrl()
+    {
+        if (isset($this->_onSuccessUrl)) {
 
             $onValidFunc = $this->_onValidFunc;
             $url = $this->_onSuccessUrl;
 
-            $this->_onValidFunc = function(FormInterface $form) use ($onValidFunc, $url) {
+            $this->_onValidFunc = function (FormInterface $form) use ($onValidFunc, $url) {
                 if (headers_sent()) {
                     throw new \Exception("Form success redirection cannot proceed, output has already begun.");
                 } else {
@@ -138,10 +147,10 @@ trait FormBuilderTrait {
         }
     }
 
-    protected function validateActions() {
+    protected function validateActions()
+    {
         if (!isset($this->_actions)) {
             $this->_actions = [new FormAction("Submit", "POST", ".")];
         }
     }
-
 }

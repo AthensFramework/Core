@@ -6,15 +6,16 @@ use UWDOEM\Framework\FilterStatement\FilterStatement;
 use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
 use UWDOEM\Framework\Filter\FilterControls;
 
-
-class SelectFilter extends Filter {
+class SelectFilter extends Filter
+{
 
     /**
      * @var null|FilterInterface
      */
     private $default;
 
-    public function __construct($handle, array $statements, $default, FilterInterface $nextFilter = null) {
+    public function __construct($handle, array $statements, $default, FilterInterface $nextFilter = null)
+    {
 
         $this->_options = array_keys($statements);
 
@@ -25,5 +26,4 @@ class SelectFilter extends Filter {
         parent::__construct($handle, $statements, $nextFilter);
         $this->default = $default;
     }
-
 }

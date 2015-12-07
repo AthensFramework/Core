@@ -6,10 +6,11 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 use UWDOEM\Framework\Row\RowInterface;
 use Propel\Runtime\ActiveQuery\Criteria;
 
+class SortingFilterStatement extends FilterStatement
+{
 
-class SortingFilterStatement extends FilterStatement {
-
-    public function applyToQuery(ModelCriteria $query) {
+    public function applyToQuery(ModelCriteria $query)
+    {
         $cond = $this->getCondition();
         $fieldName = $this->getFieldName();
 
@@ -29,7 +30,8 @@ class SortingFilterStatement extends FilterStatement {
     }
 
 
-    public function applyToRows(array $rows) {
+    public function applyToRows(array $rows)
+    {
         $fieldName = $this->getFieldName();
         $cond = $this->getCondition();
 
@@ -38,14 +40,20 @@ class SortingFilterStatement extends FilterStatement {
             return $row->getFieldBearer()->getFieldByName($fieldName)->getInitial();
         };
 
-        $comparisonOperator = function ($a, $b) { return $a - $b; };
+        $comparisonOperator = function ($a, $b) {
+            return $a - $b;
+
+        };
         switch ($cond) {
             case static::COND_SORT_ASC:
                 // The default $comparisonOperator is fine
                 break;
 
             case static::COND_SORT_DESC:
-                $comparisonOperator = function ($a, $b) { return $b - $a; };
+                $comparisonOperator = function ($a, $b) {
+                    return $b - $a;
+
+                };
                 break;
         }
 
@@ -60,5 +68,4 @@ class SortingFilterStatement extends FilterStatement {
 
         return $rows;
     }
-
 }

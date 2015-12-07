@@ -6,14 +6,14 @@ use Propel\Runtime\Map\Exception\ColumnNotFoundException;
 
 use UWDOEM\Framework\Field\Field;
 
-
 /**
  * Class ORMUtils provides static methods for interpreting and interfacing
  * with ORM entities.
  *
  * @package UWDOEM\Framework\Etc
  */
-class ORMUtils {
+class ORMUtils
+{
 
     static protected $db_type_to_field_type_association = [
         "VARCHAR"=> "text",
@@ -28,7 +28,8 @@ class ORMUtils {
      * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
      * @return Field[]
      */
-    static public function makeFieldsFromObject($object) {
+    public static function makeFieldsFromObject($object)
+    {
         $fieldNames = static::makeFieldNamesFromObject($object);
 
         $columns = array_combine($fieldNames, static::getColumns($object::TABLE_MAP));
@@ -36,7 +37,7 @@ class ORMUtils {
 
         $fields = static::addBehaviorConstraintsToFields($object::TABLE_MAP, $fields, $columns);
 
-        foreach($columns as $fieldName=>$column) {
+        foreach ($columns as $fieldName => $column) {
             $phpName = $column->getPhpName();
             $initial = $object->{"get" . $phpName}();
 
@@ -52,7 +53,8 @@ class ORMUtils {
      * @param $columns
      * @return mixed
      */
-    static public function addBehaviorConstraintsToFields($tableMapName, $fields, $columns) {
+    public static function addBehaviorConstraintsToFields($tableMapName, $fields, $columns)
+    {
 
         $behaviors = static::getClassTableMap($tableMapName)->getBehaviors();
         $validateBehaviors = array_key_exists("validate", $behaviors) ? $behaviors["validate"] : [];
@@ -67,12 +69,12 @@ class ORMUtils {
             $validateBehaviorsByColumn[$columnName][] = $behavior;
         }
 
-        foreach($columns as $fieldName=>$column) {
+        foreach ($columns as $fieldName => $column) {
             $columnName = $column->getName();
 
             if (array_key_exists($columnName, $validateBehaviorsByColumn)) {
                 foreach ($validateBehaviorsByColumn[$columnName] as $behavior) {
-                    if($behavior["validator"] === "Choice") {
+                    if ($behavior["validator"] === "Choice") {
                         $fields[$fieldName]->setType("choice");
                         $fields[$fieldName]->setChoices($behavior["options"]["choices"]);
                     }
@@ -88,7 +90,8 @@ class ORMUtils {
      * @param string $classTableMapName
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface
      */
-    static public function makeNewObjectFromClassTableMapName($classTableMapName) {
+    public static function makeNewObjectFromClassTableMapName($classTableMapName)
+    {
         $className = static::getObjectClass($classTableMapName);
         return new $className;
     }
@@ -98,7 +101,8 @@ class ORMUtils {
      * @param string $classTableMapName
      * @return bool
      */
-    static public function isEncrypted($fieldName, $classTableMapName) {
+    public static function isEncrypted($fieldName, $classTableMapName)
+    {
         if (defined($classTableMapName . "::ENCRYPTED_COLUMNS")) {
 
             $encryptedFieldNames = explode(" ", $classTableMapName::ENCRYPTED_COLUMNS);
@@ -110,7 +114,8 @@ class ORMUtils {
         return false;
     }
 
-    static public function fillObjectFromFields($object, $fields) {
+    public static function fillObjectFromFields($object, $fields)
+    {
         $fieldNames = array_keys($fields);
         $columns = ORMUtils::getColumns($object::TABLE_MAP);
 
@@ -135,11 +140,12 @@ class ORMUtils {
      * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
      * @return string[]
      */
-    static protected function makeFieldNamesFromObject($object) {
+    protected static function makeFieldNamesFromObject($object)
+    {
         $objectName = static::getPhpNameFromObject($object);
         $columns = static::getColumns($object::TABLE_MAP);
 
-        return array_values(array_map(function($column) use ($objectName) {
+        return array_values(array_map(function ($column) use ($objectName) {
             return $objectName . "." . $column->getPhpName();
         }, $columns));
     }
@@ -148,7 +154,8 @@ class ORMUtils {
      * @param string $classTableMapName
      * @return \Propel\Runtime\Map\TableMap
      */
-    static protected function getClassTableMap($classTableMapName) {
+    protected static function getClassTableMap($classTableMapName)
+    {
         return $classTableMapName::getTableMap();
     }
 
@@ -165,7 +172,8 @@ class ORMUtils {
      *
      * @return  \Propel\Runtime\Map\TableMap
      */
-    static protected function getRelatedTableMap($tableName, $fullyQualifiedTableMapName) {
+    protected static function getRelatedTableMap($tableName, $fullyQualifiedTableMapName)
+    {
 
         $upperCamelCaseTableName = StringUtils::toUpperCamelCase($tableName) . "TableMap";
 
@@ -173,8 +181,14 @@ class ORMUtils {
         // by doing some complicated search and replace on the fully qualified
         // table map name of the child.
         $fullyQualifiedRelatedTableName = substr_replace(
+            $fullyQualifiedTableMapName,
+            $upperCamelCaseTableName,
+            strrpos(
                 $fullyQualifiedTableMapName,
-                $upperCamelCaseTableName, strrpos($fullyQualifiedTableMapName, "\\", -1) + 1) . "\n";
+                "\\",
+                -1
+            ) + 1
+        ) . "\n";
         $fullyQualifiedParentTableName = trim($fullyQualifiedRelatedTableName);
 
         return static::getClassTableMap($fullyQualifiedParentTableName);
@@ -184,7 +198,8 @@ class ORMUtils {
      * @param string $classTableMapName
      * @return \Propel\Runtime\Map\TableMap[]
      */
-    static protected function findParentTables($classTableMapName) {
+    protected static function findParentTables($classTableMapName)
+    {
         // Make recursive
         $behaviors = static::getClassTableMap($classTableMapName)->getBehaviors();
 
@@ -199,7 +214,8 @@ class ORMUtils {
      * @param string $classTableMapName
      * @return \Propel\Runtime\Map\ColumnMap[]
      */
-    static protected function getColumns($classTableMapName) {
+    protected static function getColumns($classTableMapName)
+    {
         $columns = [];
 
         foreach (static::findParentTables($classTableMapName) as $parentTable) {
@@ -213,7 +229,8 @@ class ORMUtils {
      * @param \Propel\Runtime\Map\ColumnMap $column
      * @return string
      */
-    static protected function chooseFieldType($column) {
+    protected static function chooseFieldType($column)
+    {
 
         $type = ORMUtils::$db_type_to_field_type_association[$column->getType()];
 
@@ -228,7 +245,8 @@ class ORMUtils {
      * @param \Propel\Runtime\Map\ColumnMap[] $columns
      * @return Field[]
      */
-    static protected function makeFieldsFromColumns(array $columns) {
+    protected static function makeFieldsFromColumns(array $columns)
+    {
 
         $fields = [];
         $initial = "";
@@ -265,7 +283,8 @@ class ORMUtils {
      * @param string $classTableMapName
      * @return \UWDOEM\Framework\Field\Field[]
      */
-    static protected function makeFieldsFromClassTableMapName($classTableMapName) {
+    protected static function makeFieldsFromClassTableMapName($classTableMapName)
+    {
         $columns = static::getColumns($classTableMapName);
         return static::makeFieldsFromColumns($columns);
     }
@@ -274,7 +293,8 @@ class ORMUtils {
      * @param $object
      * @return string
      */
-    static protected function getPhpNameFromObject($object) {
+    protected static function getPhpNameFromObject($object)
+    {
         $tableMapName = $object::TABLE_MAP;
 
         /** @var \Propel\Runtime\Map\TableMap $tableMap */
@@ -286,7 +306,8 @@ class ORMUtils {
      * @param string $classTableMapName
      * @return string
      */
-    static protected function getObjectClass($classTableMapName) {
+    protected static function getObjectClass($classTableMapName)
+    {
         $search = ["\\Map", "TableMap"];
         $replace = ["", ""];
 
@@ -298,7 +319,8 @@ class ORMUtils {
      *
      * @return \Propel\Runtime\ActiveQuery\PropelQuery
      */
-    static protected function createQuery($classTableMapName) {
+    protected static function createQuery($classTableMapName)
+    {
 
         $queryName = str_replace(["TableMap", "\\Map\\"], ["Query", "\\"], $classTableMapName);
         return $queryName::create();
@@ -311,7 +333,8 @@ class ORMUtils {
      * @param "find"|"findOne" $findType
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface[]|\Propel\Runtime\ActiveRecord\ActiveRecordInterface
      */
-    static protected function baseFindAmongInheritance($classTableMapName, $fieldPhpName, $value, $findType) {
+    protected static function baseFindAmongInheritance($classTableMapName, $fieldPhpName, $value, $findType)
+    {
         // If the field is native to this class...
         try {
             // Test that the table has the prescribed column. Will fail with a ColumnNotFoundException if it does not.
@@ -339,7 +362,8 @@ class ORMUtils {
      * @param mixed $value
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface[]
      */
-    static protected function findByAmongInheritance($classTableMapName, $fieldPhpName, $value) {
+    protected static function findByAmongInheritance($classTableMapName, $fieldPhpName, $value)
+    {
         return static::baseFindAmongInheritance($classTableMapName, $fieldPhpName, $value, "find");
     }
 
@@ -349,7 +373,8 @@ class ORMUtils {
      * @param mixed $value
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface[]
      */
-    static protected function findOneByAmongInheritance($classTableMapName, $fieldPhpName, $value) {
+    protected static function findOneByAmongInheritance($classTableMapName, $fieldPhpName, $value)
+    {
         return static::baseFindAmongInheritance($classTableMapName, $fieldPhpName, $value, "findOne");
     }
 
@@ -358,7 +383,8 @@ class ORMUtils {
      * @param int $id
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface
      */
-    static protected function getObjectById($classTableMapName, $id) {
+    protected static function getObjectById($classTableMapName, $id)
+    {
         return static::createQuery($classTableMapName)->findPk($id);
     }
 
@@ -366,7 +392,8 @@ class ORMUtils {
      * @param $classTableMapName
      * @return string
      */
-    static protected function getTableName($classTableMapName) {
+    protected static function getTableName($classTableMapName)
+    {
         $columns = static::getColumns($classTableMapName);
         return array_values($columns)[0]->getTableName();
     }
@@ -376,7 +403,8 @@ class ORMUtils {
      * @param string $columnName
      * @return bool
      */
-    static protected function isColumnOf($classTableMapName, $columnName) {
+    protected static function isColumnOf($classTableMapName, $columnName)
+    {
         $columns = static::getColumns($classTableMapName);
         return array_key_exists($columnName, $columns);
     }
@@ -385,7 +413,8 @@ class ORMUtils {
      * @param string $classTableMapName
      * @return null|\Propel\Runtime\ActiveRecord\ActiveRecordInterface
      */
-    static public function getObjectFromURL($classTableMapName) {
+    public static function getObjectFromURL($classTableMapName)
+    {
         $object = null;
 
         $urlIdKey = static::getTableName($classTableMapName) . "_id";
@@ -395,7 +424,7 @@ class ORMUtils {
             $object = static::getObjectById($classTableMapName, $_GET[$urlIdKey]);
         } else {
         // Else, test whether a related id is in the GET vars
-            foreach ($_GET as $key=>$value) {
+            foreach ($_GET as $key => $value) {
                 if (static::isColumnOf($classTableMapName, strtoupper($key))) {
                     $fieldPhpName = StringUtils::toUpperCamelCase($key);
                     $object = static::findOneByAmongInheritance($classTableMapName, $fieldPhpName, $value);
@@ -407,12 +436,13 @@ class ORMUtils {
         return $object;
     }
 
-    static public function queryContainsFieldName($query, $fieldName) {
+    public static function queryContainsFieldName($query, $fieldName)
+    {
         /** @var \Propel\Runtime\Map\TableMap $map */
         $map = $query->getTableMap();
         $objectName = $map->getPhpName();
 
-        foreach($map->getColumns() as $column) {
+        foreach ($map->getColumns() as $column) {
             $thisFieldName = $objectName . "." . StringUtils::toUpperCamelCase($column->getPhpName());
 
             if ($fieldName == $thisFieldName) {
@@ -422,5 +452,4 @@ class ORMUtils {
 
         return false;
     }
-
 }

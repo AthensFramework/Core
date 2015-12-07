@@ -5,7 +5,8 @@ namespace UWDOEM\Framework\PickA;
 use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 
-class PickAFormBuilder extends AbstractBuilder {
+class PickAFormBuilder extends AbstractBuilder
+{
 
     protected $_manifest = [];
 
@@ -16,7 +17,8 @@ class PickAFormBuilder extends AbstractBuilder {
      * @param string $label
      * @return PickAFormBuilder
      */
-    public function addLabel($label) {
+    public function addLabel($label)
+    {
         $this->_manifest[$label] = null;
         return $this;
     }
@@ -25,7 +27,8 @@ class PickAFormBuilder extends AbstractBuilder {
      * @param \UWDOEM\Framework\Form\FormInterface[] $forms
      * @return PickAFormBuilder
      */
-    public function addForms(array $forms) {
+    public function addForms(array $forms)
+    {
         $this->_manifest = array_merge($this->_manifest, $forms);
         return $this;
     }
@@ -34,7 +37,8 @@ class PickAFormBuilder extends AbstractBuilder {
      * @param FormAction[] $actions
      * @return \UWDOEM\Framework\Form\FormBuilder
      */
-    public function setActions($actions) {
+    public function setActions($actions)
+    {
         $this->_actions = $actions;
         return $this;
     }
@@ -42,10 +46,10 @@ class PickAFormBuilder extends AbstractBuilder {
     /**
      * @return PickAFormInterface
      */
-    public function build() {
+    public function build()
+    {
         $this->validateId();
 
         return new PickAForm($this->_id, $this->_manifest, $this->_actions);
     }
-    
 }

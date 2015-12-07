@@ -5,18 +5,19 @@ namespace UWDOEM\Framework\Filter;
 use UWDOEM\Framework\Filter\FilterControls;
 use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
 
-
-class SearchFilter extends Filter {
+class SearchFilter extends Filter
+{
 
     /**
      * @param $handle
      * @param \UWDOEM\Framework\FilterStatement\FilterStatementInterface[] $statements
      * @param FilterInterface|null $nextFilter
      */
-    public function __construct($handle, FilterInterface $nextFilter = null) {
+    public function __construct($handle, FilterInterface $nextFilter = null)
+    {
 
         $statements = [];
-        for($i=0;$i<=5;$i++) {
+        for ($i=0; $i<=5; $i++) {
             $fieldname = FilterControls::getControl($handle, "fieldname$i");
             $operation = FilterControls::getControl($handle, "operation$i");
             $value = FilterControls::getControl($handle, "value$i");
@@ -42,7 +43,8 @@ class SearchFilter extends Filter {
     /**
      * @param \UWDOEM\Framework\Row\RowInterface[] $rows
      */
-    protected function setOptionsByRows(array $rows) {
+    protected function setOptionsByRows(array $rows)
+    {
         if (sizeof($rows) >= 1) {
             $this->_options = $rows[0]->getFieldBearer()->getFieldNames();
         }

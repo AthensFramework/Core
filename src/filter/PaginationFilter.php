@@ -8,8 +8,8 @@ use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
 use UWDOEM\Framework\FilterStatement\FilterStatement;
 
-
-class PaginationFilter extends Filter {
+class PaginationFilter extends Filter
+{
 
     const TYPE_HARD_PAGINATION = "hard";
     const TYPE_SOFT_PAGINATION = "soft";
@@ -19,41 +19,49 @@ class PaginationFilter extends Filter {
     protected $_page;
 
 
-    public function __construct($handle, $maxPerPage, $page, FilterInterface $nextFilter = null) {
+    public function __construct($handle, $maxPerPage, $page, FilterInterface $nextFilter = null)
+    {
         $statements = [new PaginationFilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page)];
 
         parent::__construct($handle, $statements, $nextFilter);
     }
 
-    protected function getMaxPerPage() {
+    protected function getMaxPerPage()
+    {
         return $this->getStatements()[0]->getCriterion();
     }
 
-    protected function getMaxPagesByQuery(ModelCriteria $query) {
+    protected function getMaxPagesByQuery(ModelCriteria $query)
+    {
         $maxPerPage = $this->getMaxPerPage();
         $totalRows = $query->count();
 
         return ceil($totalRows / $maxPerPage);
     }
 
-    public function getType() {
+    public function getType()
+    {
         return $this->_type;
     }
 
-    public function getNumPages() {
+    public function getNumPages()
+    {
         return $this->_numPages;
     }
 
-    public function getPage() {
+    public function getPage()
+    {
         return $this->_page;
     }
 
-    protected function setOptionsByQuery(ModelCriteria $query) {
+    protected function setOptionsByQuery(ModelCriteria $query)
+    {
         $maxPages = max($this->getMaxPagesByQuery($query), 1);
         $this->_options = range(1, $maxPages);
     }
 
-    protected function setFeedbackByQuery(ModelCriteria $query) {
+    protected function setFeedbackByQuery(ModelCriteria $query)
+    {
 
         $page = $this->getStatements()[0]->getControl();
         $maxPerPage = $this->getMaxPerPage();
@@ -69,5 +77,4 @@ class PaginationFilter extends Filter {
         $this->_page = $page;
         $this->_numPages = $this->getMaxPagesByQuery($query);
     }
-
 }

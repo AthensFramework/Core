@@ -2,11 +2,10 @@
 
 namespace UWDOEM\Framework\Field;
 
-
 use UWDOEM\Framework\Writer\WritableInterface;
 
-
-interface FieldInterface extends WritableInterface {
+interface FieldInterface extends WritableInterface
+{
 
     /** @return string */
     function getSubmitted();
@@ -91,5 +90,4 @@ interface FieldInterface extends WritableInterface {
 
     /** @return string */
     function getValidatedData();
-
 }

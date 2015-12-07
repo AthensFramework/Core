@@ -371,7 +371,7 @@
 /* Styles necessary for quicklinks */
 
 #quicklinks {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 #uw-container {
   position: relative;
@@ -592,5 +592,6 @@
     padding: 0 0 0 70px;
   }
 }
+
 
 

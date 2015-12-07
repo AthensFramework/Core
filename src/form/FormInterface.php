@@ -7,8 +7,8 @@ use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Initializer\InitializableInterface;
 
-
-interface FormInterface extends WritableInterface, InitializableInterface {
+interface FormInterface extends WritableInterface, InitializableInterface
+{
 
     /**
      * @return FieldBearerInterface
@@ -57,5 +57,4 @@ interface FormInterface extends WritableInterface, InitializableInterface {
     function addError($error);
 
     function propagateOnValid();
-
 }
