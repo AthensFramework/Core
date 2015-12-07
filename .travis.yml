@@ -8,11 +8,6 @@ addons:
     repo_token: 97556cc0507864cd70cb0d710a278a9e5748292c38b8b080e730756e3fa458f0
 before_script:
   - sed -i '/phpdoc/d' composer.json
-  - sed -i '/twig/d' composer.json
-  - sed -i '/dompdf/d' composer.json
-  - sed -i '/person/d' composer.json
-  - sed -i '/encryption/d' composer.json
-  - sed -i '/csrf/d' composer.json
   - composer install
 script:
   - phpunit --configuration test/phpunit.xml test
