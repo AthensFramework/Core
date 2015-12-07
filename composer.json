@@ -12,12 +12,12 @@
     ]
   },
   "require": {
-    "propel/propel": "~2.0@dev",
     "twig/twig" : "1.*",
     "dompdf/dompdf" : "0.6.*",
     "uwdoem/person": "0.*",
     "uwdoem/encryption": "0.*",
-    "uwdoem/csrf": "0.*"
+    "uwdoem/csrf": "0.*",
+    "propel/propel": "~2.0@dev"
   },
   "require-dev": {
     "phpunit/phpunit": "4.*",
