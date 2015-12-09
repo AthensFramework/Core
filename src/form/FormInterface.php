@@ -27,7 +27,7 @@ interface FormInterface extends WritableInterface, InitializableInterface
     public function getSubFormByName($name);
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isValid();
 

@@ -30,7 +30,7 @@ class Table implements TableInterface
 
     /**
      * @param $id
-     * @param array $rows
+     * @param array           $rows
      * @param FilterInterface $filter
      */
     public function __construct($id, array $rows, FilterInterface $filter)

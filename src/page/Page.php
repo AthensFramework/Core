@@ -56,13 +56,13 @@ class Page implements PageInterface
 
     /**
      * Page constructor.
-     * @param string $type
-     * @param string $title
-     * @param string $baseHref
-     * @param string $header
-     * @param string $subHeader
-     * @param string[] $breadCrumbs
-     * @param string[] $returnTo
+     * @param string                 $type
+     * @param string                 $title
+     * @param string                 $baseHref
+     * @param string                 $header
+     * @param string                 $subHeader
+     * @param string[]               $breadCrumbs
+     * @param string[]               $returnTo
      * @param WritableInterface|null $writable
      */
     public function __construct(
@@ -75,6 +75,7 @@ class Page implements PageInterface
         array $returnTo,
         WritableInterface $writable = null
     ) {
+    
         $this->title = $title;
         $this->baseHref = $baseHref;
         $this->header = $header;
@@ -183,8 +184,8 @@ class Page implements PageInterface
 
     /**
      * @param Initializer|null $initializer
-     * @param Writer|null $writer
-     * @param callable|null $renderFunction
+     * @param Writer|null      $writer
+     * @param callable|null    $renderFunction
      * @return null
      */
     public function render(
@@ -192,6 +193,7 @@ class Page implements PageInterface
         Writer $writer = null,
         callable $renderFunction = null
     ) {
+    
 
         if (is_null($initializer)) {
             $initializer = $this->makeDefaultInitializer();

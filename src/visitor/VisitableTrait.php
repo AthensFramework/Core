@@ -2,9 +2,22 @@
 
 namespace UWDOEM\Framework\Visitor;
 
+/**
+ * Class VisitableTrait satisfies the VisitableInterface interface.
+ *
+ * See the "Visitor" pattern.
+ *
+ * @package UWDOEM\Framework\Visitor
+ */
 trait VisitableTrait
 {
 
+    /**
+     * Accept a visitor, per the Visitor pattern.
+     *
+     * @param Visitor $visitor
+     * @return mixed
+     */
     public function accept(Visitor $visitor)
     {
         $hierarchy = array_merge([get_class($this)], array_values(class_parents($this)));
@@ -29,7 +42,9 @@ trait VisitableTrait
             return $visitor->visit($this);
         }
 
-        throw new \RuntimeException("No visit method in " . get_class($visitor) . " found among " .
-            implode(", ", $visitorMethods) . ", or default method ::visit.");
+        throw new \RuntimeException(
+            "No visit method in " . get_class($visitor) . " found among " .
+            implode(", ", $visitorMethods) . ", or default method ::visit."
+        );
     }
 }

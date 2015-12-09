@@ -23,9 +23,11 @@ uwdoem.multi_adder = (function () {
     };
 
     var activateRemover = function (row) {
-        row.find("td[class*='remove']").click(function () {
-            $(this).closest("tr.form-row").remove();
-        });
+        row.find("td[class*='remove']").click(
+            function () {
+                $(this).closest("tr.form-row").remove();
+            }
+        );
     };
 
     var addMultiAdderRow = function (multiAdderTable, dataRow) {
@@ -58,25 +60,31 @@ uwdoem.multi_adder = (function () {
         $('tr.prototypical input, tr.prototypical select').prop('disabled', true);
     };
 
-    $(function () {
-        disablePrototypicalRows();
-
-        $("table.multi-adder tbody").each(function () {
-            var actualRows = $(this).find('tr.actual');
-
-            if (actualRows.length === 0) {
-                addMultiAdderRow($(this));
-            } else {
-                var table = $(this);
-                actualRows.each(function () {
-                    addMultiAdderRow(table, $(this));
-                });
-            }
-        });
-        $("table.multi-adder tr.adder").click(function () {
-            addMultiAdderRow($(this).parent());
-        });
-    });
+    $(
+        function () {
+            disablePrototypicalRows();
+            $("table.multi-adder tbody").each(
+                function () {
+                    var actualRows = $(this).find('tr.actual');
+                    if (actualRows.length === 0) {
+                        addMultiAdderRow($(this));
+                    } else {
+                        var table = $(this);
+                        actualRows.each(
+                            function () {
+                                addMultiAdderRow(table, $(this));
+                            }
+                        );
+                    }
+                }
+            );
+            $("table.multi-adder tr.adder").click(
+                function () {
+                    addMultiAdderRow($(this).parent());
+                }
+            );
+        }
+    );
 
     return {
         disablePrototypicalRows: disablePrototypicalRows

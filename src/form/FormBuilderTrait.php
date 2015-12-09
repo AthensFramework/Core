@@ -81,7 +81,7 @@ trait FormBuilderTrait
     }
 
     /**
-     * @param string $fieldName
+     * @param string   $fieldName
      * @param callable $callable
      * @return $this
      */

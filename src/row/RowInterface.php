@@ -19,7 +19,7 @@ interface RowInterface extends WritableInterface
     public function getOnClick();
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isHighlightable();
 }

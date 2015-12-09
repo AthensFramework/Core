@@ -21,9 +21,13 @@ uwdoem.search = (function () {
     function fadeOutSearch()
     {
 
-        searchDiv.fadeTo(150, 0,  function () {
-            $(this).css("display", "none");
-        });
+        searchDiv.fadeTo(
+            150,
+            0,
+            function () {
+                $(this).css("display", "none");
+            }
+        );
 
     }
 
@@ -34,21 +38,23 @@ uwdoem.search = (function () {
 
         var getVar = uwdoem.ajax_section.getVar;
 
-        $(this).parent().find('tr').each(function () {
-            var fieldname = $(this).find('td.fieldname select option:selected').val();
-            var operation = $(this).find('td.operation select option:selected').text();
-            var value = $(this).find('td.value input').val();
-            if (fieldname && operation && value) {
-                uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i, fieldname));
-                uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'operation' + i, operation));
-                uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value' + i, value));
-            } else {
-                uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i));
-                uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'operation' + i));
-                uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'value' + i));
+        $(this).parent().find('tr').each(
+            function () {
+                var fieldname = $(this).find('td.fieldname select option:selected').val();
+                var operation = $(this).find('td.operation select option:selected').text();
+                var value = $(this).find('td.value input').val();
+                if (fieldname && operation && value) {
+                    uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i, fieldname));
+                    uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'operation' + i, operation));
+                    uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value' + i, value));
+                } else {
+                    uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i));
+                    uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'operation' + i));
+                    uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'value' + i));
+                }
+                i++;
             }
-            i++;
-        });
+        );
         uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, 'pagination', 'page', 1));
         uwdoem.ajax_section.loadSection(ajaxSectionName);
         uwdoem.fadeOutMask();
@@ -70,18 +76,17 @@ uwdoem.search = (function () {
         console.log(ajaxSectionName);
 
         // Pre-select the existing search criteria
-        $("#search-criteria-area").find('tr').each(function () {
-            var rowNumber = $(this).attr("data-row");
-
-            var fieldName = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname' + rowNumber);
-            $(this).find("td.fieldname select").val(fieldName);
-
-            var operation = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'operation' + rowNumber);
-            $(this).find("td.operation select").val(operation);
-
-            var value = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'value' + rowNumber);
-            $(this).find("td.value input").val(value);
-        });
+        $("#search-criteria-area").find('tr').each(
+            function () {
+                var rowNumber = $(this).attr("data-row");
+                var fieldName = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname' + rowNumber);
+                $(this).find("td.fieldname select").val(fieldName);
+                var operation = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'operation' + rowNumber);
+                $(this).find("td.operation select").val(operation);
+                var value = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'value' + rowNumber);
+                $(this).find("td.value input").val(value);
+            }
+        );
     };
 
     var setupSearchFilter = function (handle) {

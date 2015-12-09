@@ -11,7 +11,7 @@ class SearchFilter extends Filter
     /**
      * @param $handle
      * @param \UWDOEM\Framework\FilterStatement\FilterStatementInterface[] $statements
-     * @param FilterInterface|null $nextFilter
+     * @param FilterInterface|null                                         $nextFilter
      */
     public function __construct($handle, FilterInterface $nextFilter = null)
     {

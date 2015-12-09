@@ -9,20 +9,25 @@ markdown_explorer = (function () {
     };
 
     var makeLinksHandleMarkdown = function (element, directory) {
-        element.find('a').click(function () {
-            var linkHref = $(this).attr('href');
-            if (isLocalHref(linkHref) && isMarkdownHref(linkHref)) {
-                window.location = [location.protocol, '//', location.host, location.pathname].join('') + "?href=" + encodeURIComponent(directory + linkHref);
-                return false;
+        element.find('a').click(
+            function () {
+                var linkHref = $(this).attr('href');
+                if (isLocalHref(linkHref) && isMarkdownHref(linkHref)) {
+                    window.location = [location.protocol, '//', location.host, location.pathname].join('') + "?href=" + encodeURIComponent(directory + linkHref);
+                    return false;
+                }
             }
-        });
+        );
     };
 
     var loadFromHref = function (element, href) {
-        $.get(href, function (data) {
-            element.html(markdown.toHTML(data));
-            makeLinksHandleMarkdown(element, getCurrentDirectory(href));
-        });
+        $.get(
+            href,
+            function (data) {
+                element.html(markdown.toHTML(data));
+                makeLinksHandleMarkdown(element, getCurrentDirectory(href));
+            }
+        );
     };
 
     var getCurrentDirectory = function (href) {

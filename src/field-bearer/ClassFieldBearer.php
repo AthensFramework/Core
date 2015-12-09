@@ -15,7 +15,7 @@ class ClassFieldBearer extends FieldBearer implements FieldBearerInterface
 
     /**
      * @param ActiveRecordInterface $object
-     * @param callable $saveFunction
+     * @param callable              $saveFunction
      */
     public function __construct(ActiveRecordInterface $object, callable $saveFunction)
     {

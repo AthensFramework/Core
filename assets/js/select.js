@@ -39,12 +39,13 @@ uwdoem.select = (function () {
 
         activeControls.val(getCurrentSelection(ajaxSectionName, handle));
 
-        activeControls.change(function () {
-            var selectedText = $(this).find("option:selected").text();
-
-            uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
-            uwdoem.ajax_section.loadSection(ajaxSectionName);
-        });
+        activeControls.change(
+            function () {
+                var selectedText = $(this).find("option:selected").text();
+                uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
+                uwdoem.ajax_section.loadSection(ajaxSectionName);
+            }
+        );
     };
 
     return {

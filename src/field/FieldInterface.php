@@ -31,7 +31,7 @@ interface FieldInterface extends WritableInterface
     /** @return int */
     public function getSize();
 
-    /** @param int $size */
+    /** @param integer $size */
     public function setSize($size);
 
     /** @return string */
@@ -79,7 +79,7 @@ interface FieldInterface extends WritableInterface
     /** @return bool */
     public function isRequired();
 
-    /** @param bool $required */
+    /** @param boolean $required */
     public function setRequired($required);
 
     /** @return bool */

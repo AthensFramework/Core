@@ -539,7 +539,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setHandle($handle)
             ->build();
 
-        $result = $this->stripQuotes($writer->visitSortFilter($filter));
+        $result = $this->stripQuotes($filter->accept($writer));
 
         $this->assertContains("class=sort-container data-handle-for=$handle", $result);
     }
@@ -568,7 +568,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setDefault($optionNames[$defaultOption])
             ->build();
 
-        $result = $this->stripQuotes($writer->visitSelectFilter($filter));
+        $result = $this->stripQuotes($filter->accept($writer));
 
         // Assert that the result contains the container for our filter controls
         $this->assertContains("class=select-container data-handle-for=$handle", $result);

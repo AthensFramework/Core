@@ -42,7 +42,7 @@ class FieldBuilder extends AbstractBuilder
     }
 
     /**
-     * @param int $fieldSize
+     * @param integer $fieldSize
      * @return FieldBuilder
      */
     public function setFieldSize($fieldSize)

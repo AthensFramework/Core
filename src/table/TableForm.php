@@ -6,8 +6,12 @@ use UWDOEM\Framework\Filter\DummyFilter;
 use UWDOEM\Framework\Form\FormTrait;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\Row\RowBuilder;
 
+/**
+ * Class TableForm provides a form composed of multiple rows.
+ *
+ * @package UWDOEM\Framework\Table
+ */
 class TableForm implements TableFormInterface
 {
 
@@ -30,11 +34,13 @@ class TableForm implements TableFormInterface
         return $this->prototypicalRow;
     }
 
+    /** @return string */
     public function getId()
     {
         return $this->getPrototypicalRow()->getId();
     }
 
+    /** @return RowInterface[] */
     public function getRows()
     {
         return $this->rows;
@@ -63,13 +69,19 @@ class TableForm implements TableFormInterface
 
         $submittedSlugs = array_keys($_POST);
 
-        $submittedFirstSlugMatches = array_filter($submittedSlugs, function ($postSlug) use ($firstPrototypicalSlug) {
-            return strpos($postSlug, $firstPrototypicalSlug) !== false;
-        });
+        $submittedFirstSlugMatches = array_filter(
+            $submittedSlugs,
+            function ($postSlug) use ($firstPrototypicalSlug) {
+                return strpos($postSlug, $firstPrototypicalSlug) !== false;
+            }
+        );
 
-        $rowPrefixes = array_map(function ($name) use ($firstPrototypicalSlug) {
-            return str_replace($firstPrototypicalSlug, "", $name);
-        }, $submittedFirstSlugMatches);
+        $rowPrefixes = array_map(
+            function ($name) use ($firstPrototypicalSlug) {
+                return str_replace($firstPrototypicalSlug, "", $name);
+            },
+            $submittedFirstSlugMatches
+        );
 
         return $rowPrefixes;
     }
@@ -143,6 +155,7 @@ class TableForm implements TableFormInterface
         $actions = [],
         $validators = []
     ) {
+    
         $this->actions = $actions;
         $this->rowMakingFunction = $rowMakingFunction;
 

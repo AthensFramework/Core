@@ -55,7 +55,7 @@ class FilterBuilder extends AbstractBuilder
     }
 
     /**
-     * @param int $page
+     * @param integer $page
      * @return FilterBuilder
      */
     public function setPage($page)
@@ -65,7 +65,7 @@ class FilterBuilder extends AbstractBuilder
     }
 
     /**
-     * @param int $maxPerPage
+     * @param integer $maxPerPage
      * @return FilterBuilder
      */
     public function setMaxPerPage($maxPerPage)
@@ -142,9 +142,9 @@ class FilterBuilder extends AbstractBuilder
     /**
      * If it has been set, retrieve the indicated property from this builder. If not, throw exception.
      *
-     * @param string $attrName The name of the attribute to retrieve, including underscore.
+     * @param string $attrName   The name of the attribute to retrieve, including underscore.
      * @param string $methodName The name of the calling method, optional.
-     * @param string $reason An optional, additional "reason" to display with the exception.
+     * @param string $reason     An optional, additional "reason" to display with the exception.
      * @return mixed The indicated attribute, if set.
      * @throws \Exception if the indicated attribute has not been set, or if the attribute does not exist
      */
@@ -228,8 +228,10 @@ class FilterBuilder extends AbstractBuilder
 
                 if (!array_key_exists($default, $options)) {
                     $optionsText = implode(", ", array_keys($options));
-                    throw new \Exception("For select filter '$handle', your default choice " .
-                        "'$default' must be among options '$optionsText'.");
+                    throw new \Exception(
+                        "For select filter '$handle', your default choice " .
+                        "'$default' must be among options '$optionsText'."
+                    );
                 }
 
                 $statements = array_map(

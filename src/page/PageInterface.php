@@ -52,7 +52,7 @@ interface PageInterface extends WritableInterface, InitializableInterface
 
     /**
      * @param Initializer|null $initializer
-     * @param Writer|null $writer
+     * @param Writer|null      $writer
      * @return mixed
      */
     public function render(Initializer $initializer, Writer $writer);

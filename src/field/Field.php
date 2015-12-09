@@ -68,12 +68,12 @@ class Field implements FieldInterface
     }
 
     /**
-     * @param string $type
-     * @param string $label
+     * @param string      $type
+     * @param string      $label
      * @param string|null $initial
-     * @param bool|False $required
+     * @param boolean     $required
      * @param $choices
-     * @param int $fieldSize
+     * @param integer     $fieldSize
      */
     public function __construct($type, $label = "", $initial = "", $required = false, $choices = [], $fieldSize = 255)
     {
@@ -108,7 +108,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function wasSubmitted()
     {
@@ -161,7 +161,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getSize()
     {
@@ -169,7 +169,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * @param int $size
+     * @param integer $size
      */
     public function setSize($size)
     {
@@ -307,7 +307,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     protected function hasChoices()
     {
@@ -338,7 +338,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isRequired()
     {
@@ -346,7 +346,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * @param bool $required
+     * @param boolean $required
      */
     public function setRequired($required)
     {
@@ -354,7 +354,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isValid()
     {

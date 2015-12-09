@@ -99,7 +99,7 @@ class ORMUtils
     /**
      * @param string $fieldName
      * @param string $classTableMapName
-     * @return bool
+     * @return boolean
      */
     public static function isEncrypted($fieldName, $classTableMapName)
     {
@@ -145,9 +145,14 @@ class ORMUtils
         $objectName = static::getPhpNameFromObject($object);
         $columns = static::getColumns($object::TABLE_MAP);
 
-        return array_values(array_map(function ($column) use ($objectName) {
-            return $objectName . "." . $column->getPhpName();
-        }, $columns));
+        return array_values(
+            array_map(
+                function ($column) use ($objectName) {
+                    return $objectName . "." . $column->getPhpName();
+                },
+                $columns
+            )
+        );
     }
 
     /**
@@ -167,8 +172,8 @@ class ORMUtils
      * Propel will throw a TableNotFoundException. This method accesses the table map by access to its fully
      * qualified class name, which it determines by modifying $this->_classTableMapName.
      *
-     * @param   string    $tableName  The SQL name of the related table for which you would like to retrieve a table map
-     * @param   string    $fullyQualifiedTableMapName  A fully qualified table map name within the schema of
+     * @param   string $tableName                  The SQL name of the related table for which you would like to retrieve a table map
+     * @param   string $fullyQualifiedTableMapName A fully qualified table map name within the schema of
      *
      * @return  \Propel\Runtime\Map\TableMap
      */
@@ -327,9 +332,9 @@ class ORMUtils
     }
 
     /**
-     * @param string $classTableMapName
-     * @param string $fieldPhpName
-     * @param mixed $value
+     * @param string           $classTableMapName
+     * @param string           $fieldPhpName
+     * @param mixed            $value
      * @param "find"|"findOne" $findType
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface[]|\Propel\Runtime\ActiveRecord\ActiveRecordInterface
      */
@@ -359,7 +364,7 @@ class ORMUtils
     /**
      * @param string $classTableMapName
      * @param string $fieldPhpName
-     * @param mixed $value
+     * @param mixed  $value
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface[]
      */
     protected static function findByAmongInheritance($classTableMapName, $fieldPhpName, $value)
@@ -370,7 +375,7 @@ class ORMUtils
     /**
      * @param string $classTableMapName
      * @param string $fieldPhpName
-     * @param mixed $value
+     * @param mixed  $value
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface[]
      */
     protected static function findOneByAmongInheritance($classTableMapName, $fieldPhpName, $value)
@@ -379,8 +384,8 @@ class ORMUtils
     }
 
     /**
-     * @param string $classTableMapName
-     * @param int $id
+     * @param string  $classTableMapName
+     * @param integer $id
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface
      */
     protected static function getObjectById($classTableMapName, $id)
@@ -401,7 +406,7 @@ class ORMUtils
     /**
      * @param string $classTableMapName
      * @param string $columnName
-     * @return bool
+     * @return boolean
      */
     protected static function isColumnOf($classTableMapName, $columnName)
     {

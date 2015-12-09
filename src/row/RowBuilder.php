@@ -57,8 +57,10 @@ class RowBuilder
         $fieldBearer = $this->buildFieldBearer();
 
         if (sizeof($fieldBearer->getFields()) === 0) {
-            throw new \RuntimeException("You must specify an implementation of " .
-            "FieldBearerInterface using ::setFieldBearer before calling this method.");
+            throw new \RuntimeException(
+                "You must specify an implementation of " .
+                "FieldBearerInterface using ::setFieldBearer before calling this method."
+            );
         }
 
         if ($this->highlightable && $this->onClick) {

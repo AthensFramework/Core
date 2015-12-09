@@ -22,15 +22,19 @@ uwdoem.ajax = (function () {
 
         postVars.csrf_token = CSRFTOKEN;
     
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: postVars
-        })
+        $.ajax(
+            {
+                type: "POST",
+                url: url,
+                data: postVars
+            }
+        )
             .done(doneFunction)
-            .fail(function (msg) {
-                uwdoem.alert.makeAlert("failure", msg);
-            });
+            .fail(
+                function (msg) {
+                    uwdoem.alert.makeAlert("failure", msg);
+                }
+            );
     };
 
     function AjaxSubmitForm(form, successCallback)
@@ -74,18 +78,21 @@ uwdoem.ajax = (function () {
 
                 // TODO: Make form set fields to submitted on successful submit, eliminate this js hack
                 if (!hasErrors) {
-                    $.ajax({
-                        type: "GET",
-                        url: url
-                    }).done(function (getMsg) {
-                        uwdoem.alert.makeAlert("success", "Form subitted.");
-                        formResult = $("<div>" + getMsg + "</div>").find("#" + formId);
-                        $(form).replaceWith(formResult);
-                        document.getElementById(formId).scrollIntoView();
-
-                        successCallback();
-                        uwdoem.ajax_section.doPostSectionActions();
-                    });
+                    $.ajax(
+                        {
+                            type: "GET",
+                            url: url
+                        }
+                    ).done(
+                        function (getMsg) {
+                            uwdoem.alert.makeAlert("success", "Form subitted.");
+                            formResult = $("<div>" + getMsg + "</div>").find("#" + formId);
+                            $(form).replaceWith(formResult);
+                            document.getElementById(formId).scrollIntoView();
+                            successCallback();
+                            uwdoem.ajax_section.doPostSectionActions();
+                        }
+                    );
 
                 } else {
 

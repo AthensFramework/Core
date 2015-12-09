@@ -66,7 +66,7 @@ class Row implements RowInterface
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isHighlightable()
     {

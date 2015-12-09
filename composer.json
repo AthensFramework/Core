@@ -23,6 +23,7 @@
     "phpunit/phpunit": "4.*",
     "phpdocumentor/phpdocumentor": "2.*",
     "codeclimate/php-test-reporter": "dev-master",
-    "squizlabs/php_codesniffer": "2.*"
+    "squizlabs/php_codesniffer": "2.*",
+    "uwdoem/standard": "*"
   }
 }

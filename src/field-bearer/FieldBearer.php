@@ -47,7 +47,7 @@ class FieldBearer implements FieldBearerInterface
     }
 
     /**
-     * @param string $fieldGetterFunction
+     * @param string                                   $fieldGetterFunction
      * @param \UWDOEM\Framework\Field\FieldInterface[] $initial
      * @return \UWDOEM\Framework\Field\FieldInterface[]
      */
@@ -144,10 +144,12 @@ class FieldBearer implements FieldBearerInterface
      */
     public function getFieldLabels()
     {
-        return array_map(function ($field) {
-            return $field->getLabel();
-
-        }, $this->getFields());
+        return array_map(
+            function ($field) {
+                return $field->getLabel();
+            },
+            $this->getFields()
+        );
     }
 
     /**
@@ -205,16 +207,20 @@ class FieldBearer implements FieldBearerInterface
         if (method_exists($this, $getterName)) {
             $things = $this->$getterName();
         } else {
-            throw new \Exception("Method get$thingType/ByName not not supported by class " .
-                get_called_class() . " because class does not contain a $getterName method.");
+            throw new \Exception(
+                "Method get$thingType/ByName not not supported by class " .
+                get_called_class() . " because class does not contain a $getterName method."
+            );
         }
 
         if (array_key_exists($name, $things)) {
             return $things[$name];
         } else {
             $thingNames = implode(" ", array_keys($things));
-            throw new \Exception("$thingType name $name not found among [$thingNames] of "
-                . get_called_class() . "'s fieldBearers.");
+            throw new \Exception(
+                "$thingType name $name not found among [$thingNames] of "
+                . get_called_class() . "'s fieldBearers."
+            );
         }
     }
 

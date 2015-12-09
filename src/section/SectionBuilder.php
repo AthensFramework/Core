@@ -40,8 +40,10 @@ class SectionBuilder extends AbstractBuilder
     {
 
         if ($this->type !== "ajax-loaded") {
-            throw new \Exception("Handle may only be set on an ajax-loaded section. " .
-                "Set type to 'ajax-loaded' before invoking this method.");
+            throw new \Exception(
+                "Handle may only be set on an ajax-loaded section. " .
+                "Set type to 'ajax-loaded' before invoking this method."
+            );
         }
 
         $this->label = $handle;
@@ -71,8 +73,10 @@ class SectionBuilder extends AbstractBuilder
     public function setType($type)
     {
         if ($type === "ajax-loaded" && isset($this->content)) {
-            throw new \Exception("Cannot set type to 'ajax-loaded' because content has already been set; " .
-                "an ajax-loaded section must not have content.");
+            throw new \Exception(
+                "Cannot set type to 'ajax-loaded' because content has already been set; " .
+                "an ajax-loaded section must not have content."
+            );
         }
         $this->type = $type;
         return $this;
@@ -86,8 +90,10 @@ class SectionBuilder extends AbstractBuilder
     public function setTarget($target)
     {
         if ($this->type !== "ajax-loaded") {
-            throw new \Exception("Target may only be set on an ajax-loaded section. " .
-            "Set type to 'ajax-loaded' before invoking this method.");
+            throw new \Exception(
+                "Target may only be set on an ajax-loaded section. " .
+                "Set type to 'ajax-loaded' before invoking this method."
+            );
         }
 
         $this->content = $target;

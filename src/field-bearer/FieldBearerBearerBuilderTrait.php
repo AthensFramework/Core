@@ -105,7 +105,7 @@ trait FieldBearerBearerBuilderTrait
 
     /**
      * @param string $fieldName
-     * @param mixed $value
+     * @param mixed  $value
      * @return $this
      */
     public function setInitialFieldValue($fieldName, $value)

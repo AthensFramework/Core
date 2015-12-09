@@ -149,7 +149,7 @@ class PickAForm implements PickAFormInterface
 
     /**
      * @param $id
-     * @param array $manifest
+     * @param array      $manifest
      * @param array|null $actions
      */
     public function __construct($id, $manifest, $actions = [])
@@ -157,8 +157,14 @@ class PickAForm implements PickAFormInterface
         $this->actions = $actions;
         $this->pickA = new PickA($id, $manifest);
 
-        $this->fieldBearer = new FieldBearer([], [], [], [], function () {
-        });
+        $this->fieldBearer = new FieldBearer(
+            [],
+            [],
+            [],
+            [],
+            function () {
+            }
+        );
     }
 
     public function __call($name, $arguments)

@@ -74,49 +74,43 @@ uwdoem.pagination = (function () {
 
     var setupPaginationFilter = function (handle) {
         // If we have already created this filter, return.
-        $(function () {
-            var page, ajaxSectionName, inactiveControls, activeControls;
-
-            inactiveControls = getInactiveControls(handle);
-            activeControls = getActiveControls(handle);
-
-            ajaxSectionName = inactiveControls.closest("div.ajax-loaded-section").attr("id");
-
+        $(
+            function () {
+                var page, ajaxSectionName, inactiveControls, activeControls;
+                inactiveControls = getInactiveControls(handle);
+                activeControls = getActiveControls(handle);
+                ajaxSectionName = inactiveControls.closest("div.ajax-loaded-section").attr("id");
             // If this filter is already active...
-            if (activeControls.length) {
-                // replace the active controls with the new, inactive controls
-                activeControls.replaceWith(inactiveControls);
-            } else {
-                // else just append the new controls to the label.
-                inactiveControls.appendTo(inactiveControls.closest("div.section-container").find("div.section-label"));
+                if (activeControls.length) {
+                    // replace the active controls with the new, inactive controls
+                    activeControls.replaceWith(inactiveControls);
+                } else {
+                    // else just append the new controls to the label.
+                    inactiveControls.appendTo(inactiveControls.closest("div.section-container").find("div.section-label"));
+                }
+
+                activeControls = inactiveControls;
+                page = getPage(ajaxSectionName, handle);
+                setControls(handle, page);
+                activeControls.find("a.pagination-arrow").click(
+                    function () {
+                        var targetPage = parseInt($(this).attr('data-page-for'));
+                        uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
+                        uwdoem.ajax_section.loadSection(ajaxSectionName);
+                        registerPage(ajaxSectionName, handle, targetPage);
+                        return false;
+                    }
+                );
+                activeControls.find("select.pagination-filter." + handle).change(
+                    function () {
+                        var targetPage = parseInt($("select.pagination-filter." + handle + " option:selected").val());
+                        uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
+                        uwdoem.ajax_section.loadSection(ajaxSectionName);
+                        registerPage(ajaxSectionName, handle, targetPage);
+                    }
+                );
             }
-
-            activeControls = inactiveControls;
-
-            page = getPage(ajaxSectionName, handle);
-
-            setControls(handle, page);
-
-            activeControls.find("a.pagination-arrow").click(function () {
-                var targetPage = parseInt($(this).attr('data-page-for'));
-
-                uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
-                uwdoem.ajax_section.loadSection(ajaxSectionName);
-
-                registerPage(ajaxSectionName, handle, targetPage);
-
-                return false;
-            });
-
-            activeControls.find("select.pagination-filter." + handle).change(function () {
-                var targetPage = parseInt($("select.pagination-filter." + handle + " option:selected").val());
-
-                uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
-                uwdoem.ajax_section.loadSection(ajaxSectionName);
-
-                registerPage(ajaxSectionName, handle, targetPage);
-            });
-        });
+        );
     };
 
     return {

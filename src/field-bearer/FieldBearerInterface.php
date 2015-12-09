@@ -14,7 +14,7 @@ interface FieldBearerInterface extends InitializableInterface
     public function getFieldBearers();
 
     /**
-     * @param String $name
+     * @param string $name
      * @return FieldBearerInterface
      */
     public function getFieldBearerByName($name);
@@ -30,7 +30,7 @@ interface FieldBearerInterface extends InitializableInterface
 
     /**
      * @param Field $field
-     * @return String
+     * @return string
      */
     public function getNameByField($field);
 

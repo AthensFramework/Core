@@ -19,22 +19,24 @@ uwdoem.select_a_section = (function () {
     };
 
     // Move these to always do
-    $(function () {
-        $("div.select-a-section-container div.option.selectable").click(function () {
-            var selectASection = $(this).closest("div.select-a-section-container");
-            var targetSelectionName = ($(this).attr('data-section-for'));
-
-            revealSelectASection(selectASection, targetSelectionName);
-        });
-
-        $("div.select-a-section-container div.option.selectable div.control-container input[type=radio]:checked").each(function () {
-            var selectASection = $(this).closest("div.select-a-section-container");
-            var targetSelectionName = $(this).val();
-
-            revealSelectASection(selectASection, targetSelectionName);
-        });
-
-    });
+    $(
+        function () {
+            $("div.select-a-section-container div.option.selectable").click(
+                function () {
+                    var selectASection = $(this).closest("div.select-a-section-container");
+                    var targetSelectionName = ($(this).attr('data-section-for'));
+                    revealSelectASection(selectASection, targetSelectionName);
+                }
+            );
+            $("div.select-a-section-container div.option.selectable div.control-container input[type=radio]:checked").each(
+                function () {
+                    var selectASection = $(this).closest("div.select-a-section-container");
+                    var targetSelectionName = $(this).val();
+                    revealSelectASection(selectASection, targetSelectionName);
+                }
+            );
+        }
+    );
 
     return {
         revealSelectASection: revealSelectASection

@@ -23,9 +23,9 @@ abstract class FilterStatement implements FilterStatementInterface
 
     /**
      * FilterStatement constructor.
-     * @param string $fieldName
-     * @param string $condition
-     * @param mixed $criterion
+     * @param string  $fieldName
+     * @param string  $condition
+     * @param mixed   $criterion
      * @param $control
      */
     public function __construct($fieldName, $condition, $criterion, $control)

@@ -98,7 +98,7 @@ class Settings
     }
 
     /**
-     * @param int $value The default number of rows per page to display, when paginating
+     * @param integer $value The default number of rows per page to display, when paginating
      */
     public static function setDefaultPagination($value)
     {

@@ -68,7 +68,7 @@ trait FormTrait
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isValid()
     {

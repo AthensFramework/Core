@@ -45,10 +45,10 @@ class Section implements SectionInterface
     /**
      * Create a new section
      *
-     * @param string $id
-     * @param string $content
+     * @param string              $id
+     * @param string              $content
      * @param WritableInterface[] $writables
-     * @param string $label
+     * @param string              $label
      * @param $type
      */
     public function __construct($id, $content, array $writables, $label, $type)

@@ -134,10 +134,13 @@ uwdoem.ajax_section = (function () {
 
         targetDiv.css("opacity", 0.7).append("<div class='loading-gif class-loader'></div>");
 
-        $.get(targetUrl + renderGetVars(id), function ( data ) {
-            targetDiv.html(data).css("opacity", 1);
-            doPostSectionActions(targetDiv);
-        });
+        $.get(
+            targetUrl + renderGetVars(id),
+            function ( data ) {
+                targetDiv.html(data).css("opacity", 1);
+                doPostSectionActions(targetDiv);
+            }
+        );
     };
 
     /**

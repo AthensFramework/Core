@@ -49,7 +49,7 @@ class Filter implements FilterInterface
     /**
      * @param $handle
      * @param FilterStatementInterface[] $statements
-     * @param FilterInterface|null $nextFilter
+     * @param FilterInterface|null       $nextFilter
      */
     public function __construct($handle, array $statements, FilterInterface $nextFilter = null)
     {
