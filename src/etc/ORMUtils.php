@@ -165,14 +165,17 @@ class ORMUtils
     }
 
     /**
-     * Return a Propel TableMap corresponding to a table within the same schema as $fullyQualifiedTableMapName.
+     * Return a Propel TableMap corresponding to a table within the same schema as
+     * $fullyQualifiedTableMapName.
      *
-     * In some cases, a foreign table map within the same database as $this may not be initialized by Propel. If
-     * we try to access a foregin table map using runtime introspection and it has not yet been initialized, then
-     * Propel will throw a TableNotFoundException. This method accesses the table map by access to its fully
-     * qualified class name, which it determines by modifying $this->_classTableMapName.
+     * In some cases, a foreign table map within the same database as $this may not be initialized
+     * by Propel. If we try to access a foreign table map using runtime introspection and it has
+     * not yet been initialized, then Propel will throw a TableNotFoundException. This method
+     * accesses the table map by access to its fully qualified class name, which it determines by
+     * modifying $this->_classTableMapName.
      *
-     * @param   string $tableName                  The SQL name of the related table for which you would like to retrieve a table map
+     * @param   string $tableName                  The SQL name of the related table for which you
+     *                                             would like to retrieve a table map
      * @param   string $fullyQualifiedTableMapName A fully qualified table map name within the schema of
      *
      * @return  \Propel\Runtime\Map\TableMap
