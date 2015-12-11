@@ -43,6 +43,13 @@ class FilterBuilder extends AbstractBuilder
     /** @var string */
     protected $default;
 
+    /**
+     * null is an acceptable value for criterion, so we use this flag to know
+     * whether or not criterion has been set.
+     * @var bool
+     */
+    protected $criterionHasBeenSet = false;
+
 
     /**
      * @param string $type
@@ -90,6 +97,7 @@ class FilterBuilder extends AbstractBuilder
      */
     public function setCriterion($criterion)
     {
+        $this->criterionHasBeenSet = true;
         $this->criterion = $criterion;
         return $this;
     }
@@ -201,7 +209,10 @@ class FilterBuilder extends AbstractBuilder
                     $criterion = $this->criterion;
                     $statements[] = new SortingFilterStatement($fieldName, $condition, $criterion, null);
                 } else {
-                    $criterion = $this->retrieveOrException("criterion", __METHOD__);
+                    $criterion = $this->criterionHasBeenSet ?
+                        $this->criterion :
+                        $this->retrieveOrException("criterion", __METHOD__);
+
                     $statements[] = new ExcludingFilterStatement($fieldName, $condition, $criterion, null);
                 }
 
