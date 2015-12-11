@@ -35,13 +35,13 @@ class Page implements PageInterface
 
     /** @var string */
     protected $header;
-    
+
     /** @var string */
     protected $subHeader;
 
     /** @var string[] */
     protected $breadCrumbs;
-    
+
     /** @var string[] */
     protected $returnTo;
 
@@ -78,7 +78,7 @@ class Page implements PageInterface
         array $returnTo,
         WritableInterface $writable = null
     ) {
-    
+
         $this->title = $title;
         $this->baseHref = $baseHref;
         $this->header = $header;
@@ -273,7 +273,10 @@ class Page implements PageInterface
                 return $this->{"renderPDF"};
                 break;
             case static::PAGE_TYPE_EXCEL:
-                return $this->{"renderExcel"};
+                $page = $this;
+                $renderFunction = function (PageInterface $writable, $writer) use ($page) {
+                    $page->renderExcel($writable, $writer);
+                };
                 break;
             default:
                 $renderFunction = function (PageInterface $writable, $writer) {
@@ -295,12 +298,12 @@ class Page implements PageInterface
         Writer $writer = null,
         callable $renderFunction = null
     ) {
-    
+
 
         if (is_null($initializer)) {
             $initializer = $this->makeDefaultInitializer();
         }
-        
+
         if (is_null($writer)) {
             $writer = $this->makeDefaultWriter();
         }
