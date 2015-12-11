@@ -4,11 +4,14 @@ namespace UWDOEM\Framework\Page;
 
 use DOMPDF;
 
+use UWDOEM\Framework\Section\SectionInterface;
+use UWDOEM\Framework\Table\TableInterface;
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Writer\Writer;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Initializer\Initializer;
+use UWDOEM\Framework\Field\FieldInterface;
 
 class Page implements PageInterface
 {
@@ -162,21 +165,120 @@ class Page implements PageInterface
         return new $writerClass();
     }
 
+    protected static function areAllTableInterface(array $writables)
+    {
+        $totalWritables = count($writables);
+        $totalTableInterface = count(
+            array_filter(
+                $writables,
+                function (WritableInterface $writable) {
+                    return $writable instanceof TableInterface;
+                }
+            )
+        );
+
+        return $totalWritables === $totalTableInterface;
+    }
+
+    protected static function renderExcel(PageInterface $writable, $writer)
+    {
+        $filename = "title";
+        $filename = date("Y-m-d-") . "$filename.xlsx";
+
+        header("Content-Disposition: attachment; filename=$filename;");
+        header("Content-Type: application/octet-stream");
+
+        if (($writable->getWritable() instanceof TableInterface)) {
+            $tables = [$writable->getWritable()];
+        } elseif ($writable->getWritable() instanceof SectionInterface &&
+            static::areAllTableInterface($writable->getWritable()->getWritables())
+        ) {
+            $tables = $writable->getWritable()->getWritables();
+        } else {
+            throw new \Exception("The pageSection of an Excel template must either be a table, " .
+                "or a multiSection containing only tables.");
+        }
+
+        $objPHPExcel = new \PHPExcel();
+
+        $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        /** @var TableInterface $table */
+        foreach ($tables as $table) {
+
+            // Create a sheet
+            $objWorkSheet = $objPHPExcel->createSheet();
+//            $objWorkSheet->setTitle($table->getLabel());
+
+            if (sizeof($table->getRows()) > 0) {
+                // Write header
+                /** @var FieldInterface $field */
+                foreach (array_values($table->getRows()[0]->getFieldBearer()->getVisibleFields()) as $j => $field) {
+                    $cellIndex = substr($letters, $j, 1) . "1";
+                    $objWorkSheet->setCellValue($cellIndex, $field->getLabel());
+                    $objWorkSheet->getStyle($cellIndex)->getFont()->setBold(true);
+                }
+
+                // Write cells
+                foreach ($table->getRows() as $i => $row) {
+                    foreach (array_values($row->getFieldBearer()->getVisibleFields()) as $j => $field) {
+                        if ($field->getInitial()) {
+                            $cellIndex = substr($letters, $j, 1) . ($i + 2);
+                            $objWorkSheet->setCellValue($cellIndex, $field->getInitial());
+                        }
+                    }
+                }
+            } else {
+                $objWorkSheet->setCellValue("A1", "No records found");
+            }
+
+        }
+
+        // Remove worksheet 0; it was created with the file but we never wrote to it
+        $objPHPExcel->removeSheetByIndex(0);
+
+        // Auto size columns for each worksheet
+        foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+            $objPHPExcel->setActiveSheetIndex($objPHPExcel->getIndex($worksheet));
+            $sheet = $objPHPExcel->getActiveSheet();
+            $cellIterator = $sheet->getRowIterator()->current()->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true);
+            foreach ($cellIterator as $cell) {
+                $sheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
+            }
+        }
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
+        $objWriter->save('php://output');
+    }
+
+    protected static function renderPDF(PageInterface $writable, $writer)
+    {
+        $documentName = $writable->getTitle() ? $writable->getTitle() : "document";
+        $content = $writable->accept($writer);
+
+        $dompdf = new DOMPDF();
+        $dompdf->load_html($content);
+        $dompdf->render();
+        $dompdf->stream($documentName . ".pdf");
+    }
+
     protected function makeDefaultRendererFunction()
     {
 
-        if ($this->getType() === static::PAGE_TYPE_PDF) {
-            $documentName = $this->getTitle() ? $this->getTitle() : "document";
-            $renderFunction = function ($content) use ($documentName) {
-                $dompdf = new DOMPDF();
-                $dompdf->load_html($content);
-                $dompdf->render();
-                $dompdf->stream($documentName . ".pdf");
-            };
-        } else {
-            $renderFunction = function ($content) {
-                echo $content;
-            };
+        switch ($this->getType()) {
+            case static::PAGE_TYPE_PDF:
+                return $this->{"renderPDF"};
+                break;
+            case static::PAGE_TYPE_EXCEL:
+                return $this->{"renderExcel"};
+                break;
+            default:
+                $renderFunction = function (PageInterface $writable, $writer) {
+                    echo $writable->accept($writer);
+                };
         }
 
         return $renderFunction;
@@ -208,6 +310,6 @@ class Page implements PageInterface
         }
 
         $this->accept($initializer);
-        $renderFunction($this->accept($writer));
+        $renderFunction($this, $writer);
     }
 }
