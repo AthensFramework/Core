@@ -3,16 +3,12 @@
 namespace UWDOEM\Framework\Section;
 
 use UWDOEM\Framework\Etc\AbstractBuilder;
+use UWDOEM\Framework\Field\Field;
+use UWDOEM\Framework\Field\FieldBuilder;
 use UWDOEM\Framework\Writer\WritableInterface;
 
 class SectionBuilder extends AbstractBuilder
 {
-
-    /** @var string */
-    protected $label = "";
-
-    /** @var string */
-    protected $content;
 
     /** @var string */
     protected $type;
@@ -25,9 +21,15 @@ class SectionBuilder extends AbstractBuilder
      * @param string $label
      * @return SectionBuilder
      */
-    public function setLabel($label)
+    public function addLabel($label)
     {
-        $this->label = $label;
+        $label = FieldBuilder::begin()
+            ->setType(Field::FIELD_TYPE_SECTION_LABEL)
+            ->setLabel($label)
+            ->setInitial($label)
+            ->build();
+        
+        $this->addWritable($label);
         return $this;
     }
 
@@ -55,13 +57,20 @@ class SectionBuilder extends AbstractBuilder
      * @return SectionBuilder
      * @throws \Exception if type is ajax-loaded
      */
-    public function setContent($content)
+    public function addContent($content)
     {
         if ($this->type === "ajax-loaded") {
             throw new \Exception("Cannot set content on an ajax-loaded section.");
         }
 
-        $this->content = $content;
+        $content = FieldBuilder::begin()
+            ->setType(Field::FIELD_TYPE_LITERAL)
+            ->setLabel("section-content")
+            ->setInitial($content)
+            ->build();
+
+        $this->addWritable($content);
+        
         return $this;
     }
 
@@ -127,6 +136,6 @@ class SectionBuilder extends AbstractBuilder
             $this->content = "";
         }
 
-        return new Section($this->id, $this->content, $this->writables, $this->label, $this->type);
+        return new Section($this->id, $this->writables, $this->type);
     }
 }

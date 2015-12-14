@@ -7,17 +7,6 @@ use UWDOEM\Framework\Initializer\InitializableInterface;
 
 interface SectionInterface extends WritableInterface, InitializableInterface
 {
-
-    /**
-     * @return string
-     */
-    public function getLabel();
-
-    /**
-     * @return string
-     */
-    public function getContent();
-
     /**
      * @return string
      */

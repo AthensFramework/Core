@@ -154,8 +154,6 @@ class Writer extends Visitor
             ->render(
                 [
                     "id" => $section->getId(),
-                    "label" => $section->getLabel(),
-                    "content" => $section->getContent(),
                     "writables" => $section->getWritables(),
                 ]
             );

@@ -34,16 +34,16 @@ class SectionTest extends PHPUnit_Framework_TestCase
 
         $section = SectionBuilder::begin()
             ->setId($id)
-            ->setContent($content)
-            ->setLabel($label)
+            ->addContent($content)
+            ->addLabel($label)
             ->addWritable($writable)
             ->build();
 
         $this->assertEquals($id, $section->getId());
-        $this->assertEquals($content, $section->getContent());
-        $this->assertEquals($label, $section->getLabel());
+        $this->assertEquals($content, $section->getWritables()[0]->getInitial());
+        $this->assertEquals($label, $section->getWritables()[1]->getInitial());
         $this->assertContains($writable, $section->getWritables());
-        $this->assertEquals(1, sizeof($section->getWritables()));
+        $this->assertEquals(3, sizeof($section->getWritables()));
         $this->assertEquals("base", $section->getType());
     }
 
@@ -54,18 +54,7 @@ class SectionTest extends PHPUnit_Framework_TestCase
     public function testBuilderThrowsExceptionSetContentOnAjaxLoaded() {
         $section = SectionBuilder::begin()
             ->setType("ajax-loaded")
-            ->setContent((string)rand())
-            ->build();
-    }
-
-    /**
-     * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #content has already been set.*#
-     */
-    public function testBuilderThrowsExceptionSetAjaxLoadedAfterContent() {
-        $section = SectionBuilder::begin()
-            ->setContent((string)rand())
-            ->setType("ajax-loaded")
+            ->addContent((string)rand())
             ->build();
     }
 

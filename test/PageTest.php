@@ -55,8 +55,8 @@ class PageTest extends PHPUnit_Framework_TestCase
 
         $writable = SectionBuilder::begin()
             ->setId("s" . (string)rand())
-            ->setContent($content)
-            ->setLabel($label)
+            ->addContent($content)
+            ->addLabel($label)
             ->build();
 
         $title = "title";
@@ -102,7 +102,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $page = PageBuilder::begin()
             ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
             ->setTitle($title)
-            ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->setContent("content")->build())
+            ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
             ->build();
 
         // Our mock writer will simply echo the title of the page
@@ -122,7 +122,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         /* Writer provided to render */
         $page = PageBuilder::begin()
             ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
-            ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->setContent("content")->build())
+            ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
             ->build();
 
         $writer = new MockWriter();
@@ -158,7 +158,7 @@ class PageTest extends PHPUnit_Framework_TestCase
 
         // Assert that the page contains a section, with content equal to the json
         // encoding of message.
-        $this->assertEquals(json_encode($message), $page->getWritable()->getContent());
+        $this->assertEquals(json_encode($message), $page->getWritable()->getWritables()[0]->getInitial());
         $this->assertContains($requestURI, $page->getWritable()->getId());
     }
 

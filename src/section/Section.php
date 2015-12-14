@@ -45,37 +45,17 @@ class Section implements SectionInterface
     /**
      * Create a new section
      *
-     * @param string              $id
-     * @param string              $content
+     * @param string $id
      * @param WritableInterface[] $writables
-     * @param string              $label
      * @param $type
+     * @internal param string $content
+     * @internal param string $label
      */
-    public function __construct($id, $content, array $writables, $label, $type)
+    public function __construct($id, array $writables, $type)
     {
         $this->id = $id;
-        $this->label = $label;
-        $this->content = $content;
         $this->writables = $writables;
         $this->type = $type;
-        $this->id = $id;
-    }
-
-    /**
-     * Return the section's label.
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
     }
 
     /**

@@ -286,13 +286,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $subSection = SectionBuilder::begin()
             ->setId("s" . (string)rand())
-            ->setContent("Some sub-content.")
+            ->addContent("Some sub-content.")
             ->build();
 
         $section = SectionBuilder::begin()
             ->setId($id)
-            ->setLabel("Label")
-            ->setContent("Some content.")
+            ->addLabel("Label")
+            ->addContent("Some content.")
             ->addWritable($subSection)
             ->build();
 
@@ -327,13 +327,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $sections = [
             SectionBuilder::begin()
             ->setId("s" . (string)rand())
-            ->setContent($contents[0])
+            ->addContent($contents[0])
             ->build(),
 
             SectionBuilder::begin()
             ->setId("s" . (string)rand())
-            ->setLabel("Label")
-            ->setContent($contents[1])
+            ->addLabel("Label")
+            ->addContent($contents[1])
             ->build()
         ];
 
@@ -590,8 +590,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $section = SectionBuilder::begin()
             ->setId("s" . (string)rand())
-            ->setLabel("Label")
-            ->setContent("Some content.")
+            ->addLabel("Label")
+            ->addContent("Some content.")
             ->build();
 
         $page = PageBuilder::begin()
