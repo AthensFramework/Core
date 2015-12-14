@@ -8,6 +8,8 @@ use UWDOEM\Framework\Field\Field;
 
 trait FormBuilderTrait
 {
+    /** @var string */
+    protected $type = "base";
 
     /** @var FormAction[] */
     protected $actions;
@@ -29,6 +31,16 @@ trait FormBuilderTrait
 
     use FieldBearerBearerBuilderTrait;
 
+
+    /**
+     * @param string $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
 
     /**
      * @param FormAction[] $actions

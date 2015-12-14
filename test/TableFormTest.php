@@ -33,6 +33,9 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
             return "invalid";
         };
 
+        $id = "f" . (string)rand();
+        $type= "t" . (string)rand();
+
         $rowMakingFunction = function() {
             return RowBuilder::begin()
                 ->addFields([
@@ -43,6 +46,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
         };
 
         $form = TableFormBuilder::begin()
+            ->setId($id)
+            ->setType($type)
             ->setActions($actions)
             ->setOnInvalidFunc($onInvalidFunc)
             ->setOnValidFunc($onValidFunc)
@@ -53,6 +58,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals("valid", $form->onValid());
         $this->assertEquals("invalid", $form->onInvalid());
+        $this->assertEquals($id, $form->getId());
+        $this->assertEquals($type, $form->getType());
     }
 
     /**
@@ -70,6 +77,7 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
         };
 
         $form = TableFormBuilder::begin()
+            ->setId("f" . (string)rand())
             ->setRowMakingFunction($rowMakingFunction)
             ->build();
 
@@ -97,6 +105,7 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
         };
 
         $form = TableFormBuilder::begin()
+            ->setId("f" . (string)rand())
             ->setRowMakingFunction($rowMakingFunction)
             ->build();
 

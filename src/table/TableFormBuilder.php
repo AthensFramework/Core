@@ -65,12 +65,16 @@ class TableFormBuilder extends AbstractBuilder
     public function build()
     {
 
+        $this->validateId();
+
         $this->validateOnInvalidFunc();
         $this->validateOnValidFunc();
         $this->validateOnSuccessUrl();
         $this->validateActions();
 
         return new TableForm(
+            $this->id,
+            $this->type,
             $this->rowMakingFunction,
             $this->onValidFunc,
             $this->onInvalidFunc,

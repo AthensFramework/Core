@@ -37,7 +37,7 @@ class TableForm implements TableFormInterface
     /** @return string */
     public function getId()
     {
-        return $this->getPrototypicalRow()->getId();
+        return $this->id;
     }
 
     /** @return RowInterface[] */
@@ -149,12 +149,11 @@ class TableForm implements TableFormInterface
     }
 
     public function __construct(
-        callable $rowMakingFunction,
-        callable $onValidFunc,
-        callable $onInvalidFunc,
-        $actions = [],
-        $validators = []
+        $id, $type, callable $rowMakingFunction, callable $onValidFunc, callable $onInvalidFunc, $actions = [], $validators = []
     ) {
+
+        $this->id = $id;
+        $this->type = $type;
     
         $this->actions = $actions;
         $this->rowMakingFunction = $rowMakingFunction;

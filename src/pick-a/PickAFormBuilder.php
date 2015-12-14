@@ -7,6 +7,8 @@ use UWDOEM\Framework\Form\FormAction\FormAction;
 
 class PickAFormBuilder extends AbstractBuilder
 {
+    /** @var string */
+    protected $type = "base";
 
     protected $manifest = [];
 
@@ -35,11 +37,21 @@ class PickAFormBuilder extends AbstractBuilder
 
     /**
      * @param FormAction[] $actions
-     * @return \UWDOEM\Framework\Form\FormBuilder
+     * @return PickAFormBuilder
      */
     public function setActions($actions)
     {
         $this->actions = $actions;
+        return $this;
+    }
+
+    /**
+     * @param string $type
+     * @return PickAFormBuilder
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
         return $this;
     }
 
@@ -50,6 +62,6 @@ class PickAFormBuilder extends AbstractBuilder
     {
         $this->validateId();
 
-        return new PickAForm($this->id, $this->manifest, $this->actions);
+        return new PickAForm($this->id, $this->type, $this->manifest, $this->actions);
     }
 }

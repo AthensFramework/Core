@@ -235,6 +235,26 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('</form>', $result);
     }
 
+    /**
+     * @expectedException              Twig_Error_Loader
+     * @expectedExceptionMessageRegExp #Unable to find template "form/nonexistant-type.twig".*#
+     */
+    public function testVisitNonBaseForm()
+    {
+        $writer = new Writer();
+
+        $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
+            ->setType("nonexistant-type")
+            ->addFields([
+                "literalField" => new Field('literal', 'A literal field', 'Literal field content', true, []),
+                "textField" => new Field('text', 'A text field', "5", false, [])
+            ])
+            ->build();
+
+        $writer->visitForm($form);
+    }
+
     public function testRenderFormErrors() {
         $writer = new Writer();
 
@@ -410,6 +430,33 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains($forms[0]->getId(), $result);
         $this->assertContains($forms[1]->getId(), $result);
         $this->assertContains($forms[2]->getId(), $result);
+    }
+
+    /**
+     * @expectedException              Twig_Error_Loader
+     * @expectedExceptionMessageRegExp #Unable to find template "pick-a/nonexistant-type.twig".*#
+     */
+    public function testVisitNoneBasePickAForm() {
+        $writer = new Writer();
+
+        $id = "f" . (string)rand();
+
+        $forms = [];
+        for ($i = 0; $i < 3; $i++) {
+            $forms[] = FormBuilder::begin()
+                ->setId("f-" . (string)rand())
+                ->addFieldBearers([new MockFieldBearer])
+                ->build();
+        }
+
+        $pickAForm = PickAFormBuilder::begin()
+            ->setId("f" . (string)rand())
+            ->setType("nonexistant-type")
+            ->addLabel("Label Text")
+            ->addForms($forms)
+            ->build();
+
+        $result = $this->stripQuotes($writer->visitPickAForm($pickAForm));
     }
 
     public function testVisitRow() {

@@ -295,13 +295,13 @@ class Writer extends Visitor
      */
     public function visitForm(FormInterface $form)
     {
-        $template = 'form/base.twig';
+        $template = "form/{$form->getType()}.twig";
 
         return $this
             ->loadTemplate($template)
             ->render(
                 [
-                    "hash" => $form->getId(),
+                    "id" => $form->getId(),
                     "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
                     "hiddenFields" => $form->getFieldBearer()->getHiddenFields(),
                     "actions" => $form->getActions(),
@@ -366,7 +366,7 @@ class Writer extends Visitor
      */
     public function visitPickAForm(PickAFormInterface $pickAForm)
     {
-        $template = 'pick-a/pick-a-form.twig';
+        $template = "pick-a/{$pickAForm->getType()}.twig";
 
         return $this
             ->loadTemplate($template)
@@ -390,7 +390,7 @@ class Writer extends Visitor
      */
     public function visitTableForm(TableFormInterface $tableForm)
     {
-        $template = 'table/table-form.twig';
+        $template = "table/{$tableForm->getType()}.twig";
 
         return $this
             ->loadTemplate($template)

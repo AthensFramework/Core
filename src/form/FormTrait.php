@@ -11,6 +11,9 @@ trait FormTrait
     /** @var string */
     protected $id;
 
+    /** @var string */
+    protected $type;
+
     /** @var bool */
     protected $isValid;
 
@@ -39,6 +42,11 @@ trait FormTrait
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

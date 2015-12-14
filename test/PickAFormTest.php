@@ -15,6 +15,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $actions = [new FormAction("label", "method", "")];
 
         $id = "f" . (string)rand();
+        $type = "t" . (string)rand();
 
         $forms = [];
         $labels = [];
@@ -28,6 +29,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
 
         $pickAForm = PickAFormBuilder::begin()
             ->setId($id)
+            ->setType($type)
             ->addLabel("Label Text")
             ->addForms([
                 $labels[0] => $forms[0],
@@ -43,6 +45,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(array_combine($labels, $forms), $pickAForm->getSubForms());
         $this->assertEquals($actions, array_values($pickAForm->getActions()));
         $this->assertEquals($id, $pickAForm->getId());
+        $this->assertEquals($type, $pickAForm->getType());
     }
 
     public function testGetSelectedSlug() {

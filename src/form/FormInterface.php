@@ -9,6 +9,10 @@ use UWDOEM\Framework\Initializer\InitializableInterface;
 
 interface FormInterface extends WritableInterface, InitializableInterface
 {
+    /**
+     * @return string
+     */
+    public function getType();
 
     /**
      * @return FieldBearerInterface

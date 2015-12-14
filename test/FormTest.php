@@ -9,8 +9,6 @@ use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Form\FormInterface;
-use UWDOEM\Framework\PickA\PickAFormBuilder;
-use UWDOEM\Framework\Etc\StringUtils;
 use \UWDOEMTest\TestClass;
 
 
@@ -35,11 +33,13 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 
-        $formId = "f-" . (string)rand();
+        $id = "f-" . (string)rand();
+        $type = "t-" . (string)rand();
 
         $form = FormBuilder::begin()
             ->clear()
-            ->setId($formId)
+            ->setId($id)
+            ->setType($type)
             ->setActions($actions)
             ->addFields($fields)
             ->setOnInvalidFunc($onInvalidFunc)
@@ -50,7 +50,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($actions, $form->getActions());
         $this->assertEquals($fields, $form->getFieldBearer()->getFields());
         $this->assertEquals(array_keys($fields), $form->getFieldBearer()->getVisibleFieldNames());
-        $this->assertEquals($formId, $form->getId());
+        $this->assertEquals($id, $form->getId());
+        $this->assertEquals($type, $form->getType());
 
         $this->assertEquals("valid", $form->onValid());
         $this->assertEquals("invalid", $form->onInvalid());
