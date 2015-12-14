@@ -28,7 +28,8 @@ class PickAForm implements PickAFormInterface
 
     use VisitableTrait;
 
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 

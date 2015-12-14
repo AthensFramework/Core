@@ -64,7 +64,14 @@ class Form implements FormInterface
      * @param array[]|null $validators
      */
     public function __construct(
-        $id, $type, FieldBearerInterface $fieldBearer, callable $onValidFunc, callable $onInvalidFunc, $actions = [], $subForms = [], $validators = []
+        $id,
+        $type,
+        FieldBearerInterface $fieldBearer,
+        callable $onValidFunc,
+        callable $onInvalidFunc,
+        $actions = [],
+        $subForms = [],
+        $validators = []
     ) {
     
         $this->actions = $actions;
