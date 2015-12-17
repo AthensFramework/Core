@@ -153,7 +153,7 @@ class TableForm implements TableFormInterface
         $type,
         $method,
         $target,
-        callable $rowMakingFunction,
+        $rowMakingFunction,
         callable $onValidFunc,
         callable $onInvalidFunc,
         $actions = [],
@@ -169,7 +169,7 @@ class TableForm implements TableFormInterface
         $this->actions = $actions;
         $this->rowMakingFunction = $rowMakingFunction;
 
-        $this->prototypicalRow = $rowMakingFunction();
+        $this->prototypicalRow = is_callable($rowMakingFunction) ? $rowMakingFunction() : null;
 
         $this->onInvalidFunc = $onInvalidFunc;
         $this->onValidFunc = $onValidFunc;

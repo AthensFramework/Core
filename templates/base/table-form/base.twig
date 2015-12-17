@@ -6,7 +6,8 @@
         {% endfor %}
         <th data-header-for="remove">Remove</th>
     </tr>
-    
+
+    {% if prototypicalRow %}
     <tr class="prototypical form-row">
         {% for fieldName, field in prototypicalRow.getFieldBearer.getVisibleFields %}
             <td class="{{ field.getSlug }}">{{ field|write|raw }}</td>
@@ -18,6 +19,7 @@
             <td class="remove"> - </td>
 
     </tr>
+    {% endif %}
 
 
     {% for row in rows %}
@@ -41,10 +43,11 @@
         </tr>
     {% endfor %}
 
-
+    {% if prototypicalRow %}
     <tr class="adder clickable">
         <td colspan=100>&nbsp; + Add another</td>
     </tr>
+    {% endif %}
 
 </table>
 
