@@ -40,12 +40,18 @@ class TableFormTest extends PHPUnit_Framework_TestCase
                 ->build();
         };
 
+        $initialRows = [
+            $rowMakingFunction(),
+            $rowMakingFunction(),
+        ];
+
         $form = TableFormBuilder::begin()
             ->setId($id)
             ->setType($type)
             ->setMethod($method)
             ->setTarget($target)
             ->setActions($actions)
+            ->setRows($initialRows)
             ->setOnInvalidFunc($onInvalidFunc)
             ->setOnValidFunc($onValidFunc)
             ->setRowMakingFunction($rowMakingFunction)
@@ -59,6 +65,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($type, $form->getType());
         $this->assertEquals($method, $form->getMethod());
         $this->assertEquals($target, $form->getTarget());
+
+        $this->assertEquals($initialRows, $form->getRows());
 
         /* Test default type/method/target */
         $form = TableFormBuilder::begin()
@@ -116,9 +124,15 @@ class TableFormTest extends PHPUnit_Framework_TestCase
                 ->build();
         };
 
+        $initialRows = [
+            $rowMakingFunction(),
+            $rowMakingFunction(),
+        ];
+
         $form = TableFormBuilder::begin()
             ->setId("f" . (string)rand())
             ->setRowMakingFunction($rowMakingFunction)
+            ->setRows($initialRows)
             ->build();
 
         $field1 = $form->getPrototypicalRow()->getFieldBearer()->getFieldByName("field1");
@@ -142,9 +156,20 @@ class TableFormTest extends PHPUnit_Framework_TestCase
         // Force validation/row creation
         $form->isValid();
 
-        $this->assertEquals($numRows, sizeof($form->getRows()));
+        $formRows = $form->getRows();
 
-        foreach ($form->getRows() as $count => $row) {
+        $this->assertEquals(
+            $numRows + sizeof($initialRows),
+            sizeof($formRows)
+        );
+
+        foreach ($initialRows as $row) {
+            $this->assertContains($row, $formRows);
+        }
+
+        $submittedRows = Utils::arrayDiffObjects($formRows, $initialRows);
+
+        foreach (array_values($submittedRows) as $count => $row) {
             $this->assertEquals($data[$count], $row->getFieldBearer()->getFieldByName("field1")->getSubmitted());
         }
 

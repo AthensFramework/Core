@@ -21,8 +21,11 @@ class TableForm implements TableFormInterface
     /** @var RowInterface */
     protected $prototypicalRow;
 
-    /** @var  RowInterface[] */
+    /** @var RowInterface[] */
     protected $rows;
+
+    /** @var RowInterface[] */
+    protected $initialRows;
 
     use VisitableTrait;
     use FormTrait;
@@ -88,7 +91,7 @@ class TableForm implements TableFormInterface
 
     protected function makeRows()
     {
-        $rows = [];
+        $rows = $this->initialRows;
         foreach ($this->findRowPrefixes() as $prefix) {
             $newRow = $this->makeRow();
 
@@ -178,6 +181,8 @@ class TableForm implements TableFormInterface
         $this->validators = $validators;
 
         $this->subForms = [];
+
         $this->rows = $rows;
+        $this->initialRows = $rows;
     }
 }

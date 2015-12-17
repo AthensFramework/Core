@@ -4,7 +4,7 @@ namespace UWDOEM\Framework\Table;
 
 use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Row\RowBuilder;
+use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Form\FormBuilderTrait;
 
 class TableFormBuilder extends AbstractBuilder
@@ -15,6 +15,18 @@ class TableFormBuilder extends AbstractBuilder
     /** @var callable */
     protected $rowMakingFunction;
 
+    /** @var RowInterface[] */
+    protected $rows = [];
+
+    /**
+     * @param RowInterface[] $rows
+     * @return TableFormBuilder
+     */
+    public function setRows(array $rows)
+    {
+        $this->rows = $rows;
+        return $this;
+    }
 
     /**
      * @param callable $rowMakingFunction
@@ -77,7 +89,7 @@ class TableFormBuilder extends AbstractBuilder
             $this->type,
             $this->method,
             $this->target,
-            [],
+            $this->rows,
             $this->rowMakingFunction,
             $this->onValidFunc,
             $this->onInvalidFunc,

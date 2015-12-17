@@ -59,4 +59,22 @@ class Utils
         sort($vals);
         return ($vals[2]);
     }
+
+    /**
+     * Find the difference between two arrays of objects.
+     *
+     * @param array $array1
+     * @param array $array2
+     * @return array
+     */
+    public static function arrayDiffObjects(array $array1, array $array2)
+    {
+        return array_udiff(
+            $array1,
+            $array2,
+            function ($a, $b) {
+                return strcmp(spl_object_hash($a), spl_object_hash($b));
+            }
+        );
+    }
 }
