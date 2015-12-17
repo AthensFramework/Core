@@ -10,7 +10,9 @@ namespace UWDOEM\Framework\Etc;
 class StringUtils
 {
 
-    // Disallow class instantiation
+    /**
+     * Disallow class instantiation
+     */
     private function __construct()
     {
     }

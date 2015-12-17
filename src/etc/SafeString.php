@@ -14,11 +14,17 @@ class SafeString
     /** @var string */
     protected $value;
 
+    /**
+     * @param string $value
+     */
     protected function __construct($value)
     {
         $this->value = $value;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->value;

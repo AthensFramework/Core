@@ -3,6 +3,9 @@
 namespace UWDOEM\Framework\Etc;
 
 use Propel\Runtime\Map\Exception\ColumnNotFoundException;
+use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
+use Propel\Runtime\Map\ColumnMap;
+use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use UWDOEM\Framework\Field\Field;
 
@@ -14,7 +17,7 @@ use UWDOEM\Framework\Field\Field;
  */
 class ORMUtils
 {
-
+    /** @var array */
     static protected $db_type_to_field_type_association = [
         "VARCHAR"=> "text",
         "INTEGER"=> "text",
@@ -25,10 +28,10 @@ class ORMUtils
     ];
 
     /**
-     * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
+     * @param ActiveRecordInterface $object
      * @return Field[]
      */
-    public static function makeFieldsFromObject($object)
+    public static function makeFieldsFromObject(ActiveRecordInterface $object)
     {
         $fieldNames = static::makeFieldNamesFromObject($object);
 
@@ -48,12 +51,12 @@ class ORMUtils
     }
 
     /**
-     * @param $tableMapName
+     * @param string                                   $tableMapName
      * @param \UWDOEM\Framework\Field\FieldInterface[] $fields
-     * @param $columns
+     * @param array                                    $columns
      * @return mixed
      */
-    public static function addBehaviorConstraintsToFields($tableMapName, $fields, $columns)
+    public static function addBehaviorConstraintsToFields($tableMapName, array $fields, array $columns)
     {
 
         $behaviors = static::getClassTableMap($tableMapName)->getBehaviors();
@@ -114,7 +117,12 @@ class ORMUtils
         return false;
     }
 
-    public static function fillObjectFromFields($object, $fields)
+    /**
+     * @param ActiveRecordInterface                    $object
+     * @param \UWDOEM\Framework\Field\FieldInterface[] $fields
+     * @return void
+     */
+    public static function fillObjectFromFields(ActiveRecordInterface $object, array $fields)
     {
         $fieldNames = array_keys($fields);
         $columns = ORMUtils::getColumns($object::TABLE_MAP);
@@ -137,10 +145,10 @@ class ORMUtils
     }
 
     /**
-     * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
+     * @param ActiveRecordInterface $object
      * @return string[]
      */
-    protected static function makeFieldNamesFromObject($object)
+    protected static function makeFieldNamesFromObject(ActiveRecordInterface $object)
     {
         $objectName = static::getPhpNameFromObject($object);
         $columns = static::getColumns($object::TABLE_MAP);
@@ -175,8 +183,8 @@ class ORMUtils
      * modifying $this->_classTableMapName.
      *
      * @param   string $tableName                  The SQL name of the related table for which you
-     *                                             would like to retrieve a table map
-     * @param   string $fullyQualifiedTableMapName A fully qualified table map name within the schema of
+     *                                             would like to retrieve a table map.
+     * @param   string $fullyQualifiedTableMapName A fully qualified table map name.
      *
      * @return  \Propel\Runtime\Map\TableMap
      */
@@ -234,10 +242,10 @@ class ORMUtils
     }
 
     /**
-     * @param \Propel\Runtime\Map\ColumnMap $column
+     * @param ColumnMap $column
      * @return string
      */
-    protected static function chooseFieldType($column)
+    protected static function chooseFieldType(ColumnMap $column)
     {
 
         $type = ORMUtils::$db_type_to_field_type_association[$column->getType()];
@@ -289,7 +297,7 @@ class ORMUtils
 
     /**
      * @param string $classTableMapName
-     * @return \UWDOEM\Framework\Field\Field[]
+     * @return \UWDOEM\Framework\Field\FieldInterface[]
      */
     protected static function makeFieldsFromClassTableMapName($classTableMapName)
     {
@@ -298,10 +306,10 @@ class ORMUtils
     }
 
     /**
-     * @param $object
+     * @param ActiveRecordInterface $object
      * @return string
      */
-    protected static function getPhpNameFromObject($object)
+    protected static function getPhpNameFromObject(ActiveRecordInterface $object)
     {
         $tableMapName = $object::TABLE_MAP;
 
@@ -325,6 +333,7 @@ class ORMUtils
     /**
      * Return a Propel ActiveQuery object corresponding to $this->_classTableMapName
      *
+     * @param string $classTableMapName
      * @return \Propel\Runtime\ActiveQuery\PropelQuery
      */
     protected static function createQuery($classTableMapName)
@@ -397,7 +406,7 @@ class ORMUtils
     }
 
     /**
-     * @param $classTableMapName
+     * @param string $classTableMapName
      * @return string
      */
     protected static function getTableName($classTableMapName)
@@ -444,7 +453,12 @@ class ORMUtils
         return $object;
     }
 
-    public static function queryContainsFieldName($query, $fieldName)
+    /**
+     * @param ModelCriteria $query
+     * @param string        $fieldName
+     * @return boolean
+     */
+    public static function queryContainsFieldName(ModelCriteria $query, $fieldName)
     {
         /** @var \Propel\Runtime\Map\TableMap $map */
         $map = $query->getTableMap();

@@ -12,5 +12,6 @@ before_script:
 script:
   - phpunit --configuration test/phpunit.xml test
   - ./vendor/bin/phpcs --ignore=*/vendor/*,*/test/*,*/bin/*,*/uw-brand/* --standard=PSR2 .
+  - ./vendor/bin/phpcs --standard=./vendor/uwdoem/standard/ruleset.xml src/etc
 after_script:
   - vendor/bin/test-reporter

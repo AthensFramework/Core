@@ -35,6 +35,10 @@ abstract class AbstractBuilder
         return $this;
     }
 
+    /**
+     * @throws \RuntimeException If id has not been set before ::build is called.
+     * @return void
+     */
     protected function validateId()
     {
         if (!isset($this->id)) {
@@ -44,6 +48,7 @@ abstract class AbstractBuilder
 
     /**
      * Returns an instance of the object type under construction.
+     * @return mixed
      */
     abstract public function build();
 }
