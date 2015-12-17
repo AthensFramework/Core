@@ -400,9 +400,10 @@ class Writer extends Visitor
             ->loadTemplate($template)
             ->render(
                 [
-                    "hash" => $tableForm->getId(),
+                    "id" => $tableForm->getId(),
                     "method" => $tableForm->getMethod(),
                     "target" => $tableForm->getTarget(),
+                    "actions" => $tableForm->getActions(),
                     "prototypicalRow" => $tableForm->getPrototypicalRow(),
                     "rows" => $tableForm->getRows(),
                 ]

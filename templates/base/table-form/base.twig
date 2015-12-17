@@ -1,3 +1,7 @@
+<form id={{ id }}
+        class="prevent-double-submit {% if errors is not empty %}has-errors{% endif %}"
+        method="{{ method }}" target="{{ target }}" data-request-uri="{{ requestURI }}">
+
 <table class="multi-adder" data-request-uri="{{ requestURI }}">
 
     <tr>
@@ -49,7 +53,14 @@
     </tr>
     {% endif %}
 
+    <div class="form-actions">
+        {% for action in actions %}
+            {{ action|write|raw }}
+        {% endfor %}
+    </div>
+
 </table>
+</form>
 
 <script>
     uwdoem.multi_adder.disablePrototypicalRows();
