@@ -302,6 +302,8 @@ class Writer extends Visitor
             ->render(
                 [
                     "id" => $form->getId(),
+                    "method" => $form->getMethod(),
+                    "target" => $form->getTarget(),
                     "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
                     "hiddenFields" => $form->getFieldBearer()->getHiddenFields(),
                     "actions" => $form->getActions(),
@@ -373,6 +375,8 @@ class Writer extends Visitor
             ->render(
                 [
                     "id" => $pickAForm->getId(),
+                    "method" => $pickAForm->getMethod(),
+                    "target" => $pickAForm->getTarget(),
                     "manifest" => $pickAForm->getManifest(),
                     "selectedForm" => $pickAForm->getSelectedForm(),
                     "errors" => $pickAForm->getErrors()
@@ -396,9 +400,11 @@ class Writer extends Visitor
             ->loadTemplate($template)
             ->render(
                 [
+                    "hash" => $tableForm->getId(),
+                    "method" => $tableForm->getMethod(),
+                    "target" => $tableForm->getTarget(),
                     "prototypicalRow" => $tableForm->getPrototypicalRow(),
                     "rows" => $tableForm->getRows(),
-                    "hash" => $tableForm->getId()
                 ]
             );
     }

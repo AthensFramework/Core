@@ -6,7 +6,7 @@
         {% endfor %}
         <th data-header-for="remove">Remove</th>
     </tr>
-
+    
     <tr class="prototypical form-row">
         {% for fieldName, field in prototypicalRow.getFieldBearer.getVisibleFields %}
             <td class="{{ field.getSlug }}">{{ field|write|raw }}</td>
