@@ -149,7 +149,15 @@ class TableForm implements TableFormInterface
     }
 
     public function __construct(
-        $id, $type, $method, $target, callable $rowMakingFunction, callable $onValidFunc, callable $onInvalidFunc, $actions = [], $validators = []
+        $id,
+        $type,
+        $method,
+        $target,
+        callable $rowMakingFunction,
+        callable $onValidFunc,
+        callable $onInvalidFunc,
+        $actions = [],
+        $validators = []
     ) {
 
         $this->id = $id;

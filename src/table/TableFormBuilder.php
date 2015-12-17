@@ -73,7 +73,15 @@ class TableFormBuilder extends AbstractBuilder
         $this->validateActions();
 
         return new TableForm(
-            $this->id, $this->type, $this->method, $this->target, $this->rowMakingFunction, $this->onValidFunc, $this->onInvalidFunc, $this->actions, $this->validators
+            $this->id,
+            $this->type,
+            $this->method,
+            $this->target,
+            $this->rowMakingFunction,
+            $this->onValidFunc,
+            $this->onInvalidFunc,
+            $this->actions,
+            $this->validators
         );
     }
 }
