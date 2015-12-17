@@ -33,13 +33,17 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 
-        $id = "f-" . (string)rand();
-        $type = "t-" . (string)rand();
+        $id = "f" . (string)rand();
+        $type = "t" . (string)rand();
+        $method = "m" . (string)rand();
+        $target = "t" . (string)rand();
 
         $form = FormBuilder::begin()
             ->clear()
             ->setId($id)
             ->setType($type)
+            ->setMethod($method)
+            ->setTarget($target)
             ->setActions($actions)
             ->addFields($fields)
             ->setOnInvalidFunc($onInvalidFunc)
@@ -52,9 +56,20 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(array_keys($fields), $form->getFieldBearer()->getVisibleFieldNames());
         $this->assertEquals($id, $form->getId());
         $this->assertEquals($type, $form->getType());
+        $this->assertEquals($method, $form->getMethod());
+        $this->assertEquals($target, $form->getTarget());
 
         $this->assertEquals("valid", $form->onValid());
         $this->assertEquals("invalid", $form->onInvalid());
+
+        /* Test default type/method/target */
+        $form = FormBuilder::begin()
+            ->setId($id)
+            ->build();
+
+        $this->assertEquals("base", $form->getType());
+        $this->assertEquals("post", $form->getMethod());
+        $this->assertEquals("_self", $form->getTarget());
 
         /* Test FormBuilder creation of ClassFieldBearer */
         $object = new TestClass();

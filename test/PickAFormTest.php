@@ -16,6 +16,8 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
 
         $id = "f" . (string)rand();
         $type = "t" . (string)rand();
+        $method = "m" . (string)rand();
+        $target = "t" . (string)rand();
 
         $forms = [];
         $labels = [];
@@ -27,9 +29,11 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
             $labels[] = "Form $i";
         }
 
-        $pickAForm = PickAFormBuilder::begin()
+        $form = PickAFormBuilder::begin()
             ->setId($id)
             ->setType($type)
+            ->setMethod($method)
+            ->setTarget($target)
             ->addLabel("Label Text")
             ->addForms([
                 $labels[0] => $forms[0],
@@ -42,10 +46,22 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
             ->setActions($actions)
             ->build();
 
-        $this->assertEquals(array_combine($labels, $forms), $pickAForm->getSubForms());
-        $this->assertEquals($actions, array_values($pickAForm->getActions()));
-        $this->assertEquals($id, $pickAForm->getId());
-        $this->assertEquals($type, $pickAForm->getType());
+        $this->assertEquals(array_combine($labels, $forms), $form->getSubForms());
+        $this->assertEquals($actions, array_values($form->getActions()));
+        $this->assertEquals($id, $form->getId());
+        $this->assertEquals($type, $form->getType());
+        $this->assertEquals($method, $form->getMethod());
+        $this->assertEquals($target, $form->getTarget());
+
+        /* Test default type/method/target */
+        $form = PickAFormBuilder::begin()
+            ->setId($id)
+            ->build();
+
+        $this->assertEquals("base", $form->getType());
+        $this->assertEquals("post", $form->getMethod());
+        $this->assertEquals("_self", $form->getTarget());
+
     }
 
     public function testGetSelectedSlug() {

@@ -15,6 +15,12 @@ class PickAForm implements PickAFormInterface
     /** @var string */
     protected $type;
 
+    /** @var string */
+    protected $method;
+
+    /** @var string */
+    protected $target;
+
     /** @var \UWDOEM\Framework\PickA\PickA */
     protected $pickA;
 
@@ -28,11 +34,33 @@ class PickAForm implements PickAFormInterface
 
     use VisitableTrait;
 
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+
+    /**
+     * @return null|string
+     */
     public function getSelectedSlug()
     {
         $hash = $this->getId();
@@ -157,16 +185,21 @@ class PickAForm implements PickAFormInterface
     /**
      * @param $id
      * @param $type
+     * @param $method
+     * @param $target
      * @param array $manifest
      * @param array|null $actions
      */
-    public function __construct($id, $type, $manifest, $actions = [])
+    public function __construct($id, $type, $method, $target, $manifest, $actions = [])
     {
         $this->id = $id;
         $this->type = $type;
 
         $this->actions = $actions;
         $this->pickA = new PickA("$id", $manifest);
+
+        $this->method = $method;
+        $this->target = $target;
 
         $this->fieldBearer = new FieldBearer(
             [],

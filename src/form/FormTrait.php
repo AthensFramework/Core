@@ -14,6 +14,12 @@ trait FormTrait
     /** @var string */
     protected $type;
 
+    /** @var string */
+    protected $method;
+
+    /** @var string */
+    protected $target;
+
     /** @var bool */
     protected $isValid;
 
@@ -47,6 +53,22 @@ trait FormTrait
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTarget()
+    {
+        return $this->target;
     }
 
     /**

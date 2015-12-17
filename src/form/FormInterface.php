@@ -15,6 +15,16 @@ interface FormInterface extends WritableInterface, InitializableInterface
     public function getType();
 
     /**
+     * @return string
+     */
+    public function getMethod();
+
+    /**
+     * @return string
+     */
+    public function getTarget();
+
+    /**
      * @return FieldBearerInterface
      */
     public function getFieldBearer();

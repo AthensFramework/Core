@@ -56,6 +56,8 @@ class Form implements FormInterface
     /**
      * @param string $id
      * @param string $type
+     * @param $method
+     * @param $target
      * @param FieldBearerInterface $fieldBearer
      * @param callable $onValidFunc
      * @param callable $onInvalidFunc
@@ -64,14 +66,7 @@ class Form implements FormInterface
      * @param array[]|null $validators
      */
     public function __construct(
-        $id,
-        $type,
-        FieldBearerInterface $fieldBearer,
-        callable $onValidFunc,
-        callable $onInvalidFunc,
-        $actions = [],
-        $subForms = [],
-        $validators = []
+        $id, $type, $method, $target, FieldBearerInterface $fieldBearer, callable $onValidFunc, callable $onInvalidFunc, $actions = [], $subForms = [], $validators = []
     ) {
     
         $this->actions = $actions;
@@ -84,5 +79,7 @@ class Form implements FormInterface
         $this->subForms = $subForms;
         $this->id = $id;
         $this->type = $type;
+        $this->method = $method;
+        $this->target = $target;
     }
 }

@@ -35,6 +35,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
 
         $id = "f" . (string)rand();
         $type= "t" . (string)rand();
+        $method = "m" . (string)rand();
+        $target = "t" . (string)rand();
 
         $rowMakingFunction = function() {
             return RowBuilder::begin()
@@ -48,6 +50,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
         $form = TableFormBuilder::begin()
             ->setId($id)
             ->setType($type)
+            ->setMethod($method)
+            ->setTarget($target)
             ->setActions($actions)
             ->setOnInvalidFunc($onInvalidFunc)
             ->setOnValidFunc($onValidFunc)
@@ -60,6 +64,18 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("invalid", $form->onInvalid());
         $this->assertEquals($id, $form->getId());
         $this->assertEquals($type, $form->getType());
+        $this->assertEquals($method, $form->getMethod());
+        $this->assertEquals($target, $form->getTarget());
+
+        /* Test default type/method/target */
+        $form = TableFormBuilder::begin()
+            ->setId($id)
+            ->setRowMakingFunction(function() {})
+            ->build();
+
+        $this->assertEquals("base", $form->getType());
+        $this->assertEquals("post", $form->getMethod());
+        $this->assertEquals("_self", $form->getTarget());
     }
 
     /**

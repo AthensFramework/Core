@@ -10,10 +10,35 @@ class PickAFormBuilder extends AbstractBuilder
     /** @var string */
     protected $type = "base";
 
+    /** @var string */
+    protected $method = "post";
+
+    /** @var string */
+    protected $target = "_self";
+
     protected $manifest = [];
 
     protected $actions = [];
 
+    /**
+     * @param string $method
+     * @return PickAFormBuilder
+     */
+    public function setMethod($method)
+    {
+        $this->method = $method;
+        return $this;
+    }
+
+    /**
+     * @param string $target
+     * @return PickAFormBuilder
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+        return $this;
+    }
 
     /**
      * @param string $label
@@ -62,6 +87,6 @@ class PickAFormBuilder extends AbstractBuilder
     {
         $this->validateId();
 
-        return new PickAForm($this->id, $this->type, $this->manifest, $this->actions);
+        return new PickAForm($this->id, $this->type, $this->method, $this->target, $this->manifest, $this->actions);
     }
 }

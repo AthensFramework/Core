@@ -14,6 +14,12 @@ trait FormBuilderTrait
     /** @var FormAction[] */
     protected $actions;
 
+    /** @var string */
+    protected $method = "post";
+
+    /** @var string */
+    protected $target = "_self";
+
     /** @var callable */
     protected $onValidFunc;
 
@@ -49,6 +55,26 @@ trait FormBuilderTrait
     public function setActions($actions)
     {
         $this->actions = $actions;
+        return $this;
+    }
+
+    /**
+     * @param string $target
+     * @return $this
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+        return $this;
+    }
+
+    /**
+     * @param string $method
+     * @return $this
+     */
+    public function setMethod($method)
+    {
+        $this->method = $method;
         return $this;
     }
 
