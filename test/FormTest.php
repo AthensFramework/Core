@@ -1,6 +1,8 @@
 <?php
 
-require_once('Mocks.php');
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
 
 use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Form\FormAction\FormAction;
@@ -9,10 +11,13 @@ use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Form\FormInterface;
-use \UWDOEMTest\TestClass;
 
+use UWDOEM\Framework\Test\Mock\MockFieldBearer;
 
-class FormTest extends PHPUnit_Framework_TestCase {
+use UWDOEMTest\TestClass;
+
+class FormTest extends PHPUnit_Framework_TestCase
+{
 
     /**
      * Basic tests for the Form builder classes.
@@ -21,7 +26,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
      *
      * @throws \Exception
      */
-    public function testBuilder() {
+    public function testBuilder()
+    {
 
         $actions = [new FormAction("label", "method", "")];
         $onValidFunc = function () {
@@ -126,7 +132,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($form2, $form->getSubForms());
     }
 
-    public function testSetInitialWithFormBuilder() {
+    public function testSetInitialWithFormBuilder()
+    {
         $field1 = new Field("literal", "", []);
         $field2 = new Field("literal", "", []);
 
@@ -147,7 +154,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertNotEquals($newInitialValue, $field2->getInitial());
     }
 
-    public function testLabelFieldCreation() {
+    public function testLabelFieldCreation()
+    {
         $labelText = (string)rand();
 
         $form = FormBuilder::begin()
@@ -170,7 +178,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
      * @expectedException              Exception
      * @expectedExceptionMessageRegExp #success redirection cannot proceed.*#
      */
-    public function testSetOnSuccessUrl() {
+    public function testSetOnSuccessUrl()
+    {
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
             ->addFields(["field" => new Field('literal', 'A literal field', [])])
@@ -180,7 +189,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $form->onValid();
     }
     
-    public function testDefaultFormAction() {
+    public function testDefaultFormAction()
+    {
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 
         $form = FormBuilder::begin()
@@ -196,7 +206,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
     /**
      * Test can retrieve a subform by assigned name
      */
-    public function testGetSubformByName() {
+    public function testGetSubformByName()
+    {
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 
         $fieldBearer = FieldBearerBuilder::begin()
@@ -225,7 +236,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($form2, $form->getSubFormByName("Form2"));
     }
 
-    public function testFormAddError() {
+    public function testFormAddError()
+    {
         $fields = ["field" => new Field('literal', 'A literal field', [])];
 
         $form = FormBuilder::begin()
@@ -241,7 +253,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($errorText, $form->getErrors());
     }
 
-    public function testEndogenousValidation() {
+    public function testEndogenousValidation()
+    {
 
         $requiredField = new Field('text', 'A required field', "", true, []);
         $unrequiredField = new Field('text', 'A required field', "", false, []);
@@ -272,14 +285,15 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($form->isValid());
     }
 
-    public function testExogenousValidation() {
+    public function testExogenousValidation()
+    {
         $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
         $specificField = new Field("text", "A field which required specific input.", []);
         $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
 
         $requiredInput = "the specific input required";
 
-        $validator = function(FieldInterface $field) use ($requiredInput) {
+        $validator = function (FieldInterface $field) use ($requiredInput) {
             $input = $field->getSubmitted();
             if ($input !== $requiredInput) {
                 $field->addError("The exact specific input was not provided.");
@@ -329,12 +343,13 @@ class FormTest extends PHPUnit_Framework_TestCase {
     /**
      * Test that the validators included via addValidator are passed the form
      */
-    public function testExogenousValidationGetsPassedForm() {
+    public function testExogenousValidationGetsPassedForm()
+    {
         $field = new Field('text', 'A special field', "", false, []);
 
         $errorText = (string)rand();
 
-        $validator = function(FieldInterface $field, FormInterface $form) use ($errorText) {
+        $validator = function (FieldInterface $field, FormInterface $form) use ($errorText) {
             $form->addError($errorText);
         };
 
@@ -349,7 +364,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($errorText, $form->getErrors());
     }
 
-    public function testDefaultOnInvalid() {
+    public function testDefaultOnInvalid()
+    {
         $requiredField = new Field('text', 'A required field', "", true, []);
         $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
 
@@ -374,7 +390,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($input, $unrequiredField->getInitial());
     }
 
-    public function testSubFormDefaultOnInvalid() {
+    public function testSubFormDefaultOnInvalid()
+    {
         $requiredField = new Field('text', 'A required field', "", true, []);
         $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
 
@@ -404,7 +421,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($input, $unrequiredField->getInitial());
     }
 
-    public function testDefaultOnValid() {
+    public function testDefaultOnValid()
+    {
         $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
 
         $fieldBearer = new MockFieldBearer();
@@ -421,7 +439,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($fieldBearer->saved);
     }
 
-    public function testSubFormDefaultOnValid() {
+    public function testSubFormDefaultOnValid()
+    {
         $unrequiredField = new Field('text', 'An unrequired field', "", false, []);
 
         $fieldBearer = new MockFieldBearer();
@@ -443,7 +462,8 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($fieldBearer->saved);
     }
 
-    public function testOnvalidArgumentPassing() {
+    public function testOnvalidArgumentPassing()
+    {
         $saveData = (string)rand();
 
         $fieldBearer = new MockFieldBearer();
@@ -465,4 +485,3 @@ class FormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($saveData, $fieldBearer->savedData);
     }
 }
-

@@ -1,5 +1,9 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Writer\Writer;
 use UWDOEM\Framework\Form\FormAction\FormAction;
@@ -20,12 +24,8 @@ use UWDOEM\Framework\FilterStatement\FilterStatement;
 use UWDOEM\Framework\PickA\PickABuilder;
 use UWDOEM\Framework\PickA\PickAFormBuilder;
 
-
-class SimpleMockWriter extends Writer {
-    public function getEnvironment() {
-        return parent::getEnvironment();
-    }
-}
+use UWDOEM\Framework\Test\Mock\MockWriter;
+use UWDOEM\Framework\Test\Mock\MockFieldBearer;
 
 class WriterTest extends PHPUnit_Framework_TestCase
 {
@@ -34,10 +34,12 @@ class WriterTest extends PHPUnit_Framework_TestCase
      * @param string $string
      * @return string
      */
-    protected function stripQuotes($string) {
+    protected function stripQuotes($string)
+    {
         return str_replace(['"', "'"], "", $string);
     }
-    public function testVisitField() {
+    public function testVisitField()
+    {
         $writer = new Writer();
 
         /* A literal field */
@@ -65,7 +67,14 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("value=first-choice checked", $result);
 
         /* A multiple choice field */
-        $field = new Field("multiple-choice", "A multiple-choice field", ["second choice"], true, ["first choice", "second choice"], 200);
+        $field = new Field(
+            "multiple-choice",
+            "A multiple-choice field",
+            ["second choice"],
+            true,
+            ["first choice", "second choice"],
+            200
+        );
 
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitField($field));
@@ -110,7 +119,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('></textarea>', $result);
     }
 
-    public function testRenderBooleanField() {
+    public function testRenderBooleanField()
+    {
         $writer = new Writer();
 
         /* A required boolean field*/
@@ -156,7 +166,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('value=1 checked>', $resultInitialTrue);
     }
 
-    public function testRenderFieldErrors() {
+    public function testRenderFieldErrors()
+    {
         $writer = new Writer();
 
         /* Field not required, no data provided: no field errors */
@@ -188,15 +199,22 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("field-errors", $result);
     }
 
-    public function testVisitForm() {
+    public function testVisitForm()
+    {
         $writer = new Writer();
 
         $actions = [
             new FormAction("JS Action", "JS", "console.log('here');"),
             new FormAction("POST Action", "POST", "post-target")
         ];
-        $onValidFunc = function() { return "valid"; };
-        $onInvalidFunc = function() { return "invalid"; };
+        $onValidFunc = function () {
+            return "valid";
+
+        };
+        $onInvalidFunc = function () {
+            return "invalid";
+
+        };
 
         $id = "f" . (string)rand();
         $method = "m" . (string)rand();
@@ -261,7 +279,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer->visitForm($form);
     }
 
-    public function testRenderFormErrors() {
+    public function testRenderFormErrors()
+    {
         $writer = new Writer();
 
         $_SERVER["REQUEST_URI"] = "";
@@ -304,7 +323,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("class=prevent-double-submit has-errors", $result);
     }
 
-    public function testVisitSection() {
+    public function testVisitSection()
+    {
         $writer = new Writer();
 
         $id = "s" . (string)rand();
@@ -334,7 +354,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("Some sub-content.", $result);
     }
 
-    public function testVisitPickA() {
+    public function testVisitPickA()
+    {
         $writer = new Writer();
 
         $id = "p" . (string)rand();
@@ -389,7 +410,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains($contents[1], $result);
     }
 
-    public function testVisitPickAForm() {
+    public function testVisitPickAForm()
+    {
         $writer = new Writer();
 
         $actions = [new FormAction("label", "method", "")];
@@ -442,7 +464,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
      * @expectedException              Twig_Error_Loader
      * @expectedExceptionMessageRegExp #Unable to find template "pick-a/nonexistant-type.twig".*#
      */
-    public function testVisitNoneBasePickAForm() {
+    public function testVisitNoneBasePickAForm()
+    {
         $writer = new Writer();
 
         $id = "f" . (string)rand();
@@ -465,7 +488,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $result = $this->stripQuotes($writer->visitPickAForm($pickAForm));
     }
 
-    public function testVisitRow() {
+    public function testVisitRow()
+    {
         $writer = new Writer();
 
         $initialText = (string)rand();
@@ -540,7 +564,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("class=clickable", $result);
     }
 
-    public function testVisitTable() {
+    public function testVisitTable()
+    {
         $writer = new Writer();
 
         $id = "t" . (string)rand();
@@ -581,7 +606,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains($row2Written, $result);
     }
 
-    public function testVisitSortFilter() {
+    public function testVisitSortFilter()
+    {
         $writer = new Writer();
 
         $handle = (string)rand();
@@ -597,13 +623,18 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("class=sort-container data-handle-for=$handle", $result);
     }
 
-    public function testVisitSelectFilter() {
+    public function testVisitSelectFilter()
+    {
         $writer = new Writer();
 
         $handle = (string)rand();
         $optionNames = ["s".(string)rand(), "s".(string)rand(), "s".(string)rand()];
         $optionFieldNames = [(string)rand(), (string)rand(), (string)rand()];
-        $optionConditions = [FilterStatement::COND_GREATER_THAN, FilterStatement::COND_CONTAINS, FilterStatement::COND_LESS_THAN];
+        $optionConditions = [
+            FilterStatement::COND_GREATER_THAN,
+            FilterStatement::COND_CONTAINS,
+            FilterStatement::COND_LESS_THAN
+        ];
         $optionValues = [rand(), rand(), rand()];
 
         $defaultOption = 1;
@@ -632,7 +663,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testVisitPage() {
+    public function testVisitPage()
+    {
         $writer = new Writer();
 
         $pageType = Page::PAGE_TYPE_FULL_HEADER;
@@ -694,8 +726,9 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains($jsFile2, $result);
     }
 
-    public function testSaferawFilter() {
-        $writer = new SimpleMockWriter();
+    public function testSaferawFilter()
+    {
+        $writer = new MockWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ var|saferaw|raw }}";
@@ -712,8 +745,9 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals((string)$safeVar, $result);
     }
 
-    public function testSlugifyFilter() {
-        $writer = new SimpleMockWriter();
+    public function testSlugifyFilter()
+    {
+        $writer = new MockWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ var|slugify }}";
@@ -725,8 +759,9 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(StringUtils::slugify($var), $result);
     }
 
-    public function testStripFormFilter() {
-        $writer = new SimpleMockWriter();
+    public function testStripFormFilter()
+    {
+        $writer = new MockWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ var|stripForm|raw }}";
@@ -748,8 +783,9 @@ HTML;
         $this->assertEquals(preg_replace('/\s+/', '', $expected), preg_replace('/\s+/', '', $result));
     }
 
-    public function testMD5Filter() {
-        $writer = new SimpleMockWriter();
+    public function testMD5Filter()
+    {
+        $writer = new MockWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ var|md5 }}";
@@ -761,11 +797,12 @@ HTML;
         $this->assertEquals(md5($var), $result);
     }
 
-    public function testRequestURIGlobal() {
+    public function testRequestURIGlobal()
+    {
         $requestURI = (string)rand();
         $_SERVER["REQUEST_URI"] = $requestURI;
 
-        $writer = new SimpleMockWriter();
+        $writer = new MockWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ requestURI }}";

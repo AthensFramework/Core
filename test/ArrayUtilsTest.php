@@ -1,11 +1,16 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\Etc\ArrayUtils;
 
+class ArrayUtilsTest extends PHPUnit_Framework_TestCase
+{
 
-class ArrayUtilsTest extends PHPUnit_Framework_TestCase {
-
-    public function testFindOrDefault() {
+    public function testFindOrDefault()
+    {
 
         $array = [
             "one" => "hat",
@@ -22,6 +27,4 @@ class ArrayUtilsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($default, ArrayUtils::findOrDefault("four", $array, $default));
 
     }
-
 }
-

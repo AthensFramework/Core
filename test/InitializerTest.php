@@ -1,6 +1,8 @@
 <?php
 
-require_once('Mocks.php');
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
 
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\Field;
@@ -11,20 +13,26 @@ use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\PickA\PickAFormBuilder;
 
+use UWDOEM\Framework\Test\Mock\MockForm;
 
-class InitializerTest extends PHPUnit_Framework_TestCase {
+class InitializerTest extends PHPUnit_Framework_TestCase
+{
 
-    protected function makeMockForm() {
+    protected function makeMockForm()
+    {
         $fieldBearer = FieldBearerBuilder::begin()
             ->addFields([new Field("literal", "A literal field", [])])
             ->build();
-        return new MockForm("f-" . (string)rand(), "base", "post", "_self", $fieldBearer, function(){}, function(){});
+        return new MockForm("f-" . (string)rand(), "base", "post", "_self", $fieldBearer, function () {
+        }, function () {
+        });
     }
 
     /**
      * Test that an initializer will init a form from post
      */
-    public function testVisitForm() {
+    public function testVisitForm()
+    {
         $form = $this->makeMockForm();
         $initializer = new Initializer();
 
@@ -49,7 +57,8 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
     /**
      * Test subforms get unique suffixes.
      */
-    public function testUniqueSuffixesForSubforms() {
+    public function testUniqueSuffixesForSubforms()
+    {
         $initializer = new Initializer();
 
         $fieldBearer1 = FieldBearerBuilder::begin()
@@ -96,7 +105,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
 
         // Map each field to a serialization of its suffixes
         $suffixes = array_map(
-            function(FieldInterface $field) {
+            function (FieldInterface $field) {
                 return serialize($field->getSuffixes());
             },
             $fields
@@ -109,7 +118,8 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
     /**
      * Test pick-a-forms get unique suffixes.
      */
-    public function testUniqueSuffixesForPickAForms() {
+    public function testUniqueSuffixesForPickAForms()
+    {
         $initializer = new Initializer();
 
         $forms = [];
@@ -156,7 +166,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
 
         // Map each field to a serialization of its suffixes
         $suffixes = array_map(
-            function(FieldInterface $field) {
+            function (FieldInterface $field) {
                 return serialize($field->getSuffixes());
             },
             $fields
@@ -169,7 +179,8 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
     /**
      * Test that an initializer will initialize a section's form
      */
-    public function testVisitSection() {
+    public function testVisitSection()
+    {
         $_SERVER["REQUEST_METHOD"] = "POST";
         $initializer = new Initializer();
 
@@ -188,7 +199,8 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
     /**
      * Test that an initializer will initialize a page's section's form.
      */
-    public function testVisitPage() {
+    public function testVisitPage()
+    {
         $_SERVER["REQUEST_METHOD"] = "POST";
         $initializer = new Initializer();
 
@@ -210,7 +222,8 @@ class InitializerTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testVisitFieldBearer() {
+    public function testVisitFieldBearer()
+    {
         $initializer = new Initializer();
 
         $field1 = new Field("literal", "A literal field", []);

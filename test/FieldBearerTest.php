@@ -1,20 +1,15 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEMTest\TestClass;
 
-
-class MockTestClass extends TestClass {
-
-    public $saved = false;
-
-    public function save(Propel\Runtime\Connection\ConnectionInterface $con = NULL) {
-        $this->saved = true;
-    }
-}
-
+use UWDOEM\Framework\Test\Mock\MockTestClass;
 
 class FieldBearerTest extends PHPUnit_Framework_TestCase
 {
@@ -22,7 +17,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     /**
      * @return FieldBearerBuilder[]
      */
-    public function testedFieldBearerBuilders() {
+    public function testedFieldBearerBuilders()
+    {
         // Return a fieldBearerBuilder of every type you want to test
         return [
             FieldBearerBuilder::begin(),
@@ -36,7 +32,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
      *
      * @throws \Exception
      */
-    public function testBuilder() {
+    public function testBuilder()
+    {
 
         $fields = [
             "fieldName" => new Field("literal", "A literal field", []),
@@ -45,7 +42,10 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         $visibleFieldNames = ["fieldName"];
 
-        $saveFunc = function() { return "saved"; };
+        $saveFunc = function () {
+            return "saved";
+
+        };
 
         $fieldBearer = FieldBearerBuilder::begin()
             ->addFields($fields)
@@ -88,7 +88,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedFieldNames, $classFieldBearer->getFieldNames());
     }
 
-    public function testSetInitialWithFieldBearerBuilder() {
+    public function testSetInitialWithFieldBearerBuilder()
+    {
         $field1 = new Field("literal", "", []);
         $field2 = new Field("literal", "", []);
 
@@ -108,7 +109,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($newInitialValue, $field2->getInitial());
     }
 
-    public function testGetFieldBearers() {
+    public function testGetFieldBearers()
+    {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
 
@@ -132,7 +134,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testGetFieldBearerByName() {
+    public function testGetFieldBearerByName()
+    {
         foreach ($this->testedFieldBearerBuilders() as $builder) {
 
             $field1 = new Field("literal", "A literal field", []);
@@ -157,7 +160,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetFieldByName() {
+    public function testGetFieldByName()
+    {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
 
@@ -185,7 +189,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testGetNameByField() {
+    public function testGetNameByField()
+    {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
 
@@ -216,7 +221,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
      * Test getting fields, names, labels for all, visible, and hidden fields
      * @throws \Exception
      */
-    public function testFieldsNamesLabelsVisibleFields() {
+    public function testFieldsNamesLabelsVisibleFields()
+    {
 
         // All fields visible
         foreach ($this->testedFieldBearerBuilders() as $builder) {
@@ -240,14 +246,20 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             $fields = $fieldBearer->getFields();
             $fieldNames = $fieldBearer->getFieldNames();
             $fieldLabels = $fieldBearer->getFieldLabels();
-            
-            $this->assertTrue(in_array($field1, $fields) && in_array($field2, $fields) && in_array($field3, $fields));
+
+            $this->assertContains($field1, $fields);
+            $this->assertContains($field2, $fields);
+            $this->assertContains($field3, $fields);
             $this->assertEquals(3, sizeof($fields));
-            
-            $this->assertTrue(in_array("field1", $fieldNames) && in_array("field2", $fieldNames) && in_array("field3", $fieldNames));
+
+            $this->assertContains("field1", $fieldNames);
+            $this->assertContains("field2", $fieldNames);
+            $this->assertContains("field3", $fieldNames);
             $this->assertEquals(3, sizeof($fieldNames));
-            
-            $this->assertTrue(in_array("A literal field", $fieldLabels) && in_array("Another literal field", $fieldLabels) && in_array("Yet another literal field", $fieldLabels));
+
+            $this->assertContains("A literal field", $fieldLabels);
+            $this->assertContains("Another literal field", $fieldLabels);
+            $this->assertContains("Yet another literal field", $fieldLabels);
             $this->assertEquals(3, sizeof($fieldLabels));
             
             
@@ -289,13 +301,19 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             $fieldNames = $fieldBearer->getFieldNames();
             $fieldLabels = $fieldBearer->getFieldLabels();
 
-            $this->assertTrue(in_array($field1, $fields) && in_array($field2, $fields) && in_array($field3, $fields));
+            $this->assertContains($field1, $fields);
+            $this->assertContains($field2, $fields);
+            $this->assertContains($field3, $fields);
             $this->assertEquals(3, sizeof($fields));
 
-            $this->assertTrue(in_array("field1", $fieldNames) && in_array("field2", $fieldNames) && in_array("field3", $fieldNames));
+            $this->assertContains("field1", $fieldNames);
+            $this->assertContains("field2", $fieldNames);
+            $this->assertContains("field3", $fieldNames);
             $this->assertEquals(3, sizeof($fieldNames));
 
-            $this->assertTrue(in_array("A literal field", $fieldLabels) && in_array("Another literal field", $fieldLabels) && in_array("Yet another literal field", $fieldLabels));
+            $this->assertContains("A literal field", $fieldLabels);
+            $this->assertContains("Another literal field", $fieldLabels);
+            $this->assertContains("Yet another literal field", $fieldLabels);
             $this->assertEquals(3, sizeof($fieldLabels));
 
 
@@ -330,7 +348,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testClassFieldBuilderSavesObject() {
+    public function testClassFieldBuilderSavesObject()
+    {
         $object = new MockTestClass();
 
         $fieldBearer = FieldBearerBuilder::begin()
@@ -342,7 +361,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($object->saved);
     }
 
-    public function testClassFieldBuilderUpdatesObject() {
+    public function testClassFieldBuilderUpdatesObject()
+    {
         $object = new MockTestClass();
 
         $fieldBearer = FieldBearerBuilder::begin()
@@ -361,10 +381,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         $field->validate();
         $this->assertEquals($data, $field->getValidatedData());
 
-        // Save the field bearer, which will save the object, and assert that the object does contain the assigned data
+        // Save the field bearer, which will save the object, and assert that the object
+        // does contain the assigned data
         $fieldBearer->save();
         $this->assertEquals($data, $object->getFieldLargeVarchar());
     }
-
 }
-

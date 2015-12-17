@@ -1,52 +1,29 @@
 <?php
 
-use UWDOEM\Framework\Visitor\Visitor;
-use UWDOEM\Framework\Visitor\VisitableTrait;
+namespace UWDOEM\Framework\Test;
 
+use PHPUnit_Framework_TestCase;
 
-class MockVisitor extends Visitor {
+use UWDOEM\Framework\Test\Mock\MockVisitor;
+use UWDOEM\Framework\Test\Mock\MockVisitorWithGenericVisit;
+use UWDOEM\Framework\Test\Mock\MockVisitableA;
+use UWDOEM\Framework\Test\Mock\MockVisitableB;
+use UWDOEM\Framework\Test\Mock\MockVisitableZ;
 
-    public $result;
+class VisitableTraitTest extends PHPUnit_Framework_TestCase
+{
 
-    function visitMockClassA($instance) {
-        $this->result = "A";
-    }
-
-    function visitMockClassB($instance) {
-        $this->result = "B";
-    }
-
-}
-
-class MockVisitorWithGenericVisit extends MockVisitor {
-    function visit($instance) {
-        $this->result = "generic";
-    }
-}
-
-class MockClassA {
-    use VisitableTrait;
-}
-
-class MockClassB extends MockClassA { }
-
-class MockClassZ {
-    use VisitableTrait;
-}
-
-
-class VisitableTraitTest extends PHPUnit_Framework_TestCase {
-
-    public function testAccept() {
+    public function testAccept()
+    {
         $visitor = new MockVisitor();
-        $host = new MockClassA();
+        $host = new MockVisitableA();
 
         $host->accept($visitor);
         $this->assertEquals("A", $visitor->result);
 
 
         $visitor = new MockVisitor();
-        $host = new MockClassB();
+        $host = new MockVisitableB();
 
         $host->accept($visitor);
         $this->assertEquals("B", $visitor->result);
@@ -56,26 +33,26 @@ class VisitableTraitTest extends PHPUnit_Framework_TestCase {
      * @expectedException              \RuntimeException
      * @expectedExceptionMessageRegExp #No visit method.*#
      */
-    public function testAcceptFails() {
+    public function testAcceptFails()
+    {
         $visitor = new MockVisitor();
-        $host = new MockClassZ();
+        $host = new MockVisitableZ();
 
         $host->accept($visitor);
     }
 
-    public function testGenericAccept() {
+    public function testGenericAccept()
+    {
         $visitor = new MockVisitorWithGenericVisit();
-        $host = new MockClassZ();
+        $host = new MockVisitableZ();
 
         $host->accept($visitor);
         $this->assertEquals("generic", $visitor->result);
 
         $visitor = new MockVisitorWithGenericVisit();
-        $host = new MockClassA();
+        $host = new MockVisitableA();
 
         $host->accept($visitor);
         $this->assertEquals("A", $visitor->result);
     }
-
 }
-

@@ -1,29 +1,22 @@
 <?php
 
-require_once("Mocks.php");
+namespace UWDOEM\Framework\Test;
 
-use UWDOEM\Framework\Form\FormBuilder;
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Etc\ORMUtils;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
-use UWDOEM\Framework\FieldBearer\FieldBearer;
-use UWDOEM\Framework\Field\FieldInterface;
-use UWDOEM\Framework\Form\FormInterface;
-use UWDOEM\Framework\Form\PickAFormBuilder;
-use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Row\RowBuilder;
 use UWDOEM\Framework\Table\TableFormBuilder;
 
-
-
-
-class TableFormTest extends PHPUnit_Framework_TestCase {
+class TableFormTest extends PHPUnit_Framework_TestCase
+{
 
     /**
      * Test basic building
      */
-    public function testBuilder() {
+    public function testBuilder()
+    {
 
         $actions = [new FormAction("label", "method", "")];
         $onValidFunc = function () {
@@ -38,7 +31,7 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
         $method = "m" . (string)rand();
         $target = "t" . (string)rand();
 
-        $rowMakingFunction = function() {
+        $rowMakingFunction = function () {
             return RowBuilder::begin()
                 ->addFields([
                     new Field('literal', 'A literal field', []),
@@ -70,7 +63,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
         /* Test default type/method/target */
         $form = TableFormBuilder::begin()
             ->setId($id)
-            ->setRowMakingFunction(function() {})
+            ->setRowMakingFunction(function () {
+            })
             ->build();
 
         $this->assertEquals("base", $form->getType());
@@ -81,9 +75,10 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
     /**
      * Test prototypical row creation
      */
-    public function testPrototypicalRowCreation() {
+    public function testPrototypicalRowCreation()
+    {
 
-        $rowMakingFunction = function() {
+        $rowMakingFunction = function () {
             return RowBuilder::begin()
                 ->addFields([
                     new Field('literal', 'A literal field', []),
@@ -106,9 +101,10 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
     /**
      * Test row creation from POST
      */
-    public function testCreateRowsFromPost() {
+    public function testCreateRowsFromPost()
+    {
 
-        $rowMakingFunction = function() {
+        $rowMakingFunction = function () {
             $field1 = new Field('text', 'A text field', []);
             $field2 = new Field('text', 'A second text field', []);
 
@@ -136,7 +132,7 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
 
         $_SERVER["REQUEST_METHOD"] = "POST";
         $data = [];
-        for($i = 0; $i < $numRows; $i++) {
+        for ($i = 0; $i < $numRows; $i++) {
             $prefix = (string)(1000*$i + rand(100, 999));
             $data[$i] = (string)rand();
 
@@ -155,4 +151,3 @@ class TableFormTest extends PHPUnit_Framework_TestCase {
         $_SERVER["REQUEST_METHOD"] = "GET";
     }
 }
-

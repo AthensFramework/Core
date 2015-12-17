@@ -1,21 +1,23 @@
 <?php
 
-use Propel\Runtime\ActiveQuery\Criteria;
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
 
 use UWDOEM\Framework\FilterStatement\FilterStatement;
 use UWDOEM\Framework\Filter\FilterBuilder;
 use UWDOEM\Framework\Filter\Filter;
 use UWDOEM\Framework\Etc\Settings;
-use UWDOEMTest\TestClassQuery;
 use UWDOEM\Framework\Filter\PaginationFilter;
 use UWDOEM\Framework\Filter\FilterControls;
 use UWDOEM\Framework\Filter\SortFilter;
 use UWDOEM\Framework\Row\RowBuilder;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\Field;
 
+use UWDOEM\Framework\Test\Mock\MockQuery;
 
-class FilterTest extends PHPUnit_Framework_TestCase {
+class FilterTest extends PHPUnit_Framework_TestCase
+{
 
     protected $conditions = [
         FilterStatement::COND_SORT_ASC,
@@ -27,7 +29,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         FilterStatement::COND_PAGINATE_BY,
     ];
 
-    public function testBuildStaticFilter() {
+    public function testBuildStaticFilter()
+    {
 
         $fieldName = (string)rand();
         $condition = array_rand(array_flip($this->conditions), 1);
@@ -52,7 +55,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($criterion, $statement->getCriterion());
     }
 
-    public function testRowFilter() {
+    public function testRowFilter()
+    {
         $fieldValues = [1, 3];
         $fieldName = "field" . (string)rand();
 
@@ -77,7 +81,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, sizeof($filter->rowFilter($rows)));
     }
 
-    public function testBuildPaginationFilter() {
+    public function testBuildPaginationFilter()
+    {
         $maxPerPage = rand();
         $page = rand();
         $handle = (string)rand();
@@ -102,7 +107,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($page, $statement->getControl());
     }
 
-    public function testBuildSortFilter() {
+    public function testBuildSortFilter()
+    {
         $handle = (string)rand();
         $type = Filter::TYPE_SORT;
 
@@ -118,7 +124,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, sizeof($filter->getStatements()));
     }
 
-    public function testSortFilterUsesControl() {
+    public function testSortFilterUsesControl()
+    {
         $handle = (string)rand();
         $type = Filter::TYPE_SORT;
 
@@ -141,7 +148,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($order, $statement->getCondition());
     }
 
-    public function testBuildPaginationFilterUsesPaginateSetting() {
+    public function testBuildPaginationFilterUsesPaginateSetting()
+    {
         $paginateBy = rand();
         $handle = (string)rand();
         $type = Filter::TYPE_PAGINATION;
@@ -174,13 +182,15 @@ class FilterTest extends PHPUnit_Framework_TestCase {
      * @expectedException              Exception
      * @expectedExceptionMessageRegExp #You must set handle.*#
      */
-    public function testBuildFilterErrorWithoutHandle() {
+    public function testBuildFilterErrorWithoutHandle()
+    {
         $filter = FilterBuilder::begin()
             ->setType(Filter::TYPE_PAGINATION)
             ->build();
     }
 
-    public function testPaginationFilterOptions() {
+    public function testPaginationFilterOptions()
+    {
         $maxPerPage = rand(5, 15);
         $count = rand(50, 200);
 
@@ -200,12 +210,17 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(range(1, $expectedNumPages), $filter->getOptions());
     }
 
-    public function testSelectFilterOptions() {
+    public function testSelectFilterOptions()
+    {
         $handle = (string)rand();
 
         $optionNames = ["s".(string)rand(), "s".(string)rand(), "s".(string)rand()];
         $optionFieldNames = [(string)rand(), (string)rand(), (string)rand()];
-        $optionConditions = [FilterStatement::COND_GREATER_THAN, FilterStatement::COND_CONTAINS, FilterStatement::COND_LESS_THAN];
+        $optionConditions = [
+            FilterStatement::COND_GREATER_THAN,
+            FilterStatement::COND_CONTAINS,
+            FilterStatement::COND_LESS_THAN
+        ];
         $optionValues = [rand(), rand(), rand()];
 
         $defaultOption = 1;
@@ -257,7 +272,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($optionValues[$selectedOption], $statement->getCriterion());
     }
 
-    public function testSearchFilterMakeOptions() {
+    public function testSearchFilterMakeOptions()
+    {
         $filter = FilterBuilder::begin()
             ->setHandle("search")
             ->setType(Filter::TYPE_SEARCH)
@@ -281,7 +297,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($field2Name, $filter->getOptions());
     }
 
-    public function testPaginationFilterFeedback() {
+    public function testPaginationFilterFeedback()
+    {
         $maxPerPage = rand(5, 15);
         $count = rand(50, 200);
 
@@ -301,7 +318,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertContains((string)$count, $filter->getFeedback());
     }
 
-    public function testBuildFilterWithNextFilter() {
+    public function testBuildFilterWithNextFilter()
+    {
         $filter1 = FilterBuilder::begin()
             ->setHandle("Filter1")
             ->setType(Filter::TYPE_PAGINATION)
@@ -316,7 +334,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($filter1, $filter2->getNextFilter());
     }
 
-    public function testChainedFilterByQuery() {
+    public function testChainedFilterByQuery()
+    {
         $filter1 = FilterBuilder::begin()
             ->setHandle("Filter1")
             ->setType(Filter::TYPE_STATIC)
@@ -340,7 +359,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertContains(["TestClass.FieldFloat", "DESC"], $query->orderByStatements);
     }
 
-    public function testForceFilterByRow() {
+    public function testForceFilterByRow()
+    {
         $filter1 = FilterBuilder::begin()
             ->setHandle("Filter1")
             ->setType(Filter::TYPE_STATIC)
@@ -376,7 +396,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, sizeof($query->orderByStatements));
     }
 
-    public function testFilterControlsFromGet() {
+    public function testFilterControlsFromGet()
+    {
         $handle = (string)rand();
         $key = (string)rand();
         $value = (string)rand();
@@ -386,7 +407,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($value, FilterControls::getControl($handle, $key));
     }
 
-    public function testFilterControlsIsSet() {
+    public function testFilterControlsIsSet()
+    {
         $handle = (string)rand();
         $key = (string)rand();
         $value = (string)rand();
@@ -398,13 +420,12 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(FilterControls::controlIsSet($handle, $key));
     }
 
-    public function testFilterControlsFromDefault() {
+    public function testFilterControlsFromDefault()
+    {
         $handle = (string)rand();
         $key = (string)rand();
         $default = (string)rand();
 
         $this->assertEquals($default, FilterControls::getControl($handle, $key, $default));
     }
-
 }
-

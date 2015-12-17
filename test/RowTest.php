@@ -1,10 +1,12 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
 
 use UWDOEM\Framework\Row\RowBuilder;
 use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Field\Field;
-
 
 class RowTest extends PHPUnit_Framework_TestCase
 {
@@ -12,7 +14,8 @@ class RowTest extends PHPUnit_Framework_TestCase
     /**
      * @return RowBuilder[]
      */
-    public function testedRowBuilders() {
+    public function testedRowBuilders()
+    {
         // Return a fieldBearerBuilder of every type you want to test
         return [
             RowBuilder::begin(),
@@ -26,7 +29,8 @@ class RowTest extends PHPUnit_Framework_TestCase
      *
      * @throws \Exception
      */
-    public function testBuilder() {
+    public function testBuilder()
+    {
 
         $fieldName = "LiteralField";
         $onClick = "console.log('Click!');";
@@ -53,13 +57,12 @@ class RowTest extends PHPUnit_Framework_TestCase
      * @expectedException              Exception
      * @expectedExceptionMessageRegExp #You cannot both make a.*#
      */
-    public function testBuilderThrowsExceptionSetContentOnAjaxLoaded() {
+    public function testBuilderThrowsExceptionSetContentOnAjaxLoaded()
+    {
         $row = RowBuilder::begin()
             ->addFields(["fieldName" => new Field('literal', 'A literal field', [])])
             ->setHighlightable(true)
             ->setOnClick("console.log('Click');")
             ->build();
     }
-
 }
-

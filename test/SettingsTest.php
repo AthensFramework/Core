@@ -1,21 +1,16 @@
 <?php
 
-use UWDOEM\Framework\Etc\Settings;
+namespace UWDOEM\Framework\Test;
 
-class MockSettings extends Settings {
+use PHPUnit_Framework_TestCase;
 
-    public static function clear() {
-        static::$settings["templateDirectories"] = [];
-        static::$settings["projectCSS"] = [];
-        static::$settings["projectJS"] = [];
-        static::$settings["defaultPagination"] = 12;
-    }
-}
+use UWDOEM\Framework\Test\Mock\MockSettings;
 
+class SettingsTest extends PHPUnit_Framework_TestCase
+{
 
-class SettingsTest extends PHPUnit_Framework_TestCase {
-
-    public function testAddTemplateTheme() {
+    public function testAddTemplateTheme()
+    {
         MockSettings::addTemplateTheme("theme1");
         MockSettings::addTemplateTheme("theme2");
         MockSettings::addTemplateDirectory("/path/to/template/theme");
@@ -30,7 +25,8 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
         MockSettings::clear();
     }
 
-    public function testAddProjectJS() {
+    public function testAddProjectJS()
+    {
         $file1 = "/path/to/file/1.js";
         $file2 = "/path/to/file/2.js";
 
@@ -46,7 +42,8 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
         MockSettings::clear();
     }
 
-    public function testAddProjectCSS() {
+    public function testAddProjectCSS()
+    {
         $file1 = "/path/to/file/1.css";
         $file2 = "/path/to/file/2.css";
 
@@ -62,7 +59,8 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
         MockSettings::clear();
     }
 
-    public function testSetDefaultPagination() {
+    public function testSetDefaultPagination()
+    {
         $value = rand();
 
         MockSettings::setDefaultPagination($value);
@@ -73,6 +71,4 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
 
         MockSettings::clear();
     }
-
 }
-

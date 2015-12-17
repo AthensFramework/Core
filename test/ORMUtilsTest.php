@@ -1,18 +1,18 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEMTest\TestClass;
-use UWDOEMTest\TestClassTwo;
 use UWDOEMTest\TestClassQuery;
-use UWDOEM\Encryption\Cipher;
 use UWDOEM\Framework\Field\Field;
-
-Cipher::createInstance("my_secret_passphrase");
-
 
 class ORMUtilsTest extends PHPUnit_Framework_TestCase
 {
-    public function testMakeFieldNamesFromObject() {
+    public function testMakeFieldNamesFromObject()
+    {
         $o = new TestClass();
 
         $fields = ORMUtils::makeFieldsFromObject($o);
@@ -32,7 +32,8 @@ class ORMUtilsTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(10, sizeof($fieldNames));
     }
 
-    public function testMakeFieldsFromObject() {
+    public function testMakeFieldsFromObject()
+    {
         $o = new TestClass();
 
         $fields = ORMUtils::makeFieldsFromObject($o);
@@ -55,7 +56,8 @@ class ORMUtilsTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(ORMUtils::isEncrypted("TestClass.FieldSmallVarchar", $o::TABLE_MAP));
     }
 
-    public function testQueryContainsFieldName() {
+    public function testQueryContainsFieldName()
+    {
 
         $query = TestClassQuery::create();
 

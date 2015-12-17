@@ -1,11 +1,16 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\Etc\StringUtils;
 
+class StringUtilsTest extends PHPUnit_Framework_TestCase
+{
 
-class StringUtilsTest extends PHPUnit_Framework_TestCase {
-
-    public function testSlugify() {
+    public function testSlugify()
+    {
 
         // Assert that it will correctly convert a simple string
         $string = "I am the very model of a modern Major General";
@@ -21,18 +26,19 @@ class StringUtilsTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testToUpperCamelCase() {
+    public function testToUpperCamelCase()
+    {
 
         $string = "I am the very-model of_a modern Major General";
         $this->assertEquals("IAmTheVeryModelOfAModernMajorGeneral", StringUtils::toUpperCamelCase($string));
 
     }
 
-    public function testToTitleCase() {
+    public function testToTitleCase()
+    {
 
         $string = "i am the very-model of_a modern Major General";
         $this->assertEquals("I Am the Very Model of a Modern Major General", StringUtils::toTitleCase($string));
 
     }
 }
-

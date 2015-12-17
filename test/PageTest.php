@@ -1,32 +1,16 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\Page\PageBuilder;
 use UWDOEM\Framework\Page\Page;
 use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Etc\Settings;
-use UWDOEM\Framework\Writer\Writer;
-use UWDOEM\Framework\Page\PageInterface;
-use UWDOEM\Framework\Initializer\Initializer;
 
-
-class MockWriter extends Writer {
-
-    public static $used = false;
-
-    public function visitPage(PageInterface $page) {
-        static::$used = true;
-    }
-}
-
-class MockInitializer extends Initializer {
-
-    public static $used = false;
-
-    public function visitPage(PageInterface $page) {
-        static::$used = true;
-    }
-}
-
+use UWDOEM\Framework\Test\Mock\MockWriter;
+use UWDOEM\Framework\Test\Mock\MockInitializer;
 
 class PageTest extends PHPUnit_Framework_TestCase
 {
@@ -34,7 +18,8 @@ class PageTest extends PHPUnit_Framework_TestCase
     /**
      * @return PageBuilder[]
      */
-    public function testedSectionBuilders() {
+    public function testedSectionBuilders()
+    {
         // Return a fieldBearerBuilder of every type you want to test
         return [
             PageBuilder::begin(),
@@ -48,7 +33,8 @@ class PageTest extends PHPUnit_Framework_TestCase
      *
      * @throws \Exception
      */
-    public function testBuilder() {
+    public function testBuilder()
+    {
 
         $content = "content";
         $label = "label";
@@ -88,15 +74,16 @@ class PageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($type, $page->getType());
     }
 
-    public function testRender() {
+    public function testRender()
+    {
         /* No writer provided to render, page uses default writer class from settings */
 
         // Store the current default writer/initializer from the settings
         $defaultWriterClass = Settings::getDefaultWriterClass();
         $defaultInitializerClass = Settings::getDefaultInitializerClass();
 
-        Settings::setDefaultWriterClass("MockWriter");
-        Settings::setDefaultInitializerClass("MockInitializer");
+        Settings::setDefaultWriterClass("\\UWDOEM\\Framework\\Test\\Mock\\MockWriter");
+        Settings::setDefaultInitializerClass("\\UWDOEM\\Framework\\Test\\Mock\\MockInitializer");
 
         $title = "Test Page";
         $page = PageBuilder::begin()
@@ -136,7 +123,8 @@ class PageTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testBuildAjaxActionPage() {
+    public function testBuildAjaxActionPage()
+    {
         $status = (string)rand();
         $messageContent = (string)rand();
 
@@ -166,7 +154,8 @@ class PageTest extends PHPUnit_Framework_TestCase
      * @expectedException              Exception
      * @expectedExceptionMessageRegExp #You must provide a message.*#
      */
-    public function testBuildAjaxActionPageWithoutMessageRaisesException() {
+    public function testBuildAjaxActionPageWithoutMessageRaisesException()
+    {
         $page = PageBuilder::begin()
             ->setType(PAGE::PAGE_TYPE_AJAX_ACTION)
             ->build();
@@ -176,7 +165,8 @@ class PageTest extends PHPUnit_Framework_TestCase
      * @expectedException              Exception
      * @expectedExceptionMessageRegExp #You may only set a message on an ajax-action page.*#
      */
-    public function testBuildNonAjaxActionPageWithMessageRaisesException() {
+    public function testBuildNonAjaxActionPageWithMessageRaisesException()
+    {
         $page = PageBuilder::begin()
             ->setType(PAGE::PAGE_TYPE_MULTI_PANEL)
             ->setMessage(["test", "messages"])
@@ -197,7 +187,4 @@ class PageTest extends PHPUnit_Framework_TestCase
 
     }
     */
-
-
 }
-

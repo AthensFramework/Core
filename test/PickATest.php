@@ -1,19 +1,24 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\PickA\PickABuilder;
 use UWDOEM\Framework\Section\SectionBuilder;
 
+class PickATest extends PHPUnit_Framework_TestCase
+{
 
-class PickATest extends PHPUnit_Framework_TestCase {
-
-    public function testBuilder() {
+    public function testBuilder()
+    {
 
         $labels = [(string)rand(), (string)rand()];
 
         $id = "p" . (string)rand();
 
         $sections = [];
-        for($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             $sections["l" . (string)$i] = SectionBuilder::begin()
                 ->setId("s" . (string)rand())
                 ->addContent((string)rand())
@@ -39,12 +44,13 @@ class PickATest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testGetManifest() {
+    public function testGetManifest()
+    {
         $label1 = "l" . (string)rand();
         $label2 = "l" . (string)rand();
 
         $sections = [];
-        for($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             $sections["l" . (string)$i] = SectionBuilder::begin()
                 ->setId("s" . (string)rand())
                 ->addContent((string)rand())
@@ -78,12 +84,13 @@ class PickATest extends PHPUnit_Framework_TestCase {
         $this->assertContains($sections["l3"], array_values($manifest));
     }
 
-    public function testGetLabels() {
+    public function testGetLabels()
+    {
         $label1 = "l" . (string)rand();
         $label2 = "l" . (string)rand();
 
         $sections = [];
-        for($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             $sections["l" . (string)$i] = SectionBuilder::begin()
                 ->setId("s" . (string)rand())
                 ->addContent((string)rand())
@@ -109,12 +116,13 @@ class PickATest extends PHPUnit_Framework_TestCase {
         $this->assertContains($label2, $labels);
     }
 
-    public function testGetWritables() {
+    public function testGetWritables()
+    {
         $label1 = "l" . (string)rand();
         $label2 = "l" . (string)rand();
 
         $sections = [];
-        for($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             $sections["l" . (string)$i] = SectionBuilder::begin()
                 ->setId("s" . (string)rand())
                 ->addContent((string)rand())
@@ -141,7 +149,4 @@ class PickATest extends PHPUnit_Framework_TestCase {
         $this->assertContains($sections["l3"], $writables);
 
     }
-
-
 }
-

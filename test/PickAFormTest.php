@@ -1,17 +1,22 @@
 <?php
 
-require_once('Mocks.php');
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
 
 use UWDOEM\Framework\Form\FormBuilder;
 use UWDOEM\Framework\Form\FormAction\FormAction;
 use UWDOEM\Framework\PickA\PickAFormBuilder;
 use UWDOEM\Framework\Etc\StringUtils;
 
+use UWDOEM\Framework\Test\Mock\MockFieldBearer;
 
-class PickAFormTest extends PHPUnit_Framework_TestCase {
+class PickAFormTest extends PHPUnit_Framework_TestCase
+{
 
 
-    public function testPickAFormBuilding() {
+    public function testPickAFormBuilding()
+    {
         $actions = [new FormAction("label", "method", "")];
 
         $id = "f" . (string)rand();
@@ -64,7 +69,8 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testGetSelectedSlug() {
+    public function testGetSelectedSlug()
+    {
         $fieldBearers = [];
         $forms = [];
         $labels = [];
@@ -101,7 +107,8 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
     /**
      * If no form is selected, then the pick a form is not valid.
      */
-    public function testPickAFormValidationWithNoSelection() {
+    public function testPickAFormValidationWithNoSelection()
+    {
         $forms = [];
         $labels = [];
         for ($i = 0; $i < 2; $i++) {
@@ -124,7 +131,8 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($pickAForm->isValid());
     }
 
-    public function testPickAFormGetSelectedForm() {
+    public function testPickAFormGetSelectedForm()
+    {
         $fieldBearers = [];
         $forms = [];
         $labels = [];
@@ -161,7 +169,8 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
     /**
      * If a form is selected, then validation passes to the selected subform.
      */
-    public function testPickAFormValidationWithSelection() {
+    public function testPickAFormValidationWithSelection()
+    {
         $fieldBearers = [];
         $forms = [];
         $labels = [];
@@ -200,4 +209,3 @@ class PickAFormTest extends PHPUnit_Framework_TestCase {
         $_POST = [];
     }
 }
-

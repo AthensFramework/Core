@@ -1,0 +1,62 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: jschilz
+ * Date: 12/17/2015
+ * Time: 11:17 AM
+ */
+
+namespace UWDOEM\Framework\Test;
+
+use UWDOEM\Framework\Row\RowBuilder;
+use UWDOEM\Framework\Field\Field;
+use UWDOEM\Framework\Row\RowInterface;
+
+class Utils
+{
+
+    const INT_FIELD_NAME = "FirstField";
+    const STRING_FIELD_NAME = "SecondField";
+
+    /**
+     * @return RowInterface[]
+     * @throws \Exception
+     */
+    public static function makeRows()
+    {
+        $rows = [];
+        for ($i = 0; $i < 100; $i++) {
+
+            $rows[] = RowBuilder::begin()
+                ->addFields([
+                    Utils::INT_FIELD_NAME => new Field("literal", "a literal field", rand(1, 100)),
+                    Utils::STRING_FIELD_NAME => new Field("literal", "a literal field", (string)rand())
+                ])
+                ->build();
+        }
+        return $rows;
+    }
+
+    /**
+     * Takes a small sample from the given rows' int fields and produces the median of that sample.
+     *
+     * Useful for finding an int field that is neither the greatest nor smallest among the rows.
+     *
+     * @param RowInterface[] $rows
+     * @return int
+     */
+    public static function sampleMedianIntField(array $rows)
+    {
+        $rand_keys = array_rand($rows, 5);
+
+        $vals = array_map(
+            function ($key) use ($rows) {
+                return $rows[$key]->getFieldBearer()->getFieldByName(Utils::INT_FIELD_NAME)->getInitial();
+            },
+            $rand_keys
+        );
+
+        sort($vals);
+        return ($vals[2]);
+    }
+}

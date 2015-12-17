@@ -1,22 +1,29 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
+use DateTime;
+
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Field\FieldBuilder;
-
 
 class FieldTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @return FieldInterface[]
      */
-    public function testedFields() {
+    public function testedFields()
+    {
         return [
             new Field("literal", "A Literal Field"),
         ];
     }
 
-    public function testBuilder() {
+    public function testBuilder()
+    {
         $type = "type";
         $label = "label";
         $initial = "initial";
@@ -45,7 +52,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
      * @expectedException              \Exception
      * @expectedExceptionMessageRegExp #Must use ::setType.*#
      */
-    public function testBuilderNoTypeException() {
+    public function testBuilderNoTypeException()
+    {
         $field = FieldBuilder::begin()->build();
     }
 
@@ -53,7 +61,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
      * @expectedException              \Exception
      * @expectedExceptionMessageRegExp #Must use ::setLabel.*#
      */
-    public function testBuilderNoLabelException() {
+    public function testBuilderNoLabelException()
+    {
         $field = FieldBuilder::begin()->setType("type")->build();
     }
 
@@ -61,11 +70,13 @@ class FieldTest extends PHPUnit_Framework_TestCase
      * @expectedException              \Exception
      * @expectedExceptionMessageRegExp #must include choices using ::setChoices.*#
      */
-    public function testBuilderNeedsChoicesException() {
+    public function testBuilderNeedsChoicesException()
+    {
         $field = FieldBuilder::begin()->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE)->setLabel("label")->build();
     }
 
-    public function testGetSubmitted() {
+    public function testGetSubmitted()
+    {
 
         foreach ($this->testedFields() as $field) {
             $data = (string)rand();
@@ -78,7 +89,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testWasSubmitted() {
+    public function testWasSubmitted()
+    {
 
         foreach ($this->testedFields() as $field) {
             $slug = $field->getSlug();
@@ -91,7 +103,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetSetLabel() {
+    public function testGetSetLabel()
+    {
         foreach ($this->testedFields() as $field) {
             $label = (string)rand();
 
@@ -100,7 +113,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSetGetSize() {
+    public function testSetGetSize()
+    {
         foreach ($this->testedFields() as $field) {
             $size = rand();
 
@@ -109,7 +123,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetSetType() {
+    public function testGetSetType()
+    {
         foreach ($this->testedFields() as $field) {
             $type = (string)rand();
 
@@ -118,7 +133,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testAddGetSuffixes() {
+    public function testAddGetSuffixes()
+    {
         foreach ($this->testedFields() as $field) {
             $suffix = (string)rand();
 
@@ -132,7 +148,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testAddGetPrefixes() {
+    public function testAddGetPrefixes()
+    {
         foreach ($this->testedFields() as $field) {
             $prefix = (string)rand();
 
@@ -145,7 +162,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetLabelSlug() {
+    public function testGetLabelSlug()
+    {
         foreach ($this->testedFields() as $field) {
             $label = utf8_decode(openssl_random_pseudo_bytes(64)) . "a?b%c^d&e*f(g)h-iklmn";
             $label = str_shuffle($label);
@@ -158,7 +176,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
             // Assert that the slug has only legal characters
             $this->assertEquals(
-                preg_replace(array('/[^a-zA-Z0-9 -]/','/[ -]+/','/^-|-$/'),array('','-',''),$slug),
+                preg_replace(array('/[^a-zA-Z0-9 -]/','/[ -]+/','/^-|-$/'), array('','-',''), $slug),
                 $slug,
                 "Failure on class: " . get_class($field)
             );
@@ -169,7 +187,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testGetSlug() {
+    public function testGetSlug()
+    {
         foreach ($this->testedFields() as $field) {
             $label = utf8_decode(openssl_random_pseudo_bytes(64)) . "a?b%c^d&e*f(g)h-iklmn";
             $label = str_shuffle($label);
@@ -181,7 +200,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSetGetInitial() {
+    public function testSetGetInitial()
+    {
         foreach ($this->testedFields() as $field) {
             $initial = (string)rand();
 
@@ -192,7 +212,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testAddGetErrors() {
+    public function testAddGetErrors()
+    {
         foreach ($this->testedFields() as $field) {
             $error = (string)rand();
 
@@ -203,7 +224,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testRemoveErrors()  {
+    public function testRemoveErrors()
+    {
         foreach ($this->testedFields() as $field) {
             $error = (string)rand();
 
@@ -215,7 +237,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSetGetRequired() {
+    public function testSetGetRequired()
+    {
         foreach ($this->testedFields() as $field) {
 
             $field->setRequired(true);
@@ -226,7 +249,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSetGetChoices() {
+    public function testSetGetChoices()
+    {
         foreach ($this->testedFields() as $field) {
             $choices = ["choice 1", "choice 2"];
             $field->setChoices($choices);
@@ -234,7 +258,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSetGetValidatedData() {
+    public function testSetGetValidatedData()
+    {
         foreach ($this->testedFields() as $field) {
             $data = (string)rand();
 
@@ -243,7 +268,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testValidate() {
+    public function testValidate()
+    {
         // Field not required, but provided
         foreach ($this->testedFields() as $field) {
             $data = (string)rand();
@@ -366,10 +392,10 @@ class FieldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testFieldDatetimeWrapper() {
+    public function testFieldDatetimeWrapper()
+    {
         $field = new Field("any", "label", new DateTime());
 
         $this->assertInstanceOf('UWDOEM\Framework\Field\DateTimeWrapper', $field->getInitial());
     }
 }
-

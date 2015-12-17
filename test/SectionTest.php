@@ -1,8 +1,11 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Field\Field;
-
 
 class SectionTest extends PHPUnit_Framework_TestCase
 {
@@ -10,7 +13,8 @@ class SectionTest extends PHPUnit_Framework_TestCase
     /**
      * @return SectionBuilder[]
      */
-    public function testedSectionBuilders() {
+    public function testedSectionBuilders()
+    {
         // Return a fieldBearerBuilder of every type you want to test
         return [
             SectionBuilder::begin(),
@@ -24,7 +28,8 @@ class SectionTest extends PHPUnit_Framework_TestCase
      *
      * @throws \Exception
      */
-    public function testBuilder() {
+    public function testBuilder()
+    {
         $field = new Field("literal", "A literal field", []);
 
         $content = "content";
@@ -51,7 +56,8 @@ class SectionTest extends PHPUnit_Framework_TestCase
      * @expectedException              Exception
      * @expectedExceptionMessageRegExp #Cannot set content.*#
      */
-    public function testBuilderThrowsExceptionSetContentOnAjaxLoaded() {
+    public function testBuilderThrowsExceptionSetContentOnAjaxLoaded()
+    {
         $section = SectionBuilder::begin()
             ->setType("ajax-loaded")
             ->addContent((string)rand())
@@ -62,7 +68,8 @@ class SectionTest extends PHPUnit_Framework_TestCase
      * @expectedException              Exception
      * @expectedExceptionMessageRegExp #Target may only be set on an ajax-loaded section.*#
      */
-    public function testBuilderThrowsExceptionTargetWithoutAjaxLoaded() {
+    public function testBuilderThrowsExceptionTargetWithoutAjaxLoaded()
+    {
         $section = SectionBuilder::begin()
             ->setTarget("http://www.example.com")
             ->build();
@@ -72,7 +79,8 @@ class SectionTest extends PHPUnit_Framework_TestCase
      * @expectedException              Exception
      * @expectedExceptionMessageRegExp #Handle may only be set on an ajax-loaded section.*#
      */
-    public function testBuilderThrowsExceptionHandleWithoutAjaxLoaded() {
+    public function testBuilderThrowsExceptionHandleWithoutAjaxLoaded()
+    {
         $section = SectionBuilder::begin()
             ->setHandle("http://www.example.com")
             ->build();
@@ -92,7 +100,4 @@ class SectionTest extends PHPUnit_Framework_TestCase
 
     }
     */
-
-
 }
-

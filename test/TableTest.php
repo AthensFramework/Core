@@ -1,6 +1,8 @@
 <?php
 
-namespace TestVars;
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
 
 use UWDOEM\Framework\Filter\DummyFilter;
 use UWDOEM\Framework\Filter\FilterBuilder;
@@ -11,16 +13,14 @@ use UWDOEM\Framework\Row\RowBuilder;
 use UWDOEM\Framework\Filter\Filter;
 use UWDOEM\Framework\FilterStatement\FilterStatement;
 
-
-use PHPUnit_Framework_TestCase;
-
 class TableTest extends PHPUnit_Framework_TestCase
 {
 
     /**
      * @return TableBuilder[]
      */
-    public function testedTableBuilders() {
+    public function testedTableBuilders()
+    {
         // Return a fieldBearerBuilder of every type you want to test
         return [
             TableBuilder::begin(),
@@ -34,7 +34,8 @@ class TableTest extends PHPUnit_Framework_TestCase
      *
      * @throws \Exception
      */
-    public function testBuilder() {
+    public function testBuilder()
+    {
 
         $row = RowBuilder::begin()
             ->addFields([new Field('literal', 'A literal field', [])])
@@ -59,7 +60,8 @@ class TableTest extends PHPUnit_Framework_TestCase
     /**
      * Get rows should invoke row filtering.
      */
-    public function testGetRows() {
+    public function testGetRows()
+    {
         $fieldValues = [1, 3];
         $fieldName = "field" . (string)rand();
 
@@ -95,7 +97,4 @@ class TableTest extends PHPUnit_Framework_TestCase
 
     }
     */
-
-
 }
-

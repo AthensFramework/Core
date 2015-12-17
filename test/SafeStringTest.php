@@ -1,11 +1,16 @@
 <?php
 
+namespace UWDOEM\Framework\Test;
+
+use PHPUnit_Framework_TestCase;
+
 use UWDOEM\Framework\Etc\SafeString;
 
+class SafeStringTest extends PHPUnit_Framework_TestCase
+{
 
-class SafeStringTest extends PHPUnit_Framework_TestCase {
-
-    public function testFromString() {
+    public function testFromString()
+    {
         $string = (string)rand();
         $safe = SafeString::fromString($string);
 
@@ -13,4 +18,3 @@ class SafeStringTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($string, (string)$safe);
     }
 }
-
