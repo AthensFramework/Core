@@ -77,6 +77,7 @@ class TableFormBuilder extends AbstractBuilder
             $this->type,
             $this->method,
             $this->target,
+            [],
             $this->rowMakingFunction,
             $this->onValidFunc,
             $this->onInvalidFunc,

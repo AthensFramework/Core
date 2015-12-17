@@ -153,6 +153,7 @@ class TableForm implements TableFormInterface
         $type,
         $method,
         $target,
+        $rows,
         $rowMakingFunction,
         callable $onValidFunc,
         callable $onInvalidFunc,
@@ -177,5 +178,6 @@ class TableForm implements TableFormInterface
         $this->validators = $validators;
 
         $this->subForms = [];
+        $this->rows = $rows;
     }
 }
