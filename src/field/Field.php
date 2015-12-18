@@ -4,6 +4,7 @@ namespace UWDOEM\Framework\Field;
 
 use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Visitor\VisitableTrait;
+
 use DateTime;
 
 /**
@@ -61,7 +62,9 @@ class Field implements FieldInterface
 
     use VisitableTrait;
 
-
+    /**
+     * @return string
+     */
     public function getId()
     {
         return md5($this->getSlug());
@@ -72,11 +75,17 @@ class Field implements FieldInterface
      * @param string      $label
      * @param string|null $initial
      * @param boolean     $required
-     * @param $choices
+     * @param string[]    $choices
      * @param integer     $fieldSize
      */
-    public function __construct($type, $label = "", $initial = "", $required = false, $choices = [], $fieldSize = 255)
-    {
+    public function __construct(
+        $type,
+        $label = "",
+        $initial = "",
+        $required = false,
+        array $choices = [],
+        $fieldSize = 255
+    ) {
         $this->type = $type;
         $this->label = $label;
 
@@ -125,6 +134,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $label
+     * @return void
      */
     public function setLabel($label)
     {
@@ -154,6 +164,7 @@ class Field implements FieldInterface
 
     /**
      * @param array $choices
+     * @return void
      */
     public function setChoices(array $choices)
     {
@@ -170,6 +181,7 @@ class Field implements FieldInterface
 
     /**
      * @param integer $size
+     * @return void
      */
     public function setSize($size)
     {
@@ -186,6 +198,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $type
+     * @return void
      */
     public function setType($type)
     {
@@ -194,6 +207,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $suffix
+     * @return void
      */
     public function addSuffix($suffix)
     {
@@ -210,6 +224,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $prefix
+     * @return void
      */
     public function addPrefix($prefix)
     {
@@ -242,6 +257,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $value
+     * @return void
      */
     public function setInitial($value)
     {
@@ -262,6 +278,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $error
+     * @return void
      */
     public function addError($error)
     {
@@ -277,7 +294,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * @return null
+     * @return void
      */
     public function removeErrors()
     {
@@ -285,7 +302,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * @return null
+     * @return void
      */
     public function validate()
     {
@@ -314,6 +331,10 @@ class Field implements FieldInterface
         return (bool)$this->getChoices();
     }
 
+    /**
+     * @param mixed $slugs
+     * @return array
+     */
     protected function parseChoiceSlugs($slugs)
     {
         $choices = array_combine($this->getChoiceSlugs(), $this->getChoices());
@@ -347,6 +368,7 @@ class Field implements FieldInterface
 
     /**
      * @param boolean $required
+     * @return void
      */
     public function setRequired($required)
     {
@@ -363,6 +385,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $data
+     * @return void
      */
     public function setValidatedData($data)
     {

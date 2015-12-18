@@ -28,7 +28,7 @@ class FieldBuilder extends AbstractBuilder
     protected $initial;
 
     /** @var string[] */
-    protected $choices;
+    protected $choices = [];
 
 
     /**
@@ -82,15 +82,19 @@ class FieldBuilder extends AbstractBuilder
     }
 
     /**
-     * @param array $choices
+     * @param string[] $choices
      * @return FieldBuilder
      */
-    public function setChoices($choices)
+    public function setChoices(array $choices)
     {
         $this->choices = $choices;
         return $this;
     }
 
+    /**
+     * @return Field
+     * @throws \Exception If the correct settings have not been provided.
+     */
     public function build()
     {
         if (!isset($this->type)) {
@@ -102,7 +106,7 @@ class FieldBuilder extends AbstractBuilder
         }
 
         if ($this->type == Field::FIELD_TYPE_CHOICE || $this->type == Field::FIELD_TYPE_MULTIPLE_CHOICE) {
-            if (!isset($this->choices)) {
+            if (!$this->choices) {
                 throw new \Exception("For the chosen field type, you must include choices using ::setChoices");
             }
         }

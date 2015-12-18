@@ -16,7 +16,10 @@ interface FieldInterface extends WritableInterface
     /** @return string */
     public function getLabel();
 
-    /** @param string $label */
+    /**
+     * @param string $label
+     * @return void
+     */
     public function setLabel($label);
 
     /** @return string[] */
@@ -25,28 +28,43 @@ interface FieldInterface extends WritableInterface
     /** @return string[] */
     public function getChoiceSlugs();
 
-    /** @param array $choices */
+    /**
+     * @param array $choices
+     * @return void
+     */
     public function setChoices(array $choices);
 
     /** @return int */
     public function getSize();
 
-    /** @param integer $size */
+    /**
+     * @param integer $size
+     * @return void
+     */
     public function setSize($size);
 
     /** @return string */
     public function getType();
 
-    /** @param string $type */
+    /**
+     * @param string $type
+     * @return void
+     */
     public function setType($type);
 
-    /** @param string $suffix */
+    /**
+     * @param string $suffix
+     * @return void
+     */
     public function addSuffix($suffix);
 
     /** @return string[] */
     public function getSuffixes();
 
-    /** @param string $prefix */
+    /**
+     * @param string $prefix
+     * @return void
+     */
     public function addPrefix($prefix);
 
     /** @return string[] */
@@ -58,34 +76,46 @@ interface FieldInterface extends WritableInterface
     /** @return string */
     public function getSlug();
 
-    /** @param string|string[] $value */
+    /**
+     * @param string|string[] $value
+     * @return void
+     */
     public function setInitial($value);
 
     /** @return string|string[] */
     public function getInitial();
 
-    /** @param string $error */
+    /**
+     * @param string $error
+     * @return void
+     */
     public function addError($error);
 
     /** @return string[] */
     public function getErrors();
 
-    /** @return null */
+    /** @return void */
     public function removeErrors();
 
-    /** @return null */
+    /** @return void */
     public function validate();
 
     /** @return bool */
     public function isRequired();
 
-    /** @param boolean $required */
+    /**
+     * @param boolean $required
+     * @return void
+     */
     public function setRequired($required);
 
     /** @return bool */
     public function isValid();
 
-    /** @param string $data */
+    /**
+     * @param string $data
+     * @return void
+     */
     public function setValidatedData($data);
 
     /** @return string */
