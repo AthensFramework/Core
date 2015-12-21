@@ -152,7 +152,7 @@ class TableForm implements TableFormInterface
 
         // See if there exist any invalid fields
         foreach ($this->getRows() as $row) {
-            foreach ($row->getFieldBearer()->getFields() as $name => $field) {
+            foreach ($row->getFieldBearer()->getVisibleFields() as $name => $field) {
                 if (!$field->isValid()) {
                     $this->isValid = false;
                     $this->addError("Please correct the indicated errors and resubmit the form.");
@@ -180,7 +180,7 @@ class TableForm implements TableFormInterface
 
         $this->method = $method;
         $this->target = $target;
-    
+
         $this->actions = $actions;
         $this->rowMakingFunction = $rowMakingFunction;
 
