@@ -62,7 +62,7 @@ uwdoem.multi_adder = (function () {
 
     $(
         function () {
-            $("tr.actual.form-row").each(function() {
+            $("tr.actual.form-row").each(function () {
                 activateRemover($(this));
             });
 
