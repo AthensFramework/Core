@@ -2,6 +2,8 @@
 
 namespace UWDOEM\Framework\Table;
 
+use UWDOEM\Framework\Field\FieldBuilder;
+use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
 use UWDOEM\Framework\Filter\DummyFilter;
 use UWDOEM\Framework\Form\FormTrait;
 use UWDOEM\Framework\Visitor\VisitableTrait;
@@ -56,7 +58,13 @@ class TableForm implements TableFormInterface
 
     public function getFieldBearer()
     {
-        return $this->getPrototypicalRow()->getFieldBearer();
+        $row = $this->getPrototypicalRow();
+
+        if (!$row) {
+            $row = $this->getRows()[0];
+        }
+
+        return $row->getFieldBearer();
     }
 
     /** @return RowInterface */
