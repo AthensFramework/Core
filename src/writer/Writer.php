@@ -394,7 +394,7 @@ class Writer extends Visitor
      */
     public function visitTableForm(TableFormInterface $tableForm)
     {
-        $template = "table/{$tableForm->getType()}.twig";
+        $template = "table-form/{$tableForm->getType()}.twig";
 
         return $this
             ->loadTemplate($template)
