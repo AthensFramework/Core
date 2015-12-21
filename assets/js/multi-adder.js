@@ -33,7 +33,7 @@ uwdoem.multi_adder = (function () {
     var addMultiAdderRow = function (multiAdderTable, dataRow) {
         var defaultDataRow = multiAdderTable.find("tr.prototypical");
         dataRow = dataRow || defaultDataRow;
-        
+
         var lastDataRowIndex = getLastDataRowIndex(multiAdderTable);
 
         var newRow = makeNewRow(multiAdderTable).data("row-index", lastDataRowIndex + 1);
@@ -62,6 +62,10 @@ uwdoem.multi_adder = (function () {
 
     $(
         function () {
+            $("tr.actual.form-row").each(function() {
+                activateRemover($(this));
+            });
+
             disablePrototypicalRows();
             $("table.multi-adder tbody").each(
                 function () {
