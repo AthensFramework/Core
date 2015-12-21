@@ -100,25 +100,28 @@ class TableForm implements TableFormInterface
     protected function makeRows()
     {
         $rows = $this->initialRows;
-        foreach ($this->findRowPrefixes() as $prefix) {
-            $newRow = $this->makeRow();
 
-            foreach ($this->getPrototypicalRow()->getFieldBearer()->getFields() as $name => $field) {
+        if ($this->getPrototypicalRow()) {
+            foreach ($this->findRowPrefixes() as $prefix) {
+                $newRow = $this->makeRow();
 
-                $suffix = implode("-", $field->getSuffixes());
+                foreach ($this->getPrototypicalRow()->getFieldBearer()->getFields() as $name => $field) {
 
-                $newField = $newRow->getFieldBearer()->getFieldByName($name);
+                    $suffix = implode("-", $field->getSuffixes());
 
-                $newField->addSuffix($suffix);
-                $newField->addPrefix(trim($prefix, "-"));
+                    $newField = $newRow->getFieldBearer()->getFieldByName($name);
 
-                $slug = $newField->getSlug();
+                    $newField->addSuffix($suffix);
+                    $newField->addPrefix(trim($prefix, "-"));
 
-                if (isset($_POST[$slug])) {
-                    $newField->setInitial($_POST[$slug]);
+                    $slug = $newField->getSlug();
+
+                    if (isset($_POST[$slug])) {
+                        $newField->setInitial($_POST[$slug]);
+                    }
                 }
+                $rows[] = $newRow;
             }
-            $rows[] = $newRow;
         }
         return $rows;
     }
