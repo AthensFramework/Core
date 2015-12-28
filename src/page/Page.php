@@ -270,7 +270,10 @@ class Page implements PageInterface
 
         switch ($this->getType()) {
             case static::PAGE_TYPE_PDF:
-                return $this->{"renderPDF"};
+                $page = $this;
+                $renderFunction = function (PageInterface $writable, $writer) use ($page) {
+                    $page->renderPDF($writable, $writer);
+                };
                 break;
             case static::PAGE_TYPE_EXCEL:
                 $page = $this;
