@@ -462,7 +462,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException              Twig_Error_Loader
-     * @expectedExceptionMessageRegExp #Unable to find template "pick-a/nonexistant-type.twig".*#
+     * @expectedExceptionMessageRegExp #Unable to find template "pick-a-form/nonexistant-type.twig".*#
      */
     public function testVisitNoneBasePickAForm()
     {
