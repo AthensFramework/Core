@@ -368,7 +368,7 @@ class Writer extends Visitor
      */
     public function visitPickAForm(PickAFormInterface $pickAForm)
     {
-        $template = "pick-a/{$pickAForm->getType()}.twig";
+        $template = "pick-a-form/{$pickAForm->getType()}.twig";
 
         return $this
             ->loadTemplate($template)
