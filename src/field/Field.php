@@ -134,11 +134,12 @@ class Field implements FieldInterface
 
     /**
      * @param string $label
-     * @return void
+     * @return FieldInterface
      */
     public function setLabel($label)
     {
         $this->label = $label;
+        return $this;
     }
 
     /**
@@ -164,11 +165,12 @@ class Field implements FieldInterface
 
     /**
      * @param array $choices
-     * @return void
+     * @return FieldInterface
      */
     public function setChoices(array $choices)
     {
         $this->choices = $choices;
+        return $this;
     }
 
     /**
@@ -181,11 +183,12 @@ class Field implements FieldInterface
 
     /**
      * @param integer $size
-     * @return void
+     * @return FieldInterface
      */
     public function setSize($size)
     {
         $this->fieldSize = $size;
+        return $this;
     }
 
     /**
@@ -198,20 +201,22 @@ class Field implements FieldInterface
 
     /**
      * @param string $type
-     * @return void
+     * @return FieldInterface
      */
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
     }
 
     /**
      * @param string $suffix
-     * @return void
+     * @return FieldInterface
      */
     public function addSuffix($suffix)
     {
         $this->suffixes[] = $suffix;
+        return $this;
     }
 
     /**
@@ -224,11 +229,12 @@ class Field implements FieldInterface
 
     /**
      * @param string $prefix
-     * @return void
+     * @return FieldInterface
      */
     public function addPrefix($prefix)
     {
         $this->prefixes[] = $prefix;
+        return $this;
     }
 
     /**
@@ -257,7 +263,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $value
-     * @return void
+     * @return FieldInterface
      */
     public function setInitial($value)
     {
@@ -266,6 +272,7 @@ class Field implements FieldInterface
         }
 
         $this->initial = $value;
+        return $this;
     }
 
     /**
@@ -278,11 +285,12 @@ class Field implements FieldInterface
 
     /**
      * @param string $error
-     * @return void
+     * @return FieldInterface
      */
     public function addError($error)
     {
         $this->fieldErrors[] = $error;
+        return $this;
     }
 
     /**
@@ -294,11 +302,12 @@ class Field implements FieldInterface
     }
 
     /**
-     * @return void
+     * @return FieldInterface
      */
     public function removeErrors()
     {
         $this->fieldErrors = [];
+        return $this;
     }
 
     /**
@@ -368,11 +377,12 @@ class Field implements FieldInterface
 
     /**
      * @param boolean $required
-     * @return void
+     * @return FieldInterface
      */
     public function setRequired($required)
     {
         $this->required = $required;
+        return $this;
     }
 
     /**
@@ -385,11 +395,12 @@ class Field implements FieldInterface
 
     /**
      * @param string $data
-     * @return void
+     * @return FieldInterface
      */
     public function setValidatedData($data)
     {
         $this->validatedData = $data;
+        return $this;
     }
 
     /**

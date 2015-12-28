@@ -88,6 +88,24 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedFieldNames, $classFieldBearer->getFieldNames());
     }
 
+    public function testMethodCascading()
+    {
+        $field = new Field("literal", "", []);
+
+        $error = "e" . (string)rand();
+        $type = "t" . (string)rand();
+        $choices = [rand(), rand(), rand()];
+
+        $field
+            ->addError($error)
+            ->setType($type)
+            ->setChoices($choices);
+
+        $this->assertEquals($choices, $field->getChoices());
+        $this->assertEquals([$error], $field->getErrors());
+        $this->assertEquals($type, $field->getType());
+    }
+
     public function testSetInitialWithFieldBearerBuilder()
     {
         $field1 = new Field("literal", "", []);

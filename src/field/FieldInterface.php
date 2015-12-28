@@ -18,7 +18,7 @@ interface FieldInterface extends WritableInterface
 
     /**
      * @param string $label
-     * @return void
+     * @return FieldInterface
      */
     public function setLabel($label);
 
@@ -30,7 +30,7 @@ interface FieldInterface extends WritableInterface
 
     /**
      * @param array $choices
-     * @return void
+     * @return FieldInterface
      */
     public function setChoices(array $choices);
 
@@ -39,7 +39,7 @@ interface FieldInterface extends WritableInterface
 
     /**
      * @param integer $size
-     * @return void
+     * @return FieldInterface
      */
     public function setSize($size);
 
@@ -48,13 +48,13 @@ interface FieldInterface extends WritableInterface
 
     /**
      * @param string $type
-     * @return void
+     * @return FieldInterface
      */
     public function setType($type);
 
     /**
      * @param string $suffix
-     * @return void
+     * @return FieldInterface
      */
     public function addSuffix($suffix);
 
@@ -63,7 +63,7 @@ interface FieldInterface extends WritableInterface
 
     /**
      * @param string $prefix
-     * @return void
+     * @return FieldInterface
      */
     public function addPrefix($prefix);
 
@@ -78,7 +78,7 @@ interface FieldInterface extends WritableInterface
 
     /**
      * @param string|string[] $value
-     * @return void
+     * @return FieldInterface
      */
     public function setInitial($value);
 
@@ -87,14 +87,14 @@ interface FieldInterface extends WritableInterface
 
     /**
      * @param string $error
-     * @return void
+     * @return FieldInterface
      */
     public function addError($error);
 
     /** @return string[] */
     public function getErrors();
 
-    /** @return void */
+    /** @return FieldInterface */
     public function removeErrors();
 
     /** @return void */
@@ -105,7 +105,7 @@ interface FieldInterface extends WritableInterface
 
     /**
      * @param boolean $required
-     * @return void
+     * @return FieldInterface
      */
     public function setRequired($required);
 
@@ -114,7 +114,7 @@ interface FieldInterface extends WritableInterface
 
     /**
      * @param string $data
-     * @return void
+     * @return FieldInterface
      */
     public function setValidatedData($data);
 
