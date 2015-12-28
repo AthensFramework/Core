@@ -1,8 +1,8 @@
 <span class="choice-field">
 
     {% if required %}
-        <input type="radio" name="{{ slug }}" value="1" {% if initial is same as(true) %}checked{% endif %}> Yes
-        <input type="radio" name="{{ slug }}" value="0" {% if initial is same as(false) %}checked{% endif %}> No
+        <input type="radio" name="{{ slug }}" value="1" {% if initial %}checked{% endif %}> Yes
+        <input type="radio" name="{{ slug }}" value="0" {% if initial is not empty and not initial %}checked{% endif %}> No
     {% else %}
         <input type="checkbox" name="{{ slug }}" value="1" {% if initial is same as(true) %}checked{% endif %}>
     {% endif %}
