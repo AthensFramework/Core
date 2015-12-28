@@ -27,7 +27,7 @@
         {% else %}
             <div class='option selectable' data-section-for='{{ label|slugify }}'>
                 <div class='control-container'>
-                    <input type="radio" name="{{ hash }}" value="{{ label|slugify }}" {% if manifestItem is same as(selectedForm) %}checked{% endif %}>
+                    <input type="radio" name="{{ id }}" value="{{ label|slugify }}" {% if manifestItem is same as(selectedForm) %}checked{% endif %}>
                 </div>
                 <div class='label-container'>{{ label }}</div>
             </div>
