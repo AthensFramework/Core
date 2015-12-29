@@ -42,7 +42,7 @@ abstract class AbstractBuilder
     protected function validateId()
     {
         if ($this->id === null) {
-            throw new \RuntimeException("Must use ::setId to provide a form id before calling this method.");
+            throw new \RuntimeException("Must use ::setId to provide a unique id before calling this method.");
         }
     }
 
