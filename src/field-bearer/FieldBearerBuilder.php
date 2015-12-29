@@ -15,33 +15,26 @@ use UWDOEM\Framework\Field\Field;
  */
 class FieldBearerBuilder extends AbstractBuilder
 {
-    /**
-     * @var FieldBearerInterface[]
-     */
+    /** @var FieldBearerInterface[] */
     protected $fieldBearers = [];
 
-    /**
-     * @var FieldInterface[]
-     */
+    /** @var FieldInterface[] */
     protected $fields = [];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected $visibleFieldNames = [];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected $hiddenFieldNames = [];
-
-    /**
-     * @var callable
-     */
-    protected $saveFunction;
 
     /** @var mixed[] */
     private $initialFieldValues = [];
+
+    /** @var mixed[] */
+    private $fieldChoices = [];
+
+    /** @var callable */
+    protected $saveFunction;
 
     /**
      * @param FieldBearerInterface[] $fieldBearers
@@ -140,11 +133,23 @@ class FieldBearerBuilder extends AbstractBuilder
     /**
      * @param string $fieldName
      * @param mixed  $value
-     * @return $this
+     * @return FieldBearerBuilder
      */
     public function setInitialFieldValue($fieldName, $value)
     {
         $this->initialFieldValues[$fieldName] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $fieldName
+     * @param array  $choices
+     * @return FieldBearerBuilder
+     */
+    public function setFieldChoices($fieldName, array $choices)
+    {
+        $this->fieldChoices[$fieldName] = $choices;
 
         return $this;
     }
@@ -176,6 +181,13 @@ class FieldBearerBuilder extends AbstractBuilder
 
         foreach ($this->initialFieldValues as $fieldName => $value) {
             $fieldBearer->getFieldByName($fieldName)->setInitial($value);
+        }
+
+        foreach ($this->fieldChoices as $fieldName => $choices) {
+            $field = $fieldBearer->getFieldByName($fieldName);
+
+            $field->setType(Field::FIELD_TYPE_CHOICE);
+            $field->setChoices($choices);
         }
 
         return $fieldBearer;

@@ -12,12 +12,6 @@ trait FieldBearerBearerBuilderTrait
     /** @var FieldBearerBuilder */
     private $fieldBearerBuilder;
 
-    /** @var mixed[] */
-    private $initialFieldValues = [];
-
-    /** @var mixed[] */
-    private $choices = [];
-
     /**
      * @return void
      */
@@ -27,7 +21,6 @@ trait FieldBearerBearerBuilderTrait
             $this->fieldBearerBuilder = FieldBearerBuilder::begin();
         }
     }
-
 
     /**
      * @return FieldBearerBuilder
@@ -45,18 +38,7 @@ trait FieldBearerBearerBuilderTrait
     protected function buildFieldBearer()
     {
         $fieldBearer = $this->getFieldBearerBuilder()->build();
-
-        foreach ($this->initialFieldValues as $fieldName => $value) {
-            $fieldBearer->getFieldByName($fieldName)->setInitial($value);
-        }
-
-        foreach ($this->choices as $fieldName => $choices) {
-            $field = $fieldBearer->getFieldByName($fieldName);
-
-            $field->setType(Field::FIELD_TYPE_CHOICE);
-            $field->setChoices($choices);
-        }
-
+        
         return $fieldBearer;
     }
 
@@ -127,7 +109,7 @@ trait FieldBearerBearerBuilderTrait
      */
     public function setInitialFieldValue($fieldName, $value)
     {
-        $this->initialFieldValues[$fieldName] = $value;
+        $this->getFieldBearerBuilder()->setInitialFieldValue($fieldName, $value);
 
         return $this;
     }
@@ -139,7 +121,7 @@ trait FieldBearerBearerBuilderTrait
      */
     public function setFieldChoices($fieldName, array $choices)
     {
-        $this->choices[$fieldName] = $choices;
+        $this->getFieldBearerBuilder()->setFieldChoices($fieldName, $choices);
 
         return $this;
     }
