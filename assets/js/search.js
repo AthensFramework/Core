@@ -33,7 +33,7 @@ uwdoem.search = (function () {
 
     var searchSubmitOnclick = function () {
         var handle = $(this).closest("div.search-table-content").data("handle-for");
-        var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest("div.ajax-loaded-section").attr("id");
+        var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest(".filter-controls").data('table-for');
         var i = 0;
 
         var getVar = uwdoem.ajax_section.getVar;
@@ -63,7 +63,7 @@ uwdoem.search = (function () {
 
     var searchIconOnclick = function () {
         var handle = $(this).data("handle-for");
-        var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest("div.ajax-loaded-section").attr("id");
+        var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest(".filter-controls").data('table-for');
         var getVar = uwdoem.ajax_section.getVar;
 
         if ($("#search-criteria-area div.search-table-content[data-handle-for=" + handle + "]").length === 0) {
@@ -72,8 +72,6 @@ uwdoem.search = (function () {
 
         uwdoem.fadeInMask();
         fadeInSearch();
-
-        console.log(ajaxSectionName);
 
         // Pre-select the existing search criteria
         $("#search-criteria-area").find('tr').each(
@@ -112,9 +110,8 @@ uwdoem.search = (function () {
     };
 
     var clearSearch = function (handle) {
-        console.log(handle);
         var getVar = uwdoem.ajax_section.getVar;
-        var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest("div.ajax-loaded-section").attr("id");
+        var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest(".filter-controls").data('table-for');
 
         for (var i = 0; i <= 5; i++) {
             uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i));
@@ -122,7 +119,6 @@ uwdoem.search = (function () {
             uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'value' + i));
         }
 
-        console.log(ajaxSectionName);
         uwdoem.ajax_section.loadSection(ajaxSectionName);
     };
 

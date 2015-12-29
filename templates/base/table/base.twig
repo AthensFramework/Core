@@ -1,11 +1,11 @@
-<div class="table-container" data-request-uri="{{ requestURI }}">
-    <div class="filter-controls">
+<div class="table-container" id="{{ id }}" data-request-uri="{{ requestURI }}">
+    <div class="filter-controls" data-table-for="{{ id }}">
         {% for filter in filters %}
             {{ filter|write|raw }}
         {% endfor %}
     </div>
 
-    <table id="{{ id }}">
+    <table>
 
     <!-- header row -->
     <tr>

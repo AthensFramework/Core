@@ -4,10 +4,6 @@ uwdoem.pagination = (function () {
         return $("div.pagination-container[data-handle-for=" + handle +"]");
     };
 
-    var getAjaxSectionName = function (handle) {
-        return $("")
-    };
-
     var getMaxPages = function (handle) {
         return parseInt(getPaginationContainer(handle).find("option").last().html());
     };
@@ -79,7 +75,8 @@ uwdoem.pagination = (function () {
                 var page, ajaxSectionName, inactiveControls, activeControls;
                 inactiveControls = getInactiveControls(handle);
                 activeControls = getActiveControls(handle);
-                ajaxSectionName = inactiveControls.closest("div.ajax-loaded-section").attr("id");
+                ajaxSectionName = inactiveControls.closest('.filter-controls').data('table-for');
+
             // If this filter is already active...
                 if (activeControls.length) {
                     // replace the active controls with the new, inactive controls

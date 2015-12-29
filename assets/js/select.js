@@ -25,7 +25,7 @@ uwdoem.select = (function () {
 
         var activeControls = getActiveControls(handle);
         var inactiveControls = getInactiveControls(handle);
-        var ajaxSectionName = inactiveControls.closest('.ajax-loaded-section').attr('id');
+        var ajaxSectionName = inactiveControls.closest('.filter-controls').data('table-for');
 
         if (activeControls.length === 0) {
             inactiveControls.appendTo("#top-filters");

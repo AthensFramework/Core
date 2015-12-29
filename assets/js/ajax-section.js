@@ -99,13 +99,11 @@ uwdoem.ajax_section = (function () {
      * @returns {string} The URL-encoded string of get variables
      */
     var renderGetVars = function (name) {
-
         if (!(name in getVarRegistry)) {
             return "";
         }
 
-        var ret = "?";
-
+        var ret = "";
         for (var filterName in getVarRegistry[name]) {
             if (getVarRegistry[name].hasOwnProperty(filterName)) {
 
@@ -126,18 +124,27 @@ uwdoem.ajax_section = (function () {
      * @param {string} id The name or handle of the sction, as registered in sectionRegistry by registerAJAXSection
      */
     var loadSection = function (id) {
-
         var targetDiv, targetUrl;
 
         targetDiv = $("#" + id);
-        targetUrl = targetDiv.data("target");
+        if (sectionRegistry.hasOwnProperty(id)) {
+            targetUrl = sectionRegistry[id];
+        } else {
+            targetUrl = targetDiv.data("request-uri");
+            sectionRegistry[id] = targetUrl;
+        }
 
         targetDiv.css("opacity", 0.7).append("<div class='loading-gif class-loader'></div>");
 
+        if (targetUrl.indexOf("?") === -1) {
+            targetUrl += "?";
+        }
+
         $.get(
             targetUrl + renderGetVars(id),
-            function ( data ) {
-                targetDiv.html(data).css("opacity", 1);
+            function (data) {
+                var targetResponse = $(data).find("#" + id);
+                targetDiv.replaceWith(targetResponse);
                 doPostSectionActions(targetDiv);
             }
         );
