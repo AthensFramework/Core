@@ -160,7 +160,7 @@ class FieldBearerBuilder extends AbstractBuilder
      */
     public function build()
     {
-        if (!$this->saveFunction) {
+        if ($this->saveFunction === null) {
             $this->saveFunction = function (FieldBearerInterface $fieldBearer) {
                 foreach ($fieldBearer->getFieldBearers() as $childFieldBearer) {
                     $args = array_merge([$fieldBearer], func_get_args());

@@ -103,13 +103,13 @@ class Field implements FieldInterface
     {
         $fieldType = $this->getType();
 
-        if ($fieldType == "checkbox") {
+        if ($fieldType === "checkbox") {
             $data = (string)array_key_exists($this->getSlug(), $_POST);
         } else {
             $data = array_key_exists($this->getSlug(), $_POST) ? $_POST[$this->getSlug()]: "";
         }
 
-        if (in_array($fieldType, [static::FIELD_TYPE_CHOICE, static::FIELD_TYPE_MULTIPLE_CHOICE])) {
+        if (in_array($fieldType, [static::FIELD_TYPE_CHOICE, static::FIELD_TYPE_MULTIPLE_CHOICE]) === true) {
             $data = $this->parseChoiceSlugs($data);
         }
 
@@ -323,11 +323,11 @@ class Field implements FieldInterface
             $this->addError("Unrecognized choice.");
         }
 
-        if ($this->isRequired() && is_null($data)) {
+        if ($this->isRequired() === true && $data === null) {
             $this->addError("This field is required.");
         }
 
-        if (!$this->getErrors()) {
+        if ($this->getErrors() === []) {
             $this->setValidatedData($data);
         }
     }
@@ -354,12 +354,12 @@ class Field implements FieldInterface
 
         $result = [];
         foreach ($slugs as $choiceSlug) {
-            if (array_key_exists($choiceSlug, $choices)) {
+            if (array_key_exists($choiceSlug, $choices) === true) {
                 $result[] = $choices[$choiceSlug];
             }
         }
 
-        if ($this->getType() === static::FIELD_TYPE_CHOICE && !empty($result)) {
+        if ($this->getType() === static::FIELD_TYPE_CHOICE && $result !== []) {
             $result = $result[0];
         }
 

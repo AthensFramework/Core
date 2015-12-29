@@ -161,7 +161,7 @@ class Settings
      */
     protected static function getSetting($key)
     {
-        if (array_key_exists($key, static::$settings)) {
+        if (array_key_exists($key, static::$settings) === true) {
             return static::$settings[$key];
         } else {
             return null;

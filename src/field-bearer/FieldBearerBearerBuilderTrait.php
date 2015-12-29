@@ -17,7 +17,7 @@ trait FieldBearerBearerBuilderTrait
      */
     private function createFieldBearerBuilderIfNull()
     {
-        if (is_null($this->fieldBearerBuilder)) {
+        if ($this->fieldBearerBuilder === null) {
             $this->fieldBearerBuilder = FieldBearerBuilder::begin();
         }
     }

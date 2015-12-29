@@ -58,7 +58,7 @@ class FieldBearer implements FieldBearerInterface
         $this->visibleFieldNames = $visibleFieldNames;
         $this->hiddenFieldNames = $hiddenFieldNames;
 
-        if (is_callable($saveFunction)) {
+        if (is_callable($saveFunction) === true) {
             $this->saveFunction = $saveFunction;
         }
     }
@@ -76,7 +76,9 @@ class FieldBearer implements FieldBearerInterface
 
             $prefixedFieldNames = [];
             foreach (array_keys($fields) as $key => $name) {
-                while (array_key_exists($name, $initial) || in_array($name, $prefixedFieldNames, true)) {
+                while (array_key_exists($name, $initial) === true
+                    ||  in_array($name, $prefixedFieldNames, true) === true
+                ) {
                     $name = "_" . $name;
                 }
                 $prefixedFieldNames[$key] = $name;
@@ -129,10 +131,10 @@ class FieldBearer implements FieldBearerInterface
         $base = $this->fields;
         $visibleFields = $this->getFieldsBase("getVisibleFields", $base);
 
-        if ($this->visibleFieldNames) {
+        if ($this->visibleFieldNames !== []) {
             $visibleFields = array_intersect_key($visibleFields, array_flip($this->visibleFieldNames));
             $visibleFields = array_merge(array_flip($this->visibleFieldNames), $visibleFields);
-        } elseif ($this->hiddenFieldNames) {
+        } elseif ($this->hiddenFieldNames !== []) {
             $visibleFields = array_diff_key($visibleFields, array_flip($this->hiddenFieldNames));
         }
         return $visibleFields;
@@ -147,7 +149,7 @@ class FieldBearer implements FieldBearerInterface
         $hiddenFields = $this->getFieldsBase("getHiddenFields", []);
 
         // If we have specified which fields should be hidden for this field bearer...
-        if ($this->hiddenFieldNames) {
+        if ($this->hiddenFieldNames !== []) {
             // then get those fields should be hidden...
             $myHiddenFields = array_intersect_key($this->getFields(), array_flip($this->hiddenFieldNames));
             // and merge them into the list
@@ -155,7 +157,7 @@ class FieldBearer implements FieldBearerInterface
         }
 
         // If we have specified which should be visible...
-        if ($this->visibleFieldNames) {
+        if ($this->visibleFieldNames !== []) {
             // then subtract those fields from the list of hidden fields
             $hiddenFields = array_diff_key($hiddenFields, array_flip($this->visibleFieldNames));
         }
@@ -258,7 +260,7 @@ class FieldBearer implements FieldBearerInterface
     {
         $getterName = "get" . $thingType . "s";
 
-        if (method_exists($this, $getterName)) {
+        if (method_exists($this, $getterName) === true) {
             $things = $this->$getterName();
         } else {
             throw new \Exception(
@@ -267,7 +269,7 @@ class FieldBearer implements FieldBearerInterface
             );
         }
 
-        if (array_key_exists($name, $things)) {
+        if (array_key_exists($name, $things) === true) {
             return $things[$name];
         } else {
             $thingNames = implode(" ", array_keys($things));
@@ -293,7 +295,7 @@ class FieldBearer implements FieldBearerInterface
      */
     public function save()
     {
-        if (is_callable($this->saveFunction)) {
+        if (is_callable($this->saveFunction) === true) {
             $args = func_get_args();
             $args = array_merge([$this], $args);
 

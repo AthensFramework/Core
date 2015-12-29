@@ -61,11 +61,11 @@ class StringUtils
         $acronyms = Settings::getAcronyms();
 
         foreach ($name_array as $index => $value) {
-            if (in_array($value, $acronyms)) {
+            if (in_array($value, $acronyms) === true) {
                 $name_array[$index] = strtoupper($value);
             } elseif ($index === 0 || $index === sizeof($name_array) - 1) {
                 $name_array[$index] = ucfirst($value);
-            } elseif (in_array($value, $smallWords)) {
+            } elseif (in_array($value, $smallWords) === true) {
                 // do nothing
             } else {
                 $name_array[$index] = ucfirst($value);

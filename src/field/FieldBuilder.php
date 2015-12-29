@@ -30,7 +30,6 @@ class FieldBuilder extends AbstractBuilder
     /** @var string[] */
     protected $choices = [];
 
-
     /**
      * @param boolean $required
      * @return FieldBuilder
@@ -97,16 +96,16 @@ class FieldBuilder extends AbstractBuilder
      */
     public function build()
     {
-        if (!isset($this->type)) {
+        if ($this->type === null) {
             throw new \Exception("Must use ::setType to set a field type before building");
         }
 
-        if (!isset($this->label)) {
+        if ($this->label === null) {
             throw new \Exception("Must use ::setLabel to set a field label before building");
         }
 
-        if ($this->type == Field::FIELD_TYPE_CHOICE || $this->type == Field::FIELD_TYPE_MULTIPLE_CHOICE) {
-            if (!$this->choices) {
+        if ($this->type === Field::FIELD_TYPE_CHOICE || $this->type === Field::FIELD_TYPE_MULTIPLE_CHOICE) {
+            if ($this->choices === []) {
                 throw new \Exception("For the chosen field type, you must include choices using ::setChoices");
             }
         }

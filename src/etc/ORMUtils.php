@@ -65,7 +65,7 @@ class ORMUtils
         $validateBehaviorsByColumn = [];
         foreach ($validateBehaviors as $behavior) {
             $columnName = $behavior["column"];
-            if (!array_key_exists($columnName, $validateBehaviorsByColumn)) {
+            if (array_key_exists($columnName, $validateBehaviorsByColumn) === false) {
                 $validateBehaviorsByColumn[$columnName] = [];
             }
 
@@ -75,7 +75,7 @@ class ORMUtils
         foreach ($columns as $fieldName => $column) {
             $columnName = $column->getName();
 
-            if (array_key_exists($columnName, $validateBehaviorsByColumn)) {
+            if (array_key_exists($columnName, $validateBehaviorsByColumn) === true) {
                 foreach ($validateBehaviorsByColumn[$columnName] as $behavior) {
                     if ($behavior["validator"] === "Choice") {
                         $fields[$fieldName]->setType("choice");
@@ -106,7 +106,7 @@ class ORMUtils
      */
     public static function isEncrypted($fieldName, $classTableMapName)
     {
-        if (defined($classTableMapName . "::ENCRYPTED_COLUMNS")) {
+        if (defined($classTableMapName . "::ENCRYPTED_COLUMNS") === true) {
 
             $encryptedFieldNames = explode(" ", $classTableMapName::ENCRYPTED_COLUMNS);
             $phpName = explode(".", $fieldName)[1];
@@ -132,7 +132,7 @@ class ORMUtils
         foreach ($columns as $fieldName => $column) {
             $field = $fields[$fieldName];
 
-            if ($column->isPrimaryKey()) {
+            if ($column->isPrimaryKey() === true) {
                 // Don't accept form input for primary keys. These should be set at object creation.
             } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
                 // Don't accept updates to the UpdatedAt or CreatedAt timestamps
@@ -220,7 +220,7 @@ class ORMUtils
         $behaviors = static::getClassTableMap($classTableMapName)->getBehaviors();
 
         $parentTables = [];
-        if (array_key_exists("delegate", $behaviors)) {
+        if (array_key_exists("delegate", $behaviors) === true) {
             $parentTables[] = static::getRelatedTableMap($behaviors["delegate"]["to"], $classTableMapName);
         }
         return $parentTables;
@@ -250,7 +250,7 @@ class ORMUtils
 
         $type = ORMUtils::$db_type_to_field_type_association[$column->getType()];
 
-        if ($type == "text" && $column->getSize() >= 128) {
+        if ($type === "text" && $column->getSize() >= 128) {
             $type = "textarea";
         }
 
@@ -271,10 +271,10 @@ class ORMUtils
             $choices = [];
 
             // The primary key ID field should be presented as a hidden html field
-            if ($column->isPrimaryKey()) {
+            if ($column->isPrimaryKey() === true) {
                 $fieldType = FIELD::FIELD_TYPE_PRIMARY_KEY;
                 $fieldRequired = false;
-            } elseif ($column->isForeignKey()) {
+            } elseif ($column->isForeignKey() === true) {
                 $fieldType = FIELD::FIELD_TYPE_FOREIGN_KEY;
                 $fieldRequired = false;
             } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
@@ -437,12 +437,12 @@ class ORMUtils
         $urlIdKey = static::getTableName($classTableMapName) . "_id";
 
         // Test whether the primary key of the object is in the GET vars
-        if (array_key_exists($urlIdKey, $_GET)) {
+        if (array_key_exists($urlIdKey, $_GET) === true) {
             $object = static::getObjectById($classTableMapName, $_GET[$urlIdKey]);
         } else {
         // Else, test whether a related id is in the GET vars
             foreach ($_GET as $key => $value) {
-                if (static::isColumnOf($classTableMapName, strtoupper($key))) {
+                if (static::isColumnOf($classTableMapName, strtoupper($key)) === true) {
                     $fieldPhpName = StringUtils::toUpperCamelCase($key);
                     $object = static::findOneByAmongInheritance($classTableMapName, $fieldPhpName, $value);
 
@@ -467,7 +467,7 @@ class ORMUtils
         foreach ($map->getColumns() as $column) {
             $thisFieldName = $objectName . "." . StringUtils::toUpperCamelCase($column->getPhpName());
 
-            if ($fieldName == $thisFieldName) {
+            if ($fieldName === $thisFieldName) {
                 return true;
             }
         }
