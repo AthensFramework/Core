@@ -38,7 +38,7 @@ trait FieldBearerBearerBuilderTrait
     protected function buildFieldBearer()
     {
         $fieldBearer = $this->getFieldBearerBuilder()->build();
-        
+
         return $fieldBearer;
     }
 
