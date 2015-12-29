@@ -12,29 +12,19 @@ use UWDOEM\Framework\Field\FieldInterface;
 class FieldBearer implements FieldBearerInterface
 {
 
-    /**
-     * @var FieldBearerInterface[]
-     */
+    /** @var FieldBearerInterface[] */
     protected $fieldBearers = [];
 
-    /**
-     * @var FieldInterface[]
-     */
+    /** @var FieldInterface[] */
     protected $fields = [];
 
-    /**
-     * @var String[]
-     */
-    protected $visibleFieldNames;
+    /** @var String[] */
+    protected $visibleFieldNames = [];
 
-    /**
-     * @var String[]
-     */
+    /** @var String[] */
     protected $hiddenFieldNames = [];
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     protected $saveFunction;
 
     use VisitableTrait;
