@@ -596,7 +596,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $row1Written = $this->stripQuotes($writer->visitRow($row1));
         $row2Written = $this->stripQuotes($writer->visitRow($row2));
 
-        $this->assertContains("<table id=$id", $result);
+        $this->assertContains("class=table-container id=$id", $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
         $this->assertContains("</table>", $result);
 
