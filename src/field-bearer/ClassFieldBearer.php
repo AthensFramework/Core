@@ -7,6 +7,11 @@ use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Field\Field;
 
+/**
+ * Class ClassFieldBearer Encapsulates an ActiveRecordInterface object with Framework fields.
+ *
+ * @package UWDOEM\Framework\FieldBearer
+ */
 class ClassFieldBearer extends FieldBearer implements FieldBearerInterface
 {
 

@@ -2,6 +2,8 @@
 
 namespace UWDOEM\Framework\FieldBearer;
 
+use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
+
 use UWDOEM\Framework\Field\Field;
 
 trait FieldBearerBearerBuilderTrait
@@ -16,6 +18,9 @@ trait FieldBearerBearerBuilderTrait
     /** @var mixed[] */
     private $choices = [];
 
+    /**
+     * @return void
+     */
     private function createFieldBearerBuilderIfNull()
     {
         if (is_null($this->fieldBearerBuilder)) {
@@ -76,10 +81,10 @@ trait FieldBearerBearerBuilderTrait
     }
 
     /**
-     * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
+     * @param ActiveRecordInterface $object
      * @return $this
      */
-    public function addObject($object)
+    public function addObject(ActiveRecordInterface $object)
     {
         $this->getFieldBearerBuilder()->addObject($object);
         return $this;

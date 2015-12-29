@@ -2,7 +2,7 @@
 
 namespace UWDOEM\Framework\FieldBearer;
 
-use UWDOEM\Framework\Field\Field;
+use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Initializer\InitializableInterface;
 
 interface FieldBearerInterface extends InitializableInterface
@@ -23,30 +23,29 @@ interface FieldBearerInterface extends InitializableInterface
      * Given a field's string name, return the field.
      *
      * @param string $name
-     * @return Field
-     * @throws \Exception
+     * @return FieldInterface
      */
     public function getFieldByName($name);
 
     /**
-     * @param Field $field
+     * @param FieldInterface $field
      * @return string
      */
-    public function getNameByField($field);
+    public function getNameByField(FieldInterface $field);
 
     /**
      * Return the array of child fields.
-     * @return Field[]
+     * @return FieldInterface[]
      */
     public function getFields();
 
     /**
-     * @return Field[]
+     * @return FieldInterface[]
      */
     public function getVisibleFields();
 
     /**
-     * @return Field[]
+     * @return FieldInterface[]
      */
     public function getHiddenFields();
 
@@ -83,7 +82,6 @@ interface FieldBearerInterface extends InitializableInterface
     public function getHiddenLabels();
 
     /**
-     * @param mixed ...
      * @return mixed
      */
     public function save();

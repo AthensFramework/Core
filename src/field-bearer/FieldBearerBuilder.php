@@ -2,13 +2,19 @@
 
 namespace UWDOEM\Framework\FieldBearer;
 
+use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
+
+use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Field\Field;
 
-class FieldBearerBuilder
+/**
+ * Class FieldBearerBuilder
+ * @package UWDOEM\Framework\FieldBearer
+ */
+class FieldBearerBuilder extends AbstractBuilder
 {
-
     /**
      * @var FieldBearerInterface[]
      */
@@ -22,12 +28,12 @@ class FieldBearerBuilder
     /**
      * @var string[]
      */
-    protected $visibleFieldNames;
+    protected $visibleFieldNames = [];
 
     /**
      * @var string[]
      */
-    protected $hiddenFieldNames;
+    protected $hiddenFieldNames = [];
 
     /**
      * @var callable
@@ -41,7 +47,7 @@ class FieldBearerBuilder
      * @param FieldBearerInterface[] $fieldBearers
      * @return FieldBearerBuilder
      */
-    public function addFieldBearers($fieldBearers)
+    public function addFieldBearers(array $fieldBearers)
     {
         $this->fieldBearers = array_merge($this->fieldBearers, $fieldBearers);
         return $this;
@@ -51,7 +57,7 @@ class FieldBearerBuilder
      * @param FieldInterface[] $fields
      * @return FieldBearerBuilder
      */
-    public function addFields($fields)
+    public function addFields(array $fields)
     {
 
         $fieldBearer = new FieldBearer(
@@ -68,10 +74,10 @@ class FieldBearerBuilder
     }
 
     /**
-     * @param \Propel\Runtime\ActiveRecord\ActiveRecordInterface $object
+     * @param ActiveRecordInterface $object
      * @return FieldBearerBuilder
      */
-    public function addObject($object)
+    public function addObject(ActiveRecordInterface $object)
     {
         $saveFunction = function (ClassFieldBearer $fieldBearer) use ($object) {
 
@@ -105,7 +111,7 @@ class FieldBearerBuilder
      * @param \string[] $visibleFieldNames
      * @return FieldBearerBuilder
      */
-    public function setVisibleFieldNames($visibleFieldNames)
+    public function setVisibleFieldNames(array $visibleFieldNames)
     {
         $this->visibleFieldNames = $visibleFieldNames;
         return $this;
@@ -115,7 +121,7 @@ class FieldBearerBuilder
      * @param string[] $hiddenFieldNames
      * @return FieldBearerBuilder
      */
-    public function setHiddenFieldNames($hiddenFieldNames)
+    public function setHiddenFieldNames(array $hiddenFieldNames)
     {
         $this->hiddenFieldNames = $hiddenFieldNames;
         return $this;
@@ -125,32 +131,9 @@ class FieldBearerBuilder
      * @param callable $saveFunction
      * @return FieldBearerBuilder
      */
-    public function setSaveFunction($saveFunction)
+    public function setSaveFunction(callable $saveFunction)
     {
         $this->saveFunction = $saveFunction;
-        return $this;
-    }
-
-
-    /**
-     * @return FieldBearerBuilder
-     */
-    public static function begin()
-    {
-        return new static();
-    }
-
-    /**
-     * @return FieldBearerBuilder
-     */
-    public function clear()
-    {
-        $this->fieldBearers = [];
-        $this->fields = [];
-        $this->visibleFieldNames = null;
-        $this->hiddenFieldNames = null;
-        $this->saveFunction = null;
-
         return $this;
     }
 
@@ -168,14 +151,10 @@ class FieldBearerBuilder
 
     /**
      * @return FieldBearer
-     * @throws \Exception if neither fields nor fieldBearers has been set
+     * @throws \Exception If neither fields nor fieldBearers has been set.
      */
     public function build()
     {
-//        if (!$this->_fields && !$this->_fieldBearers) {
-//            throw new \Exception("Must make fields and/or fieldBearers before calling this method.");
-//        }
-
         if (!$this->saveFunction) {
             $this->saveFunction = function (FieldBearerInterface $fieldBearer) {
                 foreach ($fieldBearer->getFieldBearers() as $childFieldBearer) {
