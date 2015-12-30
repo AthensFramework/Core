@@ -95,7 +95,8 @@ class StringUtils
      * @param mixed $number
      * @return string
      */
-    public static function formatDollars($number) {
+    public static function formatDollars($number)
+    {
         return '$' . number_format($number, 2);
     }
 }
