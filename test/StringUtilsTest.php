@@ -36,9 +36,13 @@ class StringUtilsTest extends PHPUnit_Framework_TestCase
 
     public function testToTitleCase()
     {
-
         $string = "i am the very-model of_a modern Major General";
         $this->assertEquals("I Am the Very Model of a Modern Major General", StringUtils::toTitleCase($string));
+    }
 
+    public function testFormatDollars()
+    {
+        $number = "2000.1";
+        $this->assertEquals('$2,000.10', StringUtils::formatDollars($number));
     }
 }

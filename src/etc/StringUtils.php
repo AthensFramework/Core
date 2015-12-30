@@ -88,4 +88,14 @@ class StringUtils
     {
         return str_replace(" ", "", ucwords(str_replace(["_", ".", "-"], " ", $string)));
     }
+
+    /**
+     * Format a number as dollars, with grouped thousands.
+     *
+     * @param mixed $number
+     * @return string
+     */
+    public static function formatDollars($number) {
+        return '$' . number_format($number, 2);
+    }
 }
