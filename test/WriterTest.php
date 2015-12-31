@@ -156,15 +156,40 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         /* A required boolean field with initial value */
         $initialFalseField = new Field("boolean", "A boolean field", false, true, []);
+        $initialZeroField = new Field("boolean", "A boolean field", 0, true, []);
+        $initialZeroStringField = new Field("boolean", "A boolean field", "0", true, []);
+
         $initialTrueField = new Field("boolean", "A boolean field", true, true, []);
+        $initialOneField = new Field("boolean", "A boolean field", 1, true, []);
+        $initialOneStringField = new Field("boolean", "A boolean field", "1", true, []);
 
         // Get result and strip quotes, for easier analysis
         $resultInitialFalse = $this->stripQuotes($writer->visitField($initialFalseField));
-        $resultInitialTrue = $this->stripQuotes($writer->visitField($initialTrueField));
+        $resultInitialZero = $this->stripQuotes($writer->visitField($initialZeroField));
+        $resultInitialZeroString = $this->stripQuotes($writer->visitField($initialZeroStringField));
 
-        // Assert that the boolean field is rendered as two radio choices
+        $resultInitialTrue = $this->stripQuotes($writer->visitField($initialTrueField));
+        $resultInitialOne = $this->stripQuotes($writer->visitField($initialOneField));
+        $resultInitialOneString = $this->stripQuotes($writer->visitField($initialOneStringField));
+
+        // Assert that the correct values have been checked.
         $this->assertContains('value=0 checked>', $resultInitialFalse);
+        $this->assertNotContains('value=1 checked>', $resultInitialFalse);
+
+        $this->assertContains('value=0 checked>', $resultInitialZero);
+        $this->assertNotContains('value=1 checked>', $resultInitialZeroString);
+
+        $this->assertContains('value=0 checked>', $resultInitialFalse);
+        $this->assertNotContains('value=1 checked>', $resultInitialFalse);
+
         $this->assertContains('value=1 checked>', $resultInitialTrue);
+        $this->assertNotContains('value=0 checked>', $resultInitialTrue);
+
+        $this->assertContains('value=1 checked>', $resultInitialOne);
+        $this->assertNotContains('value=0 checked>', $resultInitialOne);
+
+        $this->assertContains('value=1 checked>', $resultInitialOneString);
+        $this->assertNotContains('value=0 checked>', $resultInitialOneString);
     }
 
     public function testRenderFieldErrors()
