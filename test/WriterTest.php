@@ -23,6 +23,7 @@ use UWDOEM\Framework\Filter\FilterBuilder;
 use UWDOEM\Framework\FilterStatement\FilterStatement;
 use UWDOEM\Framework\PickA\PickABuilder;
 use UWDOEM\Framework\PickA\PickAFormBuilder;
+use UWDOEM\Framework\Table\TableFormBuilder;
 
 use UWDOEM\Framework\Test\Mock\MockWriter;
 use UWDOEM\Framework\Test\Mock\MockFieldBearer;
@@ -257,6 +258,68 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('<input class=form-action type=submit', $result);
         $this->assertContains('value=POST Action', $result);
         $this->assertContains('</form>', $result);
+    }
+
+    public function testVisitTableForm()
+    {
+        $writer = new Writer();
+
+        $actions = [
+            new FormAction("JS Action", "JS", "console.log('here');"),
+            new FormAction("POST Action", "POST", "post-target")
+        ];
+
+        $id = "f" . (string)rand();
+        $method = "m" . (string)rand();
+        $target = "t" . (string)rand();
+
+        $rowMakingFunction = function() {
+            return RowBuilder::begin()
+                ->addFields([
+                    "literalField" => new Field('literal', 'A literal field', 'Literal field content', true, []),
+                    "textField" => new Field('text', 'A text field', "5", false, [])
+                ])
+                ->build();
+        };
+
+        $form = TableFormBuilder::begin()
+            ->setId($id)
+            ->setMethod($method)
+            ->setTarget($target)
+            ->setRowMakingFunction($rowMakingFunction)
+            ->setActions($actions)
+            ->setRows([$rowMakingFunction()])
+            ->build();
+
+        $requestURI = (string)rand();
+        $_SERVER["REQUEST_URI"] = $requestURI;
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitTableForm($form));
+
+        $this->assertContains("<form", $result);
+        $this->assertContains("id=$id", $result);
+        $this->assertContains("method=$method", $result);
+        $this->assertContains("target=$target", $result);
+        $this->assertContains("data-request-uri=$requestURI", $result);
+        $this->assertContains("<table class=multi-adder", $result);
+        $this->assertContains("<tr class=prototypical form-row>", $result);
+        $this->assertContains("<tr class=actual form-row>", $result);
+        $this->assertContains("<td class=remove>", $result);
+        $this->assertContains("<span class=initial-field>", $result);
+        $this->assertContains("A literal field", $result);
+        $this->assertContains("Literal field content", $result);
+        $this->assertContains("<span class=text-field>", $result);
+        $this->assertContains("A text field", $result);
+        $this->assertContains("value=5", $result);
+        $this->assertContains("name=a-text-field", $result);
+        $this->assertContains('<input type=text', $result);
+        $this->assertContains('onclick=console.log(here);', $result);
+        $this->assertContains('JS Action</button>', $result);
+        $this->assertContains('<input class=form-action type=submit', $result);
+        $this->assertContains('value=POST Action', $result);
+        $this->assertContains('</form>', $result);
+        $this->assertContains("uwdoem.multi_adder.disablePrototypicalRows();", $result);
     }
 
     /**
