@@ -397,5 +397,6 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $field = new Field("any", "label", new DateTime());
 
         $this->assertInstanceOf('UWDOEM\Framework\Field\DateTimeWrapper', $field->getInitial());
+        $this->assertContains(date("Y") . "-", (string)$field->getInitial());
     }
 }
