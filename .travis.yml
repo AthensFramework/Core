@@ -11,7 +11,7 @@ before_script:
   - composer install
 script:
   - phpunit --configuration test/phpunit.xml test
-  - ./vendor/bin/phpcs --ignore=*/vendor/*,*/test/*,*/bin/*,*/uw-brand/* --standard=PSR2 .
+  - ./vendor/bin/phpcs --ignore=*/vendor/*,*/bin/*,*/uw-brand/* --standard=PSR2 .
   - ./vendor/bin/phpcs --standard=./vendor/uwdoem/standard/ruleset.xml src/etc src/field src/field-bearer src/filter src/filter-statement
 after_script:
   - vendor/bin/test-reporter
