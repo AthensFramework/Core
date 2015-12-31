@@ -30,6 +30,9 @@ class FieldBearerBuilder extends AbstractBuilder
     /** @var mixed[] */
     private $initialFieldValues = [];
 
+    /** @var string[] */
+    private $fieldLabels = [];
+
     /** @var mixed[] */
     private $fieldChoices = [];
 
@@ -144,6 +147,18 @@ class FieldBearerBuilder extends AbstractBuilder
 
     /**
      * @param string $fieldName
+     * @param mixed  $label
+     * @return FieldBearerBuilder
+     */
+    public function setFieldLabel($fieldName, $label)
+    {
+        $this->fieldLabels[$fieldName] = $label;
+
+        return $this;
+    }
+
+    /**
+     * @param string $fieldName
      * @param array  $choices
      * @return FieldBearerBuilder
      */
@@ -181,6 +196,10 @@ class FieldBearerBuilder extends AbstractBuilder
 
         foreach ($this->initialFieldValues as $fieldName => $value) {
             $fieldBearer->getFieldByName($fieldName)->setInitial($value);
+        }
+
+        foreach ($this->fieldLabels as $fieldName => $label) {
+            $fieldBearer->getFieldByName($fieldName)->setLabel($label);
         }
 
         foreach ($this->fieldChoices as $fieldName => $choices) {

@@ -127,6 +127,27 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($newInitialValue, $field2->getInitial());
     }
 
+    public function testSetLabelWithFieldBearerBuilder()
+    {
+        $field1 = new Field("literal", "", []);
+        $field2 = new Field("literal", "", []);
+
+        $fields = [
+            "field1" => $field1,
+            "field2" => $field2
+        ];
+
+        $newLabel = (string)rand();
+
+        FieldBearerBuilder::begin()
+            ->addFields($fields)
+            ->setFieldLabel("field1", $newLabel)
+            ->build();
+
+        $this->assertEquals($newLabel, $field1->getLabel());
+        $this->assertNotEquals($newLabel, $field2->getLabel());
+    }
+
     public function testSetChoicesWithFieldBearerBuilder()
     {
         $field1 = new Field(Field::FIELD_TYPE_TEXT, "", []);

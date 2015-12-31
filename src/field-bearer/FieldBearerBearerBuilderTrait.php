@@ -116,6 +116,18 @@ trait FieldBearerBearerBuilderTrait
 
     /**
      * @param string $fieldName
+     * @param mixed  $label
+     * @return $this
+     */
+    public function setFieldLabel($fieldName, $label)
+    {
+        $this->getFieldBearerBuilder()->setFieldLabel($fieldName, $label);
+
+        return $this;
+    }
+
+    /**
+     * @param string $fieldName
      * @param array  $choices
      * @return $this
      */
