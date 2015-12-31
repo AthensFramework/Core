@@ -15,7 +15,6 @@ class ArrayUtils
      */
     protected function __construct()
     {
-
     }
 
     /**
