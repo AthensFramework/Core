@@ -2,16 +2,19 @@
 
 namespace UWDOEM\Framework\Filter;
 
-use UWDOEM\Framework\Filter\FilterControls;
 use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
 
+/**
+ * Class SearchFilter
+ *
+ * @package UWDOEM\Framework\Filter
+ */
 class SearchFilter extends Filter
 {
 
     /**
-     * @param $handle
-     * @param \UWDOEM\Framework\FilterStatement\FilterStatementInterface[] $statements
-     * @param FilterInterface|null                                         $nextFilter
+     * @param string               $handle
+     * @param FilterInterface|null $nextFilter
      */
     public function __construct($handle, FilterInterface $nextFilter = null)
     {
@@ -22,7 +25,7 @@ class SearchFilter extends Filter
             $operation = FilterControls::getControl($handle, "operation$i");
             $value = FilterControls::getControl($handle, "value$i");
 
-            if ($fieldname && $operation && $value) {
+            if ($fieldname !== "" && $operation !== "" && $value !== "") {
                 $statements[] = new ExcludingFilterStatement($fieldname, $operation, $value, null);
             }
 
@@ -34,7 +37,7 @@ class SearchFilter extends Filter
             $value = $statement->getCriterion();
             $operation = $statement->getCondition();
 
-            $this->feedback .= $this->feedback ? ", " : "";
+            $this->feedback .= $this->feedback === "" ? ", " : "";
             $this->feedback .= $fieldname . " " . $operation . " " . $value;
         }
         parent::__construct($handle, $statements, $nextFilter);
@@ -42,6 +45,7 @@ class SearchFilter extends Filter
 
     /**
      * @param \UWDOEM\Framework\Row\RowInterface[] $rows
+     * @return void
      */
     protected function setOptionsByRows(array $rows)
     {

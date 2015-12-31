@@ -10,6 +10,11 @@ use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
 use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
 use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
 
+/**
+ * Class FilterBuilder
+ *
+ * @package UWDOEM\Framework\Filter
+ */
 class FilterBuilder extends AbstractBuilder
 {
 
@@ -46,12 +51,11 @@ class FilterBuilder extends AbstractBuilder
     /**
      * null is an acceptable value for criterion, so we use this flag to know
      * whether or not criterion has been set.
-     * @var bool
+     * @var boolean
      */
     protected $criterionHasBeenSet = false;
 
-
-    /**
+     /**
      * @param string $type
      * @return FilterBuilder
      */
@@ -126,9 +130,9 @@ class FilterBuilder extends AbstractBuilder
      * @param array[] $options
      * @return FilterBuilder
      */
-    public function addOptions($options)
+    public function addOptions(array $options)
     {
-        if (!isset($this->options)) {
+        if ($this->options === null) {
             $this->options = [];
         }
 
@@ -146,7 +150,6 @@ class FilterBuilder extends AbstractBuilder
         return $this;
     }
 
-
     /**
      * If it has been set, retrieve the indicated property from this builder. If not, throw exception.
      *
@@ -154,17 +157,17 @@ class FilterBuilder extends AbstractBuilder
      * @param string $methodName The name of the calling method, optional.
      * @param string $reason     An optional, additional "reason" to display with the exception.
      * @return mixed The indicated attribute, if set.
-     * @throws \Exception if the indicated attribute has not been set, or if the attribute does not exist
+     * @throws \Exception If the indicated attribute has not been set, or if the attribute does not exist.
      */
     protected function retrieveOrException($attrName, $methodName = "this method", $reason = "")
     {
 
-        if (!property_exists($this, $attrName)) {
+        if (property_exists($this, $attrName) === false) {
             throw new \Exception("Property $attrName not found in class.");
         }
 
-        if (!isset($this->$attrName)) {
-            $message = $reason ? "Because you $reason, " : "You ";
+        if ($this->$attrName === null) {
+            $message = $reason !== "" ? "Because you $reason, " : "You ";
             $message .= "must set $attrName for this object before calling $methodName.";
 
             throw new \Exception($message);
@@ -177,17 +180,15 @@ class FilterBuilder extends AbstractBuilder
      * @param FilterInterface $nextFilter
      * @return FilterBuilder
      */
-    public function setNextFilter($nextFilter)
+    public function setNextFilter(FilterInterface $nextFilter)
     {
         $this->nextFilter = $nextFilter;
         return $this;
     }
 
-
-
     /**
      * @return FilterInterface
-     * @throws \Exception if an appropriate combination of fields have not been set.
+     * @throws \Exception If an appropriate combination of fields have not been set.
      */
     public function build()
     {
@@ -204,12 +205,12 @@ class FilterBuilder extends AbstractBuilder
                 if (in_array(
                     $condition,
                     [FilterStatementInterface::COND_SORT_ASC, FilterStatementInterface::COND_SORT_DESC]
-                )
+                ) === true
                 ) {
                     $criterion = $this->criterion;
                     $statements[] = new SortingFilterStatement($fieldName, $condition, $criterion, null);
                 } else {
-                    $criterion = $this->criterionHasBeenSet ?
+                    $criterion = $this->criterionHasBeenSet === true ?
                         $this->criterion :
                         $this->retrieveOrException("criterion", __METHOD__);
 
@@ -237,7 +238,7 @@ class FilterBuilder extends AbstractBuilder
                 $options = $this->retrieveOrException("options", __METHOD__, "chose to create a select filter");
                 $default = $this->retrieveOrException("default", __METHOD__, "chose to create a select filter");
 
-                if (!array_key_exists($default, $options)) {
+                if (array_key_exists($default, $options) === false) {
                     $optionsText = implode(", ", array_keys($options));
                     throw new \Exception(
                         "For select filter '$handle', your default choice " .

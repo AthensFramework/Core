@@ -8,17 +8,32 @@ use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
 use UWDOEM\Framework\FilterStatement\FilterStatement;
 
+/**
+ * Class PaginationFilter
+ *
+ * @package UWDOEM\Framework\Filter
+ */
 class PaginationFilter extends Filter
 {
 
     const TYPE_HARD_PAGINATION = "hard";
     const TYPE_SOFT_PAGINATION = "soft";
 
+    /** @var string */
     protected $type;
+
+    /** @var integer */
     protected $numPages;
+
+    /** @var integer */
     protected $page;
 
-
+    /**
+     * @param string               $handle
+     * @param integer              $maxPerPage
+     * @param integer              $page
+     * @param FilterInterface|null $nextFilter
+     */
     public function __construct($handle, $maxPerPage, $page, FilterInterface $nextFilter = null)
     {
         $statements = [new PaginationFilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page)];
@@ -26,11 +41,18 @@ class PaginationFilter extends Filter
         parent::__construct($handle, $statements, $nextFilter);
     }
 
+    /**
+     * @return integer
+     */
     protected function getMaxPerPage()
     {
         return $this->getStatements()[0]->getCriterion();
     }
 
+    /**
+     * @param ModelCriteria $query
+     * @return integer
+     */
     protected function getMaxPagesByQuery(ModelCriteria $query)
     {
         $maxPerPage = $this->getMaxPerPage();
@@ -39,27 +61,44 @@ class PaginationFilter extends Filter
         return ceil($totalRows / $maxPerPage);
     }
 
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * @return integer
+     */
     public function getNumPages()
     {
         return $this->numPages;
     }
 
+    /**
+     * @return integer
+     */
     public function getPage()
     {
         return $this->page;
     }
 
+    /**
+     * @param ModelCriteria $query
+     * @return void
+     */
     protected function setOptionsByQuery(ModelCriteria $query)
     {
         $maxPages = max($this->getMaxPagesByQuery($query), 1);
         $this->options = range(1, $maxPages);
     }
 
+    /**
+     * @param ModelCriteria $query
+     * @return void
+     */
     protected function setFeedbackByQuery(ModelCriteria $query)
     {
 

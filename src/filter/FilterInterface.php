@@ -13,6 +13,7 @@ interface FilterInterface extends WritableInterface
 
     /**
      * @param FilterInterface $filter
+     * @return void
      */
     public function combine(FilterInterface $filter);
 

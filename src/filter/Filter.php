@@ -6,9 +6,14 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
+use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
 
+/**
+ * Class Filter
+ *
+ * @package UWDOEM\Framework\Filter
+ */
 class Filter implements FilterInterface
 {
 
@@ -18,10 +23,10 @@ class Filter implements FilterInterface
     const TYPE_STATIC = "static";
     const TYPE_PAGINATION = "pagination";
 
-    /** @var array|FilterStatementInterface[] */
+    /** @var FilterStatementInterface[] */
     protected $statements = [];
 
-    /** @var array|FilterStatementInterface[] */
+    /** @var FilterStatementInterface[] */
     protected $queryStatements = [];
 
     /** @var string */
@@ -40,21 +45,23 @@ class Filter implements FilterInterface
 
     use VisitableTrait;
 
-
+    /**
+     * @return string
+     */
     public function getId()
     {
         return md5($this->getHandle());
     }
 
     /**
-     * @param $handle
+     * @param string                     $handle
      * @param FilterStatementInterface[] $statements
      * @param FilterInterface|null       $nextFilter
      */
     public function __construct($handle, array $statements, FilterInterface $nextFilter = null)
     {
 
-        if (is_null($nextFilter)) {
+        if ($nextFilter === null) {
             $this->nextFilter = new DummyFilter();
         } else {
             $this->nextFilter = $nextFilter;
@@ -91,7 +98,7 @@ class Filter implements FilterInterface
     }
 
     /**
-     * @return null|FilterInterface
+     * @return FilterInterface
      */
     public function getNextFilter()
     {
@@ -99,7 +106,7 @@ class Filter implements FilterInterface
     }
 
     /**
-     * @return FilterStatement[]
+     * @return FilterStatementInterface[]
      */
     public function getStatements()
     {
@@ -107,7 +114,7 @@ class Filter implements FilterInterface
     }
 
     /**
-     * @return FilterStatement[]
+     * @return FilterStatementInterface[]
      */
     protected function getRowStatements()
     {
@@ -130,14 +137,14 @@ class Filter implements FilterInterface
 
         $queryFilterBroken = false;
 
-        if ($this->getNextFilter()->getRowStatements()) {
+        if ($this->getNextFilter()->getRowStatements() !== null) {
             $queryFilterBroken = true;
         }
 
         foreach ($this->statements as $statement) {
 
             $fieldName = $statement->getFieldName();
-            if ($fieldName && !ORMUtils::queryContainsFieldName($query, $fieldName)) {
+            if ($fieldName !== "" && ORMUtils::queryContainsFieldName($query, $fieldName) === false) {
                 $queryFilterBroken = true;
             }
 
@@ -154,6 +161,7 @@ class Filter implements FilterInterface
 
     /**
      * @param ModelCriteria $query
+     * @return void
      */
     protected function setOptionsByQuery(ModelCriteria $query)
     {
@@ -161,6 +169,7 @@ class Filter implements FilterInterface
 
     /**
      * @param ModelCriteria $query
+     * @return void
      */
     protected function setFeedbackByQuery(ModelCriteria $query)
     {
@@ -168,6 +177,7 @@ class Filter implements FilterInterface
 
     /**
      * @param RowInterface[] $rows
+     * @return void
      */
     protected function setOptionsByRows(array $rows)
     {
@@ -189,6 +199,9 @@ class Filter implements FilterInterface
         return $rows;
     }
 
+    /**
+     * @return array
+     */
     public function getOptions()
     {
         return $this->options;
