@@ -36,7 +36,7 @@ class PaginationFilter extends Filter
      */
     public function __construct($handle, $maxPerPage, $page, FilterInterface $nextFilter = null)
     {
-        $statements = [new PaginationFilterStatement(null, FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page)];
+        $statements = [new PaginationFilterStatement("", FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page)];
 
         parent::__construct($handle, $statements, $nextFilter);
     }

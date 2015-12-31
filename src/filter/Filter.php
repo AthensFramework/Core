@@ -137,13 +137,14 @@ class Filter implements FilterInterface
 
         $queryFilterBroken = false;
 
-        if ($this->getNextFilter()->getRowStatements() !== null) {
+        if ($this->getNextFilter()->getRowStatements() !== []) {
             $queryFilterBroken = true;
         }
 
         foreach ($this->statements as $statement) {
 
             $fieldName = $statement->getFieldName();
+            
             if ($fieldName !== "" && ORMUtils::queryContainsFieldName($query, $fieldName) === false) {
                 $queryFilterBroken = true;
             }
