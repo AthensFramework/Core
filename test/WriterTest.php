@@ -298,7 +298,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $method = "m" . (string)rand();
         $target = "t" . (string)rand();
 
-        $rowMakingFunction = function() {
+        $rowMakingFunction = function () {
             return RowBuilder::begin()
                 ->addFields([
                     "literalField" => new Field('literal', 'A literal field', 'Literal field content', true, []),

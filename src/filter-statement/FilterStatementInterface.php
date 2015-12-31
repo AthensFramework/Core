@@ -4,6 +4,8 @@ namespace UWDOEM\Framework\FilterStatement;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
+use UWDOEM\Framework\Row\RowInterface;
+
 interface FilterStatementInterface
 {
 
@@ -43,8 +45,8 @@ interface FilterStatementInterface
     public function applyToQuery(ModelCriteria $query);
 
     /**
-     * @param \UWDOEM\Framework\Row\Row[] $rows
-     * @return \UWDOEM\Framework\Row\Row[]
+     * @param RowInterface[] $rows
+     * @return RowInterface[]
      */
     public function applyToRows(array $rows);
 }

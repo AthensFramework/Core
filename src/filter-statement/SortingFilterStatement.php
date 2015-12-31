@@ -6,16 +6,21 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 use UWDOEM\Framework\Row\RowInterface;
 use Propel\Runtime\ActiveQuery\Criteria;
 
+/**
+ * Class SortingFilterStatement
+ * @package UWDOEM\Framework\FilterStatement
+ */
 class SortingFilterStatement extends FilterStatement
 {
 
+    /**
+     * @param ModelCriteria $query
+     * @return ModelCriteria
+     */
     public function applyToQuery(ModelCriteria $query)
     {
         $cond = $this->getCondition();
         $fieldName = $this->getFieldName();
-
-        $criterion = $this->getCriterion();
-        $control = $this->getControl();
 
         switch ($cond) {
             case static::COND_SORT_ASC:
@@ -29,7 +34,10 @@ class SortingFilterStatement extends FilterStatement
         return $query;
     }
 
-
+    /**
+     * @param RowInterface[] $rows
+     * @return RowInterface[]
+     */
     public function applyToRows(array $rows)
     {
         $fieldName = $this->getFieldName();

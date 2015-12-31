@@ -5,6 +5,11 @@ namespace UWDOEM\Framework\FilterStatement;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use UWDOEM\Framework\Row\RowInterface;
 
+/**
+ * Class FilterStatement
+ *
+ * @package UWDOEM\Framework\FilterStatement
+ */
 abstract class FilterStatement implements FilterStatementInterface
 {
 
@@ -14,19 +19,19 @@ abstract class FilterStatement implements FilterStatementInterface
     /** @var string */
     protected $condition;
 
-    /** @var  mixed */
+    /** @var mixed */
     protected $criterion;
 
-    /** @var  mixed */
+    /** @var mixed */
     protected $control;
-
 
     /**
      * FilterStatement constructor.
-     * @param string  $fieldName
-     * @param string  $condition
-     * @param mixed   $criterion
-     * @param $control
+     *
+     * @param string $fieldName
+     * @param string $condition
+     * @param mixed  $criterion
+     * @param mixed  $control
      */
     public function __construct($fieldName, $condition, $criterion, $control)
     {

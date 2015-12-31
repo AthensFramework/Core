@@ -91,7 +91,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase
     {
         $form = TableFormBuilder::begin()
             ->setId((string)rand())
-            ->setRowMakingFunction(function() {})
+            ->setRowMakingFunction(function () {
+            })
             ->build();
     }
 

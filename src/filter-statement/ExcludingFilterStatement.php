@@ -4,13 +4,21 @@ namespace UWDOEM\Framework\FilterStatement;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\Criteria;
+
 use UWDOEM\Framework\Row\RowInterface;
 
-use Workstudy\Map\JobInformationTableMap;
-
+/**
+ * Class ExcludingFilterStatement
+ *
+ * @package UWDOEM\Framework\FilterStatement
+ */
 class ExcludingFilterStatement extends FilterStatement
 {
 
+    /**
+     * @param ModelCriteria $query
+     * @return ModelCriteria
+     */
     public function applyToQuery(ModelCriteria $query)
     {
         $fieldName = $this->getFieldName();
@@ -48,6 +56,10 @@ class ExcludingFilterStatement extends FilterStatement
         return $query->{"filterBy" . $fieldName}($criterion, $criteria);
     }
 
+    /**
+     * @param RowInterface[] $rows
+     * @return RowInterface[]
+     */
     public function applyToRows(array $rows)
     {
         $fieldName = $this->getFieldName();
