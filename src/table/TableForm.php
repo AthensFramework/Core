@@ -184,7 +184,18 @@ class TableForm implements TableFormInterface
         $this->actions = $actions;
         $this->rowMakingFunction = $rowMakingFunction;
 
-        $this->prototypicalRow = is_callable($rowMakingFunction) ? $rowMakingFunction() : null;
+        if (is_callable($rowMakingFunction) === true) {
+            $this->prototypicalRow = $rowMakingFunction();
+
+            if (($this->prototypicalRow instanceof RowInterface) === false) {
+                $providedClass = get_class($this->prototypicalRow);
+                throw new \Exception("If \$rowMakingFunction is provided and callable, then it must return" .
+                    " an instance of RowInterface. Instance of $providedClass provided instead.");
+
+            }
+        } else {
+            $this->prototypicalRow = null;
+        }
 
         $this->onInvalidFunc = $onInvalidFunc;
         $this->onValidFunc = $onValidFunc;

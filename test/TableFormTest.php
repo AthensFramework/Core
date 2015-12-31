@@ -76,13 +76,23 @@ class TableFormTest extends PHPUnit_Framework_TestCase
         /* Test default type/method/target */
         $form = TableFormBuilder::begin()
             ->setId($id)
-            ->setRowMakingFunction(function () {
-            })
             ->build();
 
         $this->assertEquals("base", $form->getType());
         $this->assertEquals("post", $form->getMethod());
         $this->assertEquals("_self", $form->getTarget());
+    }
+
+    /**
+     * @expectedException              \Exception
+     * @expectedExceptionMessageRegExp #If \$rowMakingFunction is provided and callable.*#
+     */
+    public function testExceptionIfRowMakerDoesntMakeRows()
+    {
+        $form = TableFormBuilder::begin()
+            ->setId((string)rand())
+            ->setRowMakingFunction(function() {})
+            ->build();
     }
 
     /**
