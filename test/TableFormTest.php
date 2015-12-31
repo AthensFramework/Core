@@ -9,6 +9,9 @@ use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Row\RowBuilder;
 use UWDOEM\Framework\Table\TableFormBuilder;
 
+use UWDOEM\Framework\Test\Mock\MockRow;
+use UWDOEM\Framework\Test\Mock\MockFieldBearer;
+
 class TableFormTest extends PHPUnit_Framework_TestCase
 {
 
@@ -174,5 +177,23 @@ class TableFormTest extends PHPUnit_Framework_TestCase
         }
 
         $_SERVER["REQUEST_METHOD"] = "GET";
+    }
+
+    public function testDefaultOnValid()
+    {
+        $row = new MockRow();
+        $fieldBearer = new MockFieldBearer();
+        $row->setFieldBearer($fieldBearer);
+
+        $form = TableFormBuilder::begin()
+            ->setId("f" . (string)rand())
+            ->setRows([$row])
+            ->build();
+
+        $this->assertFalse($fieldBearer->saved);
+        
+        $form->onValid();
+
+        $this->assertTrue($fieldBearer->saved);
     }
 }
