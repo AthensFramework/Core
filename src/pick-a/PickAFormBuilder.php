@@ -4,7 +4,13 @@ namespace UWDOEM\Framework\PickA;
 
 use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Form\FormAction\FormAction;
+use UWDOEM\Framework\Form\FormAction\FormActionInterface;
 
+/**
+ * Class PickAFormBuilder
+ *
+ * @package UWDOEM\Framework\PickA
+ */
 class PickAFormBuilder extends AbstractBuilder
 {
     /** @var string */
@@ -16,8 +22,10 @@ class PickAFormBuilder extends AbstractBuilder
     /** @var string */
     protected $target = "_self";
 
+    /** @var array */
     protected $manifest = [];
 
+    /** @var FormActionInterface[] */
     protected $actions = [];
 
     /**
@@ -61,10 +69,10 @@ class PickAFormBuilder extends AbstractBuilder
     }
 
     /**
-     * @param FormAction[] $actions
+     * @param FormActionInterface[] $actions
      * @return PickAFormBuilder
      */
-    public function setActions($actions)
+    public function setActions(array $actions)
     {
         $this->actions = $actions;
         return $this;

@@ -4,9 +4,15 @@ namespace UWDOEM\Framework\PickA;
 
 use UWDOEM\Framework\Etc\AbstractBuilder;
 
+/**
+ * Class PickABuilder
+ *
+ * @package UWDOEM\Framework\PickA
+ */
 class PickABuilder extends AbstractBuilder
 {
 
+    /** @var array */
     protected $manifest = [];
 
     /**

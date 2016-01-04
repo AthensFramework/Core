@@ -5,28 +5,43 @@ namespace UWDOEM\Framework\PickA;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Writer\WritableInterface;
 
+/**
+ * Class PickA
+ *
+ * @package UWDOEM\Framework\PickA
+ */
 class PickA implements PickAInterface
 {
 
     /** @var string */
     protected $id;
 
+    /** @var array */
     protected $manifest = [];
 
     use VisitableTrait;
 
-
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function __construct($id, $manifest)
+    /**
+     * @param string $id
+     * @param array  $manifest
+     */
+    public function __construct($id, array $manifest)
     {
         $this->manifest = $manifest;
         $this->id = $id;
     }
 
+    /**
+     * @return WritableInterface[]
+     */
     public function getWritables()
     {
         $writables = [];
@@ -39,11 +54,14 @@ class PickA implements PickAInterface
         return $writables;
     }
 
+    /**
+     * @return string[]
+     */
     public function getLabels()
     {
         $labels = [];
         foreach ($this->manifest as $key => $manifestItem) {
-            if (!($manifestItem instanceof WritableInterface)) {
+            if (($manifestItem instanceof WritableInterface) === false) {
                 $labels[] = $key;
             }
         }
@@ -51,6 +69,9 @@ class PickA implements PickAInterface
         return $labels;
     }
 
+    /**
+     * @return array
+     */
     public function getManifest()
     {
         return $this->manifest;
