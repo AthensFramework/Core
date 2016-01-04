@@ -32,9 +32,6 @@ class PaginationFilterStatement extends FilterStatement
      */
     public function applyToRows(array $rows)
     {
-        $maxPerPage = $this->getCriterion();
-        $page = $this->getControl();
-
-        return array_slice($rows, ($page - 1)*$maxPerPage, $maxPerPage);
+        return $rows;
     }
 }
