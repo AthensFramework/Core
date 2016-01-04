@@ -13,26 +13,20 @@ use UWDOEM\Framework\Visitor\VisitableTrait;
 class Row implements RowInterface
 {
 
-    /**
-     * A string containing the javascript action to take when this row is clicked.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $onClick;
 
-    /**
-     * @var FieldBearerInterface
-     */
+    /** @var FieldBearerInterface */
     protected $fieldBearer;
 
-    /**
-     * @var bool
-     */
+    /** @var boolean */
     protected $highlightable;
 
     use VisitableTrait;
 
-
+    /**
+     * @return string
+     */
     public function getId()
     {
         return md5(
@@ -42,6 +36,11 @@ class Row implements RowInterface
         );
     }
 
+    /**
+     * @param FieldBearerInterface $fieldBearer
+     * @param string               $onClick
+     * @param boolean              $highlightable
+     */
     public function __construct(FieldBearerInterface $fieldBearer, $onClick, $highlightable)
     {
         $this->fieldBearer = $fieldBearer;

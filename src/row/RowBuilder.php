@@ -4,21 +4,20 @@ namespace UWDOEM\Framework\Row;
 
 use UWDOEM\Framework\FieldBearer\FieldBearerBearerBuilderTrait;
 
+/**
+ * Class RowBuilder
+ * @package UWDOEM\Framework\Row
+ */
 class RowBuilder
 {
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $onClick;
 
-    /**
-     * @var bool
-     */
+    /** @var boolean */
     protected $highlightable = false;
 
     use FieldBearerBearerBuilderTrait;
-
 
     /**
      * @param string $onClick
@@ -50,6 +49,7 @@ class RowBuilder
 
     /**
      * @return Row
+     * @throws \Exception If the developer tries to give a highlightable row an onClick.
      */
     public function build()
     {
@@ -63,11 +63,11 @@ class RowBuilder
             );
         }
 
-        if ($this->highlightable && $this->onClick) {
+        if ($this->highlightable === true && $this->onClick !== null) {
             throw new \Exception("You cannot both make a row highlightable and provide an onClick.");
         }
 
-        if ($this->highlightable) {
+        if ($this->highlightable === true) {
             $this->onClick = "uwdoem.highlightRow(this)";
         }
 
