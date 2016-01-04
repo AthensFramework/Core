@@ -123,8 +123,7 @@ class PaginationFilter extends Filter
      */
     protected function setOptionsByRows(array $rows)
     {
-        if ($this->getRowStatements() !== [])
-        {
+        if ($this->getRowStatements() !== []) {
             $this->type = static::TYPE_SOFT_PAGINATION;
         }
     }
