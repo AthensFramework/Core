@@ -13,6 +13,11 @@ use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Initializer\Initializer;
 use UWDOEM\Framework\Field\FieldInterface;
 
+/**
+ * Class Page Provides the primary writable for a page request.
+ *
+ * @package UWDOEM\Framework\Page
+ */
 class Page implements PageInterface
 {
 
@@ -51,7 +56,9 @@ class Page implements PageInterface
     /** @var string */
     protected $type;
 
-
+    /**
+     * @return string
+     */
     public function getId()
     {
         return md5($_SERVER['REQUEST_URI']);
@@ -153,18 +160,28 @@ class Page implements PageInterface
         return $this->writable;
     }
 
+    /**
+     * @return Initializer
+     */
     protected function makeDefaultInitializer()
     {
         $initializerClass = Settings::getDefaultInitializerClass();
         return new $initializerClass();
     }
 
+    /**
+     * @return Writer
+     */
     protected function makeDefaultWriter()
     {
         $writerClass = Settings::getDefaultWriterClass();
         return new $writerClass();
     }
 
+    /**
+     * @param WritableInterface[] $writables
+     * @return boolean
+     */
     protected static function areAllTableInterface(array $writables)
     {
         $totalWritables = count($writables);
@@ -180,7 +197,13 @@ class Page implements PageInterface
         return $totalWritables === $totalTableInterface;
     }
 
-    protected static function renderExcel(PageInterface $writable, $writer)
+    /**
+     * @param PageInterface $writable
+     * @param Writer        $writer
+     * @return void
+     * @throws \Exception If the writable of the page is not a table, or set of tables.
+     */
+    protected static function renderExcel(PageInterface $writable, Writer $writer)
     {
         $filename = "title";
         $filename = date("Y-m-d-") . "$filename.xlsx";
@@ -191,11 +214,11 @@ class Page implements PageInterface
         if (($writable->getWritable() instanceof TableInterface)) {
             $tables = [$writable->getWritable()];
         } elseif ($writable->getWritable() instanceof SectionInterface &&
-            static::areAllTableInterface($writable->getWritable()->getWritables())
+            static::areAllTableInterface($writable->getWritable()->getWritables()) === true
         ) {
             $tables = $writable->getWritable()->getWritables();
         } else {
-            throw new \Exception("The pageSection of an Excel template must either be a table, " .
+            throw new \Exception("The writable of an Excel template must either be a table, " .
                 "or a multiSection containing only tables.");
         }
 
@@ -208,7 +231,6 @@ class Page implements PageInterface
 
             // Create a sheet
             $objWorkSheet = $objPHPExcel->createSheet();
-//            $objWorkSheet->setTitle($table->getLabel());
 
             if (sizeof($table->getRows()) > 0) {
                 // Write header
@@ -222,7 +244,7 @@ class Page implements PageInterface
                 // Write cells
                 foreach ($table->getRows() as $i => $row) {
                     foreach (array_values($row->getFieldBearer()->getVisibleFields()) as $j => $field) {
-                        if ($field->getInitial()) {
+                        if ($field->getInitial() !== "") {
                             $cellIndex = substr($letters, $j, 1) . ($i + 2);
                             $objWorkSheet->setCellValue($cellIndex, $field->getInitial());
                         }
@@ -254,7 +276,12 @@ class Page implements PageInterface
         $objWriter->save('php://output');
     }
 
-    protected static function renderPDF(PageInterface $writable, $writer)
+    /**
+     * @param PageInterface $writable
+     * @param Writer        $writer
+     * @return void
+     */
+    protected static function renderPDF(PageInterface $writable, Writer $writer)
     {
         $documentName = $writable->getTitle() ? $writable->getTitle() : "document";
         $content = $writable->accept($writer);
@@ -265,9 +292,11 @@ class Page implements PageInterface
         $dompdf->stream($documentName . ".pdf");
     }
 
+    /**
+     * @return callable
+     */
     protected function makeDefaultRendererFunction()
     {
-
         switch ($this->getType()) {
             case static::PAGE_TYPE_PDF:
                 $page = $this;
@@ -294,7 +323,7 @@ class Page implements PageInterface
      * @param Initializer|null $initializer
      * @param Writer|null      $writer
      * @param callable|null    $renderFunction
-     * @return null
+     * @return void
      */
     public function render(
         Initializer $initializer = null,
@@ -303,15 +332,15 @@ class Page implements PageInterface
     ) {
 
 
-        if (is_null($initializer)) {
+        if ($initializer === null) {
             $initializer = $this->makeDefaultInitializer();
         }
 
-        if (is_null($writer)) {
+        if ($writer === null) {
             $writer = $this->makeDefaultWriter();
         }
 
-        if (is_null($renderFunction)) {
+        if ($renderFunction === null) {
             $renderFunction = $this->makeDefaultRendererFunction();
         }
 

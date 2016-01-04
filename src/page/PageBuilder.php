@@ -2,10 +2,16 @@
 
 namespace UWDOEM\Framework\Page;
 
+use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Section\SectionBuilder;
 
-class PageBuilder
+/**
+ * Class PageBuilder
+ *
+ * @package UWDOEM\Framework\Page
+ */
+class PageBuilder extends AbstractBuilder
 {
 
     /** @var string */
@@ -34,15 +40,6 @@ class PageBuilder
 
     /** @var string[] */
     protected $message;
-
-
-    /**
-     * @return PageBuilder
-     */
-    public static function begin()
-    {
-        return new static();
-    }
 
     /**
      * @param string $type
@@ -98,7 +95,7 @@ class PageBuilder
      * @param string[] $breadCrumbs
      * @return PageBuilder
      */
-    public function setBreadCrumbs($breadCrumbs)
+    public function setBreadCrumbs(array $breadCrumbs)
     {
         $this->breadCrumbs = $breadCrumbs;
         return $this;
@@ -108,7 +105,7 @@ class PageBuilder
      * @param string[] $returnTo
      * @return PageBuilder
      */
-    public function setReturnTo($returnTo)
+    public function setReturnTo(array $returnTo)
     {
         $this->returnTo = $returnTo;
         return $this;
@@ -118,7 +115,7 @@ class PageBuilder
      * @param WritableInterface $writable
      * @return PageBuilder
      */
-    public function setWritable($writable)
+    public function setWritable(WritableInterface $writable)
     {
         $this->writable = $writable;
         return $this;
@@ -128,7 +125,7 @@ class PageBuilder
      * @param string[] $message
      * @return PageBuilder
      */
-    public function setMessage($message)
+    public function setMessage(array $message)
     {
         $this->message = $message;
         return $this;
@@ -137,23 +134,23 @@ class PageBuilder
 
     /**
      * @return PageInterface
-     * @throws \Exception if the type of the page has not been set
+     * @throws \Exception If the type of the page has not been set.
      */
     public function build()
     {
 
-        if (!isset($this->type)) {
+        if ($this->type === null) {
             throw new \Exception("You must set a page type using ::setType before calling this function.");
         }
 
-        if (isset($this->message)) {
+        if ($this->message !== null) {
             if ($this->type !== Page::PAGE_TYPE_AJAX_ACTION) {
                 throw new \Exception("You may only set a message on an ajax-action page.");
             }
         }
 
         if ($this->type === Page::PAGE_TYPE_AJAX_ACTION) {
-            if (!isset($this->message)) {
+            if ($this->message === null) {
                 throw new \Exception("You must provide a message for an ajax-action page using ::setMessage");
             }
 
