@@ -37,6 +37,9 @@ class Filter implements FilterInterface
 
     /** @var string */
     protected $feedback;
+    
+    /** @var boolean */
+    protected $canQueryFilter;
 
     /**
      * @var FilterInterface The next filter in this chain
@@ -135,10 +138,10 @@ class Filter implements FilterInterface
     {
         $query = $this->getNextFilter()->queryFilter($query);
 
-        $canQueryFilter = true;
+        $this->canQueryFilter = true;
 
-        if ($this->getNextFilter()->getRowStatements() !== []) {
-            $canQueryFilter = false;
+        if ($this->getNextFilter()->canQueryFilter === false) {
+            $this->canQueryFilter = false;
         }
 
         foreach ($this->statements as $statement) {
@@ -146,10 +149,10 @@ class Filter implements FilterInterface
             $fieldName = $statement->getFieldName();
 
             if ($fieldName !== "" && ORMUtils::queryContainsFieldName($query, $fieldName) === false) {
-                $canQueryFilter = false;
+                $this->canQueryFilter = false;
             }
 
-            if ($canQueryFilter === true) {
+            if ($this->canQueryFilter === true) {
                 $this->setOptionsByQuery($query);
                 $this->setFeedbackByQuery($query);
                 $query = $statement->applyToQuery($query);

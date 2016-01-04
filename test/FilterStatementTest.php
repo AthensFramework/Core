@@ -195,6 +195,11 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($rows);
     }
 
+    /**
+     * If a pagination filter is forced to filter by row, then we want it
+     * to perform soft pagination: return all rows and let javascript perform
+     * the pagination.
+     */
     public function testRowFilterPaginateBy()
     {
         $rows = Utils::makeRows();
@@ -209,7 +214,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
             $page
         );
 
-        $expectedRows = array_slice($rows, ($page - 1)*$maxPerPage, $maxPerPage);
+        $expectedRows = $rows;
 
         $rows = $statement->applyToRows($rows);
 
