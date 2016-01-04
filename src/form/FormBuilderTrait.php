@@ -37,8 +37,7 @@ trait FormBuilderTrait
 
     use FieldBearerBearerBuilderTrait;
 
-
-    /**
+     /**
      * @param string $type
      * @return $this
      */
@@ -52,7 +51,7 @@ trait FormBuilderTrait
      * @param FormAction[] $actions
      * @return $this
      */
-    public function setActions($actions)
+    public function setActions(array $actions)
     {
         $this->actions = $actions;
         return $this;
@@ -82,7 +81,7 @@ trait FormBuilderTrait
      * @param callable $onValidFunc
      * @return $this
      */
-    public function setOnValidFunc($onValidFunc)
+    public function setOnValidFunc(callable $onValidFunc)
     {
         $this->onValidFunc = $onValidFunc;
         return $this;
@@ -92,7 +91,7 @@ trait FormBuilderTrait
      * @param callable $onInvalidFunc
      * @return $this
      */
-    public function setOnInvalidFunc($onInvalidFunc)
+    public function setOnInvalidFunc(callable $onInvalidFunc)
     {
         $this->onInvalidFunc = $onInvalidFunc;
         return $this;
@@ -125,7 +124,7 @@ trait FormBuilderTrait
      */
     public function addValidator($fieldName, callable $callable)
     {
-        if (!array_key_exists($fieldName, $this->validators)) {
+        if (array_key_exists($fieldName, $this->validators) === false) {
             $this->validators[$fieldName] = [];
         }
         $this->validators[$fieldName][] = $callable;
@@ -133,9 +132,12 @@ trait FormBuilderTrait
         return $this;
     }
 
+    /**
+     * @return void
+     */
     protected function validateOnInvalidFunc()
     {
-        if (!isset($this->onInvalidFunc)) {
+        if ($this->onInvalidFunc === null) {
 
             $this->onInvalidFunc = function (FormInterface $thisForm) {
                 foreach ($thisForm->getFieldBearer()->getFields() as $field) {
@@ -153,9 +155,12 @@ trait FormBuilderTrait
         }
     }
 
+    /**
+     * @return void
+     */
     protected function validateOnValidFunc()
     {
-        if (!isset($this->onValidFunc)) {
+        if ($this->onValidFunc === null) {
 
             $this->onValidFunc = function (FormInterface $form) {
                 $func = [$form, "propagateOnValid"];
@@ -165,15 +170,18 @@ trait FormBuilderTrait
         }
     }
 
+    /**
+     * @return void
+     */
     protected function validateOnSuccessUrl()
     {
-        if (isset($this->onSuccessUrl)) {
+        if ($this->onSuccessUrl !== null) {
 
             $onValidFunc = $this->onValidFunc;
             $url = $this->onSuccessUrl;
 
             $this->onValidFunc = function (FormInterface $form) use ($onValidFunc, $url) {
-                if (headers_sent()) {
+                if (headers_sent() === true) {
                     throw new \Exception("Form success redirection cannot proceed, output has already begun.");
                 } else {
                     header("Location: $url");
@@ -185,9 +193,12 @@ trait FormBuilderTrait
         }
     }
 
+    /**
+     * @return void
+     */
     protected function validateActions()
     {
-        if (!isset($this->actions)) {
+        if ($this->actions === null) {
             $this->actions = [new FormAction("Submit", "POST", ".")];
         }
     }

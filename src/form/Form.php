@@ -5,15 +5,19 @@ namespace UWDOEM\Framework\Form;
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 
+/**
+ * Class Form contains fields and tests them for submission-validity.
+ *
+ * @package UWDOEM\Framework\Form
+ */
 class Form implements FormInterface
 {
 
     use FormTrait;
     use VisitableTrait;
 
-
-    /**
-     * @return null
+     /**
+     * @return void
      */
     protected function validate()
     {
@@ -24,7 +28,7 @@ class Form implements FormInterface
         }
 
         foreach ($this->getFieldBearer()->getFields() as $name => $field) {
-            if (array_key_exists($name, $this->validators)) {
+            if (array_key_exists($name, $this->validators) === true) {
                 foreach ($this->validators[$name] as $validator) {
                     call_user_func_array($validator, [$field, $this]);
                 }
@@ -32,7 +36,7 @@ class Form implements FormInterface
         }
 
         foreach ($this->getFieldBearer()->getVisibleFields() as $name => $field) {
-            if (!$field->isValid()) {
+            if ($field->isValid() === false) {
                 $this->isValid = false;
                 $this->addError("Please correct the indicated errors and resubmit the form.");
                 break;
@@ -42,28 +46,28 @@ class Form implements FormInterface
         foreach ($this->getSubForms() as $subForm) {
             // Force validation on each subform via isValid()
             // If subform isn't valid and this form is not yet invalid, mark it as invalid
-            if (!$subForm->isValid() && $this->isValid) {
+            if ($subForm->isValid() === false && $this->isValid === true) {
                 $this->isValid = false;
                 $this->addError("Please correct the indicated errors and resubmit the form.");
             }
         }
 
-        if (!empty($this->errors)) {
+        if ($this->errors !== []) {
             $this->isValid = false;
         }
     }
 
     /**
-     * @param string $id
-     * @param string $type
-     * @param $method
-     * @param $target
+     * @param string               $id
+     * @param string               $type
+     * @param string               $method
+     * @param string               $target
      * @param FieldBearerInterface $fieldBearer
-     * @param callable $onValidFunc
-     * @param callable $onInvalidFunc
-     * @param array|null $actions
-     * @param array $subForms
-     * @param array[]|null $validators
+     * @param callable             $onValidFunc
+     * @param callable             $onInvalidFunc
+     * @param array|null           $actions
+     * @param array|null           $subForms
+     * @param array[]|null         $validators
      */
     public function __construct(
         $id,

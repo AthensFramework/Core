@@ -9,6 +9,7 @@ use UWDOEM\Framework\Initializer\InitializableInterface;
 
 interface FormInterface extends WritableInterface, InitializableInterface
 {
+
     /**
      * @return string
      */
@@ -46,12 +47,12 @@ interface FormInterface extends WritableInterface, InitializableInterface
     public function isValid();
 
     /**
-     * Maybe this should be protected??
+     * @return void
      */
     public function onValid();
 
     /**
-     * Maybe this should be protected??
+     * @return void
      */
     public function onInvalid();
 
@@ -67,8 +68,12 @@ interface FormInterface extends WritableInterface, InitializableInterface
 
     /**
      * @param string $error
+     * @return void
      */
     public function addError($error);
 
+    /**
+     * @return void
+     */
     public function propagateOnValid();
 }

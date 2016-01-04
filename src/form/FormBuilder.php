@@ -6,6 +6,11 @@ use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Field\FieldBuilder;
 use UWDOEM\Framework\Field\Field;
 
+/**
+ * Class FormBuilder
+ *
+ * @package UWDOEM\Framework\Form
+ */
 class FormBuilder extends AbstractBuilder
 {
     use FormBuilderTrait;
@@ -26,7 +31,7 @@ class FormBuilder extends AbstractBuilder
 
     /**
      * @return Form
-     * @throws \Exception if setFieldBearer has not been called.
+     * @throws \Exception If setFieldBearer has not been called.
      */
     public function build()
     {

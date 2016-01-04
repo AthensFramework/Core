@@ -44,12 +44,17 @@ trait FormTrait
     /** @var FormInterface[] */
     protected $subForms;
 
-
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
@@ -102,7 +107,7 @@ trait FormTrait
      */
     public function isValid()
     {
-        if (!isset($this->isValid)) {
+        if ($this->isValid === null) {
             $this->validate();
         }
         return $this->isValid;
@@ -110,6 +115,7 @@ trait FormTrait
 
     /**
      * @param string $error
+     * @return void
      */
     public function addError($error)
     {
@@ -149,7 +155,9 @@ trait FormTrait
         return $this->getSubForms()[$name];
     }
 
-
+    /**
+     * @return void
+     */
     public function propagateOnValid()
     {
         $args = array_merge([$this], func_get_args());
