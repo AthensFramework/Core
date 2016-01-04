@@ -179,7 +179,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException              Exception
+     * @expectedException              \Exception
      * @expectedExceptionMessageRegExp #You must set handle.*#
      */
     public function testBuildFilterErrorWithoutHandle()
@@ -394,6 +394,44 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains(["TestClass.Id", "ASC"], $query->orderByStatements);
         $this->assertEquals(1, sizeof($query->orderByStatements));
+    }
+
+    public function testForcePaginationFilterToSoftPagination()
+    {
+        // This pagination filter should be able to execute by query, so it should remain
+        // a hard pagination filter.
+        $filter1 = FilterBuilder::begin()
+            ->setHandle("Filter1")
+            ->setType(Filter::TYPE_PAGINATION)
+            ->build();
+
+        // This filter will force a row sort because the field name is not
+        // available to the query.
+        $filter2 = FilterBuilder::begin()
+            ->setNextFilter($filter1)
+            ->setHandle("Filter2")
+            ->setType(Filter::TYPE_STATIC)
+            ->setFieldName("TestClass.MadeUpFieldToForceRowSort")
+            ->setCondition(FilterStatement::COND_SORT_DESC)
+            ->build();
+
+        // This pagination filter will be forced to be done by rows, which means
+        // that it should designate itself as a soft pagination filter.
+        $filter3 = FilterBuilder::begin()
+            ->setNextFilter($filter2)
+            ->setHandle("Filter3")
+            ->setType(Filter::TYPE_PAGINATION)
+            ->build();
+
+        // use MockQuery from FilterStatementTest
+        $query = new MockQuery();
+        $query->count = 10;
+        $query = $filter3->queryFilter($query);
+
+        $filter3->rowFilter([]);
+
+        $this->assertEquals(PaginationFilter::TYPE_HARD_PAGINATION, $filter1->getType());
+        $this->assertEquals(PaginationFilter::TYPE_SOFT_PAGINATION, $filter3->getType());
     }
 
     public function testFilterControlsFromGet()

@@ -28,7 +28,7 @@ class PaginationFilterStatement extends FilterStatement
 
     /**
      * @param RowInterface[] $rows
-     * @return RowINterface[]
+     * @return RowInterface[]
      */
     public function applyToRows(array $rows)
     {

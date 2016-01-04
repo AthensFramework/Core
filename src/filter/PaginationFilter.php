@@ -4,9 +4,9 @@ namespace UWDOEM\Framework\Filter;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
 use UWDOEM\Framework\FilterStatement\FilterStatement;
+use UWDOEM\Framework\Row\RowInterface;
 
 /**
  * Class PaginationFilter
@@ -93,6 +93,8 @@ class PaginationFilter extends Filter
     {
         $maxPages = max($this->getMaxPagesByQuery($query), 1);
         $this->options = range(1, $maxPages);
+
+        $this->type = static::TYPE_HARD_PAGINATION;
     }
 
     /**
@@ -101,7 +103,6 @@ class PaginationFilter extends Filter
      */
     protected function setFeedbackByQuery(ModelCriteria $query)
     {
-
         $page = $this->getStatements()[0]->getControl();
         $maxPerPage = $this->getMaxPerPage();
 
@@ -112,8 +113,19 @@ class PaginationFilter extends Filter
 
         $this->feedback = "Displaying results $firstRow-$lastRow of $totalRows.";
 
-        $this->type = static::TYPE_HARD_PAGINATION;
         $this->page = $page;
         $this->numPages = $this->getMaxPagesByQuery($query);
+    }
+
+    /**
+     * @param RowInterface[] $rows
+     * @return void
+     */
+    protected function setOptionsByRows(array $rows)
+    {
+        if ($this->getRowStatements() !== [])
+        {
+            $this->type = static::TYPE_SOFT_PAGINATION;
+        }
     }
 }

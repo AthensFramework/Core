@@ -135,10 +135,10 @@ class Filter implements FilterInterface
     {
         $query = $this->getNextFilter()->queryFilter($query);
 
-        $queryFilterBroken = false;
+        $canQueryFilter = true;
 
         if ($this->getNextFilter()->getRowStatements() !== []) {
-            $queryFilterBroken = true;
+            $canQueryFilter = false;
         }
 
         foreach ($this->statements as $statement) {
@@ -146,10 +146,10 @@ class Filter implements FilterInterface
             $fieldName = $statement->getFieldName();
 
             if ($fieldName !== "" && ORMUtils::queryContainsFieldName($query, $fieldName) === false) {
-                $queryFilterBroken = true;
+                $canQueryFilter = false;
             }
 
-            if ($queryFilterBroken === false) {
+            if ($canQueryFilter === true) {
                 $this->setOptionsByQuery($query);
                 $this->setFeedbackByQuery($query);
                 $query = $statement->applyToQuery($query);
@@ -186,11 +186,20 @@ class Filter implements FilterInterface
 
     /**
      * @param RowInterface[] $rows
+     * @return void
+     */
+    protected function setFeedbackByRows(array $rows)
+    {
+    }
+
+    /**
+     * @param RowInterface[] $rows
      * @return RowInterface[]
      */
     public function rowFilter(array $rows)
     {
         $this->setOptionsByRows($rows);
+        $this->setFeedbackByRows($rows);
 
         $rows = $this->getNextFilter()->rowFilter($rows);
         foreach ($this->getRowStatements() as $statement) {

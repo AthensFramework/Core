@@ -1,5 +1,3 @@
-
-
 uwdoem.soft_pagination = (function () {
     var setupSoftPaginationFilter = function (div) {
         $(

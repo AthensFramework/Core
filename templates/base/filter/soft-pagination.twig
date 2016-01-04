@@ -7,4 +7,32 @@
     The trade-off is usually not worth it. In the case of Framework, it is
     sometimes necessary to load *all* of the rows from the database, especially
     when filtering/sorting is done an encrypted field, or a user-defined field.
+
+    For example, if student names are encrypted, and the user wants to sort students
+    by last name, then it's necessary to retrieve all students from the database, decrypt
+    and sort; it can't be done in-database because the fields are encrypted. Instead of
+    redoing this with every page turn, we send *all* rows to the browser, and use
+    javascript to perform pagination.
 #}
+
+<div class="pagination-container" data-handle-for="{{ handle }}">
+    <span class="pagination-arrow-container">
+        <a class="pagination-arrow back first" data-page-for="{{ options|first }}">&laquo;</a>&nbsp;
+        <a class="pagination-arrow back previous" data-page-for="{{ options|first }}">&lsaquo;</a>&nbsp;
+    </span>
+    <select class="pagination-filter {{ handle }}">
+        {% for option in options %}
+            <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+    </select>
+
+    <span class="pagination-arrow-container">
+        &nbsp;<a class="pagination-arrow forward next" data-page-for="{{ options|last }}">&rsaquo;</a>
+        &nbsp;<a class="pagination-arrow forward last" data-page-for="{{ options|last }}">&raquo;</a>
+    </span>
+</div>
+<script>
+    $(function() {
+        uwdoem.filter.setupFilter(uwdoem.soft_pagination.setupPaginationFilter, "{{ handle }}");
+    });
+</script>
