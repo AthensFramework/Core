@@ -4,6 +4,7 @@ namespace UWDOEM\Framework\Visitor;
 
 interface VisitableInterface
 {
+
     /**
      * Accept a visitor, per the Visitor pattern.
      *

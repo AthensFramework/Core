@@ -60,7 +60,7 @@ class Writer extends Visitor
      */
     protected function getEnvironment()
     {
-        if (!isset($this->environment)) {
+        if ($this->environment === null) {
             $loader = new \Twig_Loader_Filesystem($this->getTemplatesDirectories());
             $this->environment = new \Twig_Environment($loader);
 
@@ -173,7 +173,7 @@ class Writer extends Visitor
 
         $writable = $page->getWritable();
 
-        if ($writable) {
+        if ($writable !== null) {
             $content = $writable->accept($this);
         } else {
             $content = "";

@@ -33,12 +33,12 @@ trait VisitableTrait
         );
 
         foreach ($visitorMethods as $visitorMethod) {
-            if (method_exists($visitor, $visitorMethod)) {
+            if (method_exists($visitor, $visitorMethod) === true) {
                 return $visitor->$visitorMethod($this);
             }
         }
 
-        if (method_exists($visitor, "visit")) {
+        if (method_exists($visitor, "visit") === true) {
             return $visitor->visit($this);
         }
 
