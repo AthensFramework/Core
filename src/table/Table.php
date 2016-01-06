@@ -6,6 +6,11 @@ use UWDOEM\Framework\Filter\FilterInterface;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 
+/**
+ * Class Table
+ *
+ * @package UWDOEM\Framework\Table
+ */
 class Table implements TableInterface
 {
 
@@ -29,7 +34,7 @@ class Table implements TableInterface
     }
 
     /**
-     * @param $id
+     * @param string          $id
      * @param array           $rows
      * @param FilterInterface $filter
      */
@@ -41,16 +46,25 @@ class Table implements TableInterface
         $this->id = $id;
     }
 
+    /**
+     * @return RowInterface[]
+     */
     public function getRows()
     {
         return $this->filter->rowFilter($this->rows);
     }
 
+    /**
+     * @return RowInterface[]
+     */
     protected function getUnfilteredRows()
     {
         return $this->rows;
     }
 
+    /**
+     * @return FilterInterface
+     */
     public function getFilter()
     {
         return $this->filter;

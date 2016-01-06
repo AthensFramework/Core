@@ -7,6 +7,11 @@ use UWDOEM\Framework\Filter\DummyFilter;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Filter\FilterInterface;
 
+/**
+ * Class TableBuilder
+ *
+ * @package UWDOEM\Framework\Table
+ */
 class TableBuilder extends AbstractBuilder
 {
 
@@ -23,7 +28,7 @@ class TableBuilder extends AbstractBuilder
      * @param RowInterface[] $rows
      * @return TableBuilder
      */
-    public function setRows($rows)
+    public function setRows(array $rows)
     {
         $this->rows = $rows;
         return $this;
@@ -35,7 +40,7 @@ class TableBuilder extends AbstractBuilder
      */
     public function addFilter(FilterInterface $filter)
     {
-        if (isset($this->filter)) {
+        if ($this->filter !== null) {
             $filter->combine($this->filter);
         }
         $this->filter = $filter;
@@ -50,11 +55,14 @@ class TableBuilder extends AbstractBuilder
         return new static();
     }
 
+    /**
+     * @return Table
+     */
     public function build()
     {
         $this->validateId();
 
-        if (!isset($this->filter)) {
+        if ($this->filter === null) {
             $this->filter = new DummyFilter();
         }
 

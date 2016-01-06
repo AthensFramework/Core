@@ -7,6 +7,11 @@ use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Form\FormBuilderTrait;
 
+/**
+ * Class TableFormBuilder
+ *
+ * @package UWDOEM\Framework\Table
+ */
 class TableFormBuilder extends AbstractBuilder
 {
 
@@ -38,9 +43,12 @@ class TableFormBuilder extends AbstractBuilder
         return $this;
     }
 
+    /**
+     * @return void
+     */
     protected function validateOnInvalidFunc()
     {
-        if (!isset($this->onInvalidFunc)) {
+        if ($this->onInvalidFunc === null) {
 
             $this->onInvalidFunc = function (TableFormInterface $form) {
                 foreach ($form->getRows() as $row) {
@@ -55,9 +63,12 @@ class TableFormBuilder extends AbstractBuilder
         }
     }
 
+    /**
+     * @return void
+     */
     protected function validateOnValidFunc()
     {
-        if (!isset($this->onValidFunc)) {
+        if ($this->onValidFunc === null) {
             $this->onValidFunc = function (TableFormInterface $form) {
                 foreach ($form->getRows() as $row) {
                     $fieldBearer = $row->getFieldBearer();
@@ -76,7 +87,6 @@ class TableFormBuilder extends AbstractBuilder
      */
     public function build()
     {
-
         $this->validateId();
 
         $this->validateOnInvalidFunc();

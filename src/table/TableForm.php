@@ -2,12 +2,13 @@
 
 namespace UWDOEM\Framework\Table;
 
-use UWDOEM\Framework\Field\FieldBuilder;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
+use UWDOEM\Framework\Filter\FilterInterface;
 use UWDOEM\Framework\Filter\DummyFilter;
 use UWDOEM\Framework\Form\FormTrait;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Row\RowInterface;
+use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
+use UWDOEM\Framework\Form\FormAction\FormActionInterface;
 
 /**
  * Class TableForm provides a form composed of multiple rows.
@@ -32,48 +33,62 @@ class TableForm implements TableFormInterface
     use VisitableTrait;
     use FormTrait;
 
-
     /** @return RowInterface */
     public function getPrototypicalRow()
     {
         return $this->prototypicalRow;
     }
 
-    /** @return string */
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    /** @return RowInterface[] */
+    /**
+     * @return RowInterface[]
+     */
     public function getRows()
     {
         return $this->rows;
     }
 
+    /**
+     * @return FilterInterface
+     */
     public function getFilter()
     {
         return new DummyFilter();
     }
 
+    /**
+     * @return FieldBearerInterface
+     */
     public function getFieldBearer()
     {
         $row = $this->getPrototypicalRow();
 
-        if (!$row) {
+        if ($row !== null) {
             $row = $this->getRows()[0];
         }
 
         return $row->getFieldBearer();
     }
 
-    /** @return RowInterface */
+    /**
+     * @return RowInterface
+     */
     protected function makeRow()
     {
         $rowMakingFunction = $this->rowMakingFunction;
         return $rowMakingFunction();
     }
 
+    /**
+     * @return string[]
+     */
     protected function findRowPrefixes()
     {
         $firstPrototypicalSlug = current($this->getPrototypicalRow()->getFieldBearer()->getVisibleFields())->getSlug();
@@ -97,11 +112,14 @@ class TableForm implements TableFormInterface
         return $rowPrefixes;
     }
 
+    /**
+     * @return RowInterface[]
+     */
     protected function makeRows()
     {
         $rows = $this->initialRows;
 
-        if ($this->getPrototypicalRow()) {
+        if ($this->getPrototypicalRow() !== null) {
             foreach ($this->findRowPrefixes() as $prefix) {
                 $newRow = $this->makeRow();
 
@@ -116,7 +134,7 @@ class TableForm implements TableFormInterface
 
                     $slug = $newField->getSlug();
 
-                    if (isset($_POST[$slug])) {
+                    if (array_key_exists($slug, $_POST) === true && $_POST[$slug] !== null) {
                         $newField->setInitial($_POST[$slug]);
                     }
                 }
@@ -126,6 +144,9 @@ class TableForm implements TableFormInterface
         return $rows;
     }
 
+    /**
+     * @return void
+     */
     protected function validate()
     {
         $this->isValid = true;
@@ -142,7 +163,7 @@ class TableForm implements TableFormInterface
         // Validate each row exogenously
         foreach ($this->getRows() as $row) {
             foreach ($row->getFieldBearer()->getFields() as $name => $field) {
-                if (array_key_exists($name, $this->validators)) {
+                if (array_key_exists($name, $this->validators) === true) {
                     foreach ($this->validators[$name] as $validator) {
                         call_user_func_array($validator, [$field, $this]);
                     }
@@ -153,7 +174,7 @@ class TableForm implements TableFormInterface
         // See if there exist any invalid fields
         foreach ($this->getRows() as $row) {
             foreach ($row->getFieldBearer()->getVisibleFields() as $name => $field) {
-                if (!$field->isValid()) {
+                if ($field->isValid() === false) {
                     $this->isValid = false;
                     $this->addError("Please correct the indicated errors and resubmit the form.");
                     break;
@@ -162,12 +183,25 @@ class TableForm implements TableFormInterface
         }
     }
 
+    /**
+     * @param string                     $id
+     * @param string                     $type
+     * @param string                     $method
+     * @param string                     $target
+     * @param RowInterface[]             $rows
+     * @param callable|null              $rowMakingFunction
+     * @param callable                   $onValidFunc
+     * @param callable                   $onInvalidFunc
+     * @param FormActionInterface[]|null $actions
+     * @param callable[]|null            $validators
+     * @throws \Exception If rowMakingFunction is provided, but does not yield a row.
+     */
     public function __construct(
         $id,
         $type,
         $method,
         $target,
-        $rows,
+        array $rows,
         $rowMakingFunction,
         callable $onValidFunc,
         callable $onInvalidFunc,

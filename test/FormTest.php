@@ -132,7 +132,7 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->assertContains($form2, $form->getSubForms());
     }
 
-    public function testSetInitialWithFormBuilder()
+    public function testSetFieldValuesWithFormBuilder()
     {
         $field1 = new Field("literal", "", []);
         $field2 = new Field("literal", "", []);
@@ -143,15 +143,21 @@ class FormTest extends PHPUnit_Framework_TestCase
         ];
 
         $newInitialValue = (string)rand();
+        $newLabel = (string)rand();
+        $newChoices = [(string)rand(), (string)rand()];
 
         FormBuilder::begin()
             ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->setInitialFieldValue("field1", $newInitialValue)
+            ->setFieldLabel("field1", $newLabel)
+            ->setFieldChoices("field1", $newChoices)
             ->build();
 
         $this->assertEquals($newInitialValue, $field1->getInitial());
-        $this->assertNotEquals($newInitialValue, $field2->getInitial());
+        $this->assertEquals($newLabel, $field1->getLabel());
+        $this->assertEquals($newChoices, $field1->getChoices());
+
     }
 
     public function testLabelFieldCreation()
