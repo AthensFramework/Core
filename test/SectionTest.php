@@ -52,40 +52,6 @@ class SectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("base", $section->getType());
     }
 
-    /**
-     * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #Cannot set content.*#
-     */
-    public function testBuilderThrowsExceptionSetContentOnAjaxLoaded()
-    {
-        $section = SectionBuilder::begin()
-            ->setType("ajax-loaded")
-            ->addContent((string)rand())
-            ->build();
-    }
-
-    /**
-     * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #Target may only be set on an ajax-loaded section.*#
-     */
-    public function testBuilderThrowsExceptionTargetWithoutAjaxLoaded()
-    {
-        $section = SectionBuilder::begin()
-            ->setTarget("http://www.example.com")
-            ->build();
-    }
-
-    /**
-     * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #Handle may only be set on an ajax-loaded section.*#
-     */
-    public function testBuilderThrowsExceptionHandleWithoutAjaxLoaded()
-    {
-        $section = SectionBuilder::begin()
-            ->setHandle("http://www.example.com")
-            ->build();
-    }
-
     /*
      * The below methods are tested sufficiently above
     public function testGetWritables() {
