@@ -1,5 +1,3 @@
-
-
 uwdoem = (function () {
 
     var maskScreen = $("#mask-screen");

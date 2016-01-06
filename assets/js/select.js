@@ -1,5 +1,3 @@
-
-
 uwdoem.select = (function () {
     var getVar = uwdoem.ajax_section.getVar;
 

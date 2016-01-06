@@ -1,5 +1,3 @@
-
-
 uwdoem.select_a_section = (function () {
     var revealSelectASection = function (selectASection, targetSelectionName) {
         var selectedOption = selectASection.find("div.option.selectable[data-section-for=" + targetSelectionName + "]");

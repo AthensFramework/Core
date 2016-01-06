@@ -1,5 +1,3 @@
-
-
 uwdoem.ajax_section = (function () {
 
     /**

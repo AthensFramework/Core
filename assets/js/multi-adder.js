@@ -1,5 +1,3 @@
-
-
 uwdoem.multi_adder = (function () {
 
     var getLastRow = function (multiAdderTable) {

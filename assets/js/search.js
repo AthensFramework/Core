@@ -1,5 +1,3 @@
-
-
 uwdoem.search = (function () {
 
     var searchDiv = $(".search-div");
