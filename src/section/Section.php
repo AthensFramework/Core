@@ -36,7 +36,9 @@ class Section implements SectionInterface
 
     use VisitableTrait;
 
-
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
@@ -45,9 +47,9 @@ class Section implements SectionInterface
     /**
      * Create a new section
      *
-     * @param string $id
+     * @param string              $id
      * @param WritableInterface[] $writables
-     * @param $type
+     * @param string              $type
      * @internal param string $content
      * @internal param string $label
      */

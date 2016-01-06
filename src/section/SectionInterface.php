@@ -7,6 +7,7 @@ use UWDOEM\Framework\Initializer\InitializableInterface;
 
 interface SectionInterface extends WritableInterface, InitializableInterface
 {
+
     /**
      * @return string
      */

@@ -7,6 +7,11 @@ use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Field\FieldBuilder;
 use UWDOEM\Framework\Writer\WritableInterface;
 
+/**
+ * Class SectionBuilder
+ *
+ * @package UWDOEM\Framework\Section
+ */
 class SectionBuilder extends AbstractBuilder
 {
 
@@ -16,8 +21,7 @@ class SectionBuilder extends AbstractBuilder
     /** @var WritableInterface[] */
     protected $writables = [];
 
-
-    /**
+     /**
      * @param string $label
      * @return SectionBuilder
      */
@@ -36,7 +40,7 @@ class SectionBuilder extends AbstractBuilder
     /**
      * @param string $handle
      * @return SectionBuilder
-     * @throws \Exception if type has not been set to ajax-loaded
+     * @throws \Exception If type has not been set to ajax-loaded.
      */
     public function setHandle($handle)
     {
@@ -55,7 +59,7 @@ class SectionBuilder extends AbstractBuilder
     /**
      * @param string $content
      * @return SectionBuilder
-     * @throws \Exception if type is ajax-loaded
+     * @throws \Exception If type is ajax-loaded.
      */
     public function addContent($content)
     {
@@ -77,11 +81,11 @@ class SectionBuilder extends AbstractBuilder
     /**
      * @param string $type
      * @return SectionBuilder
-     * @throws \Exception if setting type to ajax-loaded and content has been set
+     * @throws \Exception If setting type to ajax-loaded and content has been set.
      */
     public function setType($type)
     {
-        if ($type === "ajax-loaded" && isset($this->content)) {
+        if ($type === "ajax-loaded" && $this->content !== null) {
             throw new \Exception(
                 "Cannot set type to 'ajax-loaded' because content has already been set; " .
                 "an ajax-loaded section must not have content."
@@ -94,7 +98,7 @@ class SectionBuilder extends AbstractBuilder
     /**
      * @param string $target
      * @return SectionBuilder
-     * @throws \Exception if type has not been set to 'ajax-loaded'
+     * @throws \Exception If type has not been set to 'ajax-loaded'.
      */
     public function setTarget($target)
     {
@@ -114,7 +118,7 @@ class SectionBuilder extends AbstractBuilder
      * @param WritableInterface $writable
      * @return SectionBuilder
      */
-    public function addWritable($writable)
+    public function addWritable(WritableInterface $writable)
     {
         $this->writables[] = $writable;
         return $this;
@@ -128,12 +132,8 @@ class SectionBuilder extends AbstractBuilder
 
         $this->validateId();
 
-        if (!isset($this->type)) {
+        if ($this->type === null) {
             $this->type = "base";
-        }
-
-        if (!isset($this->content)) {
-            $this->content = "";
         }
 
         return new Section($this->id, $this->writables, $this->type);
