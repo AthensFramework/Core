@@ -47,7 +47,7 @@ class SectionBuilder extends AbstractBuilder
         if (($content instanceof SafeString) === false) {
             $content = htmlentities($content);
         }
-        $content = nl2br($content);
+        $content = SafeString::fromString(nl2br($content));
 
         $content = FieldBuilder::begin()
             ->setType(Field::FIELD_TYPE_LITERAL)

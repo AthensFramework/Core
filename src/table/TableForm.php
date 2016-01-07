@@ -73,7 +73,7 @@ class TableForm implements TableFormInterface
     {
         $row = $this->getPrototypicalRow();
 
-        if ($row !== null) {
+        if ($row === null) {
             $row = $this->getRows()[0];
         }
 
