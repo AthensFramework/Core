@@ -5,6 +5,7 @@ namespace UWDOEM\Framework\Page;
 use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Section\SectionBuilder;
+use UWDOEM\Framework\Etc\SafeString;
 
 /**
  * Class PageBuilder
@@ -154,9 +155,13 @@ class PageBuilder extends AbstractBuilder
                 throw new \Exception("You must provide a message for an ajax-action page using ::setMessage");
             }
 
+            foreach ($this->message as $key => $value) {
+                $this->message[$key] = htmlentities($value);
+            }
+
             $this->writable = SectionBuilder::begin()
                 ->setId("ajax-action-" . $_SERVER["REQUEST_URI"])
-                ->addContent(json_encode($this->message))
+                ->addContent(SafeString::fromString(json_encode($this->message)))
                 ->build();
         }
 

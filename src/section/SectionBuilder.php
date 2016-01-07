@@ -3,6 +3,7 @@
 namespace UWDOEM\Framework\Section;
 
 use UWDOEM\Framework\Etc\AbstractBuilder;
+use UWDOEM\Framework\Etc\SafeString;
 use UWDOEM\Framework\Field\Field;
 use UWDOEM\Framework\Field\FieldBuilder;
 use UWDOEM\Framework\Writer\WritableInterface;
@@ -43,6 +44,11 @@ class SectionBuilder extends AbstractBuilder
      */
     public function addContent($content)
     {
+        if (($content instanceof SafeString) === false) {
+            $content = htmlentities($content);
+        }
+        $content = nl2br($content);
+
         $content = FieldBuilder::begin()
             ->setType(Field::FIELD_TYPE_LITERAL)
             ->setLabel("section-content")

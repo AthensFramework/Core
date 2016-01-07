@@ -32,7 +32,7 @@ class SectionTest extends PHPUnit_Framework_TestCase
     {
         $field = new Field("literal", "A literal field", []);
 
-        $content = "content";
+        $content = "content\ncontent";
         $label = "label";
         $writable = $field;
         $id = "s" . (string)rand();
@@ -45,7 +45,7 @@ class SectionTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $this->assertEquals($id, $section->getId());
-        $this->assertEquals($content, $section->getWritables()[0]->getInitial());
+        $this->assertEquals(nl2br($content), $section->getWritables()[0]->getInitial());
         $this->assertEquals($label, $section->getWritables()[1]->getInitial());
         $this->assertContains($writable, $section->getWritables());
         $this->assertEquals(3, sizeof($section->getWritables()));
