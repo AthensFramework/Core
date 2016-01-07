@@ -39,6 +39,9 @@ class FieldBearerBuilder extends AbstractBuilder
     /** @var callable */
     protected $saveFunction;
 
+    /** @var boolean */
+    protected $makeLiteral = false;
+
     /**
      * @param FieldBearerInterface[] $fieldBearers
      * @return FieldBearerBuilder
@@ -170,6 +173,16 @@ class FieldBearerBuilder extends AbstractBuilder
     }
 
     /**
+     * @return FieldBearerBuilder
+     */
+    public function makeLiteral()
+    {
+        $this->makeLiteral = true;
+
+        return $this;
+    }
+
+    /**
      * @return FieldBearer
      * @throws \Exception If neither fields nor fieldBearers has been set.
      */
@@ -193,6 +206,12 @@ class FieldBearerBuilder extends AbstractBuilder
             $this->hiddenFieldNames,
             $this->saveFunction
         );
+
+        if ($this->makeLiteral === true) {
+            foreach ($fieldBearer->getFields() as $field) {
+                $field->setType(Field::FIELD_TYPE_LITERAL)->setRequired(false);
+            }
+        }
 
         foreach ($this->initialFieldValues as $fieldName => $value) {
             $fieldBearer->getFieldByName($fieldName)->setInitial($value);

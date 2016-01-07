@@ -132,6 +132,26 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->assertContains($form2, $form->getSubForms());
     }
 
+    public function testMakeLiteralWithFormBuilder()
+    {
+        $field1 = new Field(Field::FIELD_TYPE_BOOLEAN, "", []);
+        $field2 = new Field(Field::FIELD_TYPE_TEXT, "", []);
+
+        $fields = [
+            "field1" => $field1,
+            "field2" => $field2
+        ];
+
+        FormBuilder::begin()
+            ->setId("f-" . (string)rand())
+            ->addFields($fields)
+            ->makeLiteral()
+            ->build();
+
+        $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field1->getType());
+        $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field2->getType());
+    }
+
     public function testSetFieldValuesWithFormBuilder()
     {
         $field1 = new Field("literal", "", []);
@@ -157,7 +177,6 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($newInitialValue, $field1->getInitial());
         $this->assertEquals($newLabel, $field1->getLabel());
         $this->assertEquals($newChoices, $field1->getChoices());
-
     }
 
     public function testLabelFieldCreation()

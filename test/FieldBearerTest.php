@@ -34,7 +34,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
      */
     public function testBuilder()
     {
-
         $fields = [
             "fieldName" => new Field("literal", "A literal field", []),
             "hiddenFieldName" => new Field("literal", "A hidden literal field", [])
@@ -86,6 +85,23 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
         $this->assertEquals($expectedFieldNames, $classFieldBearer->getFieldNames());
+    }
+
+    public function testMakeLiteral()
+    {
+        $fields = [
+            "fieldName" => new Field(Field::FIELD_TYPE_BOOLEAN, "A boolean field"),
+            "hiddenFieldName" => new Field(Field::FIELD_TYPE_TEXT, "A text field")
+        ];
+
+        $fieldBearer = FieldBearerBuilder::begin()
+            ->addFields($fields)
+            ->makeLiteral()
+            ->build();
+
+        foreach ($fieldBearer->getFields() as $field) {
+            $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field->getType());
+        }
     }
 
     public function testMethodCascading()

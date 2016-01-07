@@ -137,4 +137,14 @@ trait FieldBearerBearerBuilderTrait
 
         return $this;
     }
+
+    /**
+     * @return $this
+     */
+    public function makeLiteral()
+    {
+        $this->getFieldBearerBuilder()->makeLiteral();
+
+        return $this;
+    }
 }
