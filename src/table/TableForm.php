@@ -30,6 +30,9 @@ class TableForm implements TableFormInterface
     /** @var RowInterface[] */
     protected $initialRows;
 
+    /** @var boolean */
+    protected $canRemove;
+
     use VisitableTrait;
     use FormTrait;
 
@@ -75,6 +78,14 @@ class TableForm implements TableFormInterface
         }
 
         return $row->getFieldBearer();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getCanRemove()
+    {
+        return $this->canRemove;
     }
 
     /**
@@ -192,6 +203,7 @@ class TableForm implements TableFormInterface
      * @param callable|null              $rowMakingFunction
      * @param callable                   $onValidFunc
      * @param callable                   $onInvalidFunc
+     * @param boolean                    $canRemove
      * @param FormActionInterface[]|null $actions
      * @param callable[]|null            $validators
      * @throws \Exception If rowMakingFunction is provided, but does not yield a row.
@@ -205,6 +217,7 @@ class TableForm implements TableFormInterface
         $rowMakingFunction,
         callable $onValidFunc,
         callable $onInvalidFunc,
+        $canRemove,
         $actions = [],
         $validators = []
     ) {
@@ -240,5 +253,6 @@ class TableForm implements TableFormInterface
 
         $this->rows = $rows;
         $this->initialRows = $rows;
+        $this->canRemove = $canRemove;
     }
 }

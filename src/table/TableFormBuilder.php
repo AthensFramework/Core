@@ -23,6 +23,9 @@ class TableFormBuilder extends AbstractBuilder
     /** @var RowInterface[] */
     protected $rows = [];
 
+    /** @var boolean */
+    protected $canRemove = true;
+
     /**
      * @param RowInterface[] $rows
      * @return TableFormBuilder
@@ -83,6 +86,16 @@ class TableFormBuilder extends AbstractBuilder
     }
 
     /**
+     * @param boolean $canRemove
+     * @return TableFormBuilder
+     */
+    public function setCanRemove($canRemove)
+    {
+        $this->canRemove = $canRemove;
+        return $this;
+    }
+
+    /**
      * @return TableForm
      */
     public function build()
@@ -103,6 +116,7 @@ class TableFormBuilder extends AbstractBuilder
             $this->rowMakingFunction,
             $this->onValidFunc,
             $this->onInvalidFunc,
+            $this->canRemove,
             $this->actions,
             $this->validators
         );

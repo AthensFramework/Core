@@ -347,6 +347,41 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("uwdoem.multi_adder.disablePrototypicalRows();", $result);
     }
 
+    public function testVisitTableFormDisableRemove()
+    {
+        $writer = new Writer();
+
+        $id = "f" . (string)rand();
+
+        $rowMakingFunction = function () {
+            return RowBuilder::begin()
+                ->addFields([
+                    "literalField" => new Field('literal', 'A literal field', 'Literal field content', true, []),
+                    "textField" => new Field('text', 'A text field', "5", false, [])
+                ])
+                ->build();
+        };
+
+        $formWithRemove = TableFormBuilder::begin()
+            ->setId($id)
+            ->setRows([$rowMakingFunction()])
+            ->build();
+
+        $formWithoutRemove = TableFormBuilder::begin()
+            ->setId($id)
+            ->setRows([$rowMakingFunction()])
+            ->setCanRemove(false)
+            ->build();
+
+
+        // Get result and strip quotes, for easier analysis
+        $resultWithRemove = $this->stripQuotes($writer->visitTableForm($formWithRemove));
+        $resultWithoutRemove = $this->stripQuotes($writer->visitTableForm($formWithoutRemove));
+
+        $this->assertContains("<td class=remove>", $resultWithRemove);
+        $this->assertNotContains("<td class=remove>", $resultWithoutRemove);
+    }
+
     /**
      * @expectedException              Twig_Error_Loader
      * @expectedExceptionMessageRegExp #Unable to find template "form/nonexistant-type.twig".*#

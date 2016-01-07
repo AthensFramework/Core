@@ -405,6 +405,7 @@ class Writer extends Visitor
                     "target" => $tableForm->getTarget(),
                     "actions" => $tableForm->getActions(),
                     "prototypicalRow" => $tableForm->getPrototypicalRow(),
+                    "canRemove" => $tableForm->getCanRemove(),
                     "rows" => $tableForm->getRows(),
                 ]
             );

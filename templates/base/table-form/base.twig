@@ -8,7 +8,10 @@
         {% for fieldName, field in prototypicalRow.getFieldBearer.getVisibleFields %}
             <th class="{{ field.getSlug }}" data-header-for="{{ fieldName }}">{{ field.getLabel }}</td>
         {% endfor %}
-        <th data-header-for="remove">Remove</th>
+        {% if canRemove %}
+            <th data-header-for="remove">Remove</th>
+        {% endif %}
+
     </tr>
 
     {% if prototypicalRow %}
@@ -20,7 +23,9 @@
         {% for fieldName, field in prototypicalRow.getFieldBearer.getHiddenFields %}
             <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|raw }}</td>
         {% endfor %}
+        {% if canRemove %}
             <td class="remove"> - </td>
+        {% endif %}
 
     </tr>
     {% endif %}
@@ -39,7 +44,9 @@
                     {% endif %}
                 </td>
             {% endfor %}
+            {% if canRemove %}
                 <td class="remove"> - </td>
+            {% endif %}
 
             {% for fieldName, field in row.getFieldBearer.getHiddenFields %}
                 <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|raw }}</td>
