@@ -4,6 +4,7 @@ namespace UWDOEM\Framework\PickA;
 
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\Writer\WritableInterface;
+use UWDOEM\Framework\Writer\WritableTrait;
 
 /**
  * Class PickA
@@ -13,30 +14,22 @@ use UWDOEM\Framework\Writer\WritableInterface;
 class PickA implements PickAInterface
 {
 
-    /** @var string */
-    protected $id;
-
     /** @var array */
     protected $manifest = [];
 
     use VisitableTrait;
+    use WritableTrait;
 
     /**
-     * @return string
+     * @param string   $id
+     * @param string[] $classes
+     * @param array    $manifest
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     * @param array  $manifest
-     */
-    public function __construct($id, array $manifest)
+    public function __construct($id, array $classes, array $manifest)
     {
         $this->manifest = $manifest;
         $this->id = $id;
+        $this->classes = $classes;
     }
 
     /**

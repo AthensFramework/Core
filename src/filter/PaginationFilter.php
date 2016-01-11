@@ -29,16 +29,17 @@ class PaginationFilter extends Filter
     protected $page;
 
     /**
-     * @param string               $handle
+     * @param string               $id
+     * @param string[]             $classes
      * @param integer              $maxPerPage
      * @param integer              $page
      * @param FilterInterface|null $nextFilter
      */
-    public function __construct($handle, $maxPerPage, $page, FilterInterface $nextFilter = null)
+    public function __construct($id, array $classes, $maxPerPage, $page, FilterInterface $nextFilter = null)
     {
         $statements = [new PaginationFilterStatement("", FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page)];
 
-        parent::__construct($handle, $statements, $nextFilter);
+        parent::__construct($id, $classes, $statements, $nextFilter);
     }
 
     /**

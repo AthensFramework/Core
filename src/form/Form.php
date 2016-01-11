@@ -16,7 +16,7 @@ class Form implements FormInterface
     use FormTrait;
     use VisitableTrait;
 
-     /**
+    /**
      * @return void
      */
     protected function validate()
@@ -59,6 +59,7 @@ class Form implements FormInterface
 
     /**
      * @param string               $id
+     * @param string[]             $classes
      * @param string               $type
      * @param string               $method
      * @param string               $target
@@ -71,6 +72,7 @@ class Form implements FormInterface
      */
     public function __construct(
         $id,
+        array $classes,
         $type,
         $method,
         $target,
@@ -94,5 +96,6 @@ class Form implements FormInterface
         $this->type = $type;
         $this->method = $method;
         $this->target = $target;
+        $this->classes = $classes;
     }
 }

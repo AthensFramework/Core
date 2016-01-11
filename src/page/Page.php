@@ -12,6 +12,7 @@ use UWDOEM\Framework\Writer\Writer;
 use UWDOEM\Framework\Etc\Settings;
 use UWDOEM\Framework\Initializer\Initializer;
 use UWDOEM\Framework\Field\FieldInterface;
+use UWDOEM\Framework\Writer\WritableTrait;
 
 /**
  * Class Page Provides the primary writable for a page request.
@@ -31,6 +32,7 @@ class Page implements PageInterface
     const PAGE_TYPE_MARKDOWN_DOCUMENTATION = "markdown-documentation";
 
     use VisitableTrait;
+    use WritableTrait;
 
     /** @var string */
     protected $title;
@@ -67,6 +69,7 @@ class Page implements PageInterface
     /**
      * Page constructor.
      * @param string                 $type
+     * @param string[]               $classes
      * @param string                 $title
      * @param string                 $baseHref
      * @param string                 $header
@@ -77,6 +80,7 @@ class Page implements PageInterface
      */
     public function __construct(
         $type,
+        array $classes,
         $title,
         $baseHref,
         $header,
@@ -94,6 +98,7 @@ class Page implements PageInterface
         $this->returnTo = $returnTo;
         $this->writable = $writable;
         $this->type = $type;
+        $this->classes = $classes;
     }
 
     /**

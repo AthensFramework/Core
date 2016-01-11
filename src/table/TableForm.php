@@ -43,14 +43,6 @@ class TableForm implements TableFormInterface
     }
 
     /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * @return RowInterface[]
      */
     public function getRows()
@@ -196,6 +188,7 @@ class TableForm implements TableFormInterface
 
     /**
      * @param string                     $id
+     * @param string[]                   $classes
      * @param string                     $type
      * @param string                     $method
      * @param string                     $target
@@ -210,6 +203,7 @@ class TableForm implements TableFormInterface
      */
     public function __construct(
         $id,
+        array $classes,
         $type,
         $method,
         $target,
@@ -254,5 +248,6 @@ class TableForm implements TableFormInterface
         $this->rows = $rows;
         $this->initialRows = $rows;
         $this->canRemove = $canRemove;
+        $this->classes = $classes;
     }
 }

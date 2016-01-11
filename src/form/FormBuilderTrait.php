@@ -199,7 +199,7 @@ trait FormBuilderTrait
     protected function validateActions()
     {
         if ($this->actions === null) {
-            $this->actions = [new FormAction("Submit", "POST", ".")];
+            $this->actions = [new FormAction([], "Submit", "POST", ".")];
         }
     }
 }

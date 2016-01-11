@@ -5,6 +5,7 @@ namespace UWDOEM\Framework\Table;
 use UWDOEM\Framework\Filter\FilterInterface;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
+use UWDOEM\Framework\Writer\WritableTrait;
 
 /**
  * Class Table
@@ -20,28 +21,20 @@ class Table implements TableInterface
     /** @var RowInterface[] */
     protected $rows = [];
 
-    /** @var string */
-    protected $id;
-
     use VisitableTrait;
-
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    use WritableTrait;
 
     /**
      * @param string          $id
+     * @param string[]        $classes
      * @param array           $rows
      * @param FilterInterface $filter
      */
-    public function __construct($id, array $rows, FilterInterface $filter)
+    public function __construct($id, array $classes, array $rows, FilterInterface $filter)
     {
 
         $this->rows = $rows;
+        $this->classes = $classes;
         $this->filter = $filter;
         $this->id = $id;
     }

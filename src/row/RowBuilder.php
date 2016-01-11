@@ -2,13 +2,14 @@
 
 namespace UWDOEM\Framework\Row;
 
+use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\FieldBearer\FieldBearerBearerBuilderTrait;
 
 /**
  * Class RowBuilder
  * @package UWDOEM\Framework\Row
  */
-class RowBuilder
+class RowBuilder extends AbstractBuilder
 {
 
     /** @var string */
@@ -53,7 +54,6 @@ class RowBuilder
      */
     public function build()
     {
-
         $fieldBearer = $this->buildFieldBearer();
 
         if (sizeof($fieldBearer->getFields()) === 0) {
@@ -72,6 +72,7 @@ class RowBuilder
         }
 
         return new Row(
+            $this->classes,
             $fieldBearer,
             $this->onClick,
             $this->highlightable

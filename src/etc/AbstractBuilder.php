@@ -13,6 +13,9 @@ abstract class AbstractBuilder
     /** @var string */
     protected $id;
 
+    /** @var string[] */
+    protected $classes = [];
+
     /** @return static */
     public static function begin()
     {
@@ -32,6 +35,16 @@ abstract class AbstractBuilder
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $class
+     * @return $this
+     */
+    public function addClass($class)
+    {
+        $this->classes[] = $class;
         return $this;
     }
 

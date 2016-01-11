@@ -13,20 +13,21 @@ class SortFilter extends Filter
 {
 
     /**
-     * @param string               $handle
+     * @param string               $id
+     * @param string[]             $classes
      * @param FilterInterface|null $nextFilter
      */
-    public function __construct($handle, FilterInterface $nextFilter = null)
+    public function __construct($id, array $classes, FilterInterface $nextFilter = null)
     {
 
         $statements = [];
-        if (FilterControls::controlIsSet($handle, "fieldname") === true) {
-            $fieldName = FilterControls::getControl($handle, "fieldname");
-            $order = FilterControls::getControl($handle, "order", FilterStatement::COND_SORT_ASC);
+        if (FilterControls::controlIsSet($id, "fieldname") === true) {
+            $fieldName = FilterControls::getControl($id, "fieldname");
+            $order = FilterControls::getControl($id, "order", FilterStatement::COND_SORT_ASC);
 
             $statements[] = new SortingFilterStatement($fieldName, $order, null, null);
         }
 
-        parent::__construct($handle, $statements, $nextFilter);
+        parent::__construct($id, $classes, $statements, $nextFilter);
     }
 }

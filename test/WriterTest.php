@@ -230,8 +230,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $actions = [
-            new FormAction("JS Action", "JS", "console.log('here');"),
-            new FormAction("POST Action", "POST", "post-target")
+            new FormAction([], "JS Action", "JS", "console.log('here');"),
+            new FormAction([], "POST Action", "POST", "post-target")
         ];
         $onValidFunc = function () {
             return "valid";
@@ -290,8 +290,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $actions = [
-            new FormAction("JS Action", "JS", "console.log('here');"),
-            new FormAction("POST Action", "POST", "post-target")
+            new FormAction([], "JS Action", "JS", "console.log('here');"),
+            new FormAction([], "POST Action", "POST", "post-target")
         ];
 
         $id = "f" . (string)rand();
@@ -537,7 +537,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
     {
         $writer = new Writer();
 
-        $actions = [new FormAction("label", "method", "")];
+        $actions = [new FormAction([], "label", "method", "")];
 
         $requestURI = (string)rand();
         $id = "f" . (string)rand();
@@ -738,7 +738,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $filter = FilterBuilder::begin()
             ->setType($type)
-            ->setHandle($handle)
+            ->setId($handle)
             ->build();
 
         $result = $this->stripQuotes($filter->accept($writer));
@@ -764,7 +764,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $filter = FilterBuilder::begin()
             ->setType(Filter::TYPE_SELECT)
-            ->setHandle($handle)
+            ->setId($handle)
             ->addOptions([
                 $optionNames[0] => [$optionFieldNames[0], $optionConditions[0], $optionValues[0]],
                 $optionNames[1] => [$optionFieldNames[1], $optionConditions[1], $optionValues[1]],

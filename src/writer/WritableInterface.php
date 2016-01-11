@@ -13,4 +13,9 @@ interface WritableInterface extends VisitableInterface
      * @return string
      */
     public function getId();
+
+    /**
+     * @return string[]
+     */
+    public function getClasses();
 }

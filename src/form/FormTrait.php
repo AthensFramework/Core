@@ -4,12 +4,11 @@ namespace UWDOEM\Framework\Form;
 
 use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
 use UWDOEM\Framework\Form\FormAction\FormAction;
+use UWDOEM\Framework\Writer\WritableTrait;
 
 trait FormTrait
 {
-
-    /** @var string */
-    protected $id;
+    use WritableTrait;
 
     /** @var string */
     protected $type;
@@ -44,13 +43,8 @@ trait FormTrait
     /** @var FormInterface[] */
     protected $subForms;
 
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    /** @return void */
+    protected abstract function validate();
 
     /**
      * @return string

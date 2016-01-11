@@ -8,6 +8,7 @@ use UWDOEM\Framework\Etc\ORMUtils;
 use UWDOEM\Framework\Row\RowInterface;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
+use UWDOEM\Framework\Writer\WritableTrait;
 
 /**
  * Class Filter
@@ -29,9 +30,6 @@ class Filter implements FilterInterface
     /** @var FilterStatementInterface[] */
     protected $queryStatements = [];
 
-    /** @var string */
-    protected $handle;
-
     /** @var array */
     protected $options = [];
 
@@ -47,21 +45,15 @@ class Filter implements FilterInterface
     protected $nextFilter;
 
     use VisitableTrait;
+    use WritableTrait;
 
     /**
-     * @return string
-     */
-    public function getId()
-    {
-        return md5($this->getHandle());
-    }
-
-    /**
-     * @param string                     $handle
+     * @param string                     $id
+     * @param string[]                   $classes
      * @param FilterStatementInterface[] $statements
      * @param FilterInterface|null       $nextFilter
      */
-    public function __construct($handle, array $statements, FilterInterface $nextFilter = null)
+    public function __construct($id, array $classes, array $statements, FilterInterface $nextFilter = null)
     {
 
         if ($nextFilter === null) {
@@ -70,8 +62,9 @@ class Filter implements FilterInterface
             $this->nextFilter = $nextFilter;
         }
 
-        $this->handle = $handle;
+        $this->id = $id;
         $this->statements = $statements;
+        $this->classes = $classes;
     }
 
     /**
@@ -90,14 +83,6 @@ class Filter implements FilterInterface
     {
         $this->nextFilter = $filter;
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHandle()
-    {
-        return $this->handle;
     }
 
     /**

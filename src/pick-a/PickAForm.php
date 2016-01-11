@@ -9,6 +9,7 @@ use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Form\FormInterface;
 use UWDOEM\Framework\Form\FormAction\FormActionInterface;
+use UWDOEM\Framework\Writer\WritableTrait;
 
 /**
  * Class PickAForm
@@ -17,9 +18,6 @@ use UWDOEM\Framework\Form\FormAction\FormActionInterface;
  */
 class PickAForm implements PickAFormInterface
 {
-
-    /** @var string */
-    protected $id;
 
     /** @var string */
     protected $type;
@@ -43,6 +41,7 @@ class PickAForm implements PickAFormInterface
     protected $errors = [];
 
     use VisitableTrait;
+    use WritableTrait;
 
     /**
      * @return string
@@ -238,19 +237,21 @@ class PickAForm implements PickAFormInterface
 
     /**
      * @param string     $id
+     * @param string[]   $classes
      * @param string     $type
      * @param string     $method
      * @param string     $target
      * @param array      $manifest
      * @param array|null $actions
      */
-    public function __construct($id, $type, $method, $target, array $manifest, $actions = [])
+    public function __construct($id, array $classes, $type, $method, $target, array $manifest, $actions = [])
     {
         $this->id = $id;
+        $this->classes = $classes;
         $this->type = $type;
 
         $this->actions = $actions;
-        $this->pickA = new PickA("$id", $manifest);
+        $this->pickA = new PickA($id, $classes, $manifest);
 
         $this->method = $method;
         $this->target = $target;

@@ -3,6 +3,7 @@
 namespace UWDOEM\Framework\Filter;
 
 use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
+use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
 
 /**
  * Class SearchFilter
@@ -13,17 +14,18 @@ class SearchFilter extends Filter
 {
 
     /**
-     * @param string               $handle
-     * @param FilterInterface|null $nextFilter
+     * @param string                     $id
+     * @param FilterStatementInterface[] $classes
+     * @param FilterInterface|null       $nextFilter
      */
-    public function __construct($handle, FilterInterface $nextFilter = null)
+    public function __construct($id, array $classes, FilterInterface $nextFilter = null)
     {
 
         $statements = [];
         for ($i=0; $i<=5; $i++) {
-            $fieldname = FilterControls::getControl($handle, "fieldname$i");
-            $operation = FilterControls::getControl($handle, "operation$i");
-            $value = FilterControls::getControl($handle, "value$i");
+            $fieldname = FilterControls::getControl($id, "fieldname$i");
+            $operation = FilterControls::getControl($id, "operation$i");
+            $value = FilterControls::getControl($id, "value$i");
 
             if ($fieldname !== "" && $operation !== "" && $value !== "") {
                 $statements[] = new ExcludingFilterStatement($fieldname, $operation, $value, null);
@@ -40,7 +42,7 @@ class SearchFilter extends Filter
             $this->feedback .= $this->feedback === "" ? ", " : "";
             $this->feedback .= $fieldname . " " . $operation . " " . $value;
         }
-        parent::__construct($handle, $statements, $nextFilter);
+        parent::__construct($id, $classes, $statements, $nextFilter);
     }
 
     /**

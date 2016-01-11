@@ -4,12 +4,12 @@
     in soft-pagination.twig
 #}
 
-<div class="pagination-container" data-handle-for="{{ handle }}">
+<div class="pagination-container" data-handle-for="{{ id }}">
     <span class="pagination-arrow-container">
         <a class="pagination-arrow back first" data-page-for="{{ options|first }}">&laquo;</a>&nbsp;
         <a class="pagination-arrow back previous" data-page-for="{{ options|first }}">&lsaquo;</a>&nbsp;
     </span>
-    <select class="pagination-filter {{ handle }}">
+    <select class="pagination-filter {{ id }}">
         {% for option in options %}
         <option value="{{ option }}">{{ option }}</option>
         {% endfor %}
@@ -22,6 +22,6 @@
 </div>
 <script>
     $(function() {
-        uwdoem.filter.setupFilter(uwdoem.pagination.setupPaginationFilter, "{{ handle }}");
+        uwdoem.filter.setupFilter(uwdoem.pagination.setupPaginationFilter, "{{ id }}");
     });
 </script>

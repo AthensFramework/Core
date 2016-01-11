@@ -519,8 +519,7 @@ class Writer extends Visitor
             ->loadTemplate($template)
             ->render(
                 [
-                    "hash" => $filter->getId(),
-                    "handle" => $filter->getHandle(),
+                    "id" => $filter->getId(),
                     "options" => $filter->getOptions(),
                 ]
             );

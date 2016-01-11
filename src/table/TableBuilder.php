@@ -15,9 +15,6 @@ use UWDOEM\Framework\Filter\FilterInterface;
 class TableBuilder extends AbstractBuilder
 {
 
-    /** @var string */
-    protected $id;
-
     /** @var RowInterface[] */
     protected $rows = [];
 
@@ -48,14 +45,6 @@ class TableBuilder extends AbstractBuilder
     }
 
     /**
-     * @return TableBuilder
-     */
-    public static function begin()
-    {
-        return new static();
-    }
-
-    /**
      * @return Table
      */
     public function build()
@@ -66,6 +55,6 @@ class TableBuilder extends AbstractBuilder
             $this->filter = new DummyFilter();
         }
 
-        return new Table($this->id, $this->rows, $this->filter);
+        return new Table($this->id, $this->classes, $this->rows, $this->filter);
     }
 }

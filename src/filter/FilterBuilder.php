@@ -107,16 +107,6 @@ class FilterBuilder extends AbstractBuilder
     }
 
     /**
-     * @param string $name
-     * @return FilterBuilder
-     */
-    public function setHandle($name)
-    {
-        $this->handle = $name;
-        return $this;
-    }
-
-    /**
      * @param string $fieldName
      * @return FilterBuilder
      */
@@ -192,8 +182,8 @@ class FilterBuilder extends AbstractBuilder
      */
     public function build()
     {
+        $this->validateId();
 
-        $handle = $this->retrieveOrException("handle", __METHOD__);
         $type = $this->retrieveOrException("type", __METHOD__);
 
         $statements = [];
@@ -217,22 +207,22 @@ class FilterBuilder extends AbstractBuilder
                     $statements[] = new ExcludingFilterStatement($fieldName, $condition, $criterion, null);
                 }
 
-                return new Filter($handle, $statements, $this->nextFilter);
+                return new Filter($this->id, [], $statements, $this->nextFilter);
 
                 break;
             case Filter::TYPE_PAGINATION:
                 $maxPerPage = isset($this->maxPerPage) ? $this->maxPerPage : Settings::getDefaultPagination();
-                $page = isset($this->page) ? $this->page : FilterControls::getControl($handle, "page", 1);
+                $page = isset($this->page) ? $this->page : FilterControls::getControl($this->id, "page", 1);
 
-                return new PaginationFilter($handle, $maxPerPage, $page, $this->nextFilter);
+                return new PaginationFilter($this->id, [], $maxPerPage, $page, $this->nextFilter);
 
                 break;
             case Filter::TYPE_SORT:
-                return new SortFilter($handle, $this->nextFilter);
+                return new SortFilter($this->id, [], $this->nextFilter);
 
                 break;
             case Filter::TYPE_SEARCH:
-                return new SearchFilter($handle, $this->nextFilter);
+                return new SearchFilter($this->id, [], $this->nextFilter);
                 break;
             case Filter::TYPE_SELECT:
                 $options = $this->retrieveOrException("options", __METHOD__, "chose to create a select filter");
@@ -241,7 +231,7 @@ class FilterBuilder extends AbstractBuilder
                 if (array_key_exists($default, $options) === false) {
                     $optionsText = implode(", ", array_keys($options));
                     throw new \Exception(
-                        "For select filter '$handle', your default choice " .
+                        "For select filter '{$this->id}', your default choice " .
                         "'$default' must be among options '$optionsText'."
                     );
                 }
@@ -253,7 +243,7 @@ class FilterBuilder extends AbstractBuilder
                     $options
                 );
 
-                return new SelectFilter($handle, $statements, $default, $this->nextFilter);
+                return new SelectFilter($this->id, [], $statements, $default, $this->nextFilter);
                 break;
             default:
                 throw new \Exception("Invalid filter type.");

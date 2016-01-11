@@ -4,11 +4,11 @@
     in soft-pagination.twig
 #}
 
-<div class="sort-container" data-handle-for="{{ handle }}">
+<div class="sort-container" data-handle-for="{{ id }}">
 
 </div>
 <script>
     $(function() {
-        uwdoem.filter.setupFilter(uwdoem.sort.setupSortFilter, "{{ handle }}");
+        uwdoem.filter.setupFilter(uwdoem.sort.setupSortFilter, "{{ id }}");
     });
 </script>

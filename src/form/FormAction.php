@@ -3,6 +3,7 @@
 namespace UWDOEM\Framework\Form\FormAction;
 
 use UWDOEM\Framework\Visitor\VisitableTrait;
+use UWDOEM\Framework\Writer\WritableTrait;
 
 /**
  * Class FormAction
@@ -22,25 +23,20 @@ class FormAction implements FormActionInterface
     protected $target;
 
     use VisitableTrait;
+    use WritableTrait;
 
     /**
-     * @return string
+     * @param string[] $classes
+     * @param string   $label
+     * @param string   $method
+     * @param string   $target
      */
-    public function getId()
-    {
-        return md5($this->getLabel() . $this->getMethod() . $this->getTarget());
-    }
-
-    /**
-     * @param string $label
-     * @param string $method
-     * @param string $target
-     */
-    public function __construct($label, $method, $target)
+    public function __construct(array $classes, $label, $method, $target)
     {
         $this->label = $label;
         $this->method = $method;
         $this->target = $target;
+        $this->classes = $classes;
     }
 
     /**

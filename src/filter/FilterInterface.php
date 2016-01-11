@@ -23,11 +23,6 @@ interface FilterInterface extends WritableInterface
     public function getFeedback();
 
     /**
-     * @return string
-     */
-    public function getHandle();
-
-    /**
      * @return FilterInterface
      */
     public function getNextFilter();

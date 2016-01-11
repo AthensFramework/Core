@@ -18,20 +18,21 @@ class SelectFilter extends Filter
     private $default;
 
     /**
-     * @param string                     $handle
+     * @param string                     $id
+     * @param string[]                   $classes
      * @param FilterStatementInterface[] $statements
      * @param string                     $default
      * @param FilterInterface|null       $nextFilter
      */
-    public function __construct($handle, array $statements, $default, FilterInterface $nextFilter = null)
+    public function __construct($id, array $classes, array $statements, $default, FilterInterface $nextFilter = null)
     {
         $this->options = array_keys($statements);
+        $this->default = $default;
 
-        $selection = FilterControls::getControl($handle, "value", $default);
+        $selection = FilterControls::getControl($id, "value", $default);
 
         $statements = [$statements[$selection]];
 
-        parent::__construct($handle, $statements, $nextFilter);
-        $this->default = $default;
+        parent::__construct($id, $classes, $statements, $nextFilter);
     }
 }

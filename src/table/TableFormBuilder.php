@@ -109,6 +109,7 @@ class TableFormBuilder extends AbstractBuilder
 
         return new TableForm(
             $this->id,
+            $this->classes,
             $this->type,
             $this->method,
             $this->target,

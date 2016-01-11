@@ -1,7 +1,7 @@
-<div class="search-container" data-handle-for={{ handle }}>
-    <div class='search-icon' data-handle-for={{ handle }} tabindex=0><a href='javascript:null;'>&nbsp;</a></div>
+<div class="search-container" data-handle-for={{ id }}>
+    <div class='search-icon' data-handle-for={{ id }} tabindex=0><a href='javascript:null;'>&nbsp;</a></div>
 
-    <div class='search-table-content' data-handle-for={{ handle }}>
+    <div class='search-table-content' data-handle-for={{ id }}>
         <form onSubmit="return false;">
             <table>
                 {% for i in 0..4 %}
@@ -27,13 +27,13 @@
                     </tr>
                 {% endfor %}
             </table>
-            <input class='search-submit {{ handle }}' type=submit value=Search>
+            <input class='search-submit {{ id }}' type=submit value=Search>
         </form>
     </div>
 
     <script>
         $(function() {
-            uwdoem.filter.setupFilter(uwdoem.search.setupSearchFilter, "{{ handle }}");
+            uwdoem.filter.setupFilter(uwdoem.search.setupSearchFilter, "{{ id }}");
         });
     </script>
 </div>

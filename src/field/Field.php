@@ -6,6 +6,7 @@ use UWDOEM\Framework\Etc\StringUtils;
 use UWDOEM\Framework\Visitor\VisitableTrait;
 
 use DateTime;
+use UWDOEM\Framework\Writer\WritableTrait;
 
 /**
  * Class Field provides a small, typed data container for display and
@@ -26,6 +27,8 @@ class Field implements FieldInterface
     const FIELD_TYPE_PRIMARY_KEY = "primary-key";
     const FIELD_TYPE_FOREIGN_KEY = "foreign-key";
     const FIELD_TYPE_AUTO_TIMESTAMP = "auto-timestamp";
+
+    use WritableTrait;
 
     /** @var bool  */
     protected $required;

@@ -23,7 +23,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase
         $fieldBearer = FieldBearerBuilder::begin()
             ->addFields([new Field("literal", "A literal field", [])])
             ->build();
-        return new MockForm("f-" . (string)rand(), "base", "post", "_self", $fieldBearer, function () {
+        return new MockForm("f-" . (string)rand(), [], "base", "post", "_self", $fieldBearer, function () {
         }, function () {
         });
     }

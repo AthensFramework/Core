@@ -75,7 +75,7 @@ class TableTest extends PHPUnit_Framework_TestCase
         }
 
         $filter = FilterBuilder::begin()
-            ->setHandle("myFilter")
+            ->setId("myFilter")
             ->setType(Filter::TYPE_STATIC)
             ->setFieldName($fieldName)
             ->setCondition(FilterStatement::COND_GREATER_THAN)

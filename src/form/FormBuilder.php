@@ -44,6 +44,7 @@ class FormBuilder extends AbstractBuilder
 
         return new Form(
             $this->id,
+            $this->classes,
             $this->type,
             $this->method,
             $this->target,

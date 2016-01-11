@@ -39,13 +39,13 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
         $filter = FilterBuilder::begin()
             ->setType(Filter::TYPE_STATIC)
-            ->setHandle($handle)
+            ->setId($handle)
             ->setFieldName($fieldName)
             ->setCondition($condition)
             ->setCriterion($criterion)
             ->build();
 
-        $this->assertEquals($handle, $filter->getHandle());
+        $this->assertEquals($handle, $filter->getId());
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
         $statement = $filter->getStatements()[0];
@@ -70,7 +70,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         }
 
         $filter = FilterBuilder::begin()
-            ->setHandle("myFilter")
+            ->setId("myFilter")
             ->setType(Filter::TYPE_STATIC)
             ->setFieldName($fieldName)
             ->setCondition(FilterStatement::COND_GREATER_THAN)
@@ -90,12 +90,12 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
         $filter = FilterBuilder::begin()
             ->setType($type)
-            ->setHandle($handle)
+            ->setId($handle)
             ->setPage($page)
             ->setMaxPerPage($maxPerPage)
             ->build();
 
-        $this->assertEquals($handle, $filter->getHandle());
+        $this->assertEquals($handle, $filter->getId());
         $this->assertTrue($filter instanceof PaginationFilter);
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
@@ -114,10 +114,10 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
         $filter = FilterBuilder::begin()
             ->setType($type)
-            ->setHandle($handle)
+            ->setId($handle)
             ->build();
 
-        $this->assertEquals($handle, $filter->getHandle());
+        $this->assertEquals($handle, $filter->getId());
         $this->assertTrue($filter instanceof SortFilter);
 
         // No controls set for this filter, hence no statements
@@ -137,7 +137,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
         $filter = FilterBuilder::begin()
             ->setType($type)
-            ->setHandle($handle)
+            ->setId($handle)
             ->build();
 
         $this->assertEquals(1, sizeof($filter->getStatements()));
@@ -162,12 +162,12 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
         $filter = FilterBuilder::begin()
             ->setType($type)
-            ->setHandle($handle)
+            ->setId($handle)
             ->build();
 
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
-        $this->assertEquals($handle, $filter->getHandle());
+        $this->assertEquals($handle, $filter->getId());
         $this->assertTrue($filter instanceof PaginationFilter);
         $statement = $filter->getStatements()[0];
 
@@ -180,7 +180,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException              \Exception
-     * @expectedExceptionMessageRegExp #You must set handle.*#
+     * @expectedExceptionMessageRegExp #Must use ::setId to provide a unique id.*#
      */
     public function testBuildFilterErrorWithoutHandle()
     {
@@ -195,7 +195,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         $count = rand(50, 200);
 
         $filter = FilterBuilder::begin()
-            ->setHandle("pagination")
+            ->setId("pagination")
             ->setMaxPerPage($maxPerPage)
             ->setType(Filter::TYPE_PAGINATION)
             ->build();
@@ -227,7 +227,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
         $selectFilterBuilder = FilterBuilder::begin()
             ->setType(Filter::TYPE_SELECT)
-            ->setHandle($handle)
+            ->setId($handle)
             ->addOptions([
                 $optionNames[0] => [$optionFieldNames[0], $optionConditions[0], $optionValues[0]],
                 $optionNames[1] => [$optionFieldNames[1], $optionConditions[1], $optionValues[1]],
@@ -275,7 +275,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
     public function testSearchFilterMakeOptions()
     {
         $filter = FilterBuilder::begin()
-            ->setHandle("search")
+            ->setId("search")
             ->setType(Filter::TYPE_SEARCH)
             ->build();
 
@@ -303,7 +303,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         $count = rand(50, 200);
 
         $filter = FilterBuilder::begin()
-            ->setHandle("pagination")
+            ->setId("pagination")
             ->setMaxPerPage($maxPerPage)
             ->setType(Filter::TYPE_PAGINATION)
             ->build();
@@ -321,12 +321,12 @@ class FilterTest extends PHPUnit_Framework_TestCase
     public function testBuildFilterWithNextFilter()
     {
         $filter1 = FilterBuilder::begin()
-            ->setHandle("Filter1")
+            ->setId("Filter1")
             ->setType(Filter::TYPE_PAGINATION)
             ->build();
 
         $filter2 = FilterBuilder::begin()
-            ->setHandle("Filter2")
+            ->setId("Filter2")
             ->setNextFilter($filter1)
             ->setType(Filter::TYPE_PAGINATION)
             ->build();
@@ -337,7 +337,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
     public function testChainedFilterByQuery()
     {
         $filter1 = FilterBuilder::begin()
-            ->setHandle("Filter1")
+            ->setId("Filter1")
             ->setType(Filter::TYPE_STATIC)
             ->setFieldName("TestClass.Id")
             ->setCondition(FilterStatement::COND_SORT_ASC)
@@ -345,7 +345,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
         $filter2 = FilterBuilder::begin()
             ->setNextFilter($filter1)
-            ->setHandle("Filter2")
+            ->setId("Filter2")
             ->setType(Filter::TYPE_STATIC)
             ->setFieldName("TestClass.FieldFloat")
             ->setCondition(FilterStatement::COND_SORT_DESC)
@@ -362,7 +362,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
     public function testForceFilterByRow()
     {
         $filter1 = FilterBuilder::begin()
-            ->setHandle("Filter1")
+            ->setId("Filter1")
             ->setType(Filter::TYPE_STATIC)
             ->setFieldName("TestClass.Id")
             ->setCondition(FilterStatement::COND_SORT_ASC)
@@ -372,7 +372,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         // available to the query.
         $filter2 = FilterBuilder::begin()
             ->setNextFilter($filter1)
-            ->setHandle("Filter2")
+            ->setId("Filter2")
             ->setType(Filter::TYPE_STATIC)
             ->setFieldName("TestClass.MadeUpFieldToForceRowSort")
             ->setCondition(FilterStatement::COND_SORT_DESC)
@@ -382,7 +382,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         // filter has forced the whole chain into row-filtering.
         $filter3 = FilterBuilder::begin()
             ->setNextFilter($filter2)
-            ->setHandle("Filter3")
+            ->setId("Filter3")
             ->setType(Filter::TYPE_STATIC)
             ->setFieldName("TestClass.FieldFloat")
             ->setCondition(FilterStatement::COND_SORT_DESC)
@@ -401,7 +401,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         // This pagination filter should be able to execute by query, so it should remain
         // a hard pagination filter.
         $filter1 = FilterBuilder::begin()
-            ->setHandle("Filter1")
+            ->setId("Filter1")
             ->setType(Filter::TYPE_PAGINATION)
             ->build();
 
@@ -409,7 +409,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         // available to the query.
         $filter2 = FilterBuilder::begin()
             ->setNextFilter($filter1)
-            ->setHandle("Filter2")
+            ->setId("Filter2")
             ->setType(Filter::TYPE_STATIC)
             ->setFieldName("TestClass.MadeUpFieldToForceRowSort")
             ->setCondition(FilterStatement::COND_SORT_DESC)
@@ -419,7 +419,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         // that it should designate itself as a soft pagination filter.
         $filter3 = FilterBuilder::begin()
             ->setNextFilter($filter2)
-            ->setHandle("Filter3")
+            ->setId("Filter3")
             ->setType(Filter::TYPE_PAGINATION)
             ->build();
 

@@ -23,7 +23,7 @@ class TableFormTest extends PHPUnit_Framework_TestCase
     public function testBuilder()
     {
 
-        $actions = [new FormAction("label", "method", "")];
+        $actions = [new FormAction([], "label", "method", "")];
         $onValidFunc = function () {
             return "valid";
         };

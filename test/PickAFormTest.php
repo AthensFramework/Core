@@ -17,7 +17,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase
 
     public function testPickAFormBuilding()
     {
-        $actions = [new FormAction("label", "method", "")];
+        $actions = [new FormAction([], "label", "method", "")];
 
         $id = "f" . (string)rand();
         $type = "t" . (string)rand();

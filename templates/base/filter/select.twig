@@ -1,6 +1,6 @@
-<div class="select-container" data-handle-for="{{ handle }}">
+<div class="select-container" data-handle-for="{{ id }}">
 
-    <select data-handle-for="{{ handle }}">
+    <select data-handle-for="{{ id }}">
         {% for option in options %}
             <option value="{{ option }}">{{ option }}</option>
         {% endfor %}
@@ -9,6 +9,6 @@
 </div>
 <script>
     $(function() {
-        uwdoem.select.setupSelectFilter("{{ handle }}");
+        uwdoem.select.setupSelectFilter("{{ id }}");
     });
 </script>

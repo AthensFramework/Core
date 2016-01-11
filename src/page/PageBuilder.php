@@ -167,6 +167,7 @@ class PageBuilder extends AbstractBuilder
 
         return new Page(
             $this->type,
+            $this->classes,
             $this->title,
             $this->baseHref,
             $this->header,

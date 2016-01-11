@@ -22,7 +22,7 @@ class PickABuilder extends AbstractBuilder
     {
         $this->validateId();
 
-        return new PickA($this->id, $this->manifest);
+        return new PickA($this->id, $this->classes, $this->manifest);
     }
 
     /**
