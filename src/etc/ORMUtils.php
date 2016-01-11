@@ -266,6 +266,15 @@ class ORMUtils
 
         $fields = [];
         $initial = "";
+
+
+        $tableMap = current($columns)->getTable();
+
+        $versionColumnName = "";
+        if (array_key_exists('versionable', $tableMap->getBehaviors()) === true) {
+            $versionColumnName = $tableMap->getBehaviors()['versionable']['version_column'];
+        }
+
         foreach ($columns as $column) {
             $label = $column->getName();
             $choices = [];
@@ -279,6 +288,9 @@ class ORMUtils
                 $fieldRequired = false;
             } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
                 $fieldType = FIELD::FIELD_TYPE_AUTO_TIMESTAMP;
+                $fieldRequired = false;
+            } elseif ($column->getName() === $versionColumnName) {
+                $fieldType = "hidden";
                 $fieldRequired = false;
             } else {
                 $fieldType = self::chooseFieldType($column);
@@ -358,18 +370,18 @@ class ORMUtils
             $unused = static::getClassTableMap($classTableMapName)->getColumnByPhpName($fieldPhpName);
 
             return static::createQuery($classTableMapName)->
-                        {"filterBy" . $fieldPhpName}($value)->
-                        $findType();
+            {"filterBy" . $fieldPhpName}($value)->
+            $findType();
 
             // Else, the field is native to a parent class (we hope!)...
         } catch (ColumnNotFoundException $e) {
             // Make recursive. Include error for when we cannot find the field.
 
             return static::createQuery($classTableMapName)->
-                        {"use" . static::findParentTables($classTableMapName)[0]->getPhpName() . "Query"}()->
-                        {"filterBy" . $fieldPhpName}($value)->
-                        endUse()->
-                        $findType();
+            {"use" . static::findParentTables($classTableMapName)[0]->getPhpName() . "Query"}()->
+            {"filterBy" . $fieldPhpName}($value)->
+            endUse()->
+            $findType();
         }
     }
 
@@ -440,7 +452,7 @@ class ORMUtils
         if (array_key_exists($urlIdKey, $_GET) === true) {
             $object = static::getObjectById($classTableMapName, $_GET[$urlIdKey]);
         } else {
-        // Else, test whether a related id is in the GET vars
+            // Else, test whether a related id is in the GET vars
             foreach ($_GET as $key => $value) {
                 if (static::isColumnOf($classTableMapName, strtoupper($key)) === true) {
                     $fieldPhpName = StringUtils::toUpperCamelCase($key);
