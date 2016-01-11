@@ -209,7 +209,9 @@ class FieldBearerBuilder extends AbstractBuilder
 
         if ($this->makeLiteral === true) {
             foreach ($fieldBearer->getFields() as $field) {
-                $field->setType(Field::FIELD_TYPE_LITERAL)->setRequired(false);
+                if ($field->getType() !== Field::FIELD_TYPE_SECTION_LABEL) {
+                    $field->setType(Field::FIELD_TYPE_LITERAL)->setRequired(false);
+                }
             }
         }
 

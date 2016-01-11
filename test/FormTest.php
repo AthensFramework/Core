@@ -138,22 +138,29 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testMakeLiteralWithFormBuilder()
     {
+        $label = new Field(Field::FIELD_TYPE_SECTION_LABEL, "section label");
         $field1 = new Field(Field::FIELD_TYPE_BOOLEAN, "", []);
         $field2 = new Field(Field::FIELD_TYPE_TEXT, "", []);
 
         $fields = [
+            "label" => $label,
             "field1" => $field1,
             "field2" => $field2
         ];
 
-        FormBuilder::begin()
+        $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
             ->addFields($fields)
             ->makeLiteral()
             ->build();
 
-        $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field1->getType());
-        $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field2->getType());
+        foreach ($form->getFieldBearer()->getFields() as $name => $field) {
+            if ($name === "label") {
+                $this->assertEquals(Field::FIELD_TYPE_SECTION_LABEL, $field->getType());
+            } else {
+                $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field->getType());
+            }
+        }
     }
 
     public function testSetFieldValuesWithFormBuilder()

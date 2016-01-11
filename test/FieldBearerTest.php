@@ -90,6 +90,7 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     public function testMakeLiteral()
     {
         $fields = [
+            "label" => new Field(Field::FIELD_TYPE_SECTION_LABEL, "A section label"),
             "fieldName" => new Field(Field::FIELD_TYPE_BOOLEAN, "A boolean field"),
             "hiddenFieldName" => new Field(Field::FIELD_TYPE_TEXT, "A text field")
         ];
@@ -99,8 +100,12 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             ->makeLiteral()
             ->build();
 
-        foreach ($fieldBearer->getFields() as $field) {
-            $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field->getType());
+        foreach ($fieldBearer->getFields() as $name => $field) {
+            if ($name === "label") {
+                $this->assertEquals(Field::FIELD_TYPE_SECTION_LABEL, $field->getType());
+            } else {
+                $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field->getType());
+            }
         }
     }
 
