@@ -17,7 +17,7 @@
     "dompdf/dompdf" : "0.6.*",
     "uwdoem/person": "1.*",
     "uwdoem/encryption": "0.*",
-    "uwdoem/csrf": "0.*",
+    "uwdoem/csrf": "1.*",
     "phpoffice/phpexcel": "1.*"
   },
   "require-dev": {
