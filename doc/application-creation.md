@@ -145,6 +145,7 @@ Steps
   use MyProject\Student;
   
   $form = FormBuilder::begin()
+      ->setId("student-form")
       ->addObject(new Student())
       ->build();
       
@@ -186,6 +187,7 @@ Steps
   }
   
   $table = TableBuilder::begin()
+      ->setId("students-table")
       ->setRows($rows)
       ->build();
       

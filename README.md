@@ -82,6 +82,7 @@ use MyProject\Student;
 
 
 $form = FormBuilder::begin()
+    ->setId("student-form")
     ->addObject(new Student())
     ->build();
 
