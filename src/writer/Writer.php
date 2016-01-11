@@ -154,6 +154,7 @@ class Writer extends Visitor
             ->render(
                 [
                     "id" => $section->getId(),
+                    "classes" => $section->getClasses(),
                     "writables" => $section->getWritables(),
                 ]
             );
@@ -183,7 +184,8 @@ class Writer extends Visitor
             ->loadTemplate($template)
             ->render(
                 [
-                    "hash" => $page->getId(),
+                    "id" => $page->getId(),
+                    "classes" => $page->getClasses(),
                     "pageType" => $page->getType(),
                     "title" => $page->getTitle(),
                     "header" => $page->getHeader(),
@@ -279,6 +281,7 @@ class Writer extends Visitor
             ->render(
                 [
                     "id" => $table->getId(),
+                    "classes" => $table->getClasses(),
                     "rows" => $table->getRows(),
                     "filters" => $filters,
                 ]
@@ -302,6 +305,7 @@ class Writer extends Visitor
             ->render(
                 [
                     "id" => $form->getId(),
+                    "classes" => $form->getClasses(),
                     "method" => $form->getMethod(),
                     "target" => $form->getTarget(),
                     "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
@@ -353,6 +357,7 @@ class Writer extends Visitor
             ->render(
                 [
                     "id" => $pickA->getId(),
+                    "classes" => $pickA->getClasses(),
                     "manifest" => $pickA->getManifest(),
                 ]
             );
@@ -375,6 +380,7 @@ class Writer extends Visitor
             ->render(
                 [
                     "id" => $pickAForm->getId(),
+                    "classes" => $pickAForm->getClasses(),
                     "method" => $pickAForm->getMethod(),
                     "target" => $pickAForm->getTarget(),
                     "manifest" => $pickAForm->getManifest(),

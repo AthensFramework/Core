@@ -36,16 +36,20 @@ class FilterTest extends PHPUnit_Framework_TestCase
         $condition = array_rand(array_flip($this->conditions), 1);
         $criterion = (string)rand();
         $handle = (string)rand();
+        $classes = [(string)rand(), (string)rand()];
 
         $filter = FilterBuilder::begin()
             ->setType(Filter::TYPE_STATIC)
             ->setId($handle)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->setFieldName($fieldName)
             ->setCondition($condition)
             ->setCriterion($criterion)
             ->build();
 
         $this->assertEquals($handle, $filter->getId());
+        $this->assertEquals($classes, $filter->getClasses());
         $this->assertEquals(1, sizeof($filter->getStatements()));
 
         $statement = $filter->getStatements()[0];

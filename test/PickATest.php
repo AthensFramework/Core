@@ -16,6 +16,7 @@ class PickATest extends PHPUnit_Framework_TestCase
         $labels = [(string)rand(), (string)rand()];
 
         $id = "p" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
 
         $sections = [];
         for ($i = 1; $i <= 3; $i++) {
@@ -27,6 +28,8 @@ class PickATest extends PHPUnit_Framework_TestCase
 
         $pickA = PickABuilder::begin()
             ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->addLabel($labels[0])
             ->addWritables([
                 "l1" => $sections["l1"],
@@ -41,7 +44,7 @@ class PickATest extends PHPUnit_Framework_TestCase
         $manifest = $pickA->getManifest();
 
         $this->assertEquals($id, $pickA->getId());
-
+        $this->assertEquals($classes, $pickA->getClasses());
     }
 
     public function testGetManifest()

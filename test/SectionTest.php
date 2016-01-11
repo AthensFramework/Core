@@ -36,15 +36,19 @@ class SectionTest extends PHPUnit_Framework_TestCase
         $label = "label";
         $writable = $field;
         $id = "s" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
 
         $section = SectionBuilder::begin()
             ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->addContent($content)
             ->addLabel($label)
             ->addWritable($writable)
             ->build();
 
         $this->assertEquals($id, $section->getId());
+        $this->assertEquals($classes, $section->getClasses());
         $this->assertEquals(nl2br($content), $section->getWritables()[0]->getInitial());
         $this->assertEquals($label, $section->getWritables()[1]->getInitial());
         $this->assertContains($writable, $section->getWritables());

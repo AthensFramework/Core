@@ -1,5 +1,5 @@
 <form id={{ id }}
-      class="prevent-double-submit {% if errors is not empty %}has-errors{% endif %}"
+      class="{{ classes|join(' ') }} prevent-double-submit {% if errors is not empty %}has-errors{% endif %}"
       method="{{ method }}" target="{{ target }}" data-request-uri="{{ requestURI }}">
 
     {%  if errors is not empty %}

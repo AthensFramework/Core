@@ -1,6 +1,4 @@
-<div id="{{ id }}" class="section-container" data-request-uri="{{ requestURI }}">
-    {% if label %}<div class="section-label">{{ label }}</div>{% endif %}
-    <div class="section-content">{{ content|saferaw|raw }}</div>
+<div id="{{ id }}" class="section-container {{ classes|join(' ') }}" data-request-uri="{{ requestURI }}">
     <div class="section-writables">
     {% for writable in writables  %}
         {{ writable|write|raw }}

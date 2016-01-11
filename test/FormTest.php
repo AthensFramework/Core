@@ -43,10 +43,13 @@ class FormTest extends PHPUnit_Framework_TestCase
         $type = "t" . (string)rand();
         $method = "m" . (string)rand();
         $target = "t" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
 
         $form = FormBuilder::begin()
             ->clear()
             ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->setType($type)
             ->setMethod($method)
             ->setTarget($target)
@@ -61,6 +64,7 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($fields, $form->getFieldBearer()->getFields());
         $this->assertEquals(array_keys($fields), $form->getFieldBearer()->getVisibleFieldNames());
         $this->assertEquals($id, $form->getId());
+        $this->assertEquals($classes, $form->getClasses());
         $this->assertEquals($type, $form->getType());
         $this->assertEquals($method, $form->getMethod());
         $this->assertEquals($target, $form->getTarget());

@@ -207,22 +207,22 @@ class FilterBuilder extends AbstractBuilder
                     $statements[] = new ExcludingFilterStatement($fieldName, $condition, $criterion, null);
                 }
 
-                return new Filter($this->id, [], $statements, $this->nextFilter);
+                return new Filter($this->id, $this->classes, $statements, $this->nextFilter);
 
                 break;
             case Filter::TYPE_PAGINATION:
                 $maxPerPage = isset($this->maxPerPage) ? $this->maxPerPage : Settings::getDefaultPagination();
                 $page = isset($this->page) ? $this->page : FilterControls::getControl($this->id, "page", 1);
 
-                return new PaginationFilter($this->id, [], $maxPerPage, $page, $this->nextFilter);
+                return new PaginationFilter($this->id, $this->classes, $maxPerPage, $page, $this->nextFilter);
 
                 break;
             case Filter::TYPE_SORT:
-                return new SortFilter($this->id, [], $this->nextFilter);
+                return new SortFilter($this->id, $this->classes, $this->nextFilter);
 
                 break;
             case Filter::TYPE_SEARCH:
-                return new SearchFilter($this->id, [], $this->nextFilter);
+                return new SearchFilter($this->id, $this->classes, $this->nextFilter);
                 break;
             case Filter::TYPE_SELECT:
                 $options = $this->retrieveOrException("options", __METHOD__, "chose to create a select filter");
@@ -243,7 +243,7 @@ class FilterBuilder extends AbstractBuilder
                     $options
                 );
 
-                return new SelectFilter($this->id, [], $statements, $default, $this->nextFilter);
+                return new SelectFilter($this->id, $this->classes, $statements, $default, $this->nextFilter);
                 break;
             default:
                 throw new \Exception("Invalid filter type.");

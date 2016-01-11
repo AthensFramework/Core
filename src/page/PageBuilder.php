@@ -139,6 +139,7 @@ class PageBuilder extends AbstractBuilder
      */
     public function build()
     {
+        $this->validateId();
 
         if ($this->type === null) {
             throw new \Exception("You must set a page type using ::setType before calling this function.");
@@ -166,15 +167,7 @@ class PageBuilder extends AbstractBuilder
         }
 
         return new Page(
-            $this->type,
-            $this->classes,
-            $this->title,
-            $this->baseHref,
-            $this->header,
-            $this->subHeader,
-            $this->breadCrumbs,
-            $this->returnTo,
-            $this->writable
+            $this->id, $this->type, $this->classes, $this->title, $this->baseHref, $this->header, $this->subHeader, $this->breadCrumbs, $this->returnTo, $this->writable
         );
     }
 }

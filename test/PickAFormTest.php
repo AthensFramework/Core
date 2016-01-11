@@ -20,6 +20,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase
         $actions = [new FormAction([], "label", "method", "")];
 
         $id = "f" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
         $type = "t" . (string)rand();
         $method = "m" . (string)rand();
         $target = "t" . (string)rand();
@@ -36,6 +37,8 @@ class PickAFormTest extends PHPUnit_Framework_TestCase
 
         $form = PickAFormBuilder::begin()
             ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->setType($type)
             ->setMethod($method)
             ->setTarget($target)
@@ -54,6 +57,7 @@ class PickAFormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array_combine($labels, $forms), $form->getSubForms());
         $this->assertEquals($actions, array_values($form->getActions()));
         $this->assertEquals($id, $form->getId());
+        $this->assertEquals($classes, $form->getClasses());
         $this->assertEquals($type, $form->getType());
         $this->assertEquals($method, $form->getMethod());
         $this->assertEquals($target, $form->getTarget());

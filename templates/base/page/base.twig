@@ -33,7 +33,7 @@
 
     {% endblock project_head %}
 </head>
-<body class="{{ pageType }} {{ [header, subHeader]|join('-')|slugify }}">
+<body id="{{ id }}" class="{{ pageType }} {{ classes|join(' ') }}">
 {% block body %}
 <div class="loading-gif hidden"></div>
 

@@ -243,11 +243,14 @@ class WriterTest extends PHPUnit_Framework_TestCase
         };
 
         $id = "f" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
         $method = "m" . (string)rand();
         $target = "t" . (string)rand();
 
         $form = FormBuilder::begin()
             ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->setMethod($method)
             ->setTarget($target)
             ->setActions($actions)
@@ -267,6 +270,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains("<form", $result);
         $this->assertContains("id=$id", $result);
+        $this->assertContains("class=" . implode(" ", $classes), $result);
         $this->assertContains("method=$method", $result);
         $this->assertContains("target=$target", $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
@@ -443,7 +447,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("form-errors", $result);
 
         // Assert that form has been given the class has-errors
-        $this->assertContains("class=prevent-double-submit has-errors", $result);
+        $this->assertContains("class= prevent-double-submit has-errors", $result);
     }
 
     public function testVisitSection()
@@ -451,6 +455,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $id = "s" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
         $requestURI = (string)rand();
 
         $subSection = SectionBuilder::begin()
@@ -460,6 +465,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $section = SectionBuilder::begin()
             ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->addLabel("Label")
             ->addContent("Some content.")
             ->addWritable($subSection)
@@ -470,7 +477,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitSection($section));
 
-        $this->assertContains("<div id=$id class=section-container", $result);
+        $this->assertContains("<div id=$id ", $result);
+        $this->assertContains("class=section-container " . implode(' ', $classes), $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
         $this->assertContains("<div class=section-label>Label</div>", $result);
         $this->assertContains("<div class=section-writables>", $result);
@@ -482,6 +490,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $id = "p" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
         $requestURI = (string)rand();
 
         $contents = [
@@ -509,6 +518,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $pickA = PickABuilder::begin()
             ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->addLabel($labels[0])
             ->addWritables([
                 "l1" => $sections[0],
@@ -522,7 +533,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitPickA($pickA));
 
-        $this->assertContains("<div id=$id class=select-a-section-container", $result);
+        $this->assertContains("<div id=$id class=select-a-section-container " . implode(" ", $classes), $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
 
         $this->assertContains($labels[0], $result);
@@ -541,6 +552,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $requestURI = (string)rand();
         $id = "f" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
 
         $forms = [];
         $labels = [];
@@ -554,6 +566,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $pickAForm = PickAFormBuilder::begin()
             ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->addLabel("Label Text")
             ->addForms([
                 $labels[0] => $forms[0],
@@ -571,7 +585,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitPickAForm($pickAForm));
 
-        $this->assertContains("<div id=$id class=select-a-section-container", $result);
+        $this->assertContains("<div id=$id", $result);
+        $this->assertContains("class=select-a-section-container " . implode(" ", $classes), $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
 
         $this->assertContains($labels[0], $result);
@@ -692,6 +707,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $id = "t" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
         $requestURI = (string)rand();
 
         $field1 = new Field("text", "Text Field Label", (string)rand());
@@ -708,6 +724,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $table = TableBuilder::begin()
             ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->setRows([$row1, $row2])
             ->build();
 
@@ -719,7 +737,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $row1Written = $this->stripQuotes($writer->visitRow($row1));
         $row2Written = $this->stripQuotes($writer->visitRow($row2));
 
-        $this->assertContains("class=table-container id=$id", $result);
+        $this->assertContains("id=$id class=table-container", $result);
+        $this->assertContains("class=table-container " . implode(" ", $classes), $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
         $this->assertContains("</table>", $result);
 
@@ -794,7 +813,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $pageHeader = "Page Header";
         $pageSubHeader = "Page subheader";
 
-        $expectedBodyClass = StringUtils::slugify(implode("-", [$pageHeader, $pageSubHeader]));
+        $id = "p" . (string)rand();
+        $classes = [(string)rand(), (string)rand()];
 
         $section = SectionBuilder::begin()
             ->setId("s" . (string)rand())
@@ -803,6 +823,9 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $page = PageBuilder::begin()
+            ->setId($id)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->setWritable($section)
             ->setHeader($pageHeader)
             ->setSubHeader($pageSubHeader)
@@ -837,7 +860,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("<title>Page Title</title>", $result);
         $this->assertContains("<base href=.", $result);
         $this->assertContains("</head>", $result);
-        $this->assertContains("<body class=$pageType $expectedBodyClass>", $result);
+        $this->assertContains("<body id=$id", $result);
+        $this->assertContains("class=$pageType " . implode(" ", $classes), $result);
         $this->assertContains("<li><a target=_self href=http://example.com>Key</a></li>", $result);
         $this->assertContains("<h1 class=header>$pageHeader</h1>", $result);
         $this->assertContains("<h2 class=subheader>$pageSubHeader</h2>", $result);

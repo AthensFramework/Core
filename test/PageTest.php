@@ -45,7 +45,9 @@ class PageTest extends PHPUnit_Framework_TestCase
             ->addLabel($label)
             ->build();
 
+        $id = "i" . (string)rand();
         $title = "title";
+        $classes = [(string)rand(), (string)rand()];
         $breadCrumbs = ["name" => "http://link"];
         $returnTo = ["Another name" => "http://another.link"];
         $baseHref = ".";
@@ -54,7 +56,10 @@ class PageTest extends PHPUnit_Framework_TestCase
         $type = Page::PAGE_TYPE_FULL_HEADER;
 
         $page = PageBuilder::begin()
+            ->setId($id)
             ->setTitle($title)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->setBaseHref($baseHref)
             ->setBreadCrumbs($breadCrumbs)
             ->setWritable($writable)
@@ -64,6 +69,8 @@ class PageTest extends PHPUnit_Framework_TestCase
             ->setType($type)
             ->build();
 
+        $this->assertEquals($id, $page->getId());
+        $this->assertEquals($classes, $page->getClasses());
         $this->assertEquals($title, $page->getTitle());
         $this->assertEquals($writable, $page->getWritable());
         $this->assertEquals($baseHref, $page->getBaseHref());
@@ -72,6 +79,17 @@ class PageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($subHeader, $page->getSubHeader());
         $this->assertEquals($returnTo, $page->getReturnTo());
         $this->assertEquals($type, $page->getType());
+    }
+
+    /**
+     * @expectedException              \Exception
+     * @expectedExceptionMessageRegExp #Must use ::setId to provide a unique id.*#
+     */
+    public function testBuildFilterErrorWithoutHandle()
+    {
+        $filter = PageBuilder::begin()
+            ->setType(Page::PAGE_TYPE_FULL_HEADER)
+            ->build();
     }
 
     public function testRender()
@@ -87,6 +105,7 @@ class PageTest extends PHPUnit_Framework_TestCase
 
         $title = "Test Page";
         $page = PageBuilder::begin()
+            ->setId("test-page")
             ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
             ->setTitle($title)
             ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
@@ -108,6 +127,7 @@ class PageTest extends PHPUnit_Framework_TestCase
 
         /* Writer provided to render */
         $page = PageBuilder::begin()
+            ->setId("test-page")
             ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
             ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
             ->build();
@@ -138,6 +158,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $_SERVER["REQUEST_URI"] = $requestURI;
 
         $page = PageBuilder::begin()
+            ->setId("test-page")
             ->setType(PAGE::PAGE_TYPE_AJAX_ACTION)
             ->setMessage($message)
             ->build();
@@ -157,6 +178,7 @@ class PageTest extends PHPUnit_Framework_TestCase
     public function testBuildAjaxActionPageWithoutMessageRaisesException()
     {
         $page = PageBuilder::begin()
+            ->setId("test-page")
             ->setType(PAGE::PAGE_TYPE_AJAX_ACTION)
             ->build();
     }
@@ -168,6 +190,7 @@ class PageTest extends PHPUnit_Framework_TestCase
     public function testBuildNonAjaxActionPageWithMessageRaisesException()
     {
         $page = PageBuilder::begin()
+            ->setId("test-page")
             ->setType(PAGE::PAGE_TYPE_MULTI_PANEL)
             ->setMessage(["test", "messages"])
             ->build();

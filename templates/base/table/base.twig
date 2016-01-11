@@ -1,4 +1,4 @@
-<div class="table-container" id="{{ id }}" data-request-uri="{{ requestURI }}">
+<div id="{{ id }}" class="table-container {{ classes|join(' ') }}"  data-request-uri="{{ requestURI }}">
     <div class="filter-controls" data-table-for="{{ id }}">
         {% for filter in filters %}
             {{ filter|write|raw }}

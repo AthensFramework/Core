@@ -208,6 +208,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("", $form->validated);
 
         $page = PageBuilder::begin()
+            ->setId("test-page")
             ->setWritable(
                 SectionBuilder::begin()
                     ->setId("s" . (string)rand())
