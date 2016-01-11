@@ -60,19 +60,28 @@ class Page implements PageInterface
 
     /**
      * Page constructor.
-     * @param $id
-     * @param string $type
-     * @param string[] $classes
-     * @param string $title
-     * @param string $baseHref
-     * @param string $header
-     * @param string $subHeader
-     * @param string[] $breadCrumbs
-     * @param string[] $returnTo
+     * @param string                 $id
+     * @param string                 $type
+     * @param string[]               $classes
+     * @param string                 $title
+     * @param string                 $baseHref
+     * @param string                 $header
+     * @param string                 $subHeader
+     * @param string[]               $breadCrumbs
+     * @param string[]               $returnTo
      * @param WritableInterface|null $writable
      */
     public function __construct(
-        $id, $type, array $classes, $title, $baseHref, $header, $subHeader, array $breadCrumbs, array $returnTo, WritableInterface $writable = null
+        $id,
+        $type,
+        array $classes,
+        $title,
+        $baseHref,
+        $header,
+        $subHeader,
+        array $breadCrumbs,
+        array $returnTo,
+        WritableInterface $writable = null
     ) {
 
         $this->id = $id;

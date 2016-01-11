@@ -167,7 +167,16 @@ class PageBuilder extends AbstractBuilder
         }
 
         return new Page(
-            $this->id, $this->type, $this->classes, $this->title, $this->baseHref, $this->header, $this->subHeader, $this->breadCrumbs, $this->returnTo, $this->writable
+            $this->id,
+            $this->type,
+            $this->classes,
+            $this->title,
+            $this->baseHref,
+            $this->header,
+            $this->subHeader,
+            $this->breadCrumbs,
+            $this->returnTo,
+            $this->writable
         );
     }
 }
