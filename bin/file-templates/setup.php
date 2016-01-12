@@ -30,6 +30,7 @@ CSRF::init();
 // Setup Framework
 Settings::addTemplateTheme("UWBoundless2015");
 Settings::addTemplateDirectory(dirname(__FILE__) ."/project-templates");
+Settings::setAcronyms(['uw']);
 Cipher::createInstance(UWDOEM_ENCRYPTION_PASSWORD);
 
 
