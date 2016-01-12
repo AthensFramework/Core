@@ -9,7 +9,7 @@ UWDOEM/Framework
 *Framework* is a modern PHP web framework built within the University of Washington's Office of Student Financial Aid.  
     
 <br>
-![Framework in action](assets/images/demo.png)  
+![Framework in action](doc/assets/images/demo.png)  
 *Easily create forms and manage submission results in* Framework *created web-applications*
 
 Applications built within *Framework* are:
