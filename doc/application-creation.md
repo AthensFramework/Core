@@ -209,7 +209,7 @@ Steps
   ```
   
   ![Your table of students](assets/images/student-table.png)<br>
-  *Your table of students. At only 30 lines, it knows retrieve and display students.*
+  *Your table of students. At only 30 lines, it knows how to retrieve and display students.*
   
   This is also a very basic table, but it already knows how to load students from the database, display them as rows, and include the appropriate column headers. We'll also make some improvements to it on the section below on making changes to an existing project.
   
