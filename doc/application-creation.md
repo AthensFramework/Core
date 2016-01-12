@@ -15,7 +15,7 @@ Prerequisites
 -------------
 
 To complete this tutorial, you must first have:
-c
+
   1. A working development php web server environment
   
   2. Access to the command-line command `php`
@@ -164,7 +164,7 @@ Steps
   
   Now try visiting `pages/enter-student.php` in your web browser. Try submitting a student. Try submitting a student while neglecting to provide a required field. Try submitting a student and then viewing the results in your database.
   
-  ![Your student entry page](assets/images/enter-student.png) 
+  ![Your student entry page](assets/images/enter-student.png)<br>
   *Your student entry page. At only 20 lines, it knows how to validate fields and save students to the database.*
   
   It's an extremely basic form, but it already knows how to detect and report form errors, and how to save its results in the database. We'll make some improvements to this form in the following section on making changes to an existing project.
@@ -208,7 +208,7 @@ Steps
   $page->render(null, null);
   ```
   
-  ![Your table of students](assets/images/enter-student.png)
+  ![Your table of students](assets/images/student-table.png)<br>
   *Your table of students. At only 30 lines, it knows retrieve and display students.*
   
   This is also a very basic table, but it already knows how to load students from the database, display them as rows, and include the appropriate column headers. We'll also make some improvements to it on the section below on making changes to an existing project.
