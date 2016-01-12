@@ -27,6 +27,7 @@ class Field implements FieldInterface
     const FIELD_TYPE_PRIMARY_KEY = "primary-key";
     const FIELD_TYPE_FOREIGN_KEY = "foreign-key";
     const FIELD_TYPE_AUTO_TIMESTAMP = "auto-timestamp";
+    const FIELD_TYPE_VERSION = "version";
 
     use WritableTrait;
 

@@ -267,7 +267,6 @@ class ORMUtils
         $fields = [];
         $initial = "";
 
-
         $tableMap = current($columns)->getTable();
 
         $versionColumnName = "";
@@ -290,7 +289,7 @@ class ORMUtils
                 $fieldType = FIELD::FIELD_TYPE_AUTO_TIMESTAMP;
                 $fieldRequired = false;
             } elseif ($column->getName() === $versionColumnName) {
-                $fieldType = "hidden";
+                $fieldType = FIELD::FIELD_TYPE_VERSION;
                 $fieldRequired = false;
             } else {
                 $fieldType = self::chooseFieldType($column);
