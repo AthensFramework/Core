@@ -10,6 +10,7 @@ use UWDOEM\Framework\Page\Page;
 
 
 $page = PageBuilder::begin()
+    ->setId('documentation-browser')
     ->setTitle(APPLICATION_NAME . " - Project Documentation")
     ->setType(Page::PAGE_TYPE_MARKDOWN_DOCUMENTATION)
     ->setBaseHref("..")
