@@ -12,12 +12,12 @@ require_once dirname(__FILE__) . "/common.php";
  * @return string
  */
 function makeComposerJson($baseComposerJson = "{}") {
-    $struct = json_decode($baseComposerJson);
+    $struct = json_decode($baseComposerJson, true);
 
     $default = [
         "require" => [
             "propel/propel" => "~2.0@dev",
-            "uwdoem/framework" => ">=0.3"
+            "uwdoem/framework" => "0.*"
         ],
         "require-dev" => [
             "phpunit/phpunit" => "4.5.*",
