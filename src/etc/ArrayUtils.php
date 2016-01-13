@@ -18,6 +18,9 @@ class ArrayUtils
     }
 
     /**
+     * Find the element of the given array with the given key, or return the
+     * default if unfound.
+     *
      * @param string|integer $needle
      * @param array          $haystack
      * @param mixed          $default
