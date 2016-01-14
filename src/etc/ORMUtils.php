@@ -8,6 +8,7 @@ use Propel\Runtime\Map\ColumnMap;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use UWDOEM\Framework\Field\Field;
+use UWDOEM\Framework\Field\FieldInterface;
 
 /**
  * Class ORMUtils provides static methods for interpreting and interfacing
@@ -51,9 +52,9 @@ class ORMUtils
     }
 
     /**
-     * @param string                                   $tableMapName
-     * @param \UWDOEM\Framework\Field\FieldInterface[] $fields
-     * @param array                                    $columns
+     * @param string           $tableMapName
+     * @param FieldInterface[] $fields
+     * @param array            $columns
      * @return mixed
      */
     public static function addBehaviorConstraintsToFields($tableMapName, array $fields, array $columns)
@@ -90,8 +91,10 @@ class ORMUtils
     }
 
     /**
+     * Produces a Propel2 object from the given class table map name.
+     *
      * @param string $classTableMapName
-     * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface
+     * @return ActiveRecordInterface
      */
     public static function makeNewObjectFromClassTableMapName($classTableMapName)
     {
@@ -100,6 +103,9 @@ class ORMUtils
     }
 
     /**
+     * Predicate that reports whether a given field name in a given class
+     * table map name is under the uwdoem/encryption Propel behavior.
+     *
      * @param string $fieldName
      * @param string $classTableMapName
      * @return boolean
@@ -118,8 +124,13 @@ class ORMUtils
     }
 
     /**
-     * @param ActiveRecordInterface                    $object
-     * @param \UWDOEM\Framework\Field\FieldInterface[] $fields
+     * Fills an object's attributes from the validated data of an array
+     * of fields.
+     *
+     * Expects that $fields contains a set of $fieldName => $field pairs.
+     *
+     * @param ActiveRecordInterface $object
+     * @param FieldInterface[]      $fields
      * @return void
      */
     public static function fillObjectFromFields(ActiveRecordInterface $object, array $fields)
