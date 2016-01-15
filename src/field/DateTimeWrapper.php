@@ -13,6 +13,8 @@ class DateTimeWrapper extends DateTime
 {
 
     /**
+     * Provides a default string representation for this datetime.
+     *
      * @return string
      */
     public function __toString()
