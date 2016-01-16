@@ -83,7 +83,6 @@ class Page implements PageInterface
         array $returnTo,
         WritableInterface $writable = null
     ) {
-
         $this->id = $id;
         $this->title = $title;
         $this->baseHref = $baseHref;
@@ -95,6 +94,7 @@ class Page implements PageInterface
         $this->type = $type;
         $this->classes = $classes;
     }
+    
     /**
      * @return string
      */
