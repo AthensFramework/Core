@@ -60,6 +60,7 @@ class Page implements PageInterface
 
     /**
      * Page constructor.
+     * 
      * @param string                 $id
      * @param string                 $type
      * @param string[]               $classes
@@ -96,6 +97,10 @@ class Page implements PageInterface
     }
     
     /**
+     * Returns the type of the page.
+     * 
+     * This will usually be one of the Page::PAGE_TYPE_ consts defined above.
+     * 
      * @return string
      */
     public function getType()
@@ -104,6 +109,8 @@ class Page implements PageInterface
     }
 
     /**
+     * Returns the title of the page.
+     * 
      * @return string
      */
     public function getTitle()
@@ -112,6 +119,8 @@ class Page implements PageInterface
     }
 
     /**
+     * Returns the baseHref of the page.
+     * 
      * @return string
      */
     public function getBaseHref()
@@ -120,6 +129,10 @@ class Page implements PageInterface
     }
 
     /**
+     * Returns the header of the page.
+     * 
+     * In HTML output, this header is displayed within an <h1> tag.
+     * 
      * @return string
      */
     public function getHeader()
@@ -128,6 +141,10 @@ class Page implements PageInterface
     }
 
     /**
+     * Returns the subheader of the page.
+     * 
+     * In HTML output, this subheader is displayed within an <h2> tag.
+     * 
      * @return string
      */
     public function getSubHeader()
@@ -136,6 +153,10 @@ class Page implements PageInterface
     }
 
     /**
+     * Return the roster of breadcrumbs.
+     * 
+     * Provide example of roster output.
+     * 
      * @return string[]
      */
     public function getBreadCrumbs()
