@@ -36,6 +36,9 @@ class FieldBearerBuilder extends AbstractBuilder
     /** @var mixed[] */
     private $fieldChoices = [];
 
+    /** @var string[] */
+    private $fieldTypes = [];
+
     /** @var callable */
     protected $saveFunction;
 
@@ -173,6 +176,18 @@ class FieldBearerBuilder extends AbstractBuilder
     }
 
     /**
+     * @param string $fieldName
+     * @param string $type
+     * @return FieldBearerBuilder
+     */
+    public function setFieldType($fieldName, $type)
+    {
+        $this->fieldTypes[$fieldName] = $type;
+
+        return $this;
+    }
+
+    /**
      * @return FieldBearerBuilder
      */
     public function makeLiteral()
@@ -228,6 +243,11 @@ class FieldBearerBuilder extends AbstractBuilder
 
             $field->setType(Field::FIELD_TYPE_CHOICE);
             $field->setChoices($choices);
+        }
+
+        foreach ($this->fieldTypes as $fieldName => $type) {
+            $field = $fieldBearer->getFieldByName($fieldName);
+            $field->setType($type);
         }
 
         return $fieldBearer;

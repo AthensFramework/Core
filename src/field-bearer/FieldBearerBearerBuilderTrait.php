@@ -139,6 +139,18 @@ trait FieldBearerBearerBuilderTrait
     }
 
     /**
+     * @param string $fieldName
+     * @param string $type
+     * @return $this
+     */
+    public function setFieldType($fieldName, $type)
+    {
+        $this->getFieldBearerBuilder()->setFieldType($fieldName, $type);
+
+        return $this;
+    }
+
+    /**
      * @return $this
      */
     public function makeLiteral()
