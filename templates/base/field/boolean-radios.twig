@@ -1,0 +1,7 @@
+<span class="choice-field">
+
+    <input type="radio" name="{{ slug }}" value="1" {% if initial is same as(true) or initial is same as(1) or initial is same as("1") %}checked{% endif %}> Yes
+    <input type="radio" name="{{ slug }}" value="0" {% if initial is same as(false) or initial is same as(0) or initial is same as("0") %}checked{% endif %}> No
+
+</span>
+{% include "field/errors.twig" %}
