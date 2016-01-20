@@ -15,6 +15,7 @@ class Settings
         "projectCSS" => [],
         "acronyms" => [],
         "defaultWriterClass" => '\UWDOEM\Framework\Writer\Writer',
+        "defaultEmailerClass" => '\UWDOEM\Framework\Emailer\PhpEmailer',
         "defaultInitializerClass" => '\UWDOEM\Framework\Initializer\Initializer',
         "defaultPagination" => 12
     ];
@@ -86,6 +87,23 @@ class Settings
     public static function getDefaultWriterClass()
     {
         return static::getSetting("defaultWriterClass");
+    }
+
+    /**
+     * @param string $emailerClass
+     * @return void
+     */
+    public static function setDefaultEmailerClass($emailerClass)
+    {
+        static::$settings["defaultEmailerClass"] = $emailerClass;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getDefaultEmailerClass()
+    {
+        return static::getSetting("defaultEmailerClass");
     }
 
     /**

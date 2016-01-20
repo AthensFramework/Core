@@ -4,6 +4,7 @@ namespace UWDOEM\Framework\Writer;
 
 use Twig_SimpleFilter;
 
+use UWDOEM\Framework\Email\EmailInterface;
 use UWDOEM\Framework\Etc\SafeString;
 use UWDOEM\Framework\Field\FieldInterface;
 use UWDOEM\Framework\Filter\PaginationFilter;
@@ -527,6 +528,27 @@ class Writer extends Visitor
                 [
                     "id" => $filter->getId(),
                     "options" => $filter->getOptions(),
+                ]
+            );
+    }
+
+    /**
+     * Render an email message into an email body, given its template.
+     *
+     * @param EmailInterface $email
+     * @return string
+     */
+    public function visitEmail(EmailInterface $email)
+    {
+        $template = "email/{$email->getType()}.twig";
+
+        return $this
+            ->loadTemplate($template)
+            ->render(
+                [
+                    "id" => $email->getId(),
+                    "classes" => $email->getClasses(),
+                    "message" => $email->getMessage(),
                 ]
             );
     }
