@@ -350,8 +350,6 @@ class Page implements PageInterface
         Writer $writer = null,
         callable $renderFunction = null
     ) {
-
-
         if ($initializer === null) {
             $initializer = $this->makeDefaultInitializer();
         }
