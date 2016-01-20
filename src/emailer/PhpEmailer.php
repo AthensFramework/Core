@@ -48,7 +48,7 @@ class PhpEmailer extends AbstractEmailer
      * @param EmailInterface $email
      * @return boolean
      */
-    public function doSend($body, EmailInterface $email)
+    protected function doSend($body, EmailInterface $email)
     {
         return mail($email->getTo(), $email->getSubject(), $body, $this->buildHeaders($email));
     }
