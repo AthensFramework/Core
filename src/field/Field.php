@@ -69,6 +69,8 @@ class Field implements FieldInterface
     use VisitableTrait;
 
     /**
+     * Provides the unique identifier for this field.
+     *
      * @return string
      */
     public function getId()
@@ -103,6 +105,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Provides the data that was submitted to this field, if applicable.
+     *
      * @return string
      */
     public function getSubmitted()
@@ -123,6 +127,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Predicate which reports whether the field received a submission.
+     *
      * @return boolean
      */
     public function wasSubmitted()
@@ -131,6 +137,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Provides the text label assigned to this field.
+     *
      * @return string
      */
     public function getLabel()
@@ -139,6 +147,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Sets the text label to be displayed with this field.
+     *
      * @param string $label
      * @return FieldInterface
      */
@@ -149,6 +159,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Provides the available choices for submission to this field.
+     *
      * @return string[]
      */
     public function getChoices()
@@ -157,6 +169,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Provides the slugs which shall be used to identify valid submissions to this field.
+     *
      * @return string[]
      */
     public function getChoiceSlugs()
@@ -170,6 +184,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Sets the choices which shall be made available for submission to this field.
+     *
      * @param array $choices
      * @return FieldInterface
      */
@@ -180,6 +196,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Provides the maximum size of a submission to this field.
+     *
      * @return integer
      */
     public function getSize()
@@ -188,6 +206,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Sets the maximum size of a submission to this field.
+     *
      * @param integer $size
      * @return FieldInterface
      */
@@ -198,6 +218,11 @@ class Field implements FieldInterface
     }
 
     /**
+     * Provides the "type" of the field.
+     *
+     * Most likely one of the Field::FIELD_TYPE_ constants. This type determines which
+     * template shall be used to render the field, and also some field validation behavior.
+     *
      * @return string
      */
     public function getType()
@@ -206,6 +231,10 @@ class Field implements FieldInterface
     }
 
     /**
+     * Sets the "type" of the field.
+     *
+     * See the extended comments on ::getType for more information.
+     *
      * @param string $type
      * @return FieldInterface
      */
@@ -216,6 +245,10 @@ class Field implements FieldInterface
     }
 
     /**
+     * Adds a suffix, which shall be applied to this field's slug.
+     *
+     * Framework will add suffixes to fields to avoid naming collisions.
+     *
      * @param string $suffix
      * @return FieldInterface
      */
@@ -226,6 +259,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Provides an array of the slug suffixes that have been added to this field.
+     *
      * @return string[]
      */
     public function getSuffixes()
@@ -234,6 +269,10 @@ class Field implements FieldInterface
     }
 
     /**
+     * Adds a prefix, which shall be applied to this field's slug.
+     *
+     * Framework uses field slug prefixes to distinguish between sibling fields in TableForm rows.
+     *
      * @param string $prefix
      * @return FieldInterface
      */
@@ -244,6 +283,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Provides an array of the slug prefixes that have been added to this field.
+     *
      * @return string[]
      */
     public function getPrefixes()
@@ -252,6 +293,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Provides a slug representation of the field's textual label.
+     *
      * @return string
      */
     public function getLabelSlug()
@@ -260,6 +303,11 @@ class Field implements FieldInterface
     }
 
     /**
+     * Gets the slug representation of the field.
+     *
+     * Generally this is a combination of the field's label slug, and any added prefixes
+     * or suffixes.
+     *
      * @return string
      */
     public function getSlug()
@@ -268,6 +316,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Sets the initial value to be displayed by the field.
+     *
      * @param string $value
      * @return FieldInterface
      */
@@ -282,6 +332,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Gets the initial value which is displayed by the field.
+     *
      * @return string
      */
     public function getInitial()
@@ -290,6 +342,10 @@ class Field implements FieldInterface
     }
 
     /**
+     * Adds an error to the field.
+     *
+     * Errors are usually added during field/form validation.
+     *
      * @param string $error
      * @return FieldInterface
      */
@@ -300,6 +356,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Gets the errors which have been added to the field.
+     *
      * @return string[]
      */
     public function getErrors()
@@ -308,6 +366,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Clears errors from the field.
+     *
      * @return FieldInterface
      */
     public function removeErrors()
@@ -317,11 +377,13 @@ class Field implements FieldInterface
     }
 
     /**
+     * Perform basic validation on the field, add any apparent errors, and
+     * mark valid data.
+     *
      * @return void
      */
     public function validate()
     {
-
         $data = $this->wasSubmitted() ? $this->getSubmitted() : null;
 
         // Invalid selection on choice/multiple choice field
@@ -339,6 +401,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Predicate which reports whether the field includes choices.
+     *
      * @return boolean
      */
     protected function hasChoices()
@@ -347,6 +411,9 @@ class Field implements FieldInterface
     }
 
     /**
+     * Determines which choice(s) were chosen by form submission, given the selected
+     * slug(s).
+     *
      * @param mixed $slugs
      * @return array
      */
@@ -374,6 +441,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Predicate which reports whether the field must have a submission.
+     *
      * @return boolean
      */
     public function isRequired()
@@ -382,6 +451,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Sets whether the field must be submitted to during form submission.
+     *
      * @param boolean $required
      * @return FieldInterface
      */
@@ -392,6 +463,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Predicate which reports whether or not the field has errors.
+     *
      * @return boolean
      */
     public function isValid()
@@ -400,6 +473,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Identifies the given data as validated for the field.
+     *
      * @param string $data
      * @return FieldInterface
      */
@@ -410,6 +485,8 @@ class Field implements FieldInterface
     }
 
     /**
+     * Gets data which has been marked as validated for the field.
+     *
      * @return string
      */
     public function getValidatedData()
