@@ -126,6 +126,35 @@ Steps
   The default project assumes that you may have some set of pages which will be accessible to all users, and some set of pages which will only be accessible to some privileged class of users. The former can be placed in `pages/` and the latter can be placed in `admin/`.
   
   You **must** edit `pages/.htaccess` and `admin/.htaccess` to reflect these rules. By default, both `pages/.htaccess` and `admin/.htaccess` will block *all* requests.
+  
+* (Optional) Install a template set:
+  
+  Framework comes with a set of functional, utilitarian templates for document layout and styling. This example uses a set of templates produced for the University of Washington. This example uses this set of templates, and if you're building for an organization licensed to use the University of Washington's brand assets then you can too.
+
+  If you don't have a set of templates to use, you can skip this step and create and install templates later; just changing one line of code in one file will update all of your pages to use your new templates!
+  
+  To proceed with the University of Washington templates, add the `uwdoem/boundless` theme to your `composer.json` requirements:
+  
+  ```
+  "require": {
+        ...
+        "uwdoem/boundless": "0.*",
+        ...
+  },
+  ```
+  
+  Then add the Boundless templates in your project's `setup.php`, **above** the line that adds your project-templates:
+  
+  ```
+  Settings::addTemplateDirectory(dirname(__FILE__) ."/vendor/uwdoem/boundless/templates");
+  Settings::addTemplateDirectory(dirname(__FILE__) ."/project-templates");
+  ```
+  
+  Finally, you have to tell composer to download the `uwdoem/boundless` requirement you added. So `cd` into your project root and issue the following:
+  ```
+  php composer.phar dump-autoload
+  ```
+  
 
 * Create a couple of simple pages:
   
