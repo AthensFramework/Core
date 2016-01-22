@@ -9,7 +9,7 @@ h2.subheader {
 }
 
 .section-label {
-    background-color: #4b2e83;
+    background-color: #646464;
     color: white;
     margin-left:-30px;
     margin-bottom:8px;
@@ -166,7 +166,7 @@ div.notification.failure {
 a.index-button {
     display:inline-block;
     margin:10px;
-    background-color:#4b2e83;
+    background-color: #646464;
     border-radius:7px;
     color:white;
     width:200px;
@@ -190,11 +190,6 @@ span.field-errors {
 
 form>tbody>tr:last-child {
     margin-bottom:40px !important;
-}
-
-.internal-use-footer {
-    background:none;
-    background-color:#4b2e83;
 }
 
 br + span.field-errors {
@@ -240,12 +235,12 @@ tr.clickable, th.clickable {
 }
 
 tr.highlighted {
-    background-color: #e1caff;
+    background-color: #dcdcdc;
     border-radius:3px;
 }
 
 tr.clickable:hover {
-    background-color: #e1caff;
+    background-color: #dcdcdc;
     border-radius:3px;
 }
 
@@ -344,7 +339,7 @@ a.pagination-arrow.hidden {
 select.pagination-filter {
     font-size:13px;
     border-radius:3px;
-    background-color:#4b2e83
+    background-color: #646464
 }
 
 span.pagination-arrow-container {
@@ -413,10 +408,10 @@ div.select-a-section-container div.option:not(.selected):not(.header):hover {
 }
 
 div.select-a-section-container div.option.header {
-    background-color: #e1caff;
-    color: black;
-    cursor:auto;
-}
+     background-color: #dcdcdc;
+     color: black;
+     cursor:auto;
+ }
 
 div.select-a-section-container div.filler {
     border:1px solid #E7E7E7;
@@ -439,7 +434,7 @@ div.select-a-section-container div.label-container {
 }
 
 div.select-a-section-container div.section-label {
-    color:#4b2e83;
+    color: #646464;
     background-color:white;
     margin-left:5px;
     font-family: 'Open Sans', sans-serif;
@@ -562,107 +557,6 @@ button.form-action, input.form-action {
     margin-right:60px;
 }
 
-/* UWAA Button */
-.uwaa-btn {
-    width: auto;
-    background-color: #4b2e83;
-    color: white;
-    font-weight: 900;
-    font-family: "Encode Sans Compressed", sans-serif;
-    letter-spacing: 1px;
-    border-radius: 0;
-    height: 2em;
-    line-height: 1.3;
-    text-transform: uppercase;
-    padding: .412em;
-    padding-top: .32em;
-    display: inline-block;
-}
-.uwaa-btn.btn-gold {
-    background-color: #b7a57a;
-}
-.uwaa-btn:hover {
-    color: #b7a57a;
-}
-.uwaa-btn:before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    -webkit-transform: skew(-20deg);
-    -moz-transform: skew(-20deg);
-    -ms-transform: skew(-20deg);
-    -o-transform: skew(-20deg);
-    transform: skew(-20deg);
-    /*background-color:inherit*/
-    background: -webkit-linear-gradient(right, #4b2e83, #4b2e83 20px, white 21px, white 25px, rgba(255, 255, 255, 0)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #4b2e83, #4b2e83 20px, white 21px, white 25px, rgba(255, 255, 255, 0)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #4b2e83, #4b2e83 20px, white 21px, white 25px, rgba(255, 255, 255, 0)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(right, #4b2e83, #4b2e83 20px, white 21px, white 25px, rgba(255, 255, 255, 0)); /* Standard syntax */
-    height: 2em;
-    width: 60px;
-    display: none;
-}
-.uwaa-btn.btn-slant-left {
-    padding-right: .74em;
-}
-.uwaa-btn.btn-slant-left:before {
-    left: -50px;
-    display: block;
-}
-.uwaa-btn.btn-slant-right {
-    padding-left: .74em;
-}
-.uwaa-btn.btn-slant-right:before {
-    display: block;
-    right: -10px;
-}
-.uwaa-btn-wrapper {
-    display: inline-block;
-    position: relative;
-    z-index: 0;
-    margin: 6px 40px 18px 0;
-}
-
-a.uwaa-btn:hover,
-a.uwaa-btn:active {
-    border-bottom: none;
-}
-@media only screen and (max-width: 320px) {
-    .uwaa-btn-wrapper {
-        margin-right: 26px;
-    }
-    .uwaa-btn-wrapper a.uwaa-btn {
-        font-size: 15px;
-    }
-    .uwaa-btn-wrapper a.uwaa-btn:before {
-        top: 1px;
-    }
-}
-
-.uwaa-btn-wrapper {
-    position:absolute;
-    right:0px;
-    top:-5px;
-}
-
-span.sort-text {
-    display:none;
-}
-
-@media print {
-    .uwaa-btn-wrapper {
-        display:none;
-    }
-}
-
-@media only screen and (max-width: 991px) {
-    .uwaa-btn-wrapper {
-        position:static;
-    }
-}
-/* End UWAA Button */
-
 div.breadcrumbs-container {
     width:85%;
     min-width:500px;
@@ -672,11 +566,11 @@ div.breadcrumbs-container {
 }
 
 tr.highlightable:hover {
-    background-color: #eee4ff;
+    background-color: #f0f0f0;
 }
 
 tr.highlightable.highlighted:hover {
-    background-color:#e1caff;
+    background-color: #dcdcdc;
 }
 
 tr.highlightable {

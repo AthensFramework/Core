@@ -28,9 +28,8 @@ session_start();
 CSRF::init();
 
 // Setup Framework
-Settings::addTemplateTheme("UWBoundless2015");
 Settings::addTemplateDirectory(dirname(__FILE__) ."/project-templates");
-Settings::setAcronyms(['uw']);
+Settings::setAcronyms(['ssn']);
 Cipher::createInstance(UWDOEM_ENCRYPTION_PASSWORD);
 
 
