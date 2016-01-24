@@ -7,7 +7,8 @@ use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Writer\WritableTrait;
 
 /**
- * Class PickA
+ * Class PickA presents users with multiple sections which may be viewed
+ * only one at a time.
  *
  * @package UWDOEM\Framework\PickA
  */
