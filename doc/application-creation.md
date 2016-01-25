@@ -152,7 +152,7 @@ Steps
   
   Finally, you have to tell composer to download the `uwdoem/boundless` requirement you added. So `cd` into your project root and issue the following:
   ```
-  php composer.phar dump-autoload
+  php composer.phar install
   ```
   
 
