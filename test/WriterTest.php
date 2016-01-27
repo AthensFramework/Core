@@ -73,51 +73,52 @@ class WriterTest extends PHPUnit_Framework_TestCase
             "A multiple-choice field",
             ["second choice"],
             true,
-            ["first choice", "second choice"],
+            ["first choice",
+            "second choice"],
             200
         );
 
         // Get result and strip quotes, for easier analysis
-        $result = $this->stripQuotes($writer->visitField($field));
+            $result = $this->stripQuotes($writer->visitField($field));
 
         // Assert that the field contains our choices
-        $this->assertContains("first choice", $result);
-        $this->assertContains("second choice", $result);
-        $this->assertContains("value=" . StringUtils::slugify("first choice"), $result);
-        $this->assertContains("value=" . StringUtils::slugify("second choice"), $result);
+            $this->assertContains("first choice", $result);
+            $this->assertContains("second choice", $result);
+            $this->assertContains("value=" . StringUtils::slugify("first choice"), $result);
+            $this->assertContains("value=" . StringUtils::slugify("second choice"), $result);
 
         // Assert that the "initial" choice is selected
-        $this->assertContains("value=second-choice checked", $result);
+            $this->assertContains("value=second-choice checked", $result);
 
         /* A text field */
-        $field = new Field("text", "A text field", "5", true, [], 200);
+            $field = new Field("text", "A text field", "5", true, [], 200);
 
         // Get result and strip quotes, for easier analysis
-        $result = $this->stripQuotes($writer->visitField($field));
+            $result = $this->stripQuotes($writer->visitField($field));
 
-        $this->assertContains('value=5', $result);
-        $this->assertContains('<input type=text', $result);
+            $this->assertContains('value=5', $result);
+            $this->assertContains('<input type=text', $result);
 
         /* A textarea field */
-        $field = new Field("textarea", "A textarea field", "initial value", true, [], 1000);
+            $field = new Field("textarea", "A textarea field", "initial value", true, [], 1000);
 
         // Get result and strip quotes, for easier analysis
-        $result = $this->stripQuotes($writer->visitField($field));
+            $result = $this->stripQuotes($writer->visitField($field));
 
         // By our current method of calculation, should have size of 100 means 10 rows
         // If change calculation, change this test
-        $this->assertContains('rows=10', $result);
-        $this->assertContains('<textarea', $result);
-        $this->assertContains('initial value', $result);
+            $this->assertContains('rows=10', $result);
+            $this->assertContains('<textarea', $result);
+            $this->assertContains('initial value', $result);
 
         /* A textarea field without an initial value*/
-        $field = new Field("textarea", "A textarea field", "", true, [], 1000);
+            $field = new Field("textarea", "A textarea field", "", true, [], 1000);
 
         // Get result and strip quotes, for easier analysis
-        $result = $this->stripQuotes($writer->visitField($field));
+            $result = $this->stripQuotes($writer->visitField($field));
 
         // Assert that the text area contains no initial text
-        $this->assertContains('></textarea>', $result);
+            $this->assertContains('></textarea>', $result);
     }
 
     public function testRenderBooleanField()
@@ -275,10 +276,11 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("target=$target", $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
         $this->assertContains("data-for=a-literal-field", $result);
-        $this->assertContains("A literal field*:", $result);
+        $this->assertContains("A literal field", $result);
+        $this->assertContains("<label data-for=a-literal-field class=field-label required>", $result);
         $this->assertContains("Literal field content", $result);
         $this->assertContains("data-for=a-text-field", $result);
-        $this->assertContains("A text field:", $result);
+        $this->assertContains("A text field", $result);
         $this->assertContains("value=5", $result);
         $this->assertContains("name=a-text-field", $result);
         $this->assertContains('<input type=text', $result);

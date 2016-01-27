@@ -17,8 +17,8 @@
             {% else %}
                 <tr data-for="{{ field.getSlug }}">
                     <td class="label">
-                        <label data-for="{{ field.getSlug }}">
-                            {{ field.getLabel }}{% if field.isRequired %}*{% endif %}:
+                        <label data-for="{{ field.getSlug }}" class="field-label {% if field.isRequired %}required{% endif %}">
+                            {{ field.getLabel }}
                         </label>
                     </td>
                     <td class="data">

@@ -576,3 +576,11 @@ tr.highlightable.highlighted:hover {
 tr.highlightable {
     cursor: pointer;
 }
+
+label.field-label::after {
+    content: ":";
+}
+
+label.field-label.required::after {
+    content: "*:";
+}
