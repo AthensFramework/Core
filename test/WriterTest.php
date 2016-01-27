@@ -91,16 +91,26 @@ class WriterTest extends PHPUnit_Framework_TestCase
             $this->assertContains("value=second-choice checked", $result);
 
         /* A text field */
-            $field = new Field("text", "A text field", "5", true, [], 200);
+            $field = new Field("text", "A text field", "5", true, [], 200, "helptext", "placeholder for a text field");
 
         // Get result and strip quotes, for easier analysis
             $result = $this->stripQuotes($writer->visitField($field));
 
             $this->assertContains('value=5', $result);
             $this->assertContains('<input type=text', $result);
+            $this->assertContains('placeholder for a text field', $result);
 
         /* A textarea field */
-            $field = new Field("textarea", "A textarea field", "initial value", true, [], 1000);
+            $field = new Field(
+                "textarea",
+                "A textarea field",
+                "initial value",
+                true,
+                [],
+                1000,
+                "helptext",
+                "placeholder for a textarea field"
+            );
 
         // Get result and strip quotes, for easier analysis
             $result = $this->stripQuotes($writer->visitField($field));
@@ -110,6 +120,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
             $this->assertContains('rows=10', $result);
             $this->assertContains('<textarea', $result);
             $this->assertContains('initial value', $result);
+            $this->assertContains('placeholder for a textarea field', $result);
 
         /* A textarea field without an initial value*/
             $field = new Field("textarea", "A textarea field", "", true, [], 1000);
@@ -247,6 +258,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $classes = [(string)rand(), (string)rand()];
         $method = "m" . (string)rand();
         $target = "t" . (string)rand();
+        $helptext = "h" . (string)rand();
 
         $form = FormBuilder::begin()
             ->setId($id)
@@ -259,6 +271,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
                 "literalField" => new Field('literal', 'A literal field', 'Literal field content', true, []),
                 "textField" => new Field('text', 'A text field', "5", false, [])
             ])
+            ->setFieldHelptext("textField", $helptext)
             ->setOnInvalidFunc($onInvalidFunc)
             ->setOnValidFunc($onValidFunc)
             ->build();
@@ -281,6 +294,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("Literal field content", $result);
         $this->assertContains("data-for=a-text-field", $result);
         $this->assertContains("A text field", $result);
+        $this->assertContains("span class=field-helptext>$helptext", $result);
         $this->assertContains("value=5", $result);
         $this->assertContains("name=a-text-field", $result);
         $this->assertContains('<input type=text', $result);

@@ -30,6 +30,12 @@ class FieldBuilder extends AbstractBuilder
     /** @var string[] */
     protected $choices = [];
 
+    /** @var string */
+    protected $helptext = "";
+
+    /** @var string */
+    protected $placeholder = "";
+
     /**
      * @param boolean $required
      * @return FieldBuilder
@@ -91,6 +97,26 @@ class FieldBuilder extends AbstractBuilder
     }
 
     /**
+     * @param string $helptext
+     * @return FieldBuilder
+     */
+    public function setHelptext($helptext)
+    {
+        $this->helptext = $helptext;
+        return $this;
+    }
+
+    /**
+     * @param string $placeholder
+     * @return FieldBuilder
+     */
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+        return $this;
+    }
+
+    /**
      * @return Field
      * @throws \Exception If the correct settings have not been provided.
      */
@@ -116,7 +142,9 @@ class FieldBuilder extends AbstractBuilder
             $this->initial,
             $this->required,
             $this->choices,
-            $this->fieldSize
+            $this->fieldSize,
+            $this->helptext,
+            $this->placeholder
         );
     }
 }

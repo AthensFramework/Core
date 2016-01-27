@@ -38,6 +38,12 @@ class FieldBearerBuilder extends AbstractBuilder
 
     /** @var string[] */
     private $fieldTypes = [];
+    
+    /** @var string[] */
+    protected $fieldHelptexts = [];
+    
+    /** @var string[] */
+    protected $fieldPlaceholders = [];
 
     /** @var callable */
     protected $saveFunction;
@@ -188,6 +194,30 @@ class FieldBearerBuilder extends AbstractBuilder
     }
 
     /**
+     * @param string $fieldName
+     * @param string $helptext
+     * @return FieldBearerBuilder
+     */
+    public function setFieldHelptext($fieldName, $helptext)
+    {
+        $this->fieldHelptexts[$fieldName] = $helptext;
+
+        return $this;
+    }
+
+    /**
+     * @param string $fieldName
+     * @param string $placeholder
+     * @return FieldBearerBuilder
+     */
+    public function setFieldPlaceholder($fieldName, $placeholder)
+    {
+        $this->fieldPlaceholders[$fieldName] = $placeholder;
+
+        return $this;
+    }
+
+    /**
      * @return FieldBearerBuilder
      */
     public function makeLiteral()
@@ -248,6 +278,16 @@ class FieldBearerBuilder extends AbstractBuilder
         foreach ($this->fieldTypes as $fieldName => $type) {
             $field = $fieldBearer->getFieldByName($fieldName);
             $field->setType($type);
+        }
+
+        foreach ($this->fieldHelptexts as $fieldName => $helptext) {
+            $field = $fieldBearer->getFieldByName($fieldName);
+            $field->setHelptext($helptext);
+        }
+
+        foreach ($this->fieldPlaceholders as $fieldName => $placeholder) {
+            $field = $fieldBearer->getFieldByName($fieldName);
+            $field->setPlaceholder($placeholder);
         }
 
         return $fieldBearer;

@@ -230,7 +230,9 @@ class Writer extends Visitor
                     "label" => $field->getLabel(),
                     "required" => $field->isRequired(),
                     "size" => $field->getSize(),
-                    "errors" => $field->getErrors()
+                    "errors" => $field->getErrors(),
+                    "helptext" => $field->getHelptext(),
+                    "placeholder" => $field->getPlaceholder()
                 ]
             );
     }

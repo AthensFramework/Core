@@ -120,4 +120,26 @@ interface FieldInterface extends WritableInterface
 
     /** @return string */
     public function getValidatedData();
+
+    /**
+     * @return string
+     */
+    public function getHelptext();
+
+    /**
+     * @param string $helptext
+     * @return FieldInterface
+     */
+    public function setHelptext($helptext);
+
+    /**
+     * @return string
+     */
+    public function getPlaceholder();
+
+    /**
+     * @param string $placeholder
+     * @return FieldInterface
+     */
+    public function setPlaceholder($placeholder);
 }

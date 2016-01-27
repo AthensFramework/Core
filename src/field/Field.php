@@ -66,6 +66,12 @@ class Field implements FieldInterface
     /** @var string[] */
     protected $choices;
 
+    /** @var string */
+    protected $helptext;
+
+    /** @var string */
+    protected $placeholder;
+
     use VisitableTrait;
 
     /**
@@ -85,6 +91,8 @@ class Field implements FieldInterface
      * @param boolean     $required
      * @param string[]    $choices
      * @param integer     $fieldSize
+     * @param string      $helptext
+     * @param string      $placeholder
      */
     public function __construct(
         $type,
@@ -92,7 +100,9 @@ class Field implements FieldInterface
         $initial = "",
         $required = false,
         array $choices = [],
-        $fieldSize = 255
+        $fieldSize = 255,
+        $helptext = "",
+        $placeholder = ""
     ) {
         $this->type = $type;
         $this->label = $label;
@@ -102,6 +112,8 @@ class Field implements FieldInterface
         $this->required = $required;
         $this->choices = $choices;
         $this->fieldSize = $fieldSize;
+        $this->helptext = $helptext;
+        $this->placeholder = $placeholder;
     }
 
     /**
@@ -492,5 +504,41 @@ class Field implements FieldInterface
     public function getValidatedData()
     {
         return $this->validatedData;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHelptext()
+    {
+        return $this->helptext;
+    }
+
+    /**
+     * @param string $helptext
+     * @return FieldInterface
+     */
+    public function setHelptext($helptext)
+    {
+        $this->helptext = $helptext;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * @param string $placeholder
+     * @return FieldInterface
+     */
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+        return $this;
     }
 }

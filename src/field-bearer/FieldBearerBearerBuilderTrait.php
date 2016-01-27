@@ -151,6 +151,30 @@ trait FieldBearerBearerBuilderTrait
     }
 
     /**
+     * @param string $fieldName
+     * @param string $helptext
+     * @return $this
+     */
+    public function setFieldHelptext($fieldName, $helptext)
+    {
+        $this->getFieldBearerBuilder()->setFieldHelptext($fieldName, $helptext);
+
+        return $this;
+    }
+
+    /**
+     * @param string $fieldName
+     * @param string $placeholder
+     * @return $this
+     */
+    public function setFieldPlaceholder($fieldName, $placeholder)
+    {
+        $this->getFieldBearerBuilder()->setFieldPlaceholder($fieldName, $placeholder);
+
+        return $this;
+    }
+
+    /**
      * @return $this
      */
     public function makeLiteral()

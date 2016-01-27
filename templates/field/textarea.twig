@@ -1,4 +1,4 @@
 <span class="textarea-field">
-    <textarea rows="{{ min(15, max(5, size/100)) }}" maxlength="{{ size }}" name="{{ slug }}">{{ initial }}</textarea>
+    <textarea rows="{{ min(15, max(5, size/100)) }}" maxlength="{{ size }}" name="{{ slug }}" placeholder="{{ placeholder }}">{{ initial }}</textarea>
 </span>
 {% include "field/errors.twig" %}

@@ -18,7 +18,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
     public function testedFields()
     {
         return [
-            new Field("literal", "A Literal Field"),
+            new Field("literal", "A Literal Field", "", ""),
         ];
     }
 
@@ -30,6 +30,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $required = true;
         $choices = ["choice 1", "choice 2"];
         $size = 200;
+        $helptext = "h" . (string)rand();
+        $placeholder = "p" . (string)rand();
 
         $field = FieldBuilder::begin()
             ->setType($type)
@@ -38,6 +40,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
             ->setRequired($required)
             ->setChoices($choices)
             ->setFieldSize($size)
+            ->setHelptext($helptext)
+            ->setPlaceholder($placeholder)
             ->build();
 
         $this->assertEquals($type, $field->getType());
@@ -46,6 +50,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($required, $field->isRequired());
         $this->assertEquals($choices, $field->getChoices());
         $this->assertEquals($size, $field->getSize());
+        $this->assertEquals($helptext, $field->getHelptext());
+        $this->assertEquals($placeholder, $field->getPlaceholder());
     }
 
     /**

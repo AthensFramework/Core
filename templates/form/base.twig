@@ -20,6 +20,9 @@
                         <label data-for="{{ field.getSlug }}" class="field-label {% if field.isRequired %}required{% endif %}">
                             {{ field.getLabel }}
                         </label>
+                        {% if field.getHelptext %}
+                            <span class="field-helptext">{{ field.getHelptext }}</span>
+                        {% endif %}
                     </td>
                     <td class="data">
                     {{ field|write|raw }}
