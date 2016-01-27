@@ -36,12 +36,6 @@
             {% for fieldName, field in row.getFieldBearer.getVisibleFields %}
                 <td class="{{ field.getSlug }}">
                     {{ field|write|raw }}
-                    {% if field.getErrors %}
-                        <br>
-                        {% for error in field.getErrors %}
-                            <span class="field-errors">{{ error }}</span>
-                        {% endfor %}
-                    {% endif %}
                 </td>
             {% endfor %}
             {% if canRemove %}
