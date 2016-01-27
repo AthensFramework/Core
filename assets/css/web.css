@@ -465,7 +465,7 @@ div.select-a-section-container table {
     margin-left:5px;
 }
 
-table.multi-adder tr.prototypical, table.multi-adder tr.actual {
+table.multi-adder tr.prototypical {
     display: none;
 }
 
