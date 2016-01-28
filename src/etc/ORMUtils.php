@@ -144,13 +144,15 @@ class ORMUtils
         foreach ($columns as $fieldName => $column) {
             $field = $fields[$fieldName];
 
-            if ($column->isPrimaryKey() === true) {
-                // Don't accept form input for primary keys. These should be set at object creation.
-            } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
-                // Don't accept updates to the UpdatedAt or CreatedAt timestamps
-            } else {
-                $object->{"set" . $column->getPhpName()}($field->getValidatedData());
-                $field->setInitial($field->getValidatedData());
+            if ($field->hasValidatedData()) {
+                if ($column->isPrimaryKey() === true) {
+                    // Don't accept form input for primary keys. These should be set at object creation.
+                } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
+                    // Don't accept updates to the UpdatedAt or CreatedAt timestamps
+                } else {
+                    $object->{"set" . $column->getPhpName()}($field->getValidatedData());
+                    $field->setInitial($field->getValidatedData());
+                }
             }
 
         }
