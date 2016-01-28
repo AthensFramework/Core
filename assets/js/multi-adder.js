@@ -68,7 +68,7 @@ uwdoem.multi_adder = (function () {
             $("table.multi-adder tbody").each(
                 function () {
                     var actualRows = $(this).find('tr.actual');
-                    
+
                     if (actualRows.length === 0) {
                         addMultiAdderRow($(this));
                     }
