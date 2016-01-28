@@ -269,7 +269,11 @@ class FieldTest extends PHPUnit_Framework_TestCase
         foreach ($this->testedFields() as $field) {
             $data = (string)rand();
 
+            $this->assertFalse($field->hasValidatedData());
+
             $field->setValidatedData($data);
+
+            $this->assertTrue($field->hasValidatedData());
             $this->assertEquals($data, $field->getValidatedData(), "Failure on class: " . get_class($field));
         }
     }

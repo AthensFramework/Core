@@ -118,6 +118,9 @@ interface FieldInterface extends WritableInterface
      */
     public function setValidatedData($data);
 
+    /** @return boolean */
+    public function hasValidatedData();
+
     /** @return string */
     public function getValidatedData();
 

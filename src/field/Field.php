@@ -60,6 +60,9 @@ class Field implements FieldInterface
     /** @var string */
     protected $validatedData;
 
+    /** @var boolean */
+    protected $hasValidatedData = false;
+
     /** @var bool */
     protected $isValid;
 
@@ -492,8 +495,24 @@ class Field implements FieldInterface
      */
     public function setValidatedData($data)
     {
+        $this->hasValidatedData = true;
         $this->validatedData = $data;
         return $this;
+    }
+
+    /**
+     * Predicate which reports whether or not validated data has been set for
+     * this field.
+     *
+     * Because null or the empty string might be valid validated data, this function can be
+     * used to determine whether or not the ::setValidatedData method was invoked to set
+     * validated data for this field.
+     *
+     * @return boolean
+     */
+    public function hasValidatedData()
+    {
+        return $this->hasValidatedData;
     }
 
     /**
