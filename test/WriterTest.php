@@ -300,7 +300,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('<input type=text', $result);
         $this->assertContains('onclick=console.log(here);', $result);
         $this->assertContains('JS Action</button>', $result);
-        $this->assertContains('<input class=form-action type=submit', $result);
+        $this->assertContains('<input class=form-action name=submit type=submit', $result);
         $this->assertContains('value=POST Action', $result);
         $this->assertContains('</form>', $result);
     }
@@ -361,7 +361,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('<input type=text', $result);
         $this->assertContains('onclick=console.log(here);', $result);
         $this->assertContains('JS Action</button>', $result);
-        $this->assertContains('<input class=form-action type=submit', $result);
+        $this->assertContains('<input class=form-action name=submit type=submit', $result);
         $this->assertContains('value=POST Action', $result);
         $this->assertContains('</form>', $result);
         $this->assertContains("uwdoem.multi_adder.disablePrototypicalRows();", $result);
