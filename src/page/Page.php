@@ -22,14 +22,17 @@ use UWDOEM\Framework\Writer\WritableTrait;
 class Page implements PageInterface
 {
 
-    const PAGE_TYPE_AJAX_ACTION = "ajax-action";
-    const PAGE_TYPE_AJAX_PAGE = "ajax-page";
-    const PAGE_TYPE_EXCEL = "excel";
-    const PAGE_TYPE_FULL_HEADER = "full-header";
-    const PAGE_TYPE_MINI_HEADER = "mini-header";
-    const PAGE_TYPE_MULTI_PANEL = "multi-panel";
-    const PAGE_TYPE_PDF = "pdf";
-    const PAGE_TYPE_MARKDOWN_DOCUMENTATION = "markdown-documentation";
+    const PAGE_TYPE_AJAX_ACTION = 'ajax-action';
+    const PAGE_TYPE_AJAX_PAGE = 'ajax-page';
+    const PAGE_TYPE_EXCEL = 'excel';
+    const PAGE_TYPE_FULL_HEADER = 'full-header';
+    const PAGE_TYPE_MINI_HEADER = 'mini-header';
+    const PAGE_TYPE_MULTI_PANEL = 'multi-panel';
+    const PAGE_TYPE_PDF = 'pdf';
+    
+    const PAGE_TYPE_MARKDOWN_DOCUMENTATION = 'markdown-documentation';
+    
+    const PAGE_TYPE_OBJECT_MANAGER = 'object-manager';
 
     use VisitableTrait;
     use WritableTrait;

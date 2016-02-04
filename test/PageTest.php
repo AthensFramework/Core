@@ -9,6 +9,7 @@ use UWDOEM\Framework\Page\Page;
 use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Etc\Settings;
 
+use UWDOEM\Framework\Test\Mock\MockQuery;
 use UWDOEM\Framework\Test\Mock\MockWriter;
 use UWDOEM\Framework\Test\Mock\MockInitializer;
 
@@ -169,6 +170,32 @@ class PageTest extends PHPUnit_Framework_TestCase
         // encoding of message.
         $this->assertEquals(json_encode($message), $page->getWritable()->getWritables()[0]->getInitial());
         $this->assertContains($requestURI, $page->getWritable()->getId());
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #For an object manager page, you must provide a Propel query.*#
+     */
+    public function testBuildObjectManagerPageWithoutQuery()
+    {
+        $page = PageBuilder::begin()
+            ->setId("test-page")
+            ->setType(Page::PAGE_TYPE_OBJECT_MANAGER)
+            ->build();
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #You may only provide an object manager query for object manager pages.*#
+     */
+    public function testBuildNonObjectManagerPageWithQuery()
+    {
+        $query = new MockQuery();
+        $page = PageBuilder::begin()
+            ->setId("test-page")
+            ->setType(Page::PAGE_TYPE_FULL_HEADER)
+            ->setObjectManagerQuery($query)
+            ->build();
     }
 
     /**
