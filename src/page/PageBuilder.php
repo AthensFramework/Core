@@ -6,6 +6,7 @@ use UWDOEM\Framework\Etc\AbstractBuilder;
 use UWDOEM\Framework\Writer\WritableInterface;
 use UWDOEM\Framework\Section\SectionBuilder;
 use UWDOEM\Framework\Etc\SafeString;
+use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 /**
  * Class PageBuilder
@@ -41,6 +42,9 @@ class PageBuilder extends AbstractBuilder
 
     /** @var string[] */
     protected $message;
+
+    /** @var ModelCriteria */
+    protected $objectManagerQuery;
 
     /**
      * @param string $type
@@ -132,6 +136,15 @@ class PageBuilder extends AbstractBuilder
         return $this;
     }
 
+    /**
+     * @param ModelCriteria $objectManagerQuery
+     * @return PageBuilder
+     */
+    public function setObjectManagerQuery($objectManagerQuery)
+    {
+        $this->objectManagerQuery = $objectManagerQuery;
+        return $this;
+    }
 
     /**
      * @return PageInterface
@@ -166,17 +179,45 @@ class PageBuilder extends AbstractBuilder
                 ->build();
         }
 
-        return new Page(
-            $this->id,
-            $this->type,
-            $this->classes,
-            $this->title,
-            $this->baseHref,
-            $this->header,
-            $this->subHeader,
-            $this->breadCrumbs,
-            $this->returnTo,
-            $this->writable
-        );
+        if ($this->type === Page::PAGE_TYPE_OBJECT_MANAGER) {
+            if ($this->objectManagerQuery instanceof ModelCriteria === false) {
+                throw new \Exception(
+                    "For an object manager page, you must provide a Propel query using ::setObjectManagerQuery."
+                );
+            }
+
+            $page = new ObjectManager(
+                $this->id,
+                $this->type,
+                $this->classes,
+                $this->title,
+                $this->baseHref,
+                $this->header,
+                $this->subHeader,
+                $this->breadCrumbs,
+                $this->returnTo,
+                $this->objectManagerQuery
+            );
+
+        } else {
+            if ($this->objectManagerQuery instanceof ModelCriteria === true) {
+                throw new \Exception("You may only provide an object manager query for object manager pages.");
+            }
+
+            $page = new Page(
+                $this->id,
+                $this->type,
+                $this->classes,
+                $this->title,
+                $this->baseHref,
+                $this->header,
+                $this->subHeader,
+                $this->breadCrumbs,
+                $this->returnTo,
+                $this->writable
+            );
+        }
+
+        return $page;
     }
 }
