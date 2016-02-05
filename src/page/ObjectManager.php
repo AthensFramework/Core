@@ -18,7 +18,11 @@ use UWDOEM\Framework\Form\FormAction\FormActionInterface;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
-
+/**
+ * Class ObjectManager
+ *
+ * @package UWDOEM\Framework\Page
+ */
 class ObjectManager extends Page
 {
 
@@ -32,16 +36,16 @@ class ObjectManager extends Page
     /**
      * Page constructor.
      *
-     * @param string                 $id
-     * @param string                 $type
-     * @param string[]               $classes
-     * @param string                 $title
-     * @param string                 $baseHref
-     * @param string                 $header
-     * @param string                 $subHeader
-     * @param string[]               $breadCrumbs
-     * @param string[]               $returnTo
-     * @param ModelCriteria          $query
+     * @param string        $id
+     * @param string        $type
+     * @param string[]      $classes
+     * @param string        $title
+     * @param string        $baseHref
+     * @param string        $header
+     * @param string        $subHeader
+     * @param string[]      $breadCrumbs
+     * @param string[]      $returnTo
+     * @param ModelCriteria $query
      * @throws \Exception If an invalid object manager mode is provided.
      */
     public function __construct(
@@ -98,6 +102,12 @@ class ObjectManager extends Page
         );
     }
 
+    /**
+     * Finds an object with the given id in this ObjectManager's query.
+     *
+     * @return ActiveRecordInterface
+     * @throws \Exception If object can not be found.
+     */
     protected function getObjectOr404()
     {
         /** @var boolean $idWasProvided */
@@ -114,6 +124,8 @@ class ObjectManager extends Page
             http_response_code(404);
             throw new \Exception('Object not found.');
         }
+
+        return $object;
 
     }
 
@@ -164,7 +176,7 @@ class ObjectManager extends Page
 
     /**
      * @return WritableInterface
-     * @throws \Exception if object id not provided, or object not found.
+     * @throws \Exception If object id not provided, or object not found.
      */
     protected function makeDetail()
     {
@@ -211,6 +223,6 @@ class ObjectManager extends Page
      */
     protected function makeDelete()
     {
-
+        return null;
     }
 }
