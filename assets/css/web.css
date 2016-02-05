@@ -163,23 +163,6 @@ div.notification.failure {
     font-size:16px !important;
 }
 
-a.index-button {
-    display:inline-block;
-    margin:10px;
-    background-color: #646464;
-    border-radius:7px;
-    color:white;
-    width:200px;
-    height:100px;
-
-}
-
-a.index-button p {
-    text-align:center;
-    color:white;
-    line-height:100px;
-}
-
 span.field-errors {
     color:red;
 }
