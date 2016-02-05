@@ -140,7 +140,7 @@ class PageBuilder extends AbstractBuilder
      * @param ModelCriteria $objectManagerQuery
      * @return PageBuilder
      */
-    public function setObjectManagerQuery($objectManagerQuery)
+    public function setObjectManagerQuery(ModelCriteria $objectManagerQuery)
     {
         $this->objectManagerQuery = $objectManagerQuery;
         return $this;

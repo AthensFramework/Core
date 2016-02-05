@@ -113,7 +113,7 @@ class ObjectManager extends Page
         /** @var boolean $idWasProvided */
         $idWasProvided = array_key_exists('id', $_GET);
 
-        if ($idWasProvided) {
+        if ($idWasProvided === true) {
             $object = $this->query->findOneById((int)$_GET['id']);
         } else {
             $class = $this->query->getTableMap()->getOMClass(false);
@@ -208,7 +208,7 @@ class ObjectManager extends Page
             ""
         );
 
-        $actions = $idWasProvided ? [$submitAction, $deleteAction] : [$submitAction];
+        $actions = $idWasProvided === true ? [$submitAction, $deleteAction] : [$submitAction];
 
         return FormBuilder::begin()
             ->setId('object-manager-detail-form')
