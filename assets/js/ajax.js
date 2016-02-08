@@ -3,7 +3,7 @@ uwdoem.ajax = (function () {
     var defaultSuccessCallback = function () {};
 
     var call = function (url, postVars, successCallback, doneFunction) {
-        var defaultPostVars = [];
+        var defaultPostVars = []
         var defaultDoneFunction = function (msg) {
             try {
                 msg = JSON.parse(msg);

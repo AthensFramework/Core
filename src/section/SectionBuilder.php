@@ -22,7 +22,7 @@ class SectionBuilder extends AbstractBuilder
     /** @var WritableInterface[] */
     protected $writables = [];
 
-     /**
+    /**
      * @param string $label
      * @return SectionBuilder
      */
@@ -33,7 +33,7 @@ class SectionBuilder extends AbstractBuilder
             ->setLabel($label)
             ->setInitial($label)
             ->build();
-        
+
         $this->addWritable($label);
         return $this;
     }
@@ -49,6 +49,15 @@ class SectionBuilder extends AbstractBuilder
         }
         $content = SafeString::fromString(nl2br($content));
 
+        return $this->addLiteralContent($content);
+    }
+
+    /**
+     * @param string $content
+     * @return SectionBuilder
+     */
+    public function addLiteralContent($content)
+    {
         $content = FieldBuilder::begin()
             ->setType(Field::FIELD_TYPE_LITERAL)
             ->setLabel("section-content")
@@ -56,7 +65,7 @@ class SectionBuilder extends AbstractBuilder
             ->build();
 
         $this->addWritable($content);
-        
+
         return $this;
     }
 

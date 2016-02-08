@@ -567,3 +567,10 @@ label.field-label::after {
 label.field-label.required::after {
     content: "*:";
 }
+
+#object-manager-table td {
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
