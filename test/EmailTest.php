@@ -49,6 +49,28 @@ class EmailTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($mimeVersion, $email->getMimeVersion());
     }
 
+    public function testLiteralMessageSetting()
+    {
+        $message = "Test content.\n\nA second paragraph.";
+
+        $email = EmailBuilder::begin()
+            ->setLiteralMessage($message)
+            ->build();
+
+        $this->assertEquals($message, (string)$email->getMessage());
+    }
+
+    public function testNonLiteralMessageSetting()
+    {
+        $message = "Test content.\n\nA second paragraph.";
+
+        $email = EmailBuilder::begin()
+            ->setMessage($message)
+            ->build();
+
+        $this->assertEquals(nl2br($message), (string)$email->getMessage());
+    }
+
     public function testEmailer()
     {
         $subject = "type" . (string)rand();

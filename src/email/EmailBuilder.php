@@ -3,6 +3,7 @@
 namespace UWDOEM\Framework\Email;
 
 use UWDOEM\Framework\Etc\AbstractBuilder;
+use UWDOEM\Framework\Etc\SafeString;
 
 /**
  * Class EmailBuilder
@@ -67,6 +68,20 @@ class EmailBuilder extends AbstractBuilder
      * @return EmailBuilder
      */
     public function setMessage($message)
+    {
+        if (($message instanceof SafeString) === false) {
+            $message = htmlentities($message);
+        }
+        $message = SafeString::fromString(nl2br($message));
+
+        return $this->setLiteralMessage($message);
+    }
+
+    /**
+     * @param string $message
+     * @return EmailBuilder
+     */
+    public function setLiteralMessage($message)
     {
         $this->message = $message;
         return $this;
