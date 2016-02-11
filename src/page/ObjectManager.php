@@ -141,16 +141,23 @@ class ObjectManager extends Page
         $rows = [];
 
         foreach ($objects as $object) {
+
+            /** @var string $detailurl */
+            $detailurl = static::makeUrl($_SERVER['REQUEST_URI'], ["mode" => "detail", "id" => $object->getId()]);
+
             $rows[] = RowBuilder::begin()
                 ->addObject($object)
                 ->setOnClick(
                     "
-                    uwdoem.multi_panel.loadPanel(1, '{$_SERVER['REQUEST_URI']}?mode=detail&id={$object->getId()}');
+                    uwdoem.multi_panel.loadPanel(1, '$detailurl');
                     uwdoem.multi_panel.openPanel(1);
                     "
                 )
                 ->build();
         }
+
+        /** @var string $adderUrl */
+        $adderUrl = static::makeUrl($_SERVER['REQUEST_URI'], ["mode" => "detail"]);
 
         $rows[] = RowBuilder::begin()
             ->addFields([
@@ -162,7 +169,7 @@ class ObjectManager extends Page
             ])
             ->setOnClick(
                 "
-                    uwdoem.multi_panel.loadPanel(1, '{$_SERVER['REQUEST_URI']}?mode=detail');
+                    uwdoem.multi_panel.loadPanel(1, '$adderUrl');
                     uwdoem.multi_panel.openPanel(1);
                 "
             )
@@ -224,5 +231,17 @@ class ObjectManager extends Page
     protected function makeDelete()
     {
         return null;
+    }
+
+    /**
+     * @param string   $location
+     * @param string[] $data
+     * @return string
+     */
+    protected static function makeUrl($location, array $data)
+    {
+        $args = http_build_query($data);
+
+        return strpos($location, '?') === false ? "$location?$args" : "$location&$args";
     }
 }
