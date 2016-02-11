@@ -1,6 +1,7 @@
 {
   "name": "uwdoem/framework",
   "description": "Modern web framework in PHP",
+  "license": "MIT",
   "autoload": {
     "classmap": [
       "src/"
