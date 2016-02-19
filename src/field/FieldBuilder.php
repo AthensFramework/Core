@@ -137,7 +137,15 @@ class FieldBuilder extends AbstractBuilder
         }
 
         return new Field(
-            $this->classes, $this->type, $this->label, $this->initial, $this->required, $this->choices, $this->fieldSize, $this->helptext, $this->placeholder
+            $this->classes,
+            $this->type,
+            $this->label,
+            $this->initial,
+            $this->required,
+            $this->choices,
+            $this->fieldSize,
+            $this->helptext,
+            $this->placeholder
         );
     }
 }

@@ -59,7 +59,15 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains("initial", $writer->visitField($field));
 
         /* A choice field */
-        $field = new Field([], "choice", "A literal field", "first choice", true, ["first choice", "second choice"], 200);
+        $field = new Field(
+            [],
+            "choice",
+            "A literal field",
+            "first choice",
+            true,
+            ["first choice", "second choice"],
+            200
+        );
 
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitField($field));
@@ -75,8 +83,14 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         /* A multiple choice field */
         $field = new Field(
-            [], "multiple-choice", "A multiple-choice field", ["second choice"], true, ["first choice",
-            "second choice"], 200
+            [],
+            "multiple-choice",
+            "A multiple-choice field",
+            ["second choice"],
+            true,
+            ["first choice",
+            "second choice"],
+            200
         );
 
         // Get result and strip quotes, for easier analysis
@@ -92,7 +106,17 @@ class WriterTest extends PHPUnit_Framework_TestCase
             $this->assertContains("value=second-choice checked", $result);
 
         /* A text field */
-            $field = new Field([], "text", "A text field", "5", true, [], 200, "helptext", "placeholder for a text field");
+            $field = new Field(
+                [],
+                "text",
+                "A text field",
+                "5",
+                true,
+                [],
+                200,
+                "helptext",
+                "placeholder for a text field"
+            );
 
         // Get result and strip quotes, for easier analysis
             $result = $this->stripQuotes($writer->visitField($field));
@@ -103,7 +127,15 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         /* A textarea field */
             $field = new Field(
-                [], "textarea", "A textarea field", "initial value", true, [], 1000, "helptext", "placeholder for a textarea field"
+                [],
+                "textarea",
+                "A textarea field",
+                "initial value",
+                true,
+                [],
+                1000,
+                "helptext",
+                "placeholder for a textarea field"
             );
 
         // Get result and strip quotes, for easier analysis

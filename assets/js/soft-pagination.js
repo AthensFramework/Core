@@ -176,3 +176,4 @@ uwdoem.soft_pagination = (function () {
         setupSoftPaginationFilter: setupSoftPaginationFilter
     };
 }());
+

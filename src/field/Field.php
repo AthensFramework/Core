@@ -88,18 +88,26 @@ class Field implements FieldInterface
     }
 
     /**
-     * @param $classes
-     * @param string $type
-     * @param string $label
+     * @param string[]    $classes
+     * @param string      $type
+     * @param string      $label
      * @param string|null $initial
-     * @param boolean $required
-     * @param string[] $choices
-     * @param integer $fieldSize
-     * @param string $helptext
-     * @param string $placeholder
+     * @param boolean     $required
+     * @param string[]    $choices
+     * @param integer     $fieldSize
+     * @param string      $helptext
+     * @param string      $placeholder
      */
     public function __construct(
-        $classes, $type, $label = "", $initial = "", $required = false, array $choices = [], $fieldSize = 255, $helptext = "", $placeholder = ""
+        array $classes,
+        $type,
+        $label = "",
+        $initial = "",
+        $required = false,
+        array $choices = [],
+        $fieldSize = 255,
+        $helptext = "",
+        $placeholder = ""
     ) {
         $this->type = $type;
         $this->label = $label;
