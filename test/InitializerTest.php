@@ -21,7 +21,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase
     protected function makeMockForm()
     {
         $fieldBearer = FieldBearerBuilder::begin()
-            ->addFields([new Field("literal", "A literal field", [])])
+            ->addFields([new Field([], "literal", "A literal field", [])])
             ->build();
         return new MockForm("f-" . (string)rand(), [], "base", "post", "_self", $fieldBearer, function () {
         }, function () {
@@ -63,15 +63,15 @@ class InitializerTest extends PHPUnit_Framework_TestCase
 
         $fieldBearer1 = FieldBearerBuilder::begin()
             ->addFields([
-                "field" => new Field('literal', 'A literal field', []),
-                "field2" => new Field('literal', 'A second literal field', [])
+                "field" => new Field([], 'literal', 'A literal field', []),
+                "field2" => new Field([], 'literal', 'A second literal field', [])
             ])
             ->build();
 
         $fieldBearer2 = FieldBearerBuilder::begin()
             ->addFields([
-                "field1" => new Field('literal', 'A literal field', []),
-                "field2" => new Field('literal', 'A second literal field', [])
+                "field1" => new Field([], 'literal', 'A literal field', []),
+                "field2" => new Field([], 'literal', 'A second literal field', [])
             ])
             ->build();
 
@@ -126,8 +126,8 @@ class InitializerTest extends PHPUnit_Framework_TestCase
         for ($i = 0; $i <= 2; $i++) {
             $fieldBearer = FieldBearerBuilder::begin()
                 ->addFields([
-                    "field" => new Field('literal', 'A literal field', []),
-                    "field2" => new Field('literal', 'A second literal field', [])
+                    "field" => new Field([], 'literal', 'A literal field', []),
+                    "field2" => new Field([], 'literal', 'A second literal field', [])
                 ])
                 ->build();
 
@@ -227,8 +227,8 @@ class InitializerTest extends PHPUnit_Framework_TestCase
     {
         $initializer = new Initializer();
 
-        $field1 = new Field("literal", "A literal field", []);
-        $field2 = new Field("literal", "A literal field", []);
+        $field1 = new Field([], "literal", "A literal field", []);
+        $field2 = new Field([], "literal", "A literal field", []);
 
         $fieldBearer1 = FieldBearerBuilder::begin()
             ->addFields([$field1])

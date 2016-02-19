@@ -224,6 +224,7 @@ class Writer extends Visitor
             ->render(
                 [
                     "hash" => $field->getId(),
+                    "classes" => $field->getClasses(),
                     "slug" => $field->getSlug(),
                     "initial" => $field->getInitial(),
                     "choices" => $choices,

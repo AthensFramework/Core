@@ -1,4 +1,4 @@
-<span class="choice-field">
+<span class="choice-field {{ classes|join(' ') }}">
 
     {% if choices|length <= 2 %}
         {% for choiceSlug, choice in choices %}

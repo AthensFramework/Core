@@ -39,8 +39,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase
         $rowMakingFunction = function () {
             return RowBuilder::begin()
                 ->addFields([
-                    new Field('literal', 'A literal field', []),
-                    new Field('literal2', 'A second literal field', [])
+                    new Field([], 'literal', 'A literal field', []),
+                    new Field([], 'literal2', 'A second literal field', [])
                 ])
                 ->build();
         };
@@ -105,8 +105,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase
         $rowMakingFunction = function () {
             return RowBuilder::begin()
                 ->addFields([
-                    new Field('literal', 'A literal field', []),
-                    new Field('literal2', 'A second literal field', [])
+                    new Field([], 'literal', 'A literal field', []),
+                    new Field([], 'literal2', 'A second literal field', [])
                 ])
                 ->build();
         };
@@ -129,8 +129,8 @@ class TableFormTest extends PHPUnit_Framework_TestCase
     {
 
         $rowMakingFunction = function () {
-            $field1 = new Field('text', 'A text field', []);
-            $field2 = new Field('text', 'A second text field', []);
+            $field1 = new Field([], 'text', 'A text field', []);
+            $field2 = new Field([], 'text', 'A second text field', []);
 
             return RowBuilder::begin()
                 ->addFields([

@@ -36,7 +36,7 @@ class RowTest extends PHPUnit_Framework_TestCase
         $onClick = "console.log('Click!');";
 
         $highlightableRow = RowBuilder::begin()
-            ->addFields([$fieldName => new Field('literal', 'A literal field', [])])
+            ->addFields([$fieldName => new Field([], 'literal', 'A literal field', [])])
             ->setHighlightable(true)
             ->build();
 
@@ -44,7 +44,7 @@ class RowTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($highlightableRow->isHighlightable());
 
         $clickableRow = RowBuilder::begin()
-            ->addFields([$fieldName => new Field('literal', 'A literal field', [])])
+            ->addFields([$fieldName => new Field([], 'literal', 'A literal field', [])])
             ->setOnClick($onClick)
             ->build();
 
@@ -60,7 +60,7 @@ class RowTest extends PHPUnit_Framework_TestCase
     public function testBuilderThrowsExceptionSetContentOnAjaxLoaded()
     {
         $row = RowBuilder::begin()
-            ->addFields(["fieldName" => new Field('literal', 'A literal field', [])])
+            ->addFields(["fieldName" => new Field([], 'literal', 'A literal field', [])])
             ->setHighlightable(true)
             ->setOnClick("console.log('Click');")
             ->build();

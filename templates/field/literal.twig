@@ -1,4 +1,4 @@
-<span class="initial-field">
+<span class="initial-field {{ classes|join(' ') }}">
     {{ initial|saferaw|raw }}
 </span>
 {% include "field/errors.twig" %}

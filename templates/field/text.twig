@@ -1,4 +1,4 @@
-<span class="text-field">
+<span class="text-field {{ classes|join(' ') }}">
     <input type="text" name="{{ slug }}" value="{{ initial }}" placeholder="{{ placeholder }}"/>
 </span>
 {% include "field/errors.twig" %}

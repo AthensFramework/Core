@@ -30,7 +30,7 @@ class SectionTest extends PHPUnit_Framework_TestCase
      */
     public function testBuilder()
     {
-        $field = new Field("literal", "A literal field", []);
+        $field = new Field([], "literal", "A literal field", []);
 
         $content = "content\ncontent";
         $label = "label";

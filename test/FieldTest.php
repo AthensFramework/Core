@@ -18,7 +18,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
     public function testedFields()
     {
         return [
-            new Field("literal", "A Literal Field", "", ""),
+            new Field([], "literal", "A Literal Field", "", ""),
         ];
     }
 
@@ -29,6 +29,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $initial = "initial";
         $required = true;
         $choices = ["choice 1", "choice 2"];
+        $classes = ["class1", "class2"];
         $size = 200;
         $helptext = "h" . (string)rand();
         $placeholder = "p" . (string)rand();
@@ -42,6 +43,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
             ->setFieldSize($size)
             ->setHelptext($helptext)
             ->setPlaceholder($placeholder)
+            ->addClass($classes[0])
+            ->addClass($classes[1])
             ->build();
 
         $this->assertEquals($type, $field->getType());
@@ -52,6 +55,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($size, $field->getSize());
         $this->assertEquals($helptext, $field->getHelptext());
         $this->assertEquals($placeholder, $field->getPlaceholder());
+        $this->assertContains($classes[0], $field->getCLasses());
+        $this->assertContains($classes[1], $field->getCLasses());
     }
 
     /**
@@ -404,7 +409,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
     public function testFieldDatetimeWrapper()
     {
-        $field = new Field("any", "label", new DateTime());
+        $field = new Field([], "any", "label", new DateTime());
 
         $this->assertInstanceOf('UWDOEM\Framework\Field\DateTimeWrapper', $field->getInitial());
         $this->assertContains(date("Y") . "-", (string)$field->getInitial());
