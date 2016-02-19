@@ -1,6 +1,6 @@
 {
-  "name": "uwdoem/framework",
-  "description": "Modern web framework in PHP",
+  "name": "athens/core",
+  "description": "Modern web framework in PHP for academic environments",
   "license": "MIT",
   "autoload": {
     "classmap": [
