@@ -16,6 +16,9 @@ abstract class AbstractEmailer implements EmailerInterface
 {
 
     /**
+     * Each Emailer must have a ::doSend which performs the actual sending of
+     * the email.
+     *
      * @param string         $body
      * @param EmailInterface $email
      * @return boolean
@@ -23,6 +26,8 @@ abstract class AbstractEmailer implements EmailerInterface
     abstract protected function doSend($body, EmailInterface $email);
 
     /**
+     * Invoke the Emailer's ::doSend method.
+     *
      * @param EmailInterface $email
      * @param Writer|null    $writer
      * @return boolean
