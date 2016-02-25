@@ -17,6 +17,11 @@ class Form implements FormInterface
     use VisitableTrait;
 
     /**
+     * Determine whether the form is valid.
+     *
+     * Updates $this->isValid and $this->errors according to whether the form is
+     * valid and whether it has errors.
+     *
      * @return void
      */
     protected function validate()
