@@ -17,7 +17,7 @@
     "twig/twig" : "1.*",
     "dompdf/dompdf" : "0.6.*",
     "uwdoem/person": "1.*",
-    "uwdoem/encryption": "0.*",
+    "athens/encryption": "0.*",
     "uwdoem/csrf": "1.*",
     "phpoffice/phpexcel": "1.*"
   },
