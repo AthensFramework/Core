@@ -1,19 +1,19 @@
 <?php
 
-namespace UWDOEM\Framework\Page;
+namespace Athens\Core\Page;
 
 use DOMPDF;
 
-use UWDOEM\Framework\Etc\ArrayUtils;
-use UWDOEM\Framework\Field\FieldBuilder;
-use UWDOEM\Framework\Writer\WritableInterface;
-use UWDOEM\Framework\Table\TableBuilder;
-use UWDOEM\Framework\Row\RowBuilder;
-use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\Form\FormBuilder;
-use UWDOEM\Framework\Form\FormAction\FormAction;
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Form\FormAction\FormActionInterface;
+use Athens\Core\Etc\ArrayUtils;
+use Athens\Core\Field\FieldBuilder;
+use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Table\TableBuilder;
+use Athens\Core\Row\RowBuilder;
+use Athens\Core\Row\RowInterface;
+use Athens\Core\Form\FormBuilder;
+use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\Field\Field;
+use Athens\Core\Form\FormAction\FormActionInterface;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
@@ -21,7 +21,7 @@ use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 /**
  * Class ObjectManager
  *
- * @package UWDOEM\Framework\Page
+ * @package Athens\Core\Page
  */
 class ObjectManager extends Page
 {
@@ -149,8 +149,8 @@ class ObjectManager extends Page
                 ->addObject($object)
                 ->setOnClick(
                     "
-                    uwdoem.multi_panel.loadPanel(1, '$detailurl');
-                    uwdoem.multi_panel.openPanel(1);
+                    athens.multi_panel.loadPanel(1, '$detailurl');
+                    athens.multi_panel.openPanel(1);
                     "
                 )
                 ->build();
@@ -169,8 +169,8 @@ class ObjectManager extends Page
             ])
             ->setOnClick(
                 "
-                    uwdoem.multi_panel.loadPanel(1, '$adderUrl');
-                    uwdoem.multi_panel.openPanel(1);
+                    athens.multi_panel.loadPanel(1, '$adderUrl');
+                    athens.multi_panel.openPanel(1);
                 "
             )
             ->build();
@@ -199,9 +199,9 @@ class ObjectManager extends Page
             "Submit",
             "JS",
             "
-                uwdoem.ajax.AjaxSubmitForm($(this).closest('form'), function(){
-                    uwdoem.multi_panel.closePanel(1);
-                    uwdoem.ajax_section.loadSection('object-manager-table');
+                athens.ajax.AjaxSubmitForm($(this).closest('form'), function(){
+                    athens.multi_panel.closePanel(1);
+                    athens.ajax_section.loadSection('object-manager-table');
                 });
                 return false;
             "

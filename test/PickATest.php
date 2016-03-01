@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\PickA\PickABuilder;
-use UWDOEM\Framework\Section\SectionBuilder;
+use Athens\Core\PickA\PickABuilder;
+use Athens\Core\Section\SectionBuilder;
 
 class PickATest extends PHPUnit_Framework_TestCase
 {

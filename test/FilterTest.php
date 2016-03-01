@@ -1,20 +1,20 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\FilterStatement\FilterStatement;
-use UWDOEM\Framework\Filter\FilterBuilder;
-use UWDOEM\Framework\Filter\Filter;
-use UWDOEM\Framework\Etc\Settings;
-use UWDOEM\Framework\Filter\PaginationFilter;
-use UWDOEM\Framework\Filter\FilterControls;
-use UWDOEM\Framework\Filter\SortFilter;
-use UWDOEM\Framework\Row\RowBuilder;
-use UWDOEM\Framework\Field\Field;
+use Athens\Core\FilterStatement\FilterStatement;
+use Athens\Core\Filter\FilterBuilder;
+use Athens\Core\Filter\Filter;
+use Athens\Core\Etc\Settings;
+use Athens\Core\Filter\PaginationFilter;
+use Athens\Core\Filter\FilterControls;
+use Athens\Core\Filter\SortFilter;
+use Athens\Core\Row\RowBuilder;
+use Athens\Core\Field\Field;
 
-use UWDOEM\Framework\Test\Mock\MockQuery;
+use Athens\Core\Test\Mock\MockQuery;
 
 class FilterTest extends PHPUnit_Framework_TestCase
 {

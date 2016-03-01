@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEM\Framework\Page;
+namespace Athens\Core\Page;
 
-use UWDOEM\Framework\Writer\WritableInterface;
-use UWDOEM\Framework\Initializer\InitializableInterface;
-use UWDOEM\Framework\Writer\Writer;
-use UWDOEM\Framework\Initializer\Initializer;
+use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Initializer\InitializableInterface;
+use Athens\Core\Writer\Writer;
+use Athens\Core\Initializer\Initializer;
 
 interface PageInterface extends WritableInterface, InitializableInterface
 {

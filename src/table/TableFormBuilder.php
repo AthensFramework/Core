@@ -1,16 +1,16 @@
 <?php
 
-namespace UWDOEM\Framework\Table;
+namespace Athens\Core\Table;
 
-use UWDOEM\Framework\Etc\AbstractBuilder;
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\Form\FormBuilderTrait;
+use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Field\Field;
+use Athens\Core\Row\RowInterface;
+use Athens\Core\Form\FormBuilderTrait;
 
 /**
  * Class TableFormBuilder
  *
- * @package UWDOEM\Framework\Table
+ * @package Athens\Core\Table
  */
 class TableFormBuilder extends AbstractBuilder
 {

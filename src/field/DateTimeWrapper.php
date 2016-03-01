@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\Field;
+namespace Athens\Core\Field;
 
 use DateTime;
 
 /**
  * Class DateTimeWrapper provides a default string representation for DateTime
  *
- * @package UWDOEM\Framework\Field
+ * @package Athens\Core\Field
  */
 class DateTimeWrapper extends DateTime
 {

@@ -1,17 +1,17 @@
 <?php
 
-namespace UWDOEM\Framework\FieldBearer;
+namespace Athens\Core\FieldBearer;
 
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
-use UWDOEM\Framework\Etc\AbstractBuilder;
-use UWDOEM\Framework\Etc\ORMUtils;
-use UWDOEM\Framework\Field\FieldInterface;
-use UWDOEM\Framework\Field\Field;
+use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Etc\ORMUtils;
+use Athens\Core\Field\FieldInterface;
+use Athens\Core\Field\Field;
 
 /**
  * Class FieldBearerBuilder
- * @package UWDOEM\Framework\FieldBearer
+ * @package Athens\Core\FieldBearer
  */
 class FieldBearerBuilder extends AbstractBuilder
 {

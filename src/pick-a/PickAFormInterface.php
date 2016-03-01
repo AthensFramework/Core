@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\PickA;
+namespace Athens\Core\PickA;
 
-use UWDOEM\Framework\Form\FormInterface;
+use Athens\Core\Form\FormInterface;
 
 interface PickAFormInterface extends FormInterface, PickAInterface
 {

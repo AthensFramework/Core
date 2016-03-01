@@ -1,13 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Etc\ORMUtils;
-use UWDOEMTest\TestClass;
-use UWDOEMTest\TestClassQuery;
-use UWDOEM\Framework\Field\Field;
+use Athens\Core\Etc\ORMUtils;
+use Athens\Core\Field\Field;
+
+use AthensTest\TestClass;
+use AthensTest\TestClassQuery;
 
 class ORMUtilsTest extends PHPUnit_Framework_TestCase
 {

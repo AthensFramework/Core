@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\FieldBearer;
+namespace Athens\Core\FieldBearer;
 
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Field\FieldInterface;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\Field\FieldInterface;
 
 /**
  * Class FieldBearer encapsulates a set of fields and child field bearers.
- * @package UWDOEM\Framework\FieldBearer
+ * @package Athens\Core\FieldBearer
  */
 class FieldBearer implements FieldBearerInterface
 {
@@ -55,8 +55,8 @@ class FieldBearer implements FieldBearerInterface
 
     /**
      * @param string                                   $fieldGetterFunction
-     * @param \UWDOEM\Framework\Field\FieldInterface[] $initial
-     * @return \UWDOEM\Framework\Field\FieldInterface[]
+     * @param \Athens\Core\Field\FieldInterface[] $initial
+     * @return \Athens\Core\Field\FieldInterface[]
      */
     public function getFieldsBase($fieldGetterFunction, array $initial)
     {
@@ -81,7 +81,7 @@ class FieldBearer implements FieldBearerInterface
 
     /**
      * Return the array of child fields.
-     * @return \UWDOEM\Framework\Field\FieldInterface[]
+     * @return \Athens\Core\Field\FieldInterface[]
      */
     public function getFields()
     {
@@ -114,7 +114,7 @@ class FieldBearer implements FieldBearerInterface
     }
 
     /**
-     * @return \UWDOEM\Framework\Field\FieldInterface[]
+     * @return \Athens\Core\Field\FieldInterface[]
      */
     public function getVisibleFields()
     {
@@ -131,7 +131,7 @@ class FieldBearer implements FieldBearerInterface
     }
 
     /**
-     * @return \UWDOEM\Framework\Field\FieldInterface[]
+     * @return \Athens\Core\Field\FieldInterface[]
      */
     public function getHiddenFields()
     {
@@ -174,7 +174,7 @@ class FieldBearer implements FieldBearerInterface
      * Given a field's string name, return the field.
      *
      * @param string $name
-     * @return \UWDOEM\Framework\Field\FieldInterface
+     * @return \Athens\Core\Field\FieldInterface
      * @throws \Exception If the provided name is not found among this field bearer's fields.
      */
     public function getFieldByName($name)

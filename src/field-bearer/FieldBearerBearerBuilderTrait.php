@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\FieldBearer;
+namespace Athens\Core\FieldBearer;
 
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
-use UWDOEM\Framework\Field\Field;
+use Athens\Core\Field\Field;
 
 trait FieldBearerBearerBuilderTrait
 {
@@ -53,7 +53,7 @@ trait FieldBearerBearerBuilderTrait
     }
 
     /**
-     * @param \UWDOEM\Framework\Field\FieldInterface[] $fields
+     * @param \Athens\Core\Field\FieldInterface[] $fields
      * @return $this
      */
     public function addFields(array $fields)

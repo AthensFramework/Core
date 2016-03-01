@@ -5,8 +5,8 @@
 
 require_once dirname(__FILE__) ."/../setup.php";
 
-use UWDOEM\Framework\Page\PageBuilder;
-use UWDOEM\Framework\Page\Page;
+use Athens\Core\Page\PageBuilder;
+use Athens\Core\Page\Page;
 
 
 $page = PageBuilder::begin()

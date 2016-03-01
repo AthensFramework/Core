@@ -1,17 +1,17 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
 use Propel\Runtime\ActiveQuery\Criteria;
 
-use UWDOEM\Framework\FilterStatement\FilterStatement;
-use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
-use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
-use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
+use Athens\Core\FilterStatement\FilterStatement;
+use Athens\Core\FilterStatement\SortingFilterStatement;
+use Athens\Core\FilterStatement\ExcludingFilterStatement;
+use Athens\Core\FilterStatement\PaginationFilterStatement;
 
-use UWDOEM\Framework\Test\Mock\MockQuery;
+use Athens\Core\Test\Mock\MockQuery;
 
 class FilterStatementTest extends PHPUnit_Framework_TestCase
 {

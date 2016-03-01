@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\PickA;
+namespace Athens\Core\PickA;
 
-use UWDOEM\Framework\Writer\WritableInterface;
+use Athens\Core\Writer\WritableInterface;
 
 interface PickAInterface extends WritableInterface
 {

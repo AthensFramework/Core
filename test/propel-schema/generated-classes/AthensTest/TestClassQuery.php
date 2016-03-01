@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEMTest;
+namespace AthensTest;
 
-use UWDOEMTest\Base\TestClassTwo as BaseTestClassTwo;
+use AthensTest\Base\TestClassQuery as BaseTestClassQuery;
 
 /**
- * Skeleton subclass for representing a row from the 'test_class_two' table.
+ * Skeleton subclass for performing query and update operations on the 'test_class' table.
  *
  * 
  *
@@ -14,7 +14,7 @@ use UWDOEMTest\Base\TestClassTwo as BaseTestClassTwo;
  * long as it does not already exist in the output directory.
  *
  */
-class TestClassTwo extends BaseTestClassTwo
+class TestClassQuery extends BaseTestClassQuery
 {
 
 }

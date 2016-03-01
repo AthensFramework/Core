@@ -1,4 +1,4 @@
-uwdoem = (function () {
+athens = (function () {
 
     var maskScreen = $("#mask-screen");
     /**

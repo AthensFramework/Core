@@ -1,17 +1,17 @@
 <?php
 
-namespace UWDOEM\Framework\Section;
+namespace Athens\Core\Section;
 
-use UWDOEM\Framework\Etc\AbstractBuilder;
-use UWDOEM\Framework\Etc\SafeString;
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Field\FieldBuilder;
-use UWDOEM\Framework\Writer\WritableInterface;
+use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Etc\SafeString;
+use Athens\Core\Field\Field;
+use Athens\Core\Field\FieldBuilder;
+use Athens\Core\Writer\WritableInterface;
 
 /**
  * Class SectionBuilder
  *
- * @package UWDOEM\Framework\Section
+ * @package Athens\Core\Section
  */
 class SectionBuilder extends AbstractBuilder
 {

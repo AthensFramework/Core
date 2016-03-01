@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEM\Framework\Visitor\VisitableTrait;
+use Athens\Core\Visitor\VisitableTrait;
 
 class MockVisitableZ
 {

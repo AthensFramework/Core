@@ -56,7 +56,7 @@ Steps
   
     Recall that the `local-settings.php` file you created in your development environment *is not* under version control and thus was *not* created when you pulled your project down into your production environment. We can create a new `local-settings.php` file by entering the following command:
     ```
-    php vendor/uwdoem/framework/bin/manage.php create-local-settings
+    php vendor/athens/core/bin/manage.php create-local-settings
     ```
     
     Now edit `local-settings.php` to reflect the settings for your production environment.

@@ -1,4 +1,4 @@
-uwdoem.multi_adder = (function () {
+athens.multi_adder = (function () {
 
     var getLastRow = function (multiAdderTable) {
         return multiAdderTable.find("tr.form-row").last();

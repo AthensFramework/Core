@@ -1,14 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEM\Framework\Emailer\PhpEmailer;
-use UWDOEM\Framework\Email\EmailInterface;
+use Athens\Core\Emailer\PhpEmailer;
+use Athens\Core\Email\EmailInterface;
 
 /**
  * Class LoggingEmailer Sends emails by logging them to the error log.
  *
- * @package UWDOEM\Framework\Test\Mock
+ * @package Athens\Core\Test\Mock
  */
 class LoggingEmailer extends PhpEmailer
 {

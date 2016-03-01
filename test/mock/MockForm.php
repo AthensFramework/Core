@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEM\Framework\Form\Form;
+use Athens\Core\Form\Form;
 
 class MockForm extends Form
 {

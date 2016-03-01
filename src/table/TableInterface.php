@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\Table;
+namespace Athens\Core\Table;
 
-use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\Filter\FilterInterface;
-use UWDOEM\Framework\Writer\WritableInterface;
+use Athens\Core\Row\RowInterface;
+use Athens\Core\Filter\FilterInterface;
+use Athens\Core\Writer\WritableInterface;
 
 interface TableInterface extends WritableInterface
 {

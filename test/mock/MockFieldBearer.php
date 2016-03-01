@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEM\Framework\FieldBearer\FieldBearer;
+use Athens\Core\FieldBearer\FieldBearer;
 
 class MockFieldBearer extends FieldBearer
 {

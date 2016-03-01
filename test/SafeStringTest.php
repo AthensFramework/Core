@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Etc\SafeString;
+use Athens\Core\Etc\SafeString;
 
 class SafeStringTest extends PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class SafeStringTest extends PHPUnit_Framework_TestCase
         $string = (string)rand();
         $safe = SafeString::fromString($string);
 
-        $this->assertInstanceOf('UWDOEM\Framework\Etc\SafeString', $safe);
+        $this->assertInstanceOf('Athens\Core\Etc\SafeString', $safe);
         $this->assertEquals($string, (string)$safe);
     }
 }

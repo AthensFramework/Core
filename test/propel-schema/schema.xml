@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<database name="uwdoem_test" defaultIdMethod="native" namespace="UWDOEMTest">
+<database name="athens_test" defaultIdMethod="native" namespace="AthensTest">
 
     <table name="test_class">
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>

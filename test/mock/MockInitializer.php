@@ -1,9 +1,9 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEM\Framework\Page\PageInterface;
-use UWDOEM\Framework\Initializer\Initializer;
+use Athens\Core\Page\PageInterface;
+use Athens\Core\Initializer\Initializer;
 
 class MockInitializer extends Initializer
 {

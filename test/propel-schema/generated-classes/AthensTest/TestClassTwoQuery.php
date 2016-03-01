@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEMTest;
+namespace AthensTest;
 
-use UWDOEMTest\Base\TestClassTwoQuery as BaseTestClassTwoQuery;
+use AthensTest\Base\TestClassTwoQuery as BaseTestClassTwoQuery;
 
 /**
  * Skeleton subclass for performing query and update operations on the 'test_class_two' table.

@@ -1,12 +1,12 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace Athens\Core\Filter;
 
 use Guzzle\Service\Resource\Model;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
-use UWDOEM\Framework\Writer\WritableInterface;
+use Athens\Core\FilterStatement\FilterStatementInterface;
+use Athens\Core\Writer\WritableInterface;
 
 interface FilterInterface extends WritableInterface
 {
@@ -44,8 +44,8 @@ interface FilterInterface extends WritableInterface
     public function queryFilter(ModelCriteria $query);
 
     /**
-     * @param \UWDOEM\Framework\Row\Row[] $rows
-     * @return \UWDOEM\Framework\Row\Row[]
+     * @param \Athens\Core\Row\Row[] $rows
+     * @return \Athens\Core\Row\Row[]
      */
     public function rowFilter(array $rows);
 }

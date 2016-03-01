@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\Emailer;
+namespace Athens\Core\Emailer;
 
-use UWDOEM\Framework\Email\EmailInterface;
+use Athens\Core\Email\EmailInterface;
 
 /**
  * Class PhpEmailer provides an EmailerInterface for PHP's mail method.
  *
- * @package UWDOEM\Framework\Emailer
+ * @package Athens\Core\Emailer
  */
 class PhpEmailer extends AbstractEmailer
 {

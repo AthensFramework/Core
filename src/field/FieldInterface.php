@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Field;
+namespace Athens\Core\Field;
 
-use UWDOEM\Framework\Writer\WritableInterface;
+use Athens\Core\Writer\WritableInterface;
 
 interface FieldInterface extends WritableInterface
 {

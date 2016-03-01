@@ -1,19 +1,19 @@
 <?php
 
-namespace UWDOEM\Framework\Initializer;
+namespace Athens\Core\Initializer;
 
-use UWDOEM\Framework\Page\PageInterface;
-use UWDOEM\Framework\Table\TableFormInterface;
-use UWDOEM\Framework\Visitor\Visitor;
-use UWDOEM\Framework\Section\SectionInterface;
-use UWDOEM\Framework\Form\FormInterface;
-use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
-use UWDOEM\Framework\PickA\PickAFormInterface;
+use Athens\Core\Page\PageInterface;
+use Athens\Core\Table\TableFormInterface;
+use Athens\Core\Visitor\Visitor;
+use Athens\Core\Section\SectionInterface;
+use Athens\Core\Form\FormInterface;
+use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\PickA\PickAFormInterface;
 
 /**
  * Class Initializer performs actions on page load to InitizableInterfaces
  *
- * @package UWDOEM\Framework\Initializer
+ * @package Athens\Core\Initializer
  */
 class Initializer extends Visitor
 {
@@ -146,7 +146,7 @@ class Initializer extends Visitor
      */
     protected function suffixFieldBearerFields(FieldBearerInterface $fieldBearer, $countBegin = 0)
     {
-        /** @var \UWDOEM\Framework\Field\FieldInterface $field */
+        /** @var \Athens\Core\Field\FieldInterface $field */
         foreach (array_values($fieldBearer->getFields()) as $count => $field) {
             $field->addSuffix($countBegin + $count);
         }

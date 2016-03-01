@@ -11,9 +11,9 @@ require_once dirname(__FILE__) . '/settings.php';
 
 use Propel\Runtime\Propel;
 use Propel\Runtime\Connection\ConnectionManagerSingle;
-use UWDOEM\CSRF\CSRF;
-use UWDOEM\Framework\Etc\Settings;
-use UWDOEM\Encryption\Cipher;
+use Athens\CSRF\CSRF;
+use Athens\Core\Etc\Settings;
+use Athens\Encryption\Cipher;
 
 if (REPORT_ERRORS) {
     ini_set('display_errors', 1);
@@ -30,7 +30,7 @@ CSRF::init();
 // Setup Framework
 Settings::addTemplateDirectory(dirname(__FILE__) ."/project-templates");
 Settings::setAcronyms(['ssn']);
-Cipher::createInstance(UWDOEM_ENCRYPTION_PASSWORD);
+Cipher::createInstance(ATHENS_ENCRYPTION_PASSWORD);
 
 
 // Setup Propel

@@ -1,14 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Test\Mock\MockVisitor;
-use UWDOEM\Framework\Test\Mock\MockVisitorWithGenericVisit;
-use UWDOEM\Framework\Test\Mock\MockVisitableA;
-use UWDOEM\Framework\Test\Mock\MockVisitableB;
-use UWDOEM\Framework\Test\Mock\MockVisitableZ;
+use Athens\Core\Test\Mock\MockVisitor;
+use Athens\Core\Test\Mock\MockVisitorWithGenericVisit;
+use Athens\Core\Test\Mock\MockVisitableA;
+use Athens\Core\Test\Mock\MockVisitableB;
+use Athens\Core\Test\Mock\MockVisitableZ;
 
 class VisitableTraitTest extends PHPUnit_Framework_TestCase
 {

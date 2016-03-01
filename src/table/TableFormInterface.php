@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\Table;
+namespace Athens\Core\Table;
 
-use UWDOEM\Framework\Form\FormInterface;
+use Athens\Core\Form\FormInterface;
 
 interface TableFormInterface extends TableInterface, FormInterface
 {
 
-    /** @return \UWDOEM\Framework\Row\RowInterface */
+    /** @return \Athens\Core\Row\RowInterface */
     public function getPrototypicalRow();
 
     /** @return boolean */

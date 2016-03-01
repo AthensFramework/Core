@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\Connection\ConnectionInterface;
 
-use UWDOEMTest\TestClassQuery;
+use AthensTest\TestClassQuery;
 
 class MockQuery extends TestClassQuery
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Etc\ArrayUtils;
+use Athens\Core\Etc\ArrayUtils;
 
 class ArrayUtilsTest extends PHPUnit_Framework_TestCase
 {

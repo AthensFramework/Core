@@ -1,12 +1,12 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Row\RowBuilder;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
-use UWDOEM\Framework\Field\Field;
+use Athens\Core\Row\RowBuilder;
+use Athens\Core\FieldBearer\FieldBearerBuilder;
+use Athens\Core\Field\Field;
 
 class RowTest extends PHPUnit_Framework_TestCase
 {

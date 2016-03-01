@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\PickA;
+namespace Athens\Core\PickA;
 
-use UWDOEM\Framework\Etc\AbstractBuilder;
+use Athens\Core\Etc\AbstractBuilder;
 
 /**
  * Class PickABuilder
  *
- * @package UWDOEM\Framework\PickA
+ * @package Athens\Core\PickA
  */
 class PickABuilder extends AbstractBuilder
 {
@@ -36,7 +36,7 @@ class PickABuilder extends AbstractBuilder
     }
 
     /**
-     * @param \UWDOEM\Framework\Writer\WritableInterface[] $writables
+     * @param \Athens\Core\Writer\WritableInterface[] $writables
      * @return PickABuilder
      */
     public function addWritables(array $writables)

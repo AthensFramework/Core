@@ -17,8 +17,8 @@
     "twig/twig" : "1.*",
     "dompdf/dompdf" : "0.6.*",
     "uwdoem/person": "1.*",
-    "uwdoem/encryption": "0.*",
-    "uwdoem/csrf": "1.*",
+    "athens/encryption": "0.*",
+    "athens/csrf": "1.*",
     "phpoffice/phpexcel": "1.*"
   },
   "require-dev": {
@@ -26,6 +26,6 @@
     "phpdocumentor/phpdocumentor": "2.*",
     "codeclimate/php-test-reporter": "dev-master",
     "squizlabs/php_codesniffer": "2.*",
-    "uwdoem/standard": "*"
+    "athens/standard": "*"
   }
 }

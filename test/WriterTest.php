@@ -1,32 +1,32 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Writer\Writer;
-use UWDOEM\Framework\Form\FormAction\FormAction;
-use UWDOEM\Framework\Form\FormBuilder;
-use UWDOEM\Framework\Section\SectionBuilder;
-use UWDOEM\Framework\Page\PageBuilder;
-use UWDOEM\Framework\Page\Page;
-use UWDOEM\Framework\Etc\StringUtils;
-use UWDOEM\Framework\Etc\Settings;
-use UWDOEM\Framework\Etc\SafeString;
-use UWDOEM\Framework\Row\RowBuilder;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
-use UWDOEM\Framework\Table\TableBuilder;
-use UWDOEM\Framework\Field\FieldBuilder;
-use UWDOEM\Framework\Filter\Filter;
-use UWDOEM\Framework\Filter\FilterBuilder;
-use UWDOEM\Framework\FilterStatement\FilterStatement;
-use UWDOEM\Framework\PickA\PickABuilder;
-use UWDOEM\Framework\PickA\PickAFormBuilder;
-use UWDOEM\Framework\Table\TableFormBuilder;
+use Athens\Core\Field\Field;
+use Athens\Core\Writer\Writer;
+use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\Form\FormBuilder;
+use Athens\Core\Section\SectionBuilder;
+use Athens\Core\Page\PageBuilder;
+use Athens\Core\Page\Page;
+use Athens\Core\Etc\StringUtils;
+use Athens\Core\Etc\Settings;
+use Athens\Core\Etc\SafeString;
+use Athens\Core\Row\RowBuilder;
+use Athens\Core\FieldBearer\FieldBearerBuilder;
+use Athens\Core\Table\TableBuilder;
+use Athens\Core\Field\FieldBuilder;
+use Athens\Core\Filter\Filter;
+use Athens\Core\Filter\FilterBuilder;
+use Athens\Core\FilterStatement\FilterStatement;
+use Athens\Core\PickA\PickABuilder;
+use Athens\Core\PickA\PickAFormBuilder;
+use Athens\Core\Table\TableFormBuilder;
 
-use UWDOEM\Framework\Test\Mock\MockWriter;
-use UWDOEM\Framework\Test\Mock\MockFieldBearer;
+use Athens\Core\Test\Mock\MockWriter;
+use Athens\Core\Test\Mock\MockFieldBearer;
 
 class WriterTest extends PHPUnit_Framework_TestCase
 {
@@ -390,7 +390,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('<input class=form-action name=submit type=submit', $result);
         $this->assertContains('value=POST Action', $result);
         $this->assertContains('</form>', $result);
-        $this->assertContains("uwdoem.multi_adder.disablePrototypicalRows();", $result);
+        $this->assertContains("athens.multi_adder.disablePrototypicalRows();", $result);
     }
 
     public function testVisitTableFormDisableRemove()

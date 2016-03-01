@@ -17,7 +17,7 @@ function makeComposerJson($baseComposerJson = "{}") {
     $default = [
         "require" => [
             "propel/propel" => "~2.0@dev",
-            "uwdoem/framework" => "0.*"
+            "athens/core" => "0.*"
         ],
         "require-dev" => [
             "phpunit/phpunit" => "4.5.*",
@@ -104,7 +104,7 @@ $filesContent[".htaccess"] = "# Do not edit. \nDeny from all";
 $filesContent["README.md"] = getFileTemplate("README.md");
 $filesContent["README.md"] = getFileTemplate("backup.sh");
 $filesContent[".gitignore"] = getFileTemplate(".gitignore");
-$filesContent["local-settings.php"] = str_replace("SET_UWDOEM_ENCRYPTION_PASSWORD", "'" . makeEncryptionPassword() . "'", getFileTemplate("local-settings.php"));
+$filesContent["local-settings.php"] = str_replace("SET_ATHENS_ENCRYPTION_PASSWORD", "'" . makeEncryptionPassword() . "'", getFileTemplate("local-settings.php"));
 $filesContent["settings.php"] = getFileTemplate("settings.php");
 $filesContent["setup.php"] = getFileTemplate("setup.php");
 $filesContent["composer.json"] = makeComposerJson(file_get_contents(getBaseDirectory() . "/composer.json"));

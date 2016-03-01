@@ -1,15 +1,15 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace Athens\Core\Filter;
 
-use UWDOEM\Framework\FilterStatement\FilterStatement;
-use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
-use UWDOEM\Framework\Filter\FilterControls;
-use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
+use Athens\Core\FilterStatement\FilterStatement;
+use Athens\Core\FilterStatement\SortingFilterStatement;
+use Athens\Core\Filter\FilterControls;
+use Athens\Core\FilterStatement\FilterStatementInterface;
 
 /**
  * Class SelectFilter
- * @package UWDOEM\Framework\Filter
+ * @package Athens\Core\Filter
  */
 class SelectFilter extends Filter
 {

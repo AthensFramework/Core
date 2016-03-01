@@ -1,17 +1,17 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace Athens\Core\Filter;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
-use UWDOEM\Framework\FilterStatement\FilterStatement;
-use UWDOEM\Framework\Row\RowInterface;
+use Athens\Core\FilterStatement\PaginationFilterStatement;
+use Athens\Core\FilterStatement\FilterStatement;
+use Athens\Core\Row\RowInterface;
 
 /**
  * Class PaginationFilter
  *
- * @package UWDOEM\Framework\Filter
+ * @package Athens\Core\Filter
  */
 class PaginationFilter extends Filter
 {

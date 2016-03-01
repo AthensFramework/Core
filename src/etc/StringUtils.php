@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEM\Framework\Etc;
+namespace Athens\Core\Etc;
 
 /**
  * Class StringUtils is a static class to provide string manipulation utilities
  *
- * @package UWDOEM\Framework\Etc
+ * @package Athens\Core\Etc
  */
 class StringUtils
 {

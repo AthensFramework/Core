@@ -2,7 +2,7 @@
 
 
 /**
- * Creates a 16 byte encryption password, suitable for use with UWDOEM\Encryption
+ * Creates a 16 byte encryption password, suitable for use with Athens\Encryption
  *
  * @return string
  */
@@ -19,7 +19,7 @@ function makeEncryptionPassword() {
 function getBaseDirectory() {
     $thisDirectory = getcwd();
 
-    $search = ["/vendor/uwdoem/framework/bin", "\\vendor\\uwdoem\\framework\\bin"];
+    $search = ["/vendor/athens/core/bin", "\\vendor\\athens\\framework\\bin"];
     $replace = ["", ""];
 
     return str_replace($search, $replace, $thisDirectory);

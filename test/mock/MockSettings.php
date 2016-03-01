@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEM\Framework\Etc\Settings;
+use Athens\Core\Etc\Settings;
 
 class MockSettings extends Settings
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace UWDOEM\Framework\Emailer;
+namespace Athens\Core\Emailer;
 
-use UWDOEM\Framework\Email\EmailInterface;
-use UWDOEM\Framework\Writer\Writer;
+use Athens\Core\Email\EmailInterface;
+use Athens\Core\Writer\Writer;
 
 interface EmailerInterface
 {

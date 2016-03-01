@@ -1,15 +1,15 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
-use UWDOEM\Framework\Etc\ORMUtils;
-use UWDOEMTest\TestClass;
+use Athens\Core\Field\Field;
+use Athens\Core\FieldBearer\FieldBearerBuilder;
+use Athens\Core\Etc\ORMUtils;
+use AthensTest\TestClass;
 
-use UWDOEM\Framework\Test\Mock\MockTestClass;
+use Athens\Core\Test\Mock\MockTestClass;
 
 class FieldBearerTest extends PHPUnit_Framework_TestCase
 {

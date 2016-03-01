@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) ."/../vendor/autoload.php";
 
-use UWDOEM\Encryption\Cipher;
+use Athens\Encryption\Cipher;
 
 Cipher::createInstance("my_secret_passphrase");
 

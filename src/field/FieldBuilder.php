@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\Field;
+namespace Athens\Core\Field;
 
-use UWDOEM\Framework\Etc\AbstractBuilder;
+use Athens\Core\Etc\AbstractBuilder;
 
 /**
  * Class FieldBuilder
  *
- * @package UWDOEM\Framework\Field
+ * @package Athens\Core\Field
  */
 class FieldBuilder extends AbstractBuilder
 {

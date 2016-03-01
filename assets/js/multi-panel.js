@@ -1,4 +1,4 @@
-uwdoem.multi_panel = (function () {
+athens.multi_panel = (function () {
     var openPanel = function (n) {
 
         if (n === 1) {
@@ -56,7 +56,7 @@ uwdoem.multi_panel = (function () {
                 targetURL,
                 function ( data ) {
                     targetDiv.html(data);
-                    uwdoem.ajax_section.doPostSectionActions(targetDiv);
+                    athens.ajax_section.doPostSectionActions(targetDiv);
                 }
             );
         }

@@ -1,23 +1,23 @@
 <?php
 
-namespace UWDOEM\Framework\Page;
+namespace Athens\Core\Page;
 
 use DOMPDF;
 
-use UWDOEM\Framework\Section\SectionInterface;
-use UWDOEM\Framework\Table\TableInterface;
-use UWDOEM\Framework\Writer\WritableInterface;
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Writer\Writer;
-use UWDOEM\Framework\Etc\Settings;
-use UWDOEM\Framework\Initializer\Initializer;
-use UWDOEM\Framework\Field\FieldInterface;
-use UWDOEM\Framework\Writer\WritableTrait;
+use Athens\Core\Section\SectionInterface;
+use Athens\Core\Table\TableInterface;
+use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\Writer\Writer;
+use Athens\Core\Etc\Settings;
+use Athens\Core\Initializer\Initializer;
+use Athens\Core\Field\FieldInterface;
+use Athens\Core\Writer\WritableTrait;
 
 /**
  * Class Page Provides the primary writable for a page request.
  *
- * @package UWDOEM\Framework\Page
+ * @package Athens\Core\Page
  */
 class Page implements PageInterface
 {

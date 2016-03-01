@@ -1,4 +1,4 @@
-uwdoem.search = (function () {
+athens.search = (function () {
 
     var searchDiv = $(".search-div");
 
@@ -9,7 +9,7 @@ uwdoem.search = (function () {
      */
     function fadeInSearch()
     {
-        uwdoem.fadeInMask();
+        athens.fadeInMask();
         $(".search-div").fadeTo(1, 1);
     }
 
@@ -34,7 +34,7 @@ uwdoem.search = (function () {
         var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest(".filter-controls").data('table-for');
         var i = 0;
 
-        var getVar = uwdoem.ajax_section.getVar;
+        var getVar = athens.ajax_section.getVar;
 
         $(this).parent().find('tr').each(
             function () {
@@ -42,44 +42,44 @@ uwdoem.search = (function () {
                 var operation = $(this).find('td.operation select option:selected').text();
                 var value = $(this).find('td.value input').val();
                 if (fieldname && operation && value) {
-                    uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i, fieldname));
-                    uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'operation' + i, operation));
-                    uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value' + i, value));
+                    athens.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i, fieldname));
+                    athens.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'operation' + i, operation));
+                    athens.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value' + i, value));
                 } else {
-                    uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i));
-                    uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'operation' + i));
-                    uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'value' + i));
+                    athens.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i));
+                    athens.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'operation' + i));
+                    athens.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'value' + i));
                 }
                 i++;
             }
         );
-        uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, 'pagination', 'page', 1));
-        uwdoem.ajax_section.loadSection(ajaxSectionName);
-        uwdoem.fadeOutMask();
+        athens.ajax_section.registerGetVar(getVar(ajaxSectionName, 'pagination', 'page', 1));
+        athens.ajax_section.loadSection(ajaxSectionName);
+        athens.fadeOutMask();
         fadeOutSearch();
     };
 
     var searchIconOnclick = function () {
         var handle = $(this).data("handle-for");
         var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest(".filter-controls").data('table-for');
-        var getVar = uwdoem.ajax_section.getVar;
+        var getVar = athens.ajax_section.getVar;
 
         if ($("#search-criteria-area div.search-table-content[data-handle-for=" + handle + "]").length === 0) {
             $("div.search-table-content[data-handle-for=" + handle + "]").prependTo("#search-criteria-area");
         }
 
-        uwdoem.fadeInMask();
+        athens.fadeInMask();
         fadeInSearch();
 
         // Pre-select the existing search criteria
         $("#search-criteria-area").find('tr').each(
             function () {
                 var rowNumber = $(this).attr("data-row");
-                var fieldName = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname' + rowNumber);
+                var fieldName = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname' + rowNumber);
                 $(this).find("td.fieldname select").val(fieldName);
-                var operation = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'operation' + rowNumber);
+                var operation = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'operation' + rowNumber);
                 $(this).find("td.operation select").val(operation);
-                var value = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'value' + rowNumber);
+                var value = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'value' + rowNumber);
                 $(this).find("td.value input").val(value);
             }
         );
@@ -103,21 +103,21 @@ uwdoem.search = (function () {
 
         // If this search filter has feedback, add a clear search link:
         $("p.filter-feedback[data-handle-for=" + handle + "]")
-            .append(" <a onClick='uwdoem.search.clearSearch(\"" + handle + "\");'>Clear Search</a>");
+            .append(" <a onClick='athens.search.clearSearch(\"" + handle + "\");'>Clear Search</a>");
 
     };
 
     var clearSearch = function (handle) {
-        var getVar = uwdoem.ajax_section.getVar;
+        var getVar = athens.ajax_section.getVar;
         var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest(".filter-controls").data('table-for');
 
         for (var i = 0; i <= 5; i++) {
-            uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i));
-            uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'operation' + i));
-            uwdoem.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'value' + i));
+            athens.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'fieldname' + i));
+            athens.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'operation' + i));
+            athens.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'value' + i));
         }
 
-        uwdoem.ajax_section.loadSection(ajaxSectionName);
+        athens.ajax_section.loadSection(ajaxSectionName);
     };
 
     return {

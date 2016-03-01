@@ -1,14 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace Athens\Core\Filter;
 
-use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
-use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
+use Athens\Core\FilterStatement\ExcludingFilterStatement;
+use Athens\Core\FilterStatement\FilterStatementInterface;
 
 /**
  * Class SearchFilter
  *
- * @package UWDOEM\Framework\Filter
+ * @package Athens\Core\Filter
  */
 class SearchFilter extends Filter
 {
@@ -46,7 +46,7 @@ class SearchFilter extends Filter
     }
 
     /**
-     * @param \UWDOEM\Framework\Row\RowInterface[] $rows
+     * @param \Athens\Core\Row\RowInterface[] $rows
      * @return void
      */
     protected function setOptionsByRows(array $rows)

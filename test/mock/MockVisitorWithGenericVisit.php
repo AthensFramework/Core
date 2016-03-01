@@ -1,6 +1,6 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
 class MockVisitorWithGenericVisit extends MockVisitor
 {

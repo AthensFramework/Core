@@ -1,12 +1,12 @@
 <?php
 
-namespace UWDOEM\Framework\Etc;
+namespace Athens\Core\Etc;
 
 /**
  * Class SafeString is a wrapper class for strings that marks them
  * as safe for printing to any display.
  *
- * @package UWDOEM\Framework\Etc
+ * @package Athens\Core\Etc
  */
 class SafeString
 {

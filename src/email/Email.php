@@ -1,14 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\Email;
+namespace Athens\Core\Email;
 
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Writer\WritableTrait;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\Writer\WritableTrait;
 
 /**
  * Class Email encapsulates the data which consitutes an email.
  *
- * @package UWDOEM\Framework\Email
+ * @package Athens\Core\Email
  */
 class Email implements EmailInterface
 {

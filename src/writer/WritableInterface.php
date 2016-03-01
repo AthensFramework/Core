@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Writer;
+namespace Athens\Core\Writer;
 
-use UWDOEM\Framework\Visitor\VisitableInterface;
+use Athens\Core\Visitor\VisitableInterface;
 
 interface WritableInterface extends VisitableInterface
 {

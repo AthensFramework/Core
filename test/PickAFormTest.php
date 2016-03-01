@@ -1,15 +1,15 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Form\FormBuilder;
-use UWDOEM\Framework\Form\FormAction\FormAction;
-use UWDOEM\Framework\PickA\PickAFormBuilder;
-use UWDOEM\Framework\Etc\StringUtils;
+use Athens\Core\Form\FormBuilder;
+use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\PickA\PickAFormBuilder;
+use Athens\Core\Etc\StringUtils;
 
-use UWDOEM\Framework\Test\Mock\MockFieldBearer;
+use Athens\Core\Test\Mock\MockFieldBearer;
 
 class PickAFormTest extends PHPUnit_Framework_TestCase
 {

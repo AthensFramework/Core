@@ -56,7 +56,7 @@ Steps
   {
     "require": {
       "propel/propel": "~2.0@dev",
-      "uwdoem/framework": "0.*"
+      "athens/core": "0.*"
     },
     "require-dev": {
       "phpunit/phpunit": "4.5.*",
@@ -79,7 +79,7 @@ Steps
   
   Now that Framework is installed, we use it to create the bare-bones of a Framework project.
   ```
-  php vendor/uwdoem/framework/bin/manage.php init
+  php vendor/athens/core/bin/manage.php init
   ```
   
   This command creates a handful of directories and files in your project web root, as well as adding a few directives to your composer.json.
@@ -167,9 +167,9 @@ Steps
 
   require_once dirname(__FILE__) ."/../setup.php";
   
-  use UWDOEM\Framework\Form\FormBuilder;
-  use UWDOEM\Framework\Page\PageBuilder;
-  use UWDOEM\Framework\Page\Page;
+  use Athens\Core\Form\FormBuilder;
+  use Athens\Core\Page\PageBuilder;
+  use Athens\Core\Page\Page;
   
   use MyProject\Student;
   
@@ -204,10 +204,10 @@ Steps
 
   require_once dirname(__FILE__) ."/../setup.php";
   
-  use UWDOEM\Framework\Page\PageBuilder;
-  use UWDOEM\Framework\Page\Page;
-  use UWDOEM\Framework\Row\RowBuilder;
-  use UWDOEM\Framework\Table\TableBuilder;
+  use Athens\Core\Page\PageBuilder;
+  use Athens\Core\Page\Page;
+  use Athens\Core\Row\RowBuilder;
+  use Athens\Core\Table\TableBuilder;
   
   use MyProject\StudentQuery;
   

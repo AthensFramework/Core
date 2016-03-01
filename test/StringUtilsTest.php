@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Etc\StringUtils;
+use Athens\Core\Etc\StringUtils;
 
 class StringUtilsTest extends PHPUnit_Framework_TestCase
 {

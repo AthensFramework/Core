@@ -1,9 +1,9 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEM\Framework\Writer\Writer;
-use UWDOEM\Framework\Page\PageInterface;
+use Athens\Core\Writer\Writer;
+use Athens\Core\Page\PageInterface;
 
 class MockWriter extends Writer
 {

@@ -1,19 +1,19 @@
 <?php
 
-namespace UWDOEM\Framework\Table;
+namespace Athens\Core\Table;
 
-use UWDOEM\Framework\Filter\FilterInterface;
-use UWDOEM\Framework\Filter\DummyFilter;
-use UWDOEM\Framework\Form\FormTrait;
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
-use UWDOEM\Framework\Form\FormAction\FormActionInterface;
+use Athens\Core\Filter\FilterInterface;
+use Athens\Core\Filter\DummyFilter;
+use Athens\Core\Form\FormTrait;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\Row\RowInterface;
+use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\Form\FormAction\FormActionInterface;
 
 /**
  * Class TableForm provides a form composed of multiple rows.
  *
- * @package UWDOEM\Framework\Table
+ * @package Athens\Core\Table
  */
 class TableForm implements TableFormInterface
 {

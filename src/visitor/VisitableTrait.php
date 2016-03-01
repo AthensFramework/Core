@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\Visitor;
+namespace Athens\Core\Visitor;
 
 /**
  * Class VisitableTrait satisfies the VisitableInterface interface.
  *
  * See the "Visitor" pattern.
  *
- * @package UWDOEM\Framework\Visitor
+ * @package Athens\Core\Visitor
  */
 trait VisitableTrait
 {

@@ -1,4 +1,4 @@
-uwdoem.sort = (function () {
+athens.sort = (function () {
     
     var setupSortFilter = function (handle) {
 
@@ -9,23 +9,23 @@ uwdoem.sort = (function () {
         headers.addClass("clickable");
         headers.removeClass("sorted ascending descending");
 
-        var fieldname = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname');
-        var order = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'order');
+        var fieldname = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname');
+        var order = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'order');
         filterSection.find("th[data-header-for='" + fieldname + "']").addClass("sorted " + order);
 
         headers.click(
             function () {
                 var fieldname = $(this).attr("data-header-for");
-                var oldOrder = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'order');
-                var oldFieldname = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname');
+                var oldOrder = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'order');
+                var oldFieldname = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname');
                 var newOrder = "ascending";
                 if (fieldname === oldFieldname && oldOrder === "ascending") {
                     newOrder = "descending";
                 }
 
-                uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'fieldname', fieldname));
-                uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'order', newOrder));
-                uwdoem.ajax_section.loadSection(ajaxSectionName);
+                athens.ajax_section.registerGetVar(athens.ajax_section.getVar(ajaxSectionName, handle, 'fieldname', fieldname));
+                athens.ajax_section.registerGetVar(athens.ajax_section.getVar(ajaxSectionName, handle, 'order', newOrder));
+                athens.ajax_section.loadSection(ajaxSectionName);
             }
         );
     };

@@ -1,4 +1,4 @@
-uwdoem.pagination = (function () {
+athens.pagination = (function () {
 
     var getPaginationContainer = function (handle) {
         return $("div.pagination-container[data-handle-for=" + handle +"]");
@@ -49,13 +49,13 @@ uwdoem.pagination = (function () {
     var registerPage = function (ajaxSectionName, handle, page) {
         var getVar;
 
-        getVar = uwdoem.ajax_section.getVar(ajaxSectionName, handle, "page", page);
+        getVar = athens.ajax_section.getVar(ajaxSectionName, handle, "page", page);
 
-        uwdoem.ajax_section.registerGetVar(getVar);
+        athens.ajax_section.registerGetVar(getVar);
     };
 
     var getPage = function (ajaxSectionName, handle) {
-        var getVar = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'page');
+        var getVar = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'page');
 
         return parseInt(getVar ? getVar: 1);
     };
@@ -92,8 +92,8 @@ uwdoem.pagination = (function () {
                 activeControls.find("a.pagination-arrow").click(
                     function () {
                         var targetPage = parseInt($(this).attr('data-page-for'));
-                        uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
-                        uwdoem.ajax_section.loadSection(ajaxSectionName);
+                        athens.ajax_section.registerGetVar(athens.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
+                        athens.ajax_section.loadSection(ajaxSectionName);
                         registerPage(ajaxSectionName, handle, targetPage);
                         return false;
                     }
@@ -101,8 +101,8 @@ uwdoem.pagination = (function () {
                 activeControls.find("select.pagination-filter." + handle).change(
                     function () {
                         var targetPage = parseInt($("select.pagination-filter." + handle + " option:selected").val());
-                        uwdoem.ajax_section.registerGetVar(uwdoem.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
-                        uwdoem.ajax_section.loadSection(ajaxSectionName);
+                        athens.ajax_section.registerGetVar(athens.ajax_section.getVar(ajaxSectionName, handle, 'page', targetPage));
+                        athens.ajax_section.loadSection(ajaxSectionName);
                         registerPage(ajaxSectionName, handle, targetPage);
                     }
                 );

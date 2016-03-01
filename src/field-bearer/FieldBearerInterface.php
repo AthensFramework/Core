@@ -1,9 +1,9 @@
 <?php
 
-namespace UWDOEM\Framework\FieldBearer;
+namespace Athens\Core\FieldBearer;
 
-use UWDOEM\Framework\Field\FieldInterface;
-use UWDOEM\Framework\Initializer\InitializableInterface;
+use Athens\Core\Field\FieldInterface;
+use Athens\Core\Initializer\InitializableInterface;
 
 interface FieldBearerInterface extends InitializableInterface
 {

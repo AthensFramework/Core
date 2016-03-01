@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEM\Framework\Etc;
+namespace Athens\Core\Etc;
 
 /**
  * Class AbstractBuilder is a parent class for all Builder classes.
  *
- * @package UWDOEM\Framework\Etc
+ * @package Athens\Core\Etc
  */
 abstract class AbstractBuilder
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace UWDOEM\Framework\FieldBearer;
+namespace Athens\Core\FieldBearer;
 
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
-use UWDOEM\Framework\Etc\ORMUtils;
-use UWDOEM\Framework\Field\Field;
+use Athens\Core\Etc\ORMUtils;
+use Athens\Core\Field\Field;
 
 /**
  * Class ClassFieldBearer Encapsulates an ActiveRecordInterface object with Framework fields.
  *
- * @package UWDOEM\Framework\FieldBearer
+ * @package Athens\Core\FieldBearer
  */
 class ClassFieldBearer extends FieldBearer implements FieldBearerInterface
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
 use DateTime;
 
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Field\FieldInterface;
-use UWDOEM\Framework\Field\FieldBuilder;
+use Athens\Core\Field\Field;
+use Athens\Core\Field\FieldInterface;
+use Athens\Core\Field\FieldBuilder;
 
 class FieldTest extends PHPUnit_Framework_TestCase
 {
@@ -411,7 +411,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
     {
         $field = new Field([], "any", "label", new DateTime());
 
-        $this->assertInstanceOf('UWDOEM\Framework\Field\DateTimeWrapper', $field->getInitial());
+        $this->assertInstanceOf('Athens\Core\Field\DateTimeWrapper', $field->getInitial());
         $this->assertContains(date("Y") . "-", (string)$field->getInitial());
     }
 }

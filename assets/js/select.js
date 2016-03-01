@@ -1,5 +1,5 @@
-uwdoem.select = (function () {
-    var getVar = uwdoem.ajax_section.getVar;
+athens.select = (function () {
+    var getVar = athens.ajax_section.getVar;
 
     var getActiveControls = function (handle) {
         return $("#top-filters select[data-handle-for=" + handle + "]");
@@ -10,7 +10,7 @@ uwdoem.select = (function () {
     };
 
     var getCurrentSelection = function (ajaxSectionName, handle) {
-        var selection = uwdoem.ajax_section.getGetVarValue(ajaxSectionName, handle, 'value');
+        var selection = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'value');
 
         if (!selection) {
             selection = getActiveControls(handle).val();
@@ -29,7 +29,7 @@ uwdoem.select = (function () {
             inactiveControls.appendTo("#top-filters");
 
             var selectedText = getCurrentSelection(ajaxSectionName, handle);
-            uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
+            athens.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
         } else {
             activeControls.replaceWith(inactiveControls);
         }
@@ -40,8 +40,8 @@ uwdoem.select = (function () {
         activeControls.change(
             function () {
                 var selectedText = $(this).find("option:selected").text();
-                uwdoem.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
-                uwdoem.ajax_section.loadSection(ajaxSectionName);
+                athens.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
+                athens.ajax_section.loadSection(ajaxSectionName);
             }
         );
     };

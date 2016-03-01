@@ -1,6 +1,6 @@
 <?php
 
-namespace UWDOEM\Framework\Visitor;
+namespace Athens\Core\Visitor;
 
 interface VisitableInterface
 {

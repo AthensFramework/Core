@@ -1,9 +1,13 @@
 <?php
 
-namespace UWDOEMTest\Base;
+namespace AthensTest\Base;
 
 use \Exception;
 use \PDO;
+use AthensTest\TestClass as ChildTestClass;
+use AthensTest\TestClassQuery as ChildTestClassQuery;
+use AthensTest\TestClassTwoQuery as ChildTestClassTwoQuery;
+use AthensTest\Map\TestClassTwoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -15,24 +19,20 @@ use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
-use UWDOEMTest\TestClass as ChildTestClass;
-use UWDOEMTest\TestClassQuery as ChildTestClassQuery;
-use UWDOEMTest\TestClassTwoQuery as ChildTestClassTwoQuery;
-use UWDOEMTest\Map\TestClassTwoTableMap;
 
 /**
  * Base class that represents a row from the 'test_class_two' table.
  *
  * 
  *
-* @package    propel.generator.UWDOEMTest.Base
+* @package    propel.generator.AthensTest.Base
 */
 abstract class TestClassTwo implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\UWDOEMTest\\Map\\TestClassTwoTableMap';
+    const TABLE_MAP = '\\AthensTest\\Map\\TestClassTwoTableMap';
 
 
     /**
@@ -63,18 +63,21 @@ abstract class TestClassTwo implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     * 
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the field_varchar field.
+     * 
      * @var        string
      */
     protected $field_varchar;
 
     /**
      * The value for the test_class_id field.
+     * 
      * @var        int
      */
     protected $test_class_id;
@@ -93,7 +96,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of UWDOEMTest\Base\TestClassTwo object.
+     * Initializes internal state of AthensTest\Base\TestClassTwo object.
      */
     public function __construct()
     {
@@ -306,7 +309,15 @@ abstract class TestClassTwo implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+        
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+        
+        return $propertyNames;
     }
 
     /**
@@ -343,7 +354,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
      * Set the value of [id] column.
      * 
      * @param int $v new value
-     * @return $this|\UWDOEMTest\TestClassTwo The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClassTwo The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -363,7 +374,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
      * Set the value of [field_varchar] column.
      * 
      * @param string $v new value
-     * @return $this|\UWDOEMTest\TestClassTwo The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClassTwo The current object (for fluent API support)
      */
     public function setFieldVarchar($v)
     {
@@ -383,7 +394,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
      * Set the value of [test_class_id] column.
      * 
      * @param int $v new value
-     * @return $this|\UWDOEMTest\TestClassTwo The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClassTwo The current object (for fluent API support)
      */
     public function setTestClassId($v)
     {
@@ -458,7 +469,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
             return $startcol + 3; // 3 = TestClassTwoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\UWDOEMTest\\TestClassTwo'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\AthensTest\\TestClassTwo'), 0, $e);
         }
     }
 
@@ -837,7 +848,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\UWDOEMTest\TestClassTwo
+     * @return $this|\AthensTest\TestClassTwo
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
@@ -852,7 +863,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\UWDOEMTest\TestClassTwo
+     * @return $this|\AthensTest\TestClassTwo
      */
     public function setByPosition($pos, $value)
     {
@@ -920,7 +931,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\UWDOEMTest\TestClassTwo The current object, for fluid interface
+     * @return $this|\AthensTest\TestClassTwo The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1030,7 +1041,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \UWDOEMTest\TestClassTwo (or compatible) type.
+     * @param      object $copyObj An object of \AthensTest\TestClassTwo (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1054,7 +1065,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \UWDOEMTest\TestClassTwo Clone of current object.
+     * @return \AthensTest\TestClassTwo Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1071,7 +1082,7 @@ abstract class TestClassTwo implements ActiveRecordInterface
      * Declares an association between this object and a ChildTestClass object.
      *
      * @param  ChildTestClass $v
-     * @return $this|\UWDOEMTest\TestClassTwo The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClassTwo The current object (for fluent API support)
      * @throws PropelException
      */
     public function setTestClass(ChildTestClass $v = null)

@@ -1,14 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\Email;
+namespace Athens\Core\Email;
 
-use UWDOEM\Framework\Etc\AbstractBuilder;
-use UWDOEM\Framework\Etc\SafeString;
+use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Etc\SafeString;
 
 /**
  * Class EmailBuilder
  *
- * @package UWDOEM\Framework\Email
+ * @package Athens\Core\Email
  */
 class EmailBuilder extends AbstractBuilder
 {

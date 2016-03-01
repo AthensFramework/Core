@@ -1,15 +1,15 @@
 <?php
 
-namespace UWDOEM\Framework\Section;
+namespace Athens\Core\Section;
 
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Writer\WritableInterface;
-use UWDOEM\Framework\Writer\WritableTrait;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writer\WritableTrait;
 
 /**
  * A very general display element. May contain other writable elements.
  *
- * @package UWDOEM\Framework\Section
+ * @package Athens\Core\Section
  */
 class Section implements SectionInterface
 {

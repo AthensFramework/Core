@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\FilterStatement;
+namespace Athens\Core\FilterStatement;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-use UWDOEM\Framework\Row\RowInterface;
+use Athens\Core\Row\RowInterface;
 
 interface FilterStatementInterface
 {

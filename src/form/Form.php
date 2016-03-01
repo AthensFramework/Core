@@ -1,14 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\Form;
+namespace Athens\Core\Form;
 
-use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
-use UWDOEM\Framework\Visitor\VisitableTrait;
+use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\Visitor\VisitableTrait;
 
 /**
  * Class Form contains fields and tests them for submission-validity.
  *
- * @package UWDOEM\Framework\Form
+ * @package Athens\Core\Form
  */
 class Form implements FormInterface
 {

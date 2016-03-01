@@ -1,4 +1,4 @@
-uwdoem.soft_pagination = (function () {
+athens.soft_pagination = (function () {
 
     var page, rows, table, paginateBy, numPages, select, div;
 

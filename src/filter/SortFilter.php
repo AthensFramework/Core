@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace Athens\Core\Filter;
 
-use UWDOEM\Framework\FilterStatement\FilterStatement;
-use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
+use Athens\Core\FilterStatement\FilterStatement;
+use Athens\Core\FilterStatement\SortingFilterStatement;
 
 /**
  * Class SortFilter
- * @package UWDOEM\Framework\Filter
+ * @package Athens\Core\Filter
  */
 class SortFilter extends Filter
 {

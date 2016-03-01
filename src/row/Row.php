@@ -1,15 +1,15 @@
 <?php
 
-namespace UWDOEM\Framework\Row;
+namespace Athens\Core\Row;
 
-use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Writer\WritableTrait;
+use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\Writer\WritableTrait;
 
 /**
  * A Table child which contains fields
  *
- * @package UWDOEM\Framework\Table\Row
+ * @package Athens\Core\Table\Row
  */
 class Row implements RowInterface
 {

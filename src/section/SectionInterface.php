@@ -1,9 +1,9 @@
 <?php
 
-namespace UWDOEM\Framework\Section;
+namespace Athens\Core\Section;
 
-use UWDOEM\Framework\Writer\WritableInterface;
-use UWDOEM\Framework\Initializer\InitializableInterface;
+use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Initializer\InitializableInterface;
 
 interface SectionInterface extends WritableInterface, InitializableInterface
 {

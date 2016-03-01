@@ -1,4 +1,4 @@
-uwdoem.ajax_section = (function () {
+athens.ajax_section = (function () {
 
     /**
      * The set of get variables which shall be included when requesting a section

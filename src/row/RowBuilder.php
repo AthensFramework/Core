@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\Row;
+namespace Athens\Core\Row;
 
-use UWDOEM\Framework\Etc\AbstractBuilder;
-use UWDOEM\Framework\FieldBearer\FieldBearerBearerBuilderTrait;
+use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\FieldBearer\FieldBearerBearerBuilderTrait;
 
 /**
  * Class RowBuilder
- * @package UWDOEM\Framework\Row
+ * @package Athens\Core\Row
  */
 class RowBuilder extends AbstractBuilder
 {
@@ -68,7 +68,7 @@ class RowBuilder extends AbstractBuilder
         }
 
         if ($this->highlightable === true) {
-            $this->onClick = "uwdoem.highlightRow(this)";
+            $this->onClick = "athens.highlightRow(this)";
         }
 
         return new Row(

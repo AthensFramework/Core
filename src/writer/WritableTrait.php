@@ -1,6 +1,6 @@
 <?php
 
-namespace UWDOEM\Framework\Writer;
+namespace Athens\Core\Writer;
 
 trait WritableTrait
 {

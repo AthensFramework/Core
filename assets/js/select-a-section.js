@@ -1,4 +1,4 @@
-uwdoem.select_a_section = (function () {
+athens.select_a_section = (function () {
     var revealSelectASection = function (selectASection, targetSelectionName) {
         var selectedOption = selectASection.find("div.option.selectable[data-section-for=" + targetSelectionName + "]");
         var selectedSelection = selectASection.find("div.selection[data-selection-name=" + targetSelectionName +"]");
@@ -13,7 +13,7 @@ uwdoem.select_a_section = (function () {
         selectedSelection.find("input, textarea, select").prop('disabled', false);
         selectedSelection.css('display', 'block');
 
-        uwdoem.multi_adder.disablePrototypicalRows();
+        athens.multi_adder.disablePrototypicalRows();
     };
 
     // Move these to always do

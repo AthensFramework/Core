@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/UWEnrollmentManagement/Framework.svg?branch=master)](https://travis-ci.org/UWEnrollmentManagement/Framework)
 [![Code Climate](https://codeclimate.com/github/UWEnrollmentManagement/Framework/badges/gpa.svg)](https://codeclimate.com/github/UWEnrollmentManagement/Framework)
 [![Test Coverage](https://codeclimate.com/github/UWEnrollmentManagement/Framework/badges/coverage.svg)](https://codeclimate.com/github/UWEnrollmentManagement/Framework/coverage)
-[![Latest Stable Version](https://poser.pugx.org/uwdoem/framework/v/stable)](https://packagist.org/packages/uwdoem/framework)
+[![Latest Stable Version](https://poser.pugx.org/athens/core/v/stable)](https://packagist.org/packages/athens/core)
 
-UWDOEM/Framework
+ATHENS/Framework
 =============
 
 *Framework* is a modern PHP web framework built within the University of Washington's Office of Student Financial Aid.  
@@ -36,13 +36,13 @@ Applications built within *Framework* are:
 Installation
 ===============
 
-This library is published on packagist. To install using Composer, add the "uwdoem/framework": "0.*" line to your "require" dependencies:
+This library is published on packagist. To install using Composer, add the "athens/core": "0.*" line to your "require" dependencies:
 
 ```
 {
     "require": {
         ...
-        "uwdoem/framework": "0.*",
+        "athens/core": "0.*",
         ...
     }
 }
@@ -74,9 +74,9 @@ Now we can use Propel to generate a `Student` class and create form which will s
 
 require_once dirname(__FILE__) ."/../setup.php";
 
-use UWDOEM\Framework\Form\FormBuilder;
-use UWDOEM\Framework\Page\PageBuilder;
-use UWDOEM\Framework\Page\Page;
+use Athens\Core\Form\FormBuilder;
+use Athens\Core\Page\PageBuilder;
+use Athens\Core\Page\Page;
 
 use MyProject\Student;
 

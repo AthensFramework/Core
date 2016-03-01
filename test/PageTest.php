@@ -1,17 +1,17 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Page\PageBuilder;
-use UWDOEM\Framework\Page\Page;
-use UWDOEM\Framework\Section\SectionBuilder;
-use UWDOEM\Framework\Etc\Settings;
+use Athens\Core\Page\PageBuilder;
+use Athens\Core\Page\Page;
+use Athens\Core\Section\SectionBuilder;
+use Athens\Core\Etc\Settings;
 
-use UWDOEM\Framework\Test\Mock\MockQuery;
-use UWDOEM\Framework\Test\Mock\MockWriter;
-use UWDOEM\Framework\Test\Mock\MockInitializer;
+use Athens\Core\Test\Mock\MockQuery;
+use Athens\Core\Test\Mock\MockWriter;
+use Athens\Core\Test\Mock\MockInitializer;
 
 class PageTest extends PHPUnit_Framework_TestCase
 {
@@ -101,8 +101,8 @@ class PageTest extends PHPUnit_Framework_TestCase
         $defaultWriterClass = Settings::getDefaultWriterClass();
         $defaultInitializerClass = Settings::getDefaultInitializerClass();
 
-        Settings::setDefaultWriterClass("\\UWDOEM\\Framework\\Test\\Mock\\MockWriter");
-        Settings::setDefaultInitializerClass("\\UWDOEM\\Framework\\Test\\Mock\\MockInitializer");
+        Settings::setDefaultWriterClass("\\Athens\\Core\\Test\\Mock\\MockWriter");
+        Settings::setDefaultInitializerClass("\\Athens\\Core\\Test\\Mock\\MockInitializer");
 
         $title = "Test Page";
         $page = PageBuilder::begin()

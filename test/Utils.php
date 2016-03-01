@@ -6,11 +6,11 @@
  * Time: 11:17 AM
  */
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
-use UWDOEM\Framework\Row\RowBuilder;
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Row\RowInterface;
+use Athens\Core\Row\RowBuilder;
+use Athens\Core\Field\Field;
+use Athens\Core\Row\RowInterface;
 
 class Utils
 {

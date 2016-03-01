@@ -1,4 +1,4 @@
-uwdoem.ajax = (function () {
+athens.ajax = (function () {
     
     var defaultSuccessCallback = function () {};
 
@@ -7,12 +7,12 @@ uwdoem.ajax = (function () {
         var defaultDoneFunction = function (msg) {
             try {
                 msg = JSON.parse(msg);
-                uwdoem.alert.makeAlert(msg.status, msg.message);
+                athens.alert.makeAlert(msg.status, msg.message);
                 if (msg.status === "success") {
                     successCallback(msg);
                 }
             } catch (err) {
-                uwdoem.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
+                athens.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
             }
         };
     
@@ -32,7 +32,7 @@ uwdoem.ajax = (function () {
             .done(doneFunction)
             .fail(
                 function (msg) {
-                    uwdoem.alert.makeAlert("failure", msg);
+                    athens.alert.makeAlert("failure", msg);
                 }
             );
     };
@@ -85,12 +85,12 @@ uwdoem.ajax = (function () {
                         }
                     ).done(
                         function (getMsg) {
-                            uwdoem.alert.makeAlert("success", "Form subitted.");
+                            athens.alert.makeAlert("success", "Form subitted.");
                             formResult = $("<div>" + getMsg + "</div>").find("#" + formId);
                             $(form).replaceWith(formResult);
                             document.getElementById(formId).scrollIntoView();
                             successCallback();
-                            uwdoem.ajax_section.doPostSectionActions();
+                            athens.ajax_section.doPostSectionActions();
                         }
                     );
 
@@ -98,10 +98,10 @@ uwdoem.ajax = (function () {
 
                     $(form).replaceWith(formResult);
                     document.getElementById(formId).scrollIntoView();
-                    uwdoem.alert.makeAlert("failure", "Form has errors.");
+                    athens.alert.makeAlert("failure", "Form has errors.");
                 }
             } catch (err) {
-                uwdoem.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
+                athens.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
             }
         };
         

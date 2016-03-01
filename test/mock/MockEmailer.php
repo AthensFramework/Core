@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEM\Framework\Email\EmailInterface;
+use Athens\Core\Email\EmailInterface;
 
 class MockEmailer extends LoggingEmailer
 {

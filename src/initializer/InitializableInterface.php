@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Initializer;
+namespace Athens\Core\Initializer;
 
-use UWDOEM\Framework\Visitor\VisitableInterface;
+use Athens\Core\Visitor\VisitableInterface;
 
 interface InitializableInterface extends VisitableInterface
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEMTest;
+namespace AthensTest;
 
-use UWDOEMTest\Base\TestClass as BaseTestClass;
+use AthensTest\Base\TestClass as BaseTestClass;
 
 /**
  * Skeleton subclass for representing a row from the 'test_class' table.

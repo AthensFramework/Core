@@ -1,20 +1,20 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Form\FormBuilder;
-use UWDOEM\Framework\Form\FormAction\FormAction;
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Etc\ORMUtils;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
-use UWDOEM\Framework\Field\FieldInterface;
-use UWDOEM\Framework\Form\FormInterface;
+use Athens\Core\Form\FormBuilder;
+use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\Field\Field;
+use Athens\Core\Etc\ORMUtils;
+use Athens\Core\FieldBearer\FieldBearerBuilder;
+use Athens\Core\Field\FieldInterface;
+use Athens\Core\Form\FormInterface;
 
-use UWDOEM\Framework\Test\Mock\MockFieldBearer;
+use Athens\Core\Test\Mock\MockFieldBearer;
 
-use UWDOEMTest\TestClass;
+use AthensTest\TestClass;
 
 class FormTest extends PHPUnit_Framework_TestCase
 {

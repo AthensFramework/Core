@@ -1,14 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\Form\FormAction;
+namespace Athens\Core\Form\FormAction;
 
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Writer\WritableTrait;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\Writer\WritableTrait;
 
 /**
  * Class FormAction
  *
- * @package UWDOEM\Framework\Form\FormAction
+ * @package Athens\Core\Form\FormAction
  */
 class FormAction implements FormActionInterface
 {

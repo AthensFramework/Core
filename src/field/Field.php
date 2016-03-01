@@ -1,18 +1,18 @@
 <?php
 
-namespace UWDOEM\Framework\Field;
+namespace Athens\Core\Field;
 
-use UWDOEM\Framework\Etc\StringUtils;
-use UWDOEM\Framework\Visitor\VisitableTrait;
+use Athens\Core\Etc\StringUtils;
+use Athens\Core\Visitor\VisitableTrait;
 
 use DateTime;
-use UWDOEM\Framework\Writer\WritableTrait;
+use Athens\Core\Writer\WritableTrait;
 
 /**
  * Class Field provides a small, typed data container for display and
  * user submission.
  *
- * @package UWDOEM\Framework\Field
+ * @package Athens\Core\Field
  */
 class Field implements FieldInterface
 {

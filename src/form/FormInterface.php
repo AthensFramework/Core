@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEM\Framework\Form;
+namespace Athens\Core\Form;
 
-use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
-use UWDOEM\Framework\Form\FormAction\FormAction;
-use UWDOEM\Framework\Writer\WritableInterface;
-use UWDOEM\Framework\Initializer\InitializableInterface;
+use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Initializer\InitializableInterface;
 
 interface FormInterface extends WritableInterface, InitializableInterface
 {

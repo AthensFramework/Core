@@ -1,4 +1,4 @@
-uwdoem.filter = (function () {
+athens.filter = (function () {
 
     var initializedFilters = [];
 

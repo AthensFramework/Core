@@ -1,16 +1,16 @@
 <?php
 
-namespace UWDOEM\Framework\Table;
+namespace Athens\Core\Table;
 
-use UWDOEM\Framework\Filter\FilterInterface;
-use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Writer\WritableTrait;
+use Athens\Core\Filter\FilterInterface;
+use Athens\Core\Row\RowInterface;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\Writer\WritableTrait;
 
 /**
  * Class Table
  *
- * @package UWDOEM\Framework\Table
+ * @package Athens\Core\Table
  */
 class Table implements TableInterface
 {

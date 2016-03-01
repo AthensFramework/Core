@@ -1,13 +1,13 @@
 <?php
 
-namespace UWDOEM\Framework\Form\FormAction;
+namespace Athens\Core\Form\FormAction;
 
-use UWDOEM\Framework\Writer\WritableInterface;
+use Athens\Core\Writer\WritableInterface;
 
 /**
  * Interface FormActionInterface
  *
- * @package UWDOEM\Framework\Form\FormAction
+ * @package Athens\Core\Form\FormAction
  */
 interface FormActionInterface extends WritableInterface
 {

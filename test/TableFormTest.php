@@ -1,18 +1,18 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
-use UWDOEM\Framework\Form\FormAction\FormAction;
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Row\RowBuilder;
-use UWDOEM\Framework\Table\TableFormBuilder;
-use UWDOEM\Framework\Field\FieldBuilder;
+use Athens\Core\FieldBearer\FieldBearerBuilder;
+use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\Field\Field;
+use Athens\Core\Row\RowBuilder;
+use Athens\Core\Table\TableFormBuilder;
+use Athens\Core\Field\FieldBuilder;
 
-use UWDOEM\Framework\Test\Mock\MockRow;
-use UWDOEM\Framework\Test\Mock\MockFieldBearer;
+use Athens\Core\Test\Mock\MockRow;
+use Athens\Core\Test\Mock\MockFieldBearer;
 
 class TableFormTest extends PHPUnit_Framework_TestCase
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace UWDOEM\Framework\Emailer;
+namespace Athens\Core\Emailer;
 
-use UWDOEM\Framework\Email\EmailInterface;
-use UWDOEM\Framework\Etc\Settings;
-use UWDOEM\Framework\Writer\Writer;
+use Athens\Core\Email\EmailInterface;
+use Athens\Core\Etc\Settings;
+use Athens\Core\Writer\Writer;
 
 /**
  * Class AbstractEmailer provides the framework for rendering an email body before
  * sending it.
  *
- * @package UWDOEM\Framework\Emailer
+ * @package Athens\Core\Emailer
  */
 abstract class AbstractEmailer implements EmailerInterface
 {

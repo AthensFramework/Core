@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEM\Framework\Etc;
+namespace Athens\Core\Etc;
 
 /**
  * Class ArrayUtils is a static class to provide array manipulation utilities
  *
- * @package UWDOEM\Framework\Etc
+ * @package Athens\Core\Etc
  */
 class ArrayUtils
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace UWDOEM\Framework\FilterStatement;
+namespace Athens\Core\FilterStatement;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
-use UWDOEM\Framework\Row\RowInterface;
+use Athens\Core\Row\RowInterface;
 use Propel\Runtime\ActiveQuery\Criteria;
 
 /**
  * Class SortingFilterStatement
- * @package UWDOEM\Framework\FilterStatement
+ * @package Athens\Core\FilterStatement
  */
 class SortingFilterStatement extends FilterStatement
 {

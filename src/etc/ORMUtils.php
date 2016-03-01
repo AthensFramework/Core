@@ -1,20 +1,20 @@
 <?php
 
-namespace UWDOEM\Framework\Etc;
+namespace Athens\Core\Etc;
 
 use Propel\Runtime\Map\Exception\ColumnNotFoundException;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Map\ColumnMap;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Field\FieldInterface;
+use Athens\Core\Field\Field;
+use Athens\Core\Field\FieldInterface;
 
 /**
  * Class ORMUtils provides static methods for interpreting and interfacing
  * with ORM entities.
  *
- * @package UWDOEM\Framework\Etc
+ * @package Athens\Core\Etc
  */
 class ORMUtils
 {
@@ -105,7 +105,7 @@ class ORMUtils
 
     /**
      * Predicate that reports whether a given field name in a given class
-     * table map name is under the uwdoem/encryption Propel behavior.
+     * table map name is under the athens/encryption Propel behavior.
      *
      * @param string $fieldName
      * @param string $classTableMapName
@@ -322,7 +322,7 @@ class ORMUtils
 
     /**
      * @param string $classTableMapName
-     * @return \UWDOEM\Framework\Field\FieldInterface[]
+     * @return \Athens\Core\Field\FieldInterface[]
      */
     protected static function makeFieldsFromClassTableMapName($classTableMapName)
     {

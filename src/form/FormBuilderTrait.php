@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\Form;
+namespace Athens\Core\Form;
 
-use UWDOEM\Framework\FieldBearer\FieldBearerBearerBuilderTrait;
-use UWDOEM\Framework\Form\FormAction\FormAction;
-use UWDOEM\Framework\Field\Field;
+use Athens\Core\FieldBearer\FieldBearerBearerBuilderTrait;
+use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\Field\Field;
 
 trait FormBuilderTrait
 {

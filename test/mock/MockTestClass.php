@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEMTest\TestClass;
+use AthensTest\TestClass;
 
 class MockTestClass extends TestClass
 {

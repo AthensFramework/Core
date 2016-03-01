@@ -1,12 +1,12 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Email\EmailBuilder;
+use Athens\Core\Email\EmailBuilder;
 
-use UWDOEM\Framework\Test\Mock\MockEmailer;
+use Athens\Core\Test\Mock\MockEmailer;
 
 class EmailTest extends PHPUnit_Framework_TestCase
 {

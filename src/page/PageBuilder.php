@@ -1,17 +1,17 @@
 <?php
 
-namespace UWDOEM\Framework\Page;
+namespace Athens\Core\Page;
 
-use UWDOEM\Framework\Etc\AbstractBuilder;
-use UWDOEM\Framework\Writer\WritableInterface;
-use UWDOEM\Framework\Section\SectionBuilder;
-use UWDOEM\Framework\Etc\SafeString;
+use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Section\SectionBuilder;
+use Athens\Core\Etc\SafeString;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 /**
  * Class PageBuilder
  *
- * @package UWDOEM\Framework\Page
+ * @package Athens\Core\Page
  */
 class PageBuilder extends AbstractBuilder
 {

@@ -1,19 +1,19 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace Athens\Core\Filter;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-use UWDOEM\Framework\Etc\ORMUtils;
-use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
-use UWDOEM\Framework\Writer\WritableTrait;
+use Athens\Core\Etc\ORMUtils;
+use Athens\Core\Row\RowInterface;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\FilterStatement\FilterStatementInterface;
+use Athens\Core\Writer\WritableTrait;
 
 /**
  * Class Filter
  *
- * @package UWDOEM\Framework\Filter
+ * @package Athens\Core\Filter
  */
 class Filter implements FilterInterface
 {

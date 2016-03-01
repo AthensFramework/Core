@@ -1,6 +1,6 @@
 {
   "globals" : {
-      "uwdoem": false,
+      "athens": false,
       "$": false,
       "CSRFToken": false
   }

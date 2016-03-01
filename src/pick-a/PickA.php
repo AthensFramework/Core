@@ -1,16 +1,16 @@
 <?php
 
-namespace UWDOEM\Framework\PickA;
+namespace Athens\Core\PickA;
 
-use UWDOEM\Framework\Visitor\VisitableTrait;
-use UWDOEM\Framework\Writer\WritableInterface;
-use UWDOEM\Framework\Writer\WritableTrait;
+use Athens\Core\Visitor\VisitableTrait;
+use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writer\WritableTrait;
 
 /**
  * Class PickA presents users with multiple sections which may be viewed
  * only one at a time.
  *
- * @package UWDOEM\Framework\PickA
+ * @package Athens\Core\PickA
  */
 class PickA implements PickAInterface
 {

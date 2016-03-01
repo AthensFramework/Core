@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEM\Framework\Visitor;
+namespace Athens\Core\Visitor;
 
 /**
  * Class Visitor is the parent class for all visitors.
  *
- * @package UWDOEM\Framework\Visitor
+ * @package Athens\Core\Visitor
  */
 class Visitor
 {

@@ -1,10 +1,16 @@
 <?php
 
-namespace UWDOEMTest\Base;
+namespace AthensTest\Base;
 
 use \DateTime;
 use \Exception;
 use \PDO;
+use AthensTest\TestClass as ChildTestClass;
+use AthensTest\TestClassQuery as ChildTestClassQuery;
+use AthensTest\TestClassTwo as ChildTestClassTwo;
+use AthensTest\TestClassTwoQuery as ChildTestClassTwoQuery;
+use AthensTest\Map\TestClassTableMap;
+use AthensTest\Map\TestClassTwoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -18,25 +24,20 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
-use UWDOEMTest\TestClass as ChildTestClass;
-use UWDOEMTest\TestClassQuery as ChildTestClassQuery;
-use UWDOEMTest\TestClassTwo as ChildTestClassTwo;
-use UWDOEMTest\TestClassTwoQuery as ChildTestClassTwoQuery;
-use UWDOEMTest\Map\TestClassTableMap;
 
 /**
  * Base class that represents a row from the 'test_class' table.
  *
  * 
  *
-* @package    propel.generator.UWDOEMTest.Base
+* @package    propel.generator.AthensTest.Base
 */
 abstract class TestClass implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\UWDOEMTest\\Map\\TestClassTableMap';
+    const TABLE_MAP = '\\AthensTest\\Map\\TestClassTableMap';
 
 
     /**
@@ -67,60 +68,70 @@ abstract class TestClass implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     * 
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the field_small_varchar field.
+     * 
      * @var        string
      */
     protected $field_small_varchar;
 
     /**
      * The value for the field_large_varchar field.
+     * 
      * @var        string
      */
     protected $field_large_varchar;
 
     /**
      * The value for the field_integer field.
+     * 
      * @var        int
      */
     protected $field_integer;
 
     /**
      * The value for the field_float field.
+     * 
      * @var        double
      */
     protected $field_float;
 
     /**
      * The value for the field_timestamp field.
+     * 
      * @var        \DateTime
      */
     protected $field_timestamp;
 
     /**
      * The value for the field_boolean field.
+     * 
      * @var        boolean
      */
     protected $field_boolean;
 
     /**
      * The value for the required_field field.
+     * 
      * @var        string
      */
     protected $required_field;
 
     /**
      * The value for the unrequired_field field.
+     * 
      * @var        string
      */
     protected $unrequired_field;
 
     /**
      * The value for the encrypted_field field.
+     * 
      * @var        string
      */
     protected $encrypted_field;
@@ -146,7 +157,7 @@ abstract class TestClass implements ActiveRecordInterface
     protected $testClassTwosScheduledForDeletion = null;
 
     /**
-     * Initializes internal state of UWDOEMTest\Base\TestClass object.
+     * Initializes internal state of AthensTest\Base\TestClass object.
      */
     public function __construct()
     {
@@ -359,7 +370,15 @@ abstract class TestClass implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+        
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+        
+        return $propertyNames;
     }
 
     /**
@@ -479,15 +498,19 @@ abstract class TestClass implements ActiveRecordInterface
      */
     public function getEncryptedField()
     {
-        // Decrypt the variable, per \UWDOEM\Encryption\EncryptionBehavior.
-        $this->encrypted_field = \UWDOEM\Encryption\Cipher::getInstance()->decryptStream($this->encrypted_field);
+        // Decrypt the variable, per \Athens\Encryption\EncryptionBehavior.
+        $fieldValue = $this->encrypted_field;
+        if (is_resource($fieldValue) && get_resource_type($fieldValue) === "stream") {
+            $fieldValue = \Athens\Encryption\Cipher::getInstance()->decryptStream($fieldValue);
+        }
+        return $fieldValue;
     }
 
     /**
      * Set the value of [id] column.
      * 
      * @param int $v new value
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -507,7 +530,7 @@ abstract class TestClass implements ActiveRecordInterface
      * Set the value of [field_small_varchar] column.
      * 
      * @param string $v new value
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setFieldSmallVarchar($v)
     {
@@ -527,7 +550,7 @@ abstract class TestClass implements ActiveRecordInterface
      * Set the value of [field_large_varchar] column.
      * 
      * @param string $v new value
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setFieldLargeVarchar($v)
     {
@@ -547,7 +570,7 @@ abstract class TestClass implements ActiveRecordInterface
      * Set the value of [field_integer] column.
      * 
      * @param int $v new value
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setFieldInteger($v)
     {
@@ -567,7 +590,7 @@ abstract class TestClass implements ActiveRecordInterface
      * Set the value of [field_float] column.
      * 
      * @param double $v new value
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setFieldFloat($v)
     {
@@ -588,7 +611,7 @@ abstract class TestClass implements ActiveRecordInterface
      * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setFieldTimestamp($v)
     {
@@ -611,7 +634,7 @@ abstract class TestClass implements ActiveRecordInterface
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      * 
      * @param  boolean|integer|string $v The new value
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setFieldBoolean($v)
     {
@@ -635,7 +658,7 @@ abstract class TestClass implements ActiveRecordInterface
      * Set the value of [required_field] column.
      * 
      * @param string $v new value
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setRequiredField($v)
     {
@@ -655,7 +678,7 @@ abstract class TestClass implements ActiveRecordInterface
      * Set the value of [unrequired_field] column.
      * 
      * @param string $v new value
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setUnrequiredField($v)
     {
@@ -675,12 +698,12 @@ abstract class TestClass implements ActiveRecordInterface
      * Set the value of [encrypted_field] column.
      * 
      * @param string $v new value
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function setEncryptedField($v)
     {
-        // Encrypt the variable, per \UWDOEM\Encryption\EncryptionBehavior.
-        $v = \UWDOEM\Encryption\Cipher::getInstance()->encrypt($v);
+        // Encrypt the variable, per \Athens\Encryption\EncryptionBehavior.
+        $v = \Athens\Encryption\Cipher::getInstance()->encrypt($v);
 
         // Because BLOB columns are streams in PDO we have to assume that they are
         // always modified when a new value is passed in.  For example, the contents
@@ -782,7 +805,7 @@ abstract class TestClass implements ActiveRecordInterface
             return $startcol + 10; // 10 = TestClassTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\UWDOEMTest\\TestClass'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\AthensTest\\TestClass'), 0, $e);
         }
     }
 
@@ -1208,12 +1231,8 @@ abstract class TestClass implements ActiveRecordInterface
             $keys[8] => $this->getUnrequiredField(),
             $keys[9] => $this->getEncryptedField(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[5]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[5]];
-            $result[$keys[5]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[5]] = $result[$keys[5]]->format('c');
         }
         
         $virtualColumns = $this->virtualColumns;
@@ -1251,7 +1270,7 @@ abstract class TestClass implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\UWDOEMTest\TestClass
+     * @return $this|\AthensTest\TestClass
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
@@ -1266,7 +1285,7 @@ abstract class TestClass implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\UWDOEMTest\TestClass
+     * @return $this|\AthensTest\TestClass
      */
     public function setByPosition($pos, $value)
     {
@@ -1376,7 +1395,7 @@ abstract class TestClass implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\UWDOEMTest\TestClass The current object, for fluid interface
+     * @return $this|\AthensTest\TestClass The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1507,7 +1526,7 @@ abstract class TestClass implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \UWDOEMTest\TestClass (or compatible) type.
+     * @param      object $copyObj An object of \AthensTest\TestClass (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1552,7 +1571,7 @@ abstract class TestClass implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \UWDOEMTest\TestClass Clone of current object.
+     * @return \AthensTest\TestClass Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1620,8 +1639,11 @@ abstract class TestClass implements ActiveRecordInterface
         if (null !== $this->collTestClassTwos && !$overrideExisting) {
             return;
         }
-        $this->collTestClassTwos = new ObjectCollection();
-        $this->collTestClassTwos->setModel('\UWDOEMTest\TestClassTwo');
+
+        $collectionClassName = TestClassTwoTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collTestClassTwos = new $collectionClassName;
+        $this->collTestClassTwos->setModel('\AthensTest\TestClassTwo');
     }
 
     /**
@@ -1754,7 +1776,7 @@ abstract class TestClass implements ActiveRecordInterface
      * through the ChildTestClassTwo foreign key attribute.
      *
      * @param  ChildTestClassTwo $l ChildTestClassTwo
-     * @return $this|\UWDOEMTest\TestClass The current object (for fluent API support)
+     * @return $this|\AthensTest\TestClass The current object (for fluent API support)
      */
     public function addTestClassTwo(ChildTestClassTwo $l)
     {
@@ -1765,6 +1787,10 @@ abstract class TestClass implements ActiveRecordInterface
 
         if (!$this->collTestClassTwos->contains($l)) {
             $this->doAddTestClassTwo($l);
+
+            if ($this->testClassTwosScheduledForDeletion and $this->testClassTwosScheduledForDeletion->contains($l)) {
+                $this->testClassTwosScheduledForDeletion->remove($this->testClassTwosScheduledForDeletion->search($l));
+            }
         }
 
         return $this;

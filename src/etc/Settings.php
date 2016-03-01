@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\Etc;
+namespace Athens\Core\Etc;
 
 /**
  * Class Settings is a static class for maintaining application-wide settings.
- * @package UWDOEM\Framework\Etc
+ * @package Athens\Core\Etc
  */
 class Settings
 {
@@ -14,9 +14,9 @@ class Settings
         "projectJS" => [],
         "projectCSS" => [],
         "acronyms" => [],
-        "defaultWriterClass" => '\UWDOEM\Framework\Writer\Writer',
-        "defaultEmailerClass" => '\UWDOEM\Framework\Emailer\PhpEmailer',
-        "defaultInitializerClass" => '\UWDOEM\Framework\Initializer\Initializer',
+        "defaultWriterClass" => '\Athens\Core\Writer\Writer',
+        "defaultEmailerClass" => '\Athens\Core\Emailer\PhpEmailer',
+        "defaultInitializerClass" => '\Athens\Core\Initializer\Initializer',
         "defaultPagination" => 12
     ];
 

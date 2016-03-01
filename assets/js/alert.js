@@ -1,4 +1,4 @@
-uwdoem.alert = (function () {
+athens.alert = (function () {
     /**
      * Creates an alert div, appends it to the notification area, and schedules it for removal.
      *

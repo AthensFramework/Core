@@ -1,16 +1,16 @@
 <?php
 
-namespace UWDOEM\Framework\FilterStatement;
+namespace Athens\Core\FilterStatement;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\Criteria;
 
-use UWDOEM\Framework\Row\RowInterface;
+use Athens\Core\Row\RowInterface;
 
 /**
  * Class ExcludingFilterStatement
  *
- * @package UWDOEM\Framework\FilterStatement
+ * @package Athens\Core\FilterStatement
  */
 class ExcludingFilterStatement extends FilterStatement
 {

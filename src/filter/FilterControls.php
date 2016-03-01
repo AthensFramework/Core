@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace Athens\Core\Filter;
 
 /**
  * Class FilterControls
- * @package UWDOEM\Framework\Filter
+ * @package Athens\Core\Filter
  */
 class FilterControls
 {

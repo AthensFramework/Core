@@ -1,11 +1,11 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Section\SectionBuilder;
-use UWDOEM\Framework\Field\Field;
+use Athens\Core\Section\SectionBuilder;
+use Athens\Core\Field\Field;
 
 class SectionTest extends PHPUnit_Framework_TestCase
 {

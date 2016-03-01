@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\Email;
+namespace Athens\Core\Email;
 
-use UWDOEM\Framework\Writer\WritableInterface;
-use UWDOEM\Framework\Writer\Writer;
-use UWDOEM\Framework\Emailer\EmailerInterface;
+use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writer\Writer;
+use Athens\Core\Emailer\EmailerInterface;
 
 interface EmailInterface extends WritableInterface
 {

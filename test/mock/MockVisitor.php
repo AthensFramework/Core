@@ -1,8 +1,8 @@
 <?php
 
-namespace UWDOEM\Framework\Test\Mock;
+namespace Athens\Core\Test\Mock;
 
-use UWDOEM\Framework\Visitor\Visitor;
+use Athens\Core\Visitor\Visitor;
 
 class MockVisitor extends Visitor
 {

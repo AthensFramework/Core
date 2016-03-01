@@ -1,9 +1,12 @@
 <?php
 
-namespace UWDOEMTest\Base;
+namespace AthensTest\Base;
 
 use \Exception;
 use \PDO;
+use AthensTest\TestClassTwo as ChildTestClassTwo;
+use AthensTest\TestClassTwoQuery as ChildTestClassTwoQuery;
+use AthensTest\Map\TestClassTwoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -11,9 +14,6 @@ use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
-use UWDOEMTest\TestClassTwo as ChildTestClassTwo;
-use UWDOEMTest\TestClassTwoQuery as ChildTestClassTwoQuery;
-use UWDOEMTest\Map\TestClassTwoTableMap;
 
 /**
  * Base class that represents a query for the 'test_class_two' table.
@@ -46,7 +46,7 @@ use UWDOEMTest\Map\TestClassTwoTableMap;
  * @method     ChildTestClassTwoQuery rightJoinWithTestClass() Adds a RIGHT JOIN clause and with to the query using the TestClass relation
  * @method     ChildTestClassTwoQuery innerJoinWithTestClass() Adds a INNER JOIN clause and with to the query using the TestClass relation
  *
- * @method     \UWDOEMTest\TestClassQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \AthensTest\TestClassQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildTestClassTwo findOne(ConnectionInterface $con = null) Return the first ChildTestClassTwo matching the query
  * @method     ChildTestClassTwo findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTestClassTwo matching the query, or a new ChildTestClassTwo object populated from the query conditions when no match is found
@@ -74,13 +74,13 @@ abstract class TestClassTwoQuery extends ModelCriteria
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \UWDOEMTest\Base\TestClassTwoQuery object.
+     * Initializes internal state of \AthensTest\Base\TestClassTwoQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'uwdoem_test', $modelName = '\\UWDOEMTest\\TestClassTwo', $modelAlias = null)
+    public function __construct($dbName = 'athens_test', $modelName = '\\AthensTest\\TestClassTwo', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -128,7 +128,7 @@ abstract class TestClassTwoQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TestClassTwoTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = TestClassTwoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -172,7 +172,7 @@ abstract class TestClassTwoQuery extends ModelCriteria
             /** @var ChildTestClassTwo $obj */
             $obj = new ChildTestClassTwo();
             $obj->hydrate($row);
-            TestClassTwoTableMap::addInstanceToPool($obj, (string) $key);
+            TestClassTwoTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -362,9 +362,9 @@ abstract class TestClassTwoQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \UWDOEMTest\TestClass object
+     * Filter the query by a related \AthensTest\TestClass object
      *
-     * @param \UWDOEMTest\TestClass|ObjectCollection $testClass The related object(s) to use as filter
+     * @param \AthensTest\TestClass|ObjectCollection $testClass The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @throws \Propel\Runtime\Exception\PropelException
@@ -373,7 +373,7 @@ abstract class TestClassTwoQuery extends ModelCriteria
      */
     public function filterByTestClass($testClass, $comparison = null)
     {
-        if ($testClass instanceof \UWDOEMTest\TestClass) {
+        if ($testClass instanceof \AthensTest\TestClass) {
             return $this
                 ->addUsingAlias(TestClassTwoTableMap::COL_TEST_CLASS_ID, $testClass->getId(), $comparison);
         } elseif ($testClass instanceof ObjectCollection) {
@@ -384,7 +384,7 @@ abstract class TestClassTwoQuery extends ModelCriteria
             return $this
                 ->addUsingAlias(TestClassTwoTableMap::COL_TEST_CLASS_ID, $testClass->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByTestClass() only accepts arguments of type \UWDOEMTest\TestClass or Collection');
+            throw new PropelException('filterByTestClass() only accepts arguments of type \AthensTest\TestClass or Collection');
         }
     }
 
@@ -429,13 +429,13 @@ abstract class TestClassTwoQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \UWDOEMTest\TestClassQuery A secondary query class using the current class as primary query
+     * @return \AthensTest\TestClassQuery A secondary query class using the current class as primary query
      */
     public function useTestClassQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinTestClass($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'TestClass', '\UWDOEMTest\TestClassQuery');
+            ->useQuery($relationAlias ? $relationAlias : 'TestClass', '\AthensTest\TestClassQuery');
     }
 
     /**

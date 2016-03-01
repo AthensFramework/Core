@@ -1,17 +1,17 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Filter\DummyFilter;
-use UWDOEM\Framework\Filter\FilterBuilder;
-use UWDOEM\Framework\Table\TableBuilder;
-use UWDOEM\Framework\FieldBearer\FieldBearerBuilder;
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Row\RowBuilder;
-use UWDOEM\Framework\Filter\Filter;
-use UWDOEM\Framework\FilterStatement\FilterStatement;
+use Athens\Core\Filter\DummyFilter;
+use Athens\Core\Filter\FilterBuilder;
+use Athens\Core\Table\TableBuilder;
+use Athens\Core\FieldBearer\FieldBearerBuilder;
+use Athens\Core\Field\Field;
+use Athens\Core\Row\RowBuilder;
+use Athens\Core\Filter\Filter;
+use Athens\Core\FilterStatement\FilterStatement;
 
 class TableTest extends PHPUnit_Framework_TestCase
 {

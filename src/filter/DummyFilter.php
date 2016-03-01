@@ -1,9 +1,9 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace Athens\Core\Filter;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
-use UWDOEM\Framework\Row\RowInterface;
+use Athens\Core\Row\RowInterface;
 
 /**
  * Class DummyFilter Filter class to sit at the end of a chain of filters. Provides no filtering.

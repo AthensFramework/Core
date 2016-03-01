@@ -1,9 +1,9 @@
 <?php
 
-namespace UWDOEM\Framework\Row;
+namespace Athens\Core\Row;
 
-use UWDOEM\Framework\FieldBearer\FieldBearerInterface;
-use UWDOEM\Framework\Writer\WritableInterface;
+use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\Writer\WritableInterface;
 
 interface RowInterface extends WritableInterface
 {

@@ -1,34 +1,34 @@
 <?php
 
-namespace UWDOEM\Framework\Writer;
+namespace Athens\Core\Writer;
 
 use Twig_SimpleFilter;
 
-use UWDOEM\Framework\Email\EmailInterface;
-use UWDOEM\Framework\Etc\SafeString;
-use UWDOEM\Framework\Field\FieldInterface;
-use UWDOEM\Framework\Filter\PaginationFilter;
-use UWDOEM\Framework\Filter\SortFilter;
-use UWDOEM\Framework\Form\FormInterface;
-use UWDOEM\Framework\Form\FormAction\FormActionInterface;
-use UWDOEM\Framework\PickA\PickAFormInterface;
-use UWDOEM\Framework\PickA\PickAInterface;
-use UWDOEM\Framework\Section\SectionInterface;
-use UWDOEM\Framework\Visitor\Visitor;
-use UWDOEM\Framework\Page\PageInterface;
-use UWDOEM\Framework\Row\RowInterface;
-use UWDOEM\Framework\Table\TableInterface;
-use UWDOEM\Framework\Etc\Settings;
-use UWDOEM\Framework\Etc\StringUtils;
-use UWDOEM\Framework\Field\Field;
-use UWDOEM\Framework\Filter\FilterInterface;
-use UWDOEM\Framework\Filter\SearchFilter;
-use UWDOEM\Framework\Table\TableFormInterface;
+use Athens\Core\Email\EmailInterface;
+use Athens\Core\Etc\SafeString;
+use Athens\Core\Field\FieldInterface;
+use Athens\Core\Filter\PaginationFilter;
+use Athens\Core\Filter\SortFilter;
+use Athens\Core\Form\FormInterface;
+use Athens\Core\Form\FormAction\FormActionInterface;
+use Athens\Core\PickA\PickAFormInterface;
+use Athens\Core\PickA\PickAInterface;
+use Athens\Core\Section\SectionInterface;
+use Athens\Core\Visitor\Visitor;
+use Athens\Core\Page\PageInterface;
+use Athens\Core\Row\RowInterface;
+use Athens\Core\Table\TableInterface;
+use Athens\Core\Etc\Settings;
+use Athens\Core\Etc\StringUtils;
+use Athens\Core\Field\Field;
+use Athens\Core\Filter\FilterInterface;
+use Athens\Core\Filter\SearchFilter;
+use Athens\Core\Table\TableFormInterface;
 
 /**
  * Class Writer is a visitor which renders Writable elements.
  *
- * @package UWDOEM\Framework\Writer
+ * @package Athens\Core\Writer
  */
 class Writer extends Visitor
 {

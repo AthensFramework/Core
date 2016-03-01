@@ -1,19 +1,19 @@
 <?php
 
-namespace UWDOEM\Framework\Filter;
+namespace Athens\Core\Filter;
 
-use UWDOEM\Framework\Etc\AbstractBuilder;
-use UWDOEM\Framework\Etc\Settings;
-use UWDOEM\Framework\FilterStatement\FilterStatement;
-use UWDOEM\Framework\FilterStatement\FilterStatementInterface;
-use UWDOEM\Framework\FilterStatement\ExcludingFilterStatement;
-use UWDOEM\Framework\FilterStatement\PaginationFilterStatement;
-use UWDOEM\Framework\FilterStatement\SortingFilterStatement;
+use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Etc\Settings;
+use Athens\Core\FilterStatement\FilterStatement;
+use Athens\Core\FilterStatement\FilterStatementInterface;
+use Athens\Core\FilterStatement\ExcludingFilterStatement;
+use Athens\Core\FilterStatement\PaginationFilterStatement;
+use Athens\Core\FilterStatement\SortingFilterStatement;
 
 /**
  * Class FilterBuilder
  *
- * @package UWDOEM\Framework\Filter
+ * @package Athens\Core\Filter
  */
 class FilterBuilder extends AbstractBuilder
 {

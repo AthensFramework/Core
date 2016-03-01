@@ -1,10 +1,10 @@
 <?php
 
-namespace UWDOEM\Framework\Test;
+namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use UWDOEM\Framework\Test\Mock\MockSettings;
+use Athens\Core\Test\Mock\MockSettings;
 
 class SettingsTest extends PHPUnit_Framework_TestCase
 {

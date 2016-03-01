@@ -4,7 +4,7 @@ return [
     'propel' => [
         'database' => [
             'connections' => [
-                'uwdoem_test' => [
+                'athens_test' => [
                     'adapter'    => "mysql",
                     'classname'  => "Propel\\Runtime\\Connection\\ConnectionWrapper",
                     'dsn'        => "dsn",
@@ -15,12 +15,12 @@ return [
             ]
         ],
         'runtime' => [
-            'defaultConnection' => 'uwdoem_test',
-            'connections' => ['uwdoem_test']
+            'defaultConnection' => 'athens_test',
+            'connections' => ['athens_test']
         ],
         'generator' => [
-            'defaultConnection' => 'uwdoem_test',
-            'connections' => ['uwdoem_test']
+            'defaultConnection' => 'athens_test',
+            'connections' => ['athens_test']
         ]
     ]
 ];
