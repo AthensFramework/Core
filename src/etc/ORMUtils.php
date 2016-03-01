@@ -113,15 +113,18 @@ class ORMUtils
      */
     public static function isEncrypted($fieldName, $classTableMapName)
     {
-        if (defined($classTableMapName . "::ENCRYPTED_COLUMNS") === true) {
+        $unqualifiedFieldName = explode('.', $fieldName)[1];
 
-            $encryptedFieldNames = explode(" ", $classTableMapName::ENCRYPTED_COLUMNS);
-            $phpName = explode(".", $fieldName)[1];
+        $unqualifiedPropelFieldName = $classTableMapName::translateFieldName(
+            $unqualifiedFieldName,
+            $classTableMapName::TYPE_PHPNAME,
+            $classTableMapName::TYPE_FIELDNAME
+        );
 
-            return array_search($phpName, $encryptedFieldNames) !== false;
-        }
+        $qualifiedPropelFieldName = $classTableMapName::TABLE_NAME . "." . $unqualifiedPropelFieldName;
 
-        return false;
+        return method_exists($classTableMapName, 'isEncryptedColumnName')
+               && $classTableMapName::isEncryptedColumnName($qualifiedPropelFieldName);
     }
 
     /**
