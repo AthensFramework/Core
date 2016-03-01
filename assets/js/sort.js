@@ -34,3 +34,4 @@ athens.sort = (function () {
         setupSortFilter: setupSortFilter
     };
 }());
+

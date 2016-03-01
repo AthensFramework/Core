@@ -114,3 +114,4 @@ athens.pagination = (function () {
         setupPaginationFilter: setupPaginationFilter
     };
 }());
+

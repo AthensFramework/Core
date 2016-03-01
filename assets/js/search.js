@@ -125,3 +125,4 @@ athens.search = (function () {
         clearSearch: clearSearch
     };
 }());
+

@@ -54,7 +54,7 @@ class FieldBearer implements FieldBearerInterface
     }
 
     /**
-     * @param string                                   $fieldGetterFunction
+     * @param string                              $fieldGetterFunction
      * @param \Athens\Core\Field\FieldInterface[] $initial
      * @return \Athens\Core\Field\FieldInterface[]
      */
