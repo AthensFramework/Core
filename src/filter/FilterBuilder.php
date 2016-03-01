@@ -235,6 +235,8 @@ class FilterBuilder extends AbstractBuilder
                         "'$default' must be among options '$optionsText'."
                     );
                 }
+                
+                $options = array_merge([" " . $default => $options[$default], " " => $options[$default]], $options);
 
                 $statements = array_map(
                     function ($option) {
