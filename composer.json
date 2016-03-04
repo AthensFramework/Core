@@ -16,7 +16,6 @@
     "propel/propel": "~2.0@dev",
     "twig/twig" : "1.*",
     "dompdf/dompdf" : "0.6.*",
-    "uwdoem/person": "1.*",
     "athens/encryption": "0.*",
     "athens/csrf": "2.*",
     "phpoffice/phpexcel": "1.*"
