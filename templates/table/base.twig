@@ -12,7 +12,7 @@
         {% if rows is empty %}
             <th>No data found</th>
         {%  else %}
-            {% for fieldName, field in rows[0].getFieldBearer.getVisibleFields %}
+            {% for fieldName, field in rows|first.getFieldBearer.getVisibleFields %}
                 <th data-header-for="{{ fieldName }}">{{ field.getLabel }}</th>
             {% endfor %}
         {% endif %}
