@@ -255,6 +255,7 @@ class Writer extends Visitor
             ->render(
                 [
                     "hash" => $row->getId(),
+                    "classes" => $row->getClasses(),
                     "visibleFields" => $row->getFieldBearer()->getVisibleFields(),
                     "hiddenFields" => $row->getFieldBearer()->getHiddenFields(),
                     "highlightable" => $row->isHighlightable(),

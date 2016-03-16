@@ -1,4 +1,4 @@
-<tr class="{% if onClick %}clickable{% endif %} {% if highlightable %}highlightable{% endif %}"
+<tr class="{{ classes|join(' ') }} {% if onClick %}clickable{% endif %} {% if highlightable %}highlightable{% endif %}"
     {% if onClick %}onClick="{{ onClick|raw }}"{% endif %}>
 
     {% for fieldName, field in visibleFields %}

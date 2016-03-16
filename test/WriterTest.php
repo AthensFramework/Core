@@ -724,7 +724,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("<td class=" . $textField->getSlug(), $result);
         $this->assertContains("<td class=" . $literalField->getSlug(), $result);
         $this->assertContains("highlightable", $result);
-        $this->assertContains("class=clickable", $result);
+        $this->assertContains("class= clickable", $result);
         $this->assertContains($this->stripQuotes($initialLiteral), $result);
         $this->assertContains("style=display:none>$initialHidden</td>", $result);
 
@@ -741,7 +741,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitRow($clickableRow));
-        $this->assertContains("class=clickable", $result);
+        $this->assertContains("class= clickable", $result);
     }
 
     public function testVisitTable()
