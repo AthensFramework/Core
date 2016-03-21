@@ -213,11 +213,7 @@ class Writer extends Visitor
     {
         $template = 'field/' . $field->getType() . '.twig';
 
-        if ($field->getType() === Field::FIELD_TYPE_CHOICE || $field->getType() === Field::FIELD_TYPE_MULTIPLE_CHOICE) {
-            $choices = array_combine($field->getChoiceSlugs(), $field->getChoices());
-        } else {
-            $choices = [];
-        }
+        $choices = array_combine($field->getChoiceSlugs(), $field->getChoices());
 
         return $this
             ->loadTemplate($template)
