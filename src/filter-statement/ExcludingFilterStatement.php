@@ -24,6 +24,8 @@ class ExcludingFilterStatement extends FilterStatement
         $fieldName = $this->getFieldName();
         $criterion = $this->getCriterion();
 
+        $objectName = strtok($fieldName, '.');
+
         if (($pos = strpos($fieldName, ".")) !== false) {
             $fieldName = substr($fieldName, $pos+1);
         }
@@ -53,7 +55,11 @@ class ExcludingFilterStatement extends FilterStatement
                 break;
         }
 
-        return $query->{"filterBy" . $fieldName}($criterion, $criteria);
+        if ($objectName === $query->getTableMap()->getPhpName()) {
+            return $query->{"filterBy" . $fieldName}($criterion, $criteria);
+        } else {
+            return $query->{"use{$objectName}Query"}()->{"filterBy" . $fieldName}($criterion, $criteria)->endUse();
+        }
     }
 
     /**
