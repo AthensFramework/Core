@@ -124,7 +124,7 @@ class ORMUtils
         $qualifiedPropelFieldName = $classTableMapName::TABLE_NAME . "." . $unqualifiedPropelFieldName;
 
         return method_exists($classTableMapName, 'isEncryptedColumnName')
-               && $classTableMapName::isEncryptedColumnName($qualifiedPropelFieldName);
+        && $classTableMapName::isEncryptedColumnName($qualifiedPropelFieldName);
     }
 
     /**
@@ -214,14 +214,14 @@ class ORMUtils
         // by doing some complicated search and replace on the fully qualified
         // table map name of the child.
         $fullyQualifiedRelatedTableName = substr_replace(
-            $fullyQualifiedTableMapName,
-            $upperCamelCaseTableName,
-            strrpos(
                 $fullyQualifiedTableMapName,
-                "\\",
-                -1
-            ) + 1
-        ) . "\n";
+                $upperCamelCaseTableName,
+                strrpos(
+                    $fullyQualifiedTableMapName,
+                    "\\",
+                    -1
+                ) + 1
+            ) . "\n";
         $fullyQualifiedParentTableName = trim($fullyQualifiedRelatedTableName);
 
         return static::getClassTableMap($fullyQualifiedParentTableName);
@@ -499,6 +499,23 @@ class ORMUtils
                 return true;
             }
         }
+
+        foreach ($query->getJoins() as $relation) {
+            $map = $relation->getTableMap();
+            $objectName = $map->getPhpName();
+
+            foreach ($map->getColumns() as $column) {
+                $thisFieldName = $objectName . "." . StringUtils::toUpperCamelCase($column->getPhpName());
+
+                if ($fieldName === $thisFieldName) {
+                    return true;
+                }
+            }
+
+
+        }
+
+
 
         return false;
     }
