@@ -214,14 +214,14 @@ class ORMUtils
         // by doing some complicated search and replace on the fully qualified
         // table map name of the child.
         $fullyQualifiedRelatedTableName = substr_replace(
+            $fullyQualifiedTableMapName,
+            $upperCamelCaseTableName,
+            strrpos(
                 $fullyQualifiedTableMapName,
-                $upperCamelCaseTableName,
-                strrpos(
-                    $fullyQualifiedTableMapName,
-                    "\\",
-                    -1
-                ) + 1
-            ) . "\n";
+                "\\",
+                -1
+            ) + 1
+        ) . "\n";
         $fullyQualifiedParentTableName = trim($fullyQualifiedRelatedTableName);
 
         return static::getClassTableMap($fullyQualifiedParentTableName);
@@ -500,8 +500,8 @@ class ORMUtils
             }
         }
 
-        foreach ($query->getJoins() as $relation) {
-            $map = $relation->getTableMap();
+        foreach ($map->getRelations() as $relation) {
+            $map = $relation->getForeignTable();
             $objectName = $map->getPhpName();
 
             foreach ($map->getColumns() as $column) {
@@ -511,12 +511,55 @@ class ORMUtils
                     return true;
                 }
             }
-
-
         }
 
-
-
         return false;
+    }
+
+    /**
+     * Retrieve an unqualified field name from a qualified one.
+     *
+     * @param string $qualifiedFieldName
+     * @return string
+     */
+    public static function getUnqualifiedFieldName($qualifiedFieldName)
+    {
+        return explode('.', $qualifiedFieldName)[1];
+    }
+
+    /**
+     * Adds a filter condition to a given query.
+     *
+     * Adaptively uses Propel's ::useXXXQuery() method for related tables.
+     *
+     * @param ModelCriteria $query
+     * @param string        $fieldName
+     * @param string        $criterion
+     * @param string        $criteria
+     * @return ModelCriteria
+     */
+    public static function applyFilterToQuery(ModelCriteria $query, $fieldName, $criterion, $criteria)
+    {
+        /** @var boolean $fieldNameIsQualified */
+        $fieldNameIsQualified = strpos($fieldName, '.') !== false;
+
+        /** @var string $modelName */
+        $modelName = $fieldNameIsQualified === true ? strtok($fieldName, '.') : $query->getTableMap()->getPhpName();
+
+        /** @var string $fieldName */
+        $fieldName = $fieldNameIsQualified === true ? static::getUnqualifiedFieldName($fieldName) : $fieldName;
+
+        /** @var boolean $queryIsOnModel */
+        $queryIsOnModel = $modelName === $query->getTableMap()->getPhpName();
+
+        if ($queryIsOnModel === true) {
+            $query = $query->{"filterBy" . $fieldName}($criterion, $criteria);
+        } else {
+            $query = $query->{"use{$modelName}Query"}()
+                ->{"filterBy" . $fieldName}($criterion, $criteria)
+                ->endUse();
+        }
+
+        return $query;
     }
 }

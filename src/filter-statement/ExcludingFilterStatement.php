@@ -2,6 +2,7 @@
 
 namespace Athens\Core\FilterStatement;
 
+use Athens\Core\Etc\ORMUtils;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\Criteria;
 
@@ -23,12 +24,6 @@ class ExcludingFilterStatement extends FilterStatement
     {
         $fieldName = $this->getFieldName();
         $criterion = $this->getCriterion();
-
-        $objectName = strtok($fieldName, '.');
-
-        if (($pos = strpos($fieldName, ".")) !== false) {
-            $fieldName = substr($fieldName, $pos+1);
-        }
 
         $criteria = Criteria::LIKE;
 
@@ -55,11 +50,7 @@ class ExcludingFilterStatement extends FilterStatement
                 break;
         }
 
-        if ($objectName === $query->getTableMap()->getPhpName()) {
-            return $query->{"filterBy" . $fieldName}($criterion, $criteria);
-        } else {
-            return $query->{"use{$objectName}Query"}()->{"filterBy" . $fieldName}($criterion, $criteria)->endUse();
-        }
+        return ORMUtils::applyFilterToQuery($query, $fieldName, $criterion, $criteria);
     }
 
     /**
