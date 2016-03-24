@@ -89,7 +89,7 @@ athens.search = (function () {
 
         // Move the search icon to the label
         var searchContainer = $("div.search-container[data-handle-for=" + handle + "]");
-        var label = searchContainer.closest("div.section-container").find("div.section-label");
+        var label = searchContainer.closest("div.table-container").prev("div.section-label");
         var searchIcon = $("div.search-icon[data-handle-for=" + handle + "]");
 
         if (label.find("div.search-icon[data-handle-for=" + handle + "]").length === 0) {
