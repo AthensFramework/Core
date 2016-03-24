@@ -87,6 +87,7 @@ $form = FormBuilder::begin()
     ->build();
 
 $page = PageBuilder::begin()
+    ->setId('student-submission-page')
     ->setType(Page::PAGE_TYPE_FULL_HEADER)
     ->setTitle("My Project: Enter a Student")
     ->setHeader("My Project")
