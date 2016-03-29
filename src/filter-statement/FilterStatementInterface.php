@@ -16,6 +16,7 @@ interface FilterStatementInterface
     const COND_EQUAL_TO = "EQUAL TO";
     const COND_NOT_EQUAL_TO = "NOT EQUAL TO";
     const COND_CONTAINS = "CONTAINS";
+    const COND_ALL = "ALL";
     const COND_PAGINATE_BY = 8;
 
     /**

@@ -27,6 +27,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         FilterStatement::COND_EQUAL_TO,
         FilterStatement::COND_NOT_EQUAL_TO,
         FilterStatement::COND_PAGINATE_BY,
+        FilterStatement::COND_ALL,
     ];
 
     public function testBuildStaticFilter()

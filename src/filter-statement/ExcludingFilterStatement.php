@@ -48,6 +48,10 @@ class ExcludingFilterStatement extends FilterStatement
                 $criterion = "%$criterion%";
                 $criteria = Criteria::LIKE;
                 break;
+
+            case static::COND_ALL:
+                $criteria = Criteria::ALL;
+                break;
         }
 
         return ORMUtils::applyFilterToQuery($query, $fieldName, $criterion, $criteria);
@@ -105,6 +109,13 @@ class ExcludingFilterStatement extends FilterStatement
             case static::COND_CONTAINS:
                 $filterFunction = function ($val) use ($criterion) {
                     return strripos($val, $criterion) !== false;
+
+                };
+                break;
+
+            case static::COND_ALL:
+                $filterFunction = function ($val) use ($criterion) {
+                    return true;
 
                 };
                 break;
