@@ -21,6 +21,7 @@ class ORMUtils
     /** @var array */
     static protected $db_type_to_field_type_association = [
         "VARCHAR" => "text",
+        "LONGVARCHAR" => "text",
         "INTEGER" => "text",
         "VARBINARY" => "text",
         "DATE" => "datetime",
