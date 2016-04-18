@@ -4,4 +4,3 @@ languages:
 exclude_paths:
 - "test/*"
 - "bin/*"
-- "*/uw-brand/*"

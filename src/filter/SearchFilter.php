@@ -30,7 +30,6 @@ class SearchFilter extends Filter
             if ($fieldname !== "" && $operation !== "" && $value !== "") {
                 $statements[] = new ExcludingFilterStatement($fieldname, $operation, $value, null);
             }
-
         }
 
         $this->feedback = "";

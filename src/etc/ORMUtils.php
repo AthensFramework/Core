@@ -158,7 +158,6 @@ class ORMUtils
                     $field->setInitial($field->getValidatedData());
                 }
             }
-
         }
     }
 

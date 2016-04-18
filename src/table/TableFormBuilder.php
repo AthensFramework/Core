@@ -52,7 +52,6 @@ class TableFormBuilder extends AbstractBuilder
     protected function validateOnInvalidFunc()
     {
         if ($this->onInvalidFunc === null) {
-
             $this->onInvalidFunc = function (TableFormInterface $form) {
                 foreach ($form->getRows() as $row) {
                     foreach ($row->getFieldBearer()->getFields() as $field) {
@@ -62,7 +61,6 @@ class TableFormBuilder extends AbstractBuilder
                     }
                 }
             };
-
         }
     }
 

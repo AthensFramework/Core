@@ -127,7 +127,6 @@ class TableForm implements TableFormInterface
                 $newRow = $this->makeRow();
 
                 foreach ($this->getPrototypicalRow()->getFieldBearer()->getFields() as $name => $field) {
-
                     $suffix = implode("-", $field->getSuffixes());
 
                     $newField = $newRow->getFieldBearer()->getFieldByName($name);
@@ -232,7 +231,6 @@ class TableForm implements TableFormInterface
                 $providedClass = get_class($this->prototypicalRow);
                 throw new \Exception("If \$rowMakingFunction is provided and callable, then it must return" .
                     " an instance of RowInterface. Instance of $providedClass provided instead.");
-
             }
         } else {
             $this->prototypicalRow = null;

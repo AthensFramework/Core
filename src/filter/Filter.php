@@ -130,7 +130,6 @@ class Filter implements FilterInterface
         }
 
         foreach ($this->statements as $statement) {
-
             $fieldName = $statement->getFieldName();
 
             if ($fieldName !== "" && ORMUtils::queryContainsFieldName($query, $fieldName) === false) {

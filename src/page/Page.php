@@ -251,7 +251,6 @@ class Page implements PageInterface
 
         /** @var TableInterface $table */
         foreach ($tables as $table) {
-
             // Create a sheet
             $objWorkSheet = $objPHPExcel->createSheet();
 
@@ -276,7 +275,6 @@ class Page implements PageInterface
             } else {
                 $objWorkSheet->setCellValue("A1", "No records found");
             }
-
         }
 
         // Remove worksheet 0; it was created with the file but we never wrote to it

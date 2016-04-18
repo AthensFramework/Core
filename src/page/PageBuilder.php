@@ -198,7 +198,6 @@ class PageBuilder extends AbstractBuilder
                 $this->returnTo,
                 $this->objectManagerQuery
             );
-
         } else {
             if ($this->objectManagerQuery instanceof ModelCriteria === true) {
                 throw new \Exception("You may only provide an object manager query for object manager pages.");

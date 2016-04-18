@@ -255,7 +255,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-
             $field1 = new Field([], "literal", "A literal field", []);
             $field2 = new Field([], "literal", "Another literal field", []);
             $field3 = new Field([], "literal", "Yet another literal field", []);
@@ -279,7 +278,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     public function testGetFieldBearerByName()
     {
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-
             $field1 = new Field([], "literal", "A literal field", []);
             $field2 = new Field([], "literal", "Another literal field", []);
             $field3 = new Field([], "literal", "Yet another literal field", []);
@@ -306,7 +304,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-
             $field1 = new Field([], "literal", "A literal field", []);
             $field2 = new Field([], "literal", "Another literal field", []);
             $field3 = new Field([], "literal", "Yet another literal field", []);
@@ -335,7 +332,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-
             $field1 = new Field([], "literal", "A literal field", []);
             $field2 = new Field([], "literal", "Another literal field", []);
             $field3 = new Field([], "literal", "Yet another literal field", []);
@@ -368,7 +364,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         // All fields visible
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-
             $field1 = new Field([], "literal", "A literal field", []);
             $field2 = new Field([], "literal", "Another literal field", []);
             $field3 = new Field([], "literal", "Yet another literal field", []);
@@ -418,7 +413,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         // Specific fields visible, specific fields hidden
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-
             $field1 = new Field([], "literal", "A literal field", []);
             $field2 = new Field([], "literal", "Another literal field", []);
             $field3 = new Field([], "literal", "Yet another literal field", []);

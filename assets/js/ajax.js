@@ -93,9 +93,7 @@ athens.ajax = (function () {
                             athens.ajax_section.doPostSectionActions();
                         }
                     );
-
                 } else {
-
                     $(form).replaceWith(formResult);
                     document.getElementById(formId).scrollIntoView();
                     athens.alert.makeAlert("failure", "Form has errors.");
@@ -114,4 +112,5 @@ athens.ajax = (function () {
     };
 
 }());
+
 

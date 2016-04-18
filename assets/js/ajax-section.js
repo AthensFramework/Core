@@ -62,8 +62,7 @@ athens.ajax_section = (function () {
      * @param getVar
      */
     var unsetGetVar = function (getVar) {
-        if (
-            getVar.sectionName in getVarRegistry &&
+        if (getVar.sectionName in getVarRegistry &&
             getVar.filterName in getVarRegistry[getVar.sectionName] &&
             getVar.argName in getVarRegistry[getVar.sectionName][getVar.filterName]
         ) {
@@ -80,8 +79,7 @@ athens.ajax_section = (function () {
      */
     var getGetVarValue = function (sectionName, filterName, argName) {
 
-        if (
-            sectionName in getVarRegistry &&
+        if (sectionName in getVarRegistry &&
             filterName in getVarRegistry[sectionName] &&
             argName in getVarRegistry[sectionName][filterName]
         ) {
@@ -104,7 +102,6 @@ athens.ajax_section = (function () {
         var ret = "";
         for (var filterName in getVarRegistry[name]) {
             if (getVarRegistry[name].hasOwnProperty(filterName)) {
-
                 for (var argName in getVarRegistry[name][filterName]) {
                     if (getVarRegistry[name][filterName].hasOwnProperty(argName)) {
                         ret += filterName + "-" + argName + "=" + getVarRegistry[name][filterName][argName] + "&";
@@ -178,4 +175,5 @@ athens.ajax_section = (function () {
     };
 
 }());
+
 

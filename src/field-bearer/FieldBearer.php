@@ -61,7 +61,6 @@ class FieldBearer implements FieldBearerInterface
     public function getFieldsBase($fieldGetterFunction, array $initial)
     {
         foreach ($this->fieldBearers as $name => $fieldBearer) {
-
             $fields = $fieldBearer->$fieldGetterFunction();
 
             $prefixedFieldNames = [];

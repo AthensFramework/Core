@@ -26,7 +26,6 @@ class Utils
     {
         $rows = [];
         for ($i = 0; $i < 100; $i++) {
-
             $rows[] = RowBuilder::begin()
                 ->addFields([
                     Utils::INT_FIELD_NAME => new Field([], "literal", "a literal field", rand(1, 100)),

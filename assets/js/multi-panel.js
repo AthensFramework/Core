@@ -78,7 +78,7 @@ athens.multi_panel = (function () {
             $('.cd-panel').on(
                 'click',
                 function (event) {
-                    if ( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                    if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
 
                         /** The number of the panel we would like to close */
                         var panelNum = $(this).data("for-panel");
@@ -100,4 +100,5 @@ athens.multi_panel = (function () {
     };
 
 }());
+
 

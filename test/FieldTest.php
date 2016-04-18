@@ -251,7 +251,6 @@ class FieldTest extends PHPUnit_Framework_TestCase
     public function testSetGetRequired()
     {
         foreach ($this->testedFields() as $field) {
-
             $field->setRequired(true);
             $this->assertTrue($field->isRequired(), "Failure on class: " . get_class($field));
 

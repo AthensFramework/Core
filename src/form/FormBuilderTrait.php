@@ -138,10 +138,8 @@ trait FormBuilderTrait
     protected function validateOnInvalidFunc()
     {
         if ($this->onInvalidFunc === null) {
-
             $this->onInvalidFunc = function (FormInterface $thisForm) {
                 foreach ($thisForm->getFieldBearer()->getFields() as $field) {
-
                     if ($field->getType() !== Field::FIELD_TYPE_LITERAL) {
                         $field->setInitial($field->getSubmitted());
                     }
@@ -151,7 +149,6 @@ trait FormBuilderTrait
                     $subForm->onInvalid();
                 }
             };
-
         }
     }
 
@@ -161,12 +158,10 @@ trait FormBuilderTrait
     protected function validateOnValidFunc()
     {
         if ($this->onValidFunc === null) {
-
             $this->onValidFunc = function (FormInterface $form) {
                 $func = [$form, "propagateOnValid"];
                 call_user_func_array($func, func_get_args());
             };
-
         }
     }
 
@@ -176,7 +171,6 @@ trait FormBuilderTrait
     protected function validateOnSuccessUrl()
     {
         if ($this->onSuccessUrl !== null) {
-
             $onValidFunc = $this->onValidFunc;
             $url = $this->onSuccessUrl;
 
