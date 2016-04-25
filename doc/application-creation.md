@@ -109,9 +109,9 @@ Steps
   `cd` into `project-schema` and then issue the following commands:
   
   ```
-  php ../vendor/propel/propel/bin/propel.php model:build;
-  php ../vendor/propel/propel/bin/propel.php sql:build;
-  php ../vendor/propel/propel/bin/propel.php sql:insert;
+  php ../vendor/bin/propel model:build;
+  php ../vendor/bin/propel sql:build;
+  php ../vendor/bin/propel sql:insert;
   ```
   
   These commands generate Php classes from your `project-schema/schema.xml`, generate SQL statements to create a database table for each of your schema classes, and then insert those tables into your database.
