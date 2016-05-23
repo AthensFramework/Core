@@ -122,7 +122,7 @@ athens.ajax_section = (function () {
         var targetDiv, targetUrl;
 
         targetDiv = $("#" + id);
-        if (sectionRegistry.hasOwnProperty(id)) {
+        if (sectionRegistry.hasOwnProperty(id) && !targetDiv.data("request-uri")) {
             targetUrl = sectionRegistry[id];
         } else {
             targetUrl = targetDiv.data("request-uri");
