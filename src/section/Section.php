@@ -40,17 +40,19 @@ class Section implements SectionInterface
      *
      * @param string              $id
      * @param string[]            $classes
+     * @param array               $data
      * @param WritableInterface[] $writables
      * @param string              $type
      * @internal param string $content
      * @internal param string $label
      */
-    public function __construct($id, array $classes, array $writables, $type)
+    public function __construct($id, array $classes, array $data, array $writables, $type)
     {
         $this->id = $id;
         $this->classes = $classes;
         $this->writables = $writables;
         $this->type = $type;
+        $this->data = $data;
     }
 
     /**

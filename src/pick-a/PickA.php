@@ -24,13 +24,15 @@ class PickA implements PickAInterface
     /**
      * @param string   $id
      * @param string[] $classes
+     * @param string[] $data
      * @param array    $manifest
      */
-    public function __construct($id, array $classes, array $manifest)
+    public function __construct($id, array $classes, array $data, array $manifest)
     {
         $this->manifest = $manifest;
         $this->id = $id;
         $this->classes = $classes;
+        $this->data = $data;
     }
 
     /**

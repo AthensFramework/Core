@@ -27,16 +27,18 @@ class Table implements TableInterface
     /**
      * @param string          $id
      * @param string[]        $classes
+     * @param array           $data
      * @param array           $rows
      * @param FilterInterface $filter
      */
-    public function __construct($id, array $classes, array $rows, FilterInterface $filter)
+    public function __construct($id, array $classes, array $data, array $rows, FilterInterface $filter)
     {
 
         $this->rows = $rows;
         $this->classes = $classes;
         $this->filter = $filter;
         $this->id = $id;
+        $this->data = $data;
     }
 
     /**

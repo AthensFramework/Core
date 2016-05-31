@@ -1,6 +1,6 @@
 <form id={{ id }}
       class="{{ classes|join(' ') }} prevent-double-submit {% if errors is not empty %}has-errors{% endif %}"
-      method="{{ method }}" target="{{ target }}" data-request-uri="{{ requestURI }}">
+      method="{{ method }}" target="{{ target }}" data-request-uri="{{ requestURI }}"  {{ data|writedata|raw }}>
 
     {%  if errors is not empty %}
     <span class="form-errors"><br>

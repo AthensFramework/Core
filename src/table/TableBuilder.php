@@ -55,6 +55,6 @@ class TableBuilder extends AbstractBuilder
             $this->filter = new DummyFilter();
         }
 
-        return new Table($this->id, $this->classes, $this->rows, $this->filter);
+        return new Table($this->id, $this->classes, $this->data, $this->rows, $this->filter);
     }
 }

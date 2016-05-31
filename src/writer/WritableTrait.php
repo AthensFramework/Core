@@ -10,6 +10,9 @@ trait WritableTrait
     /** @var string[] */
     protected $classes = [];
 
+    /** @var string[] */
+    protected $data = [];
+
     /**
      * @return string
      */
@@ -24,5 +27,13 @@ trait WritableTrait
     public function getClasses()
     {
         return $this->classes;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

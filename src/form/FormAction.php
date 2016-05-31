@@ -27,16 +27,18 @@ class FormAction implements FormActionInterface
 
     /**
      * @param string[] $classes
+     * @param array    $data
      * @param string   $label
      * @param string   $method
      * @param string   $target
      */
-    public function __construct(array $classes, $label, $method, $target)
+    public function __construct(array $classes, array $data, $label, $method, $target)
     {
         $this->label = $label;
         $this->method = $method;
         $this->target = $target;
         $this->classes = $classes;
+        $this->data = $data;
     }
 
     /**

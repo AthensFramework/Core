@@ -92,6 +92,7 @@ class ObjectManager extends Page
             $id,
             $type,
             $classes,
+            [],
             $title,
             $baseHref,
             $header,
@@ -196,6 +197,7 @@ class ObjectManager extends Page
         /** @var FormActionInterface $submitAction */
         $submitAction = new FormAction(
             [],
+            [],
             "Submit",
             "JS",
             "
@@ -209,6 +211,7 @@ class ObjectManager extends Page
 
         /** @var FormActionInterface $deleteAction */
         $deleteAction = new FormAction(
+            [],
             [],
             "Delete",
             "",

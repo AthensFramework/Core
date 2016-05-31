@@ -44,7 +44,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         /* A literal field */
-        $field = new Field(["field-class"], "literal", "A literal field", "initial", true, [], 200);
+        $field = new Field(["field-class"], [], "literal", "A literal field", "initial", true, [], 200);
 
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitField($field));
@@ -54,12 +54,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("field-class", $writer->visitField($field));
 
         /* A section-label field */
-        $field = new Field([], "section-label", "A section-label field", "initial");
+        $field = new Field([], [], "section-label", "A section-label field", "initial");
         $this->assertContains("A section-label field", $writer->visitField($field));
         $this->assertNotContains("initial", $writer->visitField($field));
 
         /* A choice field */
         $field = new Field(
+            [],
             [],
             "choice",
             "A literal field",
@@ -83,6 +84,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         /* A multiple choice field */
         $field = new Field(
+            [],
             [],
             "multiple-choice",
             "A multiple-choice field",
@@ -108,6 +110,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         /* A text field */
             $field = new Field(
                 [],
+                [],
                 "text",
                 "A text field",
                 "5",
@@ -127,6 +130,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         /* A textarea field */
             $field = new Field(
+                [],
                 [],
                 "textarea",
                 "A textarea field",
@@ -149,7 +153,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
             $this->assertContains('placeholder for a textarea field', $result);
 
         /* A textarea field without an initial value*/
-            $field = new Field([], "textarea", "A textarea field", "", true, [], 1000);
+            $field = new Field([], [], "textarea", "A textarea field", "", true, [], 1000);
 
         // Get result and strip quotes, for easier analysis
             $result = $this->stripQuotes($writer->visitField($field));
@@ -163,7 +167,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         /* A required boolean field*/
-        $initialFalseField = new Field([], "boolean", "A boolean field", "", true, []);
+        $initialFalseField = new Field([], [], "boolean", "A boolean field", "", true, []);
 
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitField($initialFalseField));
@@ -172,7 +176,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, substr_count($result, "<input type=radio"));
 
         /* An unrequired boolean field*/
-        $initialFalseField = new Field([], "boolean", "A boolean field", "", false, []);
+        $initialFalseField = new Field([], [], "boolean", "A boolean field", "", false, []);
 
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitField($initialFalseField));
@@ -181,8 +185,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('<input type=checkbox', $result);
 
         /* An unrequired boolean field with initial value */
-        $initialFalseField = new Field([], "boolean", "A boolean field", false, false, []);
-        $initialTrueField = new Field([], "boolean", "A boolean field", true, false, []);
+        $initialFalseField = new Field([], [], "boolean", "A boolean field", false, false, []);
+        $initialTrueField = new Field([], [], "boolean", "A boolean field", true, false, []);
 
         // Get result and strip quotes, for easier analysis
         $resultInitialFalse = $this->stripQuotes($writer->visitField($initialFalseField));
@@ -193,13 +197,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('checked>', $resultInitialTrue);
 
         /* A required boolean field with initial value */
-        $initialFalseField = new Field([], "boolean", "A boolean field", false, true, []);
-        $initialZeroField = new Field([], "boolean", "A boolean field", 0, true, []);
-        $initialZeroStringField = new Field([], "boolean", "A boolean field", "0", true, []);
+        $initialFalseField = new Field([], [], "boolean", "A boolean field", false, true, []);
+        $initialZeroField = new Field([], [], "boolean", "A boolean field", 0, true, []);
+        $initialZeroStringField = new Field([], [], "boolean", "A boolean field", "0", true, []);
 
-        $initialTrueField = new Field([], "boolean", "A boolean field", true, true, []);
-        $initialOneField = new Field([], "boolean", "A boolean field", 1, true, []);
-        $initialOneStringField = new Field([], "boolean", "A boolean field", "1", true, []);
+        $initialTrueField = new Field([], [], "boolean", "A boolean field", true, true, []);
+        $initialOneField = new Field([], [], "boolean", "A boolean field", 1, true, []);
+        $initialOneStringField = new Field([], [], "boolean", "A boolean field", "1", true, []);
 
         // Get result and strip quotes, for easier analysis
         $resultInitialFalse = $this->stripQuotes($writer->visitField($initialFalseField));
@@ -235,7 +239,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         /* Field not required, no data provided: no field errors */
-        $field = new Field([], "text", "An unrequired field", "5", false, [], 200);
+        $field = new Field([], [], "text", "An unrequired field", "5", false, [], 200);
 
         $field->validate();
 
@@ -249,7 +253,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains("field-errors", $result);
 
         /* Field required, but no data provided: field errors */
-        $field = new Field([], "text", "A required field", "5", true, [], 200);
+        $field = new Field([], [], "text", "A required field", "5", true, [], 200);
 
         $field->validate();
 
@@ -268,8 +272,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $actions = [
-            new FormAction([], "JS Action", "JS", "console.log('here');"),
-            new FormAction([], "POST Action", "POST", "post-target")
+            new FormAction([], [], "JS Action", "JS", "console.log('here');"),
+            new FormAction([], [], "POST Action", "POST", "post-target")
         ];
         $onValidFunc = function () {
             return "valid";
@@ -282,6 +286,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $id = "f" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
+        $data = [
+            'd' . (string)rand() => (string)rand(),
+            'd' . (string)rand() => (string)rand(),
+        ];
         $method = "m" . (string)rand();
         $target = "t" . (string)rand();
         $helptext = "h" . (string)rand();
@@ -290,12 +298,14 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setId($id)
             ->addClass($classes[0])
             ->addClass($classes[1])
+            ->addData(array_keys($data)[0], array_values($data)[0])
+            ->addData(array_keys($data)[1], array_values($data)[1])
             ->setMethod($method)
             ->setTarget($target)
             ->setActions($actions)
             ->addFields([
-                "literalField" => new Field([], 'literal', 'A literal field', 'Literal field content', true, []),
-                "textField" => new Field([], 'text', 'A text field', "5", false, [])
+                "literalField" => new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []),
+                "textField" => new Field([], [], 'text', 'A text field', "5", false, [])
             ])
             ->setFieldHelptext("textField", $helptext)
             ->setOnInvalidFunc($onInvalidFunc)
@@ -328,6 +338,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('JS Action</button>', $result);
         $this->assertContains('<input class=form-action name=submit type=submit', $result);
         $this->assertContains('value=POST Action', $result);
+        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
+        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
         $this->assertContains('</form>', $result);
     }
 
@@ -336,8 +348,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new Writer();
 
         $actions = [
-            new FormAction([], "JS Action", "JS", "console.log('here');"),
-            new FormAction([], "POST Action", "POST", "post-target")
+            new FormAction([], [], "JS Action", "JS", "console.log('here');"),
+            new FormAction([], [], "POST Action", "POST", "post-target")
         ];
 
         $id = "f" . (string)rand();
@@ -347,8 +359,16 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $rowMakingFunction = function () {
             return RowBuilder::begin()
                 ->addFields([
-                    "literalField" => new Field([], 'literal', 'A literal field', 'Literal field content', true, []),
-                    "textField" => new Field([], 'text', 'A text field', "5", false, [])
+                    "literalField" => new Field(
+                        [],
+                        [],
+                        'literal',
+                        'A literal field',
+                        'Literal field content',
+                        true,
+                        []
+                    ),
+                    "textField" => new Field([], [], 'text', 'A text field', "5", false, [])
                 ])
                 ->build();
         };
@@ -377,10 +397,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("<tr class=prototypical form-row>", $result);
         $this->assertContains("<tr class=actual form-row>", $result);
         $this->assertContains("<td class=remove>", $result);
-        $this->assertContains("<span class=initial-field >", $result);
+        $this->assertContains("<span class=initial-field  >", $result);
         $this->assertContains("A literal field", $result);
         $this->assertContains("Literal field content", $result);
-        $this->assertContains("<span class=text-field >", $result);
+        $this->assertContains("<span class=text-field  >", $result);
         $this->assertContains("A text field", $result);
         $this->assertContains("value=5", $result);
         $this->assertContains("name=a-text-field", $result);
@@ -402,8 +422,16 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $rowMakingFunction = function () {
             return RowBuilder::begin()
                 ->addFields([
-                    "literalField" => new Field([], 'literal', 'A literal field', 'Literal field content', true, []),
-                    "textField" => new Field([], 'text', 'A text field', "5", false, [])
+                    "literalField" => new Field(
+                        [],
+                        [],
+                        'literal',
+                        'A literal field',
+                        'Literal field content',
+                        true,
+                        []
+                    ),
+                    "textField" => new Field([], [], 'text', 'A text field', "5", false, [])
                 ])
                 ->build();
         };
@@ -440,8 +468,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setId("f-" . (string)rand())
             ->setType("nonexistant-type")
             ->addFields([
-                "literalField" => new Field([], 'literal', 'A literal field', 'Literal field content', true, []),
-                "textField" => new Field([], 'text', 'A text field', "5", false, [])
+                "literalField" => new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []),
+                "textField" => new Field([], [], 'text', 'A text field', "5", false, [])
             ])
             ->build();
 
@@ -455,7 +483,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $_SERVER["REQUEST_URI"] = "";
 
         /* Field not required, no data provided: no field errors */
-        $field = new Field([], "text", "An unrequired field", "5", false, [], 200);
+        $field = new Field([], [], "text", "An unrequired field", "5", false, [], 200);
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
             ->addFields([$field])
@@ -472,7 +500,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains("form-errors", $result);
 
         /* Field required, but no data provided: field errors */
-        $field = new Field([], "text", "A required field", "5", true, [], 200);
+        $field = new Field([], [], "text", "A required field", "5", true, [], 200);
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
             ->addFields([$field])
@@ -498,6 +526,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $id = "s" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
+        $data = [
+            'd' . (string)rand() => (string)rand(),
+            'd' . (string)rand() => (string)rand(),
+        ];
         $requestURI = (string)rand();
 
         $subSection = SectionBuilder::begin()
@@ -509,6 +541,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setId($id)
             ->addClass($classes[0])
             ->addClass($classes[1])
+            ->addData(array_keys($data)[0], array_values($data)[0])
+            ->addData(array_keys($data)[1], array_values($data)[1])
             ->addLabel("Label")
             ->addContent("Some content.")
             ->addWritable($subSection)
@@ -521,8 +555,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains("<div id=$id ", $result);
         $this->assertContains("class=section-container " . implode(' ', $classes), $result);
+        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
+        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
-        $this->assertContains("<div class=section-label >Label</div>", $result);
+        $this->assertContains("<div class=section-label  >Label</div>", $result);
         $this->assertContains("<div class=section-writables>", $result);
         $this->assertContains("Some sub-content.", $result);
     }
@@ -533,6 +569,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $id = "p" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
+        $data = [
+            'd' . (string)rand() => (string)rand(),
+            'd' . (string)rand() => (string)rand(),
+        ];
         $requestURI = (string)rand();
 
         $contents = [
@@ -562,6 +602,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setId($id)
             ->addClass($classes[0])
             ->addClass($classes[1])
+            ->addData(array_keys($data)[0], array_values($data)[0])
+            ->addData(array_keys($data)[1], array_values($data)[1])
             ->addLabel($labels[0])
             ->addWritables([
                 "l1" => $sections[0],
@@ -576,6 +618,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $result = $this->stripQuotes($writer->visitPickA($pickA));
 
         $this->assertContains("<div id=$id class=select-a-section-container " . implode(" ", $classes), $result);
+        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
+        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
 
         $this->assertContains($labels[0], $result);
@@ -590,11 +634,15 @@ class WriterTest extends PHPUnit_Framework_TestCase
     {
         $writer = new Writer();
 
-        $actions = [new FormAction([], "label", "method", "")];
+        $actions = [new FormAction([], [], "label", "method", "")];
 
         $requestURI = (string)rand();
         $id = "f" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
+        $data = [
+            'd' . (string)rand() => (string)rand(),
+            'd' . (string)rand() => (string)rand(),
+        ];
 
         $forms = [];
         $labels = [];
@@ -610,6 +658,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setId($id)
             ->addClass($classes[0])
             ->addClass($classes[1])
+            ->addData(array_keys($data)[0], array_values($data)[0])
+            ->addData(array_keys($data)[1], array_values($data)[1])
             ->addLabel("Label Text")
             ->addForms([
                 $labels[0] => $forms[0],
@@ -629,6 +679,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains("<div id=$id", $result);
         $this->assertContains("class=select-a-section-container " . implode(" ", $classes), $result);
+        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
+        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
 
         $this->assertContains($labels[0], $result);
@@ -750,15 +802,19 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $id = "t" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
+        $data = [
+            'd' . (string)rand() => (string)rand(),
+            'd' . (string)rand() => (string)rand(),
+        ];
         $requestURI = (string)rand();
 
-        $field1 = new Field([], "text", "Text Field Label", (string)rand());
+        $field1 = new Field([], [], "text", "Text Field Label", (string)rand());
         $field1Name = "TextField1";
         $row1 = RowBuilder::begin()
             ->addFields([$field1Name => $field1])
             ->build();
 
-        $field2 = new Field([], "text", "Text Field Label", (string)rand());
+        $field2 = new Field([], [], "text", "Text Field Label", (string)rand());
         $field2Name = "TextField2";
         $row2 = RowBuilder::begin()
             ->addFields([$field2Name => $field2])
@@ -768,6 +824,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setId($id)
             ->addClass($classes[0])
             ->addClass($classes[1])
+            ->addData(array_keys($data)[0], array_values($data)[0])
+            ->addData(array_keys($data)[1], array_values($data)[1])
             ->setRows([$row1, $row2])
             ->build();
 
@@ -781,6 +839,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains("id=$id class=table-container", $result);
         $this->assertContains("class=table-container " . implode(" ", $classes), $result);
+        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
+        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
         $this->assertContains("</table>", $result);
 
@@ -857,6 +917,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $id = "p" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
+        $data = [
+            'd' . (string)rand() => (string)rand(),
+            'd' . (string)rand() => (string)rand(),
+        ];
 
         $section = SectionBuilder::begin()
             ->setId("s" . (string)rand())
@@ -869,6 +933,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->addClass($classes[0])
             ->addClass($classes[1])
             ->setWritable($section)
+            ->addData(array_keys($data)[0], array_values($data)[0])
+            ->addData(array_keys($data)[1], array_values($data)[1])
             ->setHeader($pageHeader)
             ->setSubHeader($pageSubHeader)
             ->setReturnTo(["Another name" => "http://another.link"])
@@ -904,10 +970,12 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("</head>", $result);
         $this->assertContains("<body id=$id", $result);
         $this->assertContains("class=$pageType " . implode(" ", $classes), $result);
+        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
+        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
         $this->assertContains("<li><a target=_self href=http://example.com>Key</a></li>", $result);
         $this->assertContains("<h1 class=header>$pageHeader</h1>", $result);
         $this->assertContains("<h2 class=subheader>$pageSubHeader</h2>", $result);
-        $this->assertContains("<div class=section-label >Label</div>", $result);
+        $this->assertContains("<div class=section-label  >Label</div>", $result);
 
         $this->assertContains($cssFile1, $result);
         $this->assertContains($cssFile2, $result);
@@ -932,6 +1000,25 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Render the safe string
         $result = $env->createTemplate($template)->render(["var" => $safeVar]);
         $this->assertEquals((string)$safeVar, $result);
+    }
+
+    public function testWritedataFilter()
+    {
+        $writer = new MockWriter();
+        $env = $writer->getEnvironment();
+
+        $template = "{{ data|writedata|raw }}";
+
+        $data = [
+            'key1' => 'value1',
+            'key2' => 'value2',
+        ];
+
+        // Render the data
+        $result = $env->createTemplate($template)->render(['data' => $data]);
+
+        $this->assertContains("data-key1='value1'", $result);
+        $this->assertContains("data-key2='value2'", $result);
     }
 
     public function testSlugifyFilter()

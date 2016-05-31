@@ -108,6 +108,7 @@ class TableFormBuilder extends AbstractBuilder
         return new TableForm(
             $this->id,
             $this->classes,
+            $this->data,
             $this->type,
             $this->method,
             $this->target,
@@ -117,7 +118,8 @@ class TableFormBuilder extends AbstractBuilder
             $this->onInvalidFunc,
             $this->canRemove,
             $this->actions,
-            $this->validators
+            $this->validators,
+            []
         );
     }
 }

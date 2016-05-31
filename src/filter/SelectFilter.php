@@ -20,12 +20,19 @@ class SelectFilter extends Filter
     /**
      * @param string                     $id
      * @param string[]                   $classes
+     * @param array                      $data
      * @param FilterStatementInterface[] $statements
      * @param string                     $default
      * @param FilterInterface|null       $nextFilter
      */
-    public function __construct($id, array $classes, array $statements, $default, FilterInterface $nextFilter = null)
-    {
+    public function __construct(
+        $id,
+        array $classes,
+        array $data,
+        array $statements,
+        $default,
+        FilterInterface $nextFilter = null
+    ) {
         $this->options = array_keys($statements);
         $this->default = $default;
 
@@ -33,6 +40,6 @@ class SelectFilter extends Filter
 
         $statements = [$statements[$selection]];
 
-        parent::__construct($id, $classes, $statements, $nextFilter);
+        parent::__construct($id, $classes, $data, $statements, $nextFilter);
     }
 }

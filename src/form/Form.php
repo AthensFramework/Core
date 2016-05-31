@@ -65,6 +65,7 @@ class Form implements FormInterface
     /**
      * @param string               $id
      * @param string[]             $classes
+     * @param array                $data
      * @param string               $type
      * @param string               $method
      * @param string               $target
@@ -78,6 +79,7 @@ class Form implements FormInterface
     public function __construct(
         $id,
         array $classes,
+        array $data,
         $type,
         $method,
         $target,
@@ -102,5 +104,6 @@ class Form implements FormInterface
         $this->method = $method;
         $this->target = $target;
         $this->classes = $classes;
+        $this->data = $data;
     }
 }

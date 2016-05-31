@@ -39,7 +39,7 @@ class PaginationFilter extends Filter
     {
         $statements = [new PaginationFilterStatement("", FilterStatement::COND_PAGINATE_BY, $maxPerPage, $page)];
 
-        parent::__construct($id, $classes, $statements, $nextFilter);
+        parent::__construct($id, $classes, [], $statements, $nextFilter);
     }
 
     /**

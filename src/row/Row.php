@@ -28,16 +28,23 @@ class Row implements RowInterface
 
     /**
      * @param string[]             $classes
+     * @param string[]             $data
      * @param FieldBearerInterface $fieldBearer
      * @param string               $onClick
      * @param boolean              $highlightable
      */
-    public function __construct(array $classes, FieldBearerInterface $fieldBearer, $onClick, $highlightable)
-    {
+    public function __construct(
+        array $classes,
+        array $data,
+        FieldBearerInterface $fieldBearer,
+        $onClick,
+        $highlightable
+    ) {
         $this->fieldBearer = $fieldBearer;
         $this->onClick = $onClick;
         $this->highlightable = $highlightable;
         $this->classes = $classes;
+        $this->data = $data;
     }
 
     /**

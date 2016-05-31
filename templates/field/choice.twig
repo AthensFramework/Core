@@ -1,4 +1,4 @@
-<span class="choice-field {{ classes|join(' ') }}">
+<span class="choice-field {{ classes|join(' ') }}" {{ data|writedata|raw }}>
 
     {% if choices|length <= 2 %}
         {% for choiceSlug, choice in choices %}

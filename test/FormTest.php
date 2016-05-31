@@ -29,7 +29,7 @@ class FormTest extends PHPUnit_Framework_TestCase
     public function testBuilder()
     {
 
-        $actions = [new FormAction([], "label", "method", "")];
+        $actions = [new FormAction([], [], "label", "method", "")];
         $onValidFunc = function () {
             return "valid";
         };
@@ -37,7 +37,7 @@ class FormTest extends PHPUnit_Framework_TestCase
             return "invalid";
         };
 
-        $fields = ["field" => new Field([], 'literal', 'A literal field', [])];
+        $fields = ["field" => new Field([], [], 'literal', 'A literal field', [])];
 
         $id = "f" . (string)rand();
         $type = "t" . (string)rand();
@@ -93,7 +93,7 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedFieldNames, $form->getFieldBearer()->getFieldNames());
 
         /* Test FormBuilder::addFieldBearer */
-        $fields = ["field" => new Field([], 'literal', 'A literal field', [])];
+        $fields = ["field" => new Field([], [], 'literal', 'A literal field', [])];
 
         $fieldBearer = FieldBearerBuilder::begin()
             ->addFields($fields)
@@ -107,7 +107,7 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->assertContains("field", $form->getFieldBearer()->getFieldNames());
 
         /* Test FormBuilder::addSubForms */
-        $fields = ["field" => new Field([], 'literal', 'A literal field', [])];
+        $fields = ["field" => new Field([], [], 'literal', 'A literal field', [])];
 
         $fieldBearer = FieldBearerBuilder::begin()
             ->addFields($fields)
@@ -138,9 +138,9 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testMakeLiteralWithFormBuilder()
     {
-        $label = new Field([], Field::FIELD_TYPE_SECTION_LABEL, "section label");
-        $field1 = new Field([], Field::FIELD_TYPE_BOOLEAN, "", []);
-        $field2 = new Field([], Field::FIELD_TYPE_TEXT, "", []);
+        $label = new Field([], [], Field::FIELD_TYPE_SECTION_LABEL, "section label");
+        $field1 = new Field([], [], Field::FIELD_TYPE_BOOLEAN, "", []);
+        $field2 = new Field([], [], Field::FIELD_TYPE_TEXT, "", []);
 
         $fields = [
             "label" => $label,
@@ -165,8 +165,8 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testSetFieldValuesWithFormBuilder()
     {
-        $field1 = new Field([], "literal", "", []);
-        $field2 = new Field([], "literal", "", []);
+        $field1 = new Field([], [], "literal", "", []);
+        $field2 = new Field([], [], "literal", "", []);
 
         $fields = [
             "field1" => $field1,
@@ -218,7 +218,7 @@ class FormTest extends PHPUnit_Framework_TestCase
     {
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
-            ->addFields(["field" => new Field([], 'literal', 'A literal field', [])])
+            ->addFields(["field" => new Field([], [], 'literal', 'A literal field', [])])
             ->setOnSuccessUrl("http://example.com")
             ->build();
 
@@ -227,7 +227,7 @@ class FormTest extends PHPUnit_Framework_TestCase
     
     public function testDefaultFormAction()
     {
-        $fields = ["field" => new Field([], 'literal', 'A literal field', [])];
+        $fields = ["field" => new Field([], [], 'literal', 'A literal field', [])];
 
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
@@ -244,7 +244,7 @@ class FormTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSubformByName()
     {
-        $fields = ["field" => new Field([], 'literal', 'A literal field', [])];
+        $fields = ["field" => new Field([], [], 'literal', 'A literal field', [])];
 
         $fieldBearer = FieldBearerBuilder::begin()
             ->addFields($fields)
@@ -274,7 +274,7 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testFormAddError()
     {
-        $fields = ["field" => new Field([], 'literal', 'A literal field', [])];
+        $fields = ["field" => new Field([], [], 'literal', 'A literal field', [])];
 
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
@@ -292,8 +292,8 @@ class FormTest extends PHPUnit_Framework_TestCase
     public function testEndogenousValidation()
     {
 
-        $requiredField = new Field([], 'text', 'A required field', "", true, []);
-        $unrequiredField = new Field([], 'text', 'A required field', "", false, []);
+        $requiredField = new Field([], [], 'text', 'A required field', "", true, []);
+        $unrequiredField = new Field([], [], 'text', 'A required field', "", false, []);
 
         $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
 
@@ -323,8 +323,8 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testExogenousValidation()
     {
-        $unrequiredField = new Field([], 'text', 'An unrequired field', "", false, []);
-        $specificField = new Field([], "text", "A field which required specific input.", []);
+        $unrequiredField = new Field([], [], 'text', 'An unrequired field', "", false, []);
+        $specificField = new Field([], [], "text", "A field which required specific input.", []);
         $fields = ["specific" => $specificField, "unrequired" => $unrequiredField];
 
         $requiredInput = "the specific input required";
@@ -381,7 +381,7 @@ class FormTest extends PHPUnit_Framework_TestCase
      */
     public function testExogenousValidationGetsPassedForm()
     {
-        $field = new Field([], 'text', 'A special field', "", false, []);
+        $field = new Field([], [], 'text', 'A special field', "", false, []);
 
         $errorText = (string)rand();
 
@@ -402,8 +402,8 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testDefaultOnInvalid()
     {
-        $requiredField = new Field([], 'text', 'A required field', "", true, []);
-        $unrequiredField = new Field([], 'text', 'An unrequired field', "", false, []);
+        $requiredField = new Field([], [], 'text', 'A required field', "", true, []);
+        $unrequiredField = new Field([], [], 'text', 'An unrequired field', "", false, []);
 
         $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
 
@@ -428,8 +428,8 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testSubFormDefaultOnInvalid()
     {
-        $requiredField = new Field([], 'text', 'A required field', "", true, []);
-        $unrequiredField = new Field([], 'text', 'An unrequired field', "", false, []);
+        $requiredField = new Field([], [], 'text', 'A required field', "", true, []);
+        $unrequiredField = new Field([], [], 'text', 'An unrequired field', "", false, []);
 
         $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
 
@@ -459,7 +459,7 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testDefaultOnValid()
     {
-        $unrequiredField = new Field([], 'text', 'An unrequired field', "", false, []);
+        $unrequiredField = new Field([], [], 'text', 'An unrequired field', "", false, []);
 
         $fieldBearer = new MockFieldBearer();
 
@@ -477,7 +477,7 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testSubFormDefaultOnValid()
     {
-        $unrequiredField = new Field([], 'text', 'An unrequired field', "", false, []);
+        $unrequiredField = new Field([], [], 'text', 'An unrequired field', "", false, []);
 
         $fieldBearer = new MockFieldBearer();
 

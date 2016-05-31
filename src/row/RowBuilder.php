@@ -73,6 +73,7 @@ class RowBuilder extends AbstractBuilder
 
         return new Row(
             $this->classes,
+            $this->data,
             $fieldBearer,
             $this->onClick,
             $this->highlightable

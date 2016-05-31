@@ -15,9 +15,10 @@ class SortFilter extends Filter
     /**
      * @param string               $id
      * @param string[]             $classes
+     * @param array                $data
      * @param FilterInterface|null $nextFilter
      */
-    public function __construct($id, array $classes, FilterInterface $nextFilter = null)
+    public function __construct($id, array $classes, array $data, FilterInterface $nextFilter = null)
     {
 
         $statements = [];
@@ -28,6 +29,6 @@ class SortFilter extends Filter
             $statements[] = new SortingFilterStatement($fieldName, $order, null, null);
         }
 
-        parent::__construct($id, $classes, $statements, $nextFilter);
+        parent::__construct($id, $classes, $data, $statements, $nextFilter);
     }
 }

@@ -18,7 +18,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
     public function testedFields()
     {
         return [
-            new Field([], "literal", "A Literal Field", "", ""),
+            new Field([], [], "literal", "A Literal Field", "", ""),
         ];
     }
 
@@ -408,7 +408,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
     public function testFieldDatetimeWrapper()
     {
-        $field = new Field([], "any", "label", new DateTime());
+        $field = new Field([], [], "any", "label", new DateTime());
 
         $this->assertInstanceOf('Athens\Core\Field\DateTimeWrapper', $field->getInitial());
         $this->assertContains(date("Y") . "-", (string)$field->getInitial());

@@ -67,6 +67,7 @@ class Page implements PageInterface
      * @param string                 $id
      * @param string                 $type
      * @param string[]               $classes
+     * @param string[]               $data
      * @param string                 $title
      * @param string                 $baseHref
      * @param string                 $header
@@ -79,6 +80,7 @@ class Page implements PageInterface
         $id,
         $type,
         array $classes,
+        array $data,
         $title,
         $baseHref,
         $header,
@@ -97,6 +99,7 @@ class Page implements PageInterface
         $this->writable = $writable;
         $this->type = $type;
         $this->classes = $classes;
+        $this->data = $data;
     }
     
     /**

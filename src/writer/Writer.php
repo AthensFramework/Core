@@ -117,6 +117,23 @@ class Writer extends Visitor
             );
             $this->environment->addFilter($filter);
 
+            $filter = new Twig_SimpleFilter(
+                'writedata',
+                function ($data) {
+                    $string = ' ';
+
+                    foreach ($data as $key => $value) {
+                        $key = htmlentities($key);
+                        $value = htmlentities($value);
+
+                        $string .= "data-$key='$value' ";
+                    }
+
+                    return trim($string);
+                }
+            );
+            $this->environment->addFilter($filter);
+
             $requestURI = array_key_exists("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : "";
             $this->environment->addGlobal("requestURI", $requestURI);
         }
@@ -156,6 +173,7 @@ class Writer extends Visitor
                 [
                     "id" => $section->getId(),
                     "classes" => $section->getClasses(),
+                    "data" => $section->getData(),
                     "writables" => $section->getWritables(),
                 ]
             );
@@ -187,6 +205,7 @@ class Writer extends Visitor
                 [
                     "id" => $page->getId(),
                     "classes" => $page->getClasses(),
+                    "data" => $page->getData(),
                     "pageType" => $page->getType(),
                     "title" => $page->getTitle(),
                     "header" => $page->getHeader(),
@@ -221,6 +240,7 @@ class Writer extends Visitor
                 [
                     "hash" => $field->getId(),
                     "classes" => $field->getClasses(),
+                    "data" => $field->getData(),
                     "slug" => $field->getSlug(),
                     "initial" => $field->getInitial(),
                     "choices" => $choices,
@@ -252,6 +272,7 @@ class Writer extends Visitor
                 [
                     "hash" => $row->getId(),
                     "classes" => $row->getClasses(),
+                    "data" => $row->getData(),
                     "visibleFields" => $row->getFieldBearer()->getVisibleFields(),
                     "hiddenFields" => $row->getFieldBearer()->getHiddenFields(),
                     "highlightable" => $row->isHighlightable(),
@@ -283,6 +304,7 @@ class Writer extends Visitor
                 [
                     "id" => $table->getId(),
                     "classes" => $table->getClasses(),
+                    "data" => $table->getData(),
                     "rows" => $table->getRows(),
                     "filters" => $filters,
                 ]
@@ -307,6 +329,7 @@ class Writer extends Visitor
                 [
                     "id" => $form->getId(),
                     "classes" => $form->getClasses(),
+                    "data" => $form->getData(),
                     "method" => $form->getMethod(),
                     "target" => $form->getTarget(),
                     "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
@@ -359,6 +382,7 @@ class Writer extends Visitor
                 [
                     "id" => $pickA->getId(),
                     "classes" => $pickA->getClasses(),
+                    "data" => $pickA->getData(),
                     "manifest" => $pickA->getManifest(),
                 ]
             );
@@ -382,6 +406,7 @@ class Writer extends Visitor
                 [
                     "id" => $pickAForm->getId(),
                     "classes" => $pickAForm->getClasses(),
+                    "data" => $pickAForm->getData(),
                     "method" => $pickAForm->getMethod(),
                     "target" => $pickAForm->getTarget(),
                     "manifest" => $pickAForm->getManifest(),
@@ -408,6 +433,8 @@ class Writer extends Visitor
             ->render(
                 [
                     "id" => $tableForm->getId(),
+                    "classes" => $tableForm->getClasses(),
+                    "data" => $tableForm->getData(),
                     "method" => $tableForm->getMethod(),
                     "target" => $tableForm->getTarget(),
                     "actions" => $tableForm->getActions(),
@@ -548,6 +575,7 @@ class Writer extends Visitor
                 [
                     "id" => $email->getId(),
                     "classes" => $email->getClasses(),
+                    "data" => $email->getData(),
                     "message" => $email->getMessage(),
                 ]
             );

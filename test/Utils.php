@@ -28,8 +28,8 @@ class Utils
         for ($i = 0; $i < 100; $i++) {
             $rows[] = RowBuilder::begin()
                 ->addFields([
-                    Utils::INT_FIELD_NAME => new Field([], "literal", "a literal field", rand(1, 100)),
-                    Utils::STRING_FIELD_NAME => new Field([], "literal", "a literal field", (string)rand())
+                    Utils::INT_FIELD_NAME => new Field([], [], "literal", "a literal field", rand(1, 100)),
+                    Utils::STRING_FIELD_NAME => new Field([], [], "literal", "a literal field", (string)rand())
                 ])
                 ->build();
         }

@@ -89,6 +89,7 @@ class Field implements FieldInterface
 
     /**
      * @param string[]    $classes
+     * @param string[]    $data
      * @param string      $type
      * @param string      $label
      * @param string|null $initial
@@ -100,6 +101,7 @@ class Field implements FieldInterface
      */
     public function __construct(
         array $classes,
+        array $data,
         $type,
         $label = "",
         $initial = "",
@@ -120,6 +122,7 @@ class Field implements FieldInterface
         $this->helptext = $helptext;
         $this->placeholder = $placeholder;
         $this->classes = $classes;
+        $this->data = $data;
     }
 
     /**

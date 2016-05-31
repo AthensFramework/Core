@@ -1,4 +1,4 @@
-<span class="multiple-choice-field {{ classes|join(' ') }}">
+<span class="multiple-choice-field {{ classes|join(' ') }}" {{ data|writedata|raw }}>
     {% for choiceSlug, choice in choices %}
         <input type="checkbox" name="{{ slug }}[]" value="{{ choiceSlug }}" {% if choice in initial %}checked{% endif %}> {{ choice }}
     {% endfor %}

@@ -16,9 +16,10 @@ class SearchFilter extends Filter
     /**
      * @param string                     $id
      * @param FilterStatementInterface[] $classes
+     * @param string[]                   $data
      * @param FilterInterface|null       $nextFilter
      */
-    public function __construct($id, array $classes, FilterInterface $nextFilter = null)
+    public function __construct($id, array $classes, array $data, FilterInterface $nextFilter = null)
     {
 
         $statements = [];
@@ -41,7 +42,7 @@ class SearchFilter extends Filter
             $this->feedback .= $this->feedback === "" ? ", " : "";
             $this->feedback .= $fieldname . " " . $operation . " " . $value;
         }
-        parent::__construct($id, $classes, $statements, $nextFilter);
+        parent::__construct($id, $classes, $data, $statements, $nextFilter);
     }
 
     /**

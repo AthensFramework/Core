@@ -1,5 +1,5 @@
 <tr class="{{ classes|join(' ') }} {% if onClick %}clickable{% endif %} {% if highlightable %}highlightable{% endif %}"
-    {% if onClick %}onClick="{{ onClick|raw }}"{% endif %}>
+    {% if onClick %}onClick="{{ onClick|raw }}"{% endif %} {{ data|writedata|raw }}>
 
     {% for fieldName, field in visibleFields %}
         <td class="{{ field.getSlug }}">{{ field.getInitial|saferaw|raw }}</td>

@@ -188,6 +188,7 @@ class TableForm implements TableFormInterface
     /**
      * @param string                     $id
      * @param string[]                   $classes
+     * @param array                      $data
      * @param string                     $type
      * @param string                     $method
      * @param string                     $target
@@ -203,6 +204,7 @@ class TableForm implements TableFormInterface
     public function __construct(
         $id,
         array $classes,
+        array $data,
         $type,
         $method,
         $target,
@@ -247,5 +249,6 @@ class TableForm implements TableFormInterface
         $this->initialRows = $rows;
         $this->canRemove = $canRemove;
         $this->classes = $classes;
+        $this->data = $data;
     }
 }

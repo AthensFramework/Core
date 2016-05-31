@@ -207,6 +207,7 @@ class PageBuilder extends AbstractBuilder
                 $this->id,
                 $this->type,
                 $this->classes,
+                $this->data,
                 $this->title,
                 $this->baseHref,
                 $this->header,

@@ -98,6 +98,7 @@ class PickAFormBuilder extends AbstractBuilder
         return new PickAForm(
             $this->id,
             $this->classes,
+            $this->data,
             $this->type,
             $this->method,
             $this->target,

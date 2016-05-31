@@ -96,6 +96,6 @@ class SectionBuilder extends AbstractBuilder
     {
         $this->validateId();
 
-        return new Section($this->id, $this->classes, $this->writables, $this->type);
+        return new Section($this->id, $this->classes, $this->data, $this->writables, $this->type);
     }
 }

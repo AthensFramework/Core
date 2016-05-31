@@ -238,23 +238,34 @@ class PickAForm implements PickAFormInterface
     /**
      * @param string     $id
      * @param string[]   $classes
+     * @param string[]   $data
      * @param string     $type
      * @param string     $method
      * @param string     $target
      * @param array      $manifest
      * @param array|null $actions
      */
-    public function __construct($id, array $classes, $type, $method, $target, array $manifest, $actions = [])
-    {
+    public function __construct(
+        $id,
+        array $classes,
+        array $data,
+        $type,
+        $method,
+        $target,
+        array $manifest,
+        $actions = []
+    ) {
         $this->id = $id;
         $this->classes = $classes;
         $this->type = $type;
 
         $this->actions = $actions;
-        $this->pickA = new PickA($id, $classes, $manifest);
+        $this->pickA = new PickA($id, $classes, $data, $manifest);
 
         $this->method = $method;
         $this->target = $target;
+
+        $this->data = $data;
 
         $this->fieldBearer = new FieldBearer(
             [],

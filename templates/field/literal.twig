@@ -1,4 +1,4 @@
-<span class="initial-field {{ classes|join(' ') }}">
+<span class="initial-field {{ classes|join(' ') }}" {{ data|writedata|raw }}>
     {{ initial|saferaw|raw }}
 </span>
 {% include "field/errors.twig" %}

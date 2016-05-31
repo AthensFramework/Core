@@ -50,10 +50,11 @@ class Filter implements FilterInterface
     /**
      * @param string                     $id
      * @param string[]                   $classes
+     * @param array                      $data
      * @param FilterStatementInterface[] $statements
      * @param FilterInterface|null       $nextFilter
      */
-    public function __construct($id, array $classes, array $statements, FilterInterface $nextFilter = null)
+    public function __construct($id, array $classes, array $data, array $statements, FilterInterface $nextFilter = null)
     {
 
         if ($nextFilter === null) {
@@ -65,6 +66,7 @@ class Filter implements FilterInterface
         $this->id = $id;
         $this->statements = $statements;
         $this->classes = $classes;
+        $this->data = $data;
     }
 
     /**

@@ -138,6 +138,7 @@ class FieldBuilder extends AbstractBuilder
 
         return new Field(
             $this->classes,
+            $this->data,
             $this->type,
             $this->label,
             $this->initial,

@@ -45,6 +45,7 @@ class FormBuilder extends AbstractBuilder
         return new Form(
             $this->id,
             $this->classes,
+            $this->data,
             $this->type,
             $this->method,
             $this->target,
@@ -53,7 +54,8 @@ class FormBuilder extends AbstractBuilder
             $this->onInvalidFunc,
             $this->actions,
             $this->subForms,
-            $this->validators
+            $this->validators,
+            []
         );
     }
 }

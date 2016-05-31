@@ -35,8 +35,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     public function testBuilder()
     {
         $fields = [
-            "fieldName" => new Field([], "literal", "A literal field", []),
-            "hiddenFieldName" => new Field([], "literal", "A hidden literal field", [])
+            "fieldName" => new Field([], [], "literal", "A literal field", []),
+            "hiddenFieldName" => new Field([], [], "literal", "A hidden literal field", [])
         ];
 
         $visibleFieldNames = ["fieldName"];
@@ -90,9 +90,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     public function testMakeLiteral()
     {
         $fields = [
-            "label" => new Field([], Field::FIELD_TYPE_SECTION_LABEL, "A section label"),
-            "fieldName" => new Field([], Field::FIELD_TYPE_BOOLEAN, "A boolean field"),
-            "hiddenFieldName" => new Field([], Field::FIELD_TYPE_TEXT, "A text field")
+            "label" => new Field([], [], Field::FIELD_TYPE_SECTION_LABEL, "A section label"),
+            "fieldName" => new Field([], [], Field::FIELD_TYPE_BOOLEAN, "A boolean field"),
+            "hiddenFieldName" => new Field([], [], Field::FIELD_TYPE_TEXT, "A text field")
         ];
 
         $fieldBearer = FieldBearerBuilder::begin()
@@ -111,7 +111,7 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     public function testMethodCascading()
     {
-        $field = new Field([], "literal", "", []);
+        $field = new Field([], [], "literal", "", []);
 
         $error = "e" . (string)rand();
         $type = "t" . (string)rand();
@@ -129,8 +129,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     public function testSetInitialWithFieldBearerBuilder()
     {
-        $field1 = new Field([], "literal", "", []);
-        $field2 = new Field([], "literal", "", []);
+        $field1 = new Field([], [], "literal", "", []);
+        $field2 = new Field([], [], "literal", "", []);
 
         $fields = [
             "field1" => $field1,
@@ -150,8 +150,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     public function testSetTypeWithFieldBearerBuilder()
     {
-        $field1 = new Field([], "literal", "", []);
-        $field2 = new Field([], "literal", "", []);
+        $field1 = new Field([], [], "literal", "", []);
+        $field2 = new Field([], [], "literal", "", []);
 
         $fields = [
             "field1" => $field1,
@@ -171,8 +171,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     public function testSetLabelWithFieldBearerBuilder()
     {
-        $field1 = new Field([], "literal", "", []);
-        $field2 = new Field([], "literal", "", []);
+        $field1 = new Field([], [], "literal", "", []);
+        $field2 = new Field([], [], "literal", "", []);
 
         $fields = [
             "field1" => $field1,
@@ -192,8 +192,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     public function testSetHelptextWithFieldBearerBuilder()
     {
-        $field1 = new Field([], "literal", "", []);
-        $field2 = new Field([], "literal", "", []);
+        $field1 = new Field([], [], "literal", "", []);
+        $field2 = new Field([], [], "literal", "", []);
 
         $fields = [
             "field1" => $field1,
@@ -213,8 +213,8 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     public function testSetPlaceholderWithFieldBearerBuilder()
     {
-        $field1 = new Field([], "literal", "", []);
-        $field2 = new Field([], "literal", "", []);
+        $field1 = new Field([], [], "literal", "", []);
+        $field2 = new Field([], [], "literal", "", []);
 
         $fields = [
             "field1" => $field1,
@@ -234,7 +234,7 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     public function testSetChoicesWithFieldBearerBuilder()
     {
-        $field1 = new Field([], Field::FIELD_TYPE_TEXT, "", []);
+        $field1 = new Field([], [], Field::FIELD_TYPE_TEXT, "", []);
 
         $fields = [
             "field1" => $field1,
@@ -255,9 +255,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-            $field1 = new Field([], "literal", "A literal field", []);
-            $field2 = new Field([], "literal", "Another literal field", []);
-            $field3 = new Field([], "literal", "Yet another literal field", []);
+            $field1 = new Field([], [], "literal", "A literal field", []);
+            $field2 = new Field([], [], "literal", "Another literal field", []);
+            $field3 = new Field([], [], "literal", "Yet another literal field", []);
 
             $fieldBearer1 = $builder->addFields(["field1" => $field1])->build();
             $fieldBearer2 = $builder->clear()->addFields(["field2" => $field2, "field3" => $field3])->build();
@@ -278,9 +278,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     public function testGetFieldBearerByName()
     {
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-            $field1 = new Field([], "literal", "A literal field", []);
-            $field2 = new Field([], "literal", "Another literal field", []);
-            $field3 = new Field([], "literal", "Yet another literal field", []);
+            $field1 = new Field([], [], "literal", "A literal field", []);
+            $field2 = new Field([], [], "literal", "Another literal field", []);
+            $field3 = new Field([], [], "literal", "Yet another literal field", []);
 
             $fieldBearer1 = $builder->addFields(["field1" => $field1])->build();
             $fieldBearer2 = $builder->clear()->addFields(["field2" => $field2, "field3" => $field3])->build();
@@ -304,9 +304,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-            $field1 = new Field([], "literal", "A literal field", []);
-            $field2 = new Field([], "literal", "Another literal field", []);
-            $field3 = new Field([], "literal", "Yet another literal field", []);
+            $field1 = new Field([], [], "literal", "A literal field", []);
+            $field2 = new Field([], [], "literal", "Another literal field", []);
+            $field3 = new Field([], [], "literal", "Yet another literal field", []);
 
             $fieldBearer1 = $builder->addFields(["field1" => $field1])->build();
             $fieldBearer2 = $builder->clear()->addFields(["field2" => $field2, "field3" => $field3])->build();
@@ -332,9 +332,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     {
 
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-            $field1 = new Field([], "literal", "A literal field", []);
-            $field2 = new Field([], "literal", "Another literal field", []);
-            $field3 = new Field([], "literal", "Yet another literal field", []);
+            $field1 = new Field([], [], "literal", "A literal field", []);
+            $field2 = new Field([], [], "literal", "Another literal field", []);
+            $field3 = new Field([], [], "literal", "Yet another literal field", []);
 
             $fieldBearer1 = $builder->addFields(["field1" => $field1])->build();
             $fieldBearer2 = $builder->clear()->addFields(["field2" => $field2, "field3" => $field3])->build();
@@ -364,9 +364,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         // All fields visible
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-            $field1 = new Field([], "literal", "A literal field", []);
-            $field2 = new Field([], "literal", "Another literal field", []);
-            $field3 = new Field([], "literal", "Yet another literal field", []);
+            $field1 = new Field([], [], "literal", "A literal field", []);
+            $field2 = new Field([], [], "literal", "Another literal field", []);
+            $field3 = new Field([], [], "literal", "Yet another literal field", []);
 
             $fieldBearer1 = $builder->clear()->addFields(["field1" => $field1])->build();
             $fieldBearer2 = $builder->clear()->addFields(["field2" => $field2, "field3" => $field3])->build();
@@ -413,9 +413,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         // Specific fields visible, specific fields hidden
         foreach ($this->testedFieldBearerBuilders() as $builder) {
-            $field1 = new Field([], "literal", "A literal field", []);
-            $field2 = new Field([], "literal", "Another literal field", []);
-            $field3 = new Field([], "literal", "Yet another literal field", []);
+            $field1 = new Field([], [], "literal", "A literal field", []);
+            $field2 = new Field([], [], "literal", "Another literal field", []);
+            $field3 = new Field([], [], "literal", "Yet another literal field", []);
 
             $fieldBearer1 = $builder->clear()->addFields(["field1" => $field1])->build();
             $fieldBearer2 = $builder->clear()->addFields(["field2" => $field2, "field3" => $field3])->build();
