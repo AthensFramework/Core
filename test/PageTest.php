@@ -174,32 +174,6 @@ class PageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #For an object manager page, you must provide a Propel query.*#
-     */
-    public function testBuildObjectManagerPageWithoutQuery()
-    {
-        $page = PageBuilder::begin()
-            ->setId("test-page")
-            ->setType(Page::PAGE_TYPE_OBJECT_MANAGER)
-            ->build();
-    }
-
-    /**
-     * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #You may only provide an object manager query for object manager pages.*#
-     */
-    public function testBuildNonObjectManagerPageWithQuery()
-    {
-        $query = new MockQuery();
-        $page = PageBuilder::begin()
-            ->setId("test-page")
-            ->setType(Page::PAGE_TYPE_FULL_HEADER)
-            ->setObjectManagerQuery($query)
-            ->build();
-    }
-
-    /**
-     * @expectedException              Exception
      * @expectedExceptionMessageRegExp #You must provide a message.*#
      */
     public function testBuildAjaxActionPageWithoutMessageRaisesException()

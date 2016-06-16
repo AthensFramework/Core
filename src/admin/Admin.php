@@ -1,7 +1,9 @@
 <?php
 
-namespace Athens\Core\Page;
+namespace Athens\Core\Admin;
 
+use Athens\Core\Page\PageInterface;
+use Athens\Core\Section\SectionBuilder;
 use DOMPDF;
 
 use Athens\Core\Etc\ArrayUtils;
@@ -14,6 +16,7 @@ use Athens\Core\Form\FormBuilder;
 use Athens\Core\Form\FormAction\FormAction;
 use Athens\Core\Field\Field;
 use Athens\Core\Form\FormAction\FormActionInterface;
+use Athens\Core\Page\Page;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
@@ -23,29 +26,36 @@ use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
  *
  * @package Athens\Core\Page
  */
-class ObjectManager extends Page
+class Admin extends Page
 {
 
     const MODE_TABLE = 'table';
     const MODE_DETAIL = 'detail';
     const MODE_DELETE = 'delete';
 
-    /** @var ModelCriteria */
-    protected $query;
+    const OBJECT_ID_FIELD = 'object_id';
+    const QUERY_INDEX_FIELD = 'query_index';
+
+    /** @var ModelCriteria[] */
+    protected $queries;
+
+    /** @var  {PageInterface|null}[] */
+    protected $detailPages;
 
     /**
-     * Page constructor.
+     * Admin constructor.
      *
-     * @param string        $id
-     * @param string        $type
-     * @param string[]      $classes
-     * @param string        $title
-     * @param string        $baseHref
-     * @param string        $header
-     * @param string        $subHeader
-     * @param string[]      $breadCrumbs
-     * @param string[]      $returnTo
-     * @param ModelCriteria $query
+     * @param string                 $id
+     * @param string                 $type
+     * @param string[]               $classes
+     * @param string                 $title
+     * @param string                 $baseHref
+     * @param string                 $header
+     * @param string                 $subHeader
+     * @param string[]               $breadCrumbs
+     * @param string[]               $returnTo
+     * @param ModelCriteria[]        $queries
+     * @param {PageInterface|null}[] $detailPages
      * @throws \Exception If an invalid object manager mode is provided.
      */
     public function __construct(
@@ -58,17 +68,28 @@ class ObjectManager extends Page
         $subHeader,
         array $breadCrumbs,
         array $returnTo,
-        ModelCriteria $query
+        array $queries,
+        array $detailPages
     ) {
 
         /** @var string $mode */
         $mode = ArrayUtils::findOrDefault('mode', $_GET, static::MODE_TABLE);
 
-        $this->query = $query;
+        $this->queries = $queries;
+        $this->detailPages = $detailPages;
 
         switch ($mode) {
             case static::MODE_TABLE:
-                $writable = $this->makeTable();
+                $tables = $this->makeTables();
+
+                $sectionBuilder = SectionBuilder::begin()
+                    ->setId('admin-tables-container');
+
+                foreach ($tables as $table) {
+                    $sectionBuilder->addWritable($table);
+                }
+
+                $writable = $sectionBuilder->build();
                 $type = static::PAGE_TYPE_MULTI_PANEL;
                 break;
             case static::MODE_DETAIL:
@@ -104,6 +125,17 @@ class ObjectManager extends Page
     }
 
     /**
+     * @return integer|null
+     */
+    public static function getObjectId()
+    {
+        /** @var string|null $id */
+        $id = ArrayUtils::findOrDefault(static::OBJECT_ID_FIELD, $_GET, null);
+
+        return $id === null ? null : (int)$id;
+    }
+
+    /**
      * Finds an object with the given id in this ObjectManager's query.
      *
      * @return ActiveRecordInterface
@@ -111,11 +143,13 @@ class ObjectManager extends Page
      */
     protected function getObjectOr404()
     {
+        $objectId = static::getObjectId();
+
         /** @var boolean $idWasProvided */
-        $idWasProvided = array_key_exists('id', $_GET);
+        $idWasProvided = $objectId !== null;
 
         if ($idWasProvided === true) {
-            $object = $this->query->findOneById((int)$_GET['id']);
+            $object = $this->query->findOneById((int)$_GET[static::OBJECT_ID_FIELD]);
         } else {
             $class = $this->query->getTableMap()->getOMClass(false);
             $object = new $class();
@@ -131,55 +165,62 @@ class ObjectManager extends Page
     }
 
     /**
-     * @return WritableInterface
+     * @return WritableInterface[]
      */
-    protected function makeTable()
+    protected function makeTables()
     {
-        /** @var ActiveRecordInterface[] $objects */
-        $objects = $this->query->find();
+        /** @var WritableInterface[] $tables */
+        $tables = [];
+        foreach ($this->queries as $query) {
+            /** @var ActiveRecordInterface[] $objects */
+            $objects = $query->find();
 
-        /** @var RowInterface[] $rows */
-        $rows = [];
+            /** @var RowInterface[] $rows */
+            $rows = [];
 
-        foreach ($objects as $object) {
+            foreach ($objects as $object) {
 
-            /** @var string $detailurl */
-            $detailurl = static::makeUrl($_SERVER['REQUEST_URI'], ["mode" => "detail", "id" => $object->getId()]);
+                /** @var string $detailurl */
+                $detailurl = static::makeUrl($_SERVER['REQUEST_URI'], ["mode" => "detail", "id" => $object->getId()]);
 
-            $rows[] = RowBuilder::begin()
-                ->addObject($object)
-                ->setOnClick(
-                    "
+                $rows[] = RowBuilder::begin()
+                    ->addObject($object)
+                    ->setOnClick(
+                        "
                     athens.multi_panel.loadPanel(1, '$detailurl');
                     athens.multi_panel.openPanel(1);
                     "
-                )
-                ->build();
-        }
+                    )
+                    ->build();
+            }
 
-        /** @var string $adderUrl */
-        $adderUrl = static::makeUrl($_SERVER['REQUEST_URI'], ["mode" => "detail"]);
+            /** @var string $adderUrl */
+            $adderUrl = static::makeUrl($_SERVER['REQUEST_URI'], ["mode" => "detail"]);
 
-        $rows[] = RowBuilder::begin()
-            ->addFields([
-                "adder" => FieldBuilder::begin()
-                    ->setLabel("adder")
-                    ->setType(Field::FIELD_TYPE_LITERAL)
-                    ->setInitial("+ Add another")
-                    ->build()
-            ])
-            ->setOnClick(
-                "
+            $rows[] = RowBuilder::begin()
+                ->addFields([
+                    "adder" => FieldBuilder::begin()
+                        ->setLabel("adder")
+                        ->setType(Field::FIELD_TYPE_LITERAL)
+                        ->setInitial("+ Add another")
+                        ->build()
+                ])
+                ->setOnClick(
+                    "
                     athens.multi_panel.loadPanel(1, '$adderUrl');
                     athens.multi_panel.openPanel(1);
                 "
-            )
-            ->build();
+                )
+                ->build();
 
-        return TableBuilder::begin()
-            ->setId('object-manager-table')
-            ->setRows($rows)
-            ->build();
+            $tables[] = TableBuilder::begin()
+                ->setId('object-manager-table')
+                ->setRows($rows)
+                ->build();
+        }
+
+        return $tables;
+
     }
 
     /**

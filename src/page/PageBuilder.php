@@ -43,9 +43,6 @@ class PageBuilder extends AbstractBuilder
     /** @var string[] */
     protected $message;
 
-    /** @var ModelCriteria */
-    protected $objectManagerQuery;
-
     /**
      * @param string $type
      * @return PageBuilder
@@ -137,16 +134,6 @@ class PageBuilder extends AbstractBuilder
     }
 
     /**
-     * @param ModelCriteria $objectManagerQuery
-     * @return PageBuilder
-     */
-    public function setObjectManagerQuery(ModelCriteria $objectManagerQuery)
-    {
-        $this->objectManagerQuery = $objectManagerQuery;
-        return $this;
-    }
-
-    /**
      * @return PageInterface
      * @throws \Exception If the type of the page has not been set.
      */
@@ -179,44 +166,19 @@ class PageBuilder extends AbstractBuilder
                 ->build();
         }
 
-        if ($this->type === Page::PAGE_TYPE_OBJECT_MANAGER) {
-            if ($this->objectManagerQuery instanceof ModelCriteria === false) {
-                throw new \Exception(
-                    "For an object manager page, you must provide a Propel query using ::setObjectManagerQuery."
-                );
-            }
-
-            $page = new ObjectManager(
-                $this->id,
-                $this->type,
-                $this->classes,
-                $this->title,
-                $this->baseHref,
-                $this->header,
-                $this->subHeader,
-                $this->breadCrumbs,
-                $this->returnTo,
-                $this->objectManagerQuery
-            );
-        } else {
-            if ($this->objectManagerQuery instanceof ModelCriteria === true) {
-                throw new \Exception("You may only provide an object manager query for object manager pages.");
-            }
-
-            $page = new Page(
-                $this->id,
-                $this->type,
-                $this->classes,
-                $this->data,
-                $this->title,
-                $this->baseHref,
-                $this->header,
-                $this->subHeader,
-                $this->breadCrumbs,
-                $this->returnTo,
-                $this->writable
-            );
-        }
+        $page = new Page(
+            $this->id,
+            $this->type,
+            $this->classes,
+            $this->data,
+            $this->title,
+            $this->baseHref,
+            $this->header,
+            $this->subHeader,
+            $this->breadCrumbs,
+            $this->returnTo,
+            $this->writable
+        );
 
         return $page;
     }

@@ -31,8 +31,6 @@ class Page implements PageInterface
     const PAGE_TYPE_PDF = 'pdf';
     
     const PAGE_TYPE_MARKDOWN_DOCUMENTATION = 'markdown-documentation';
-    
-    const PAGE_TYPE_OBJECT_MANAGER = 'object-manager';
 
     use VisitableTrait;
     use WritableTrait;

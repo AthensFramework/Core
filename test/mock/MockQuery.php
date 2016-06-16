@@ -16,6 +16,8 @@ class MockQuery extends TestClassQuery
     public $setLimit;
 
     public $count;
+    
+    public $find;
 
     public function orderBy($columnName, $order = Criteria::ASC)
     {
@@ -53,6 +55,15 @@ class MockQuery extends TestClassQuery
             return $this->count;
         } else {
             return parent::count($con);
+        }
+    }
+    
+    public function find(ConnectionInterface $con = null)
+    {
+        if (isset($this->find)) {
+            return $this->find;
+        } else {
+            return parent::find($con);
         }
     }
 }
