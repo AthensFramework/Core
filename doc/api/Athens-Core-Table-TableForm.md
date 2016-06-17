@@ -1,0 +1,582 @@
+Athens\Core\Table\TableForm
+===============
+
+Class TableForm provides a form composed of multiple rows.
+
+
+
+
+* Class name: TableForm
+* Namespace: Athens\Core\Table
+* This class implements: [Athens\Core\Table\TableFormInterface](Athens-Core-Table-TableFormInterface.md)
+
+
+
+
+Properties
+----------
+
+
+### $rowMakingFunction
+
+    protected callable $rowMakingFunction
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $prototypicalRow
+
+    protected \Athens\Core\Row\RowInterface $prototypicalRow
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $rows
+
+    protected array<mixed,\Athens\Core\Row\RowInterface> $rows
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $initialRows
+
+    protected array<mixed,\Athens\Core\Row\RowInterface> $initialRows
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $canRemove
+
+    protected boolean $canRemove
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $type
+
+    protected string $type
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $method
+
+    protected string $method
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $target
+
+    protected string $target
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $isValid
+
+    protected boolean $isValid
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $errors
+
+    protected array<mixed,string> $errors = array()
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $actions
+
+    protected array<mixed,\Athens\Core\Form\FormAction\FormAction> $actions
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $fieldBearer
+
+    protected \Athens\Core\FieldBearer\FieldBearerInterface $fieldBearer
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $onValidFunc
+
+    protected callable $onValidFunc
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $onInvalidFunc
+
+    protected callable $onInvalidFunc
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $validators
+
+    protected array<mixed,array> $validators
+
+
+
+
+
+* Visibility: **protected**
+
+
+### $subForms
+
+    protected array<mixed,\Athens\Core\Form\FormInterface> $subForms
+
+
+
+
+
+* Visibility: **protected**
+
+
+Methods
+-------
+
+
+### getPrototypicalRow
+
+    \Athens\Core\Row\RowInterface Athens\Core\Table\TableFormInterface::getPrototypicalRow()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Table\TableFormInterface](Athens-Core-Table-TableFormInterface.md)
+
+
+
+
+### getRows
+
+    array<mixed,\Athens\Core\Row\RowInterface> Athens\Core\Table\TableInterface::getRows()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Table\TableInterface](Athens-Core-Table-TableInterface.md)
+
+
+
+
+### getFilter
+
+    \Athens\Core\Filter\FilterInterface Athens\Core\Table\TableInterface::getFilter()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Table\TableInterface](Athens-Core-Table-TableInterface.md)
+
+
+
+
+### getFieldBearer
+
+    \Athens\Core\FieldBearer\FieldBearerInterface Athens\Core\Form\FormInterface::getFieldBearer()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### getCanRemove
+
+    boolean Athens\Core\Table\TableFormInterface::getCanRemove()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Table\TableFormInterface](Athens-Core-Table-TableFormInterface.md)
+
+
+
+
+### makeRow
+
+    \Athens\Core\Row\RowInterface Athens\Core\Table\TableForm::makeRow()
+
+
+
+
+
+* Visibility: **protected**
+
+
+
+
+### findRowPrefixes
+
+    array<mixed,string> Athens\Core\Table\TableForm::findRowPrefixes()
+
+
+
+
+
+* Visibility: **protected**
+
+
+
+
+### makeRows
+
+    array<mixed,\Athens\Core\Row\RowInterface> Athens\Core\Table\TableForm::makeRows()
+
+
+
+
+
+* Visibility: **protected**
+
+
+
+
+### validate
+
+    void Athens\Core\Table\TableForm::validate()
+
+
+
+
+
+* Visibility: **protected**
+* This method is **abstract**.
+
+
+
+
+### __construct
+
+    mixed Athens\Core\Table\TableForm::__construct(string $id, array<mixed,string> $classes, array $data, string $type, string $method, string $target, array<mixed,\Athens\Core\Row\RowInterface> $rows, callable|null $rowMakingFunction, callable $onValidFunc, callable $onInvalidFunc, boolean $canRemove, array<mixed,\Athens\Core\Form\FormAction\FormActionInterface>|null $actions, array<mixed,callable>|null $validators)
+
+
+
+
+
+* Visibility: **public**
+
+
+#### Arguments
+* $id **string**
+* $classes **array&lt;mixed,string&gt;**
+* $data **array**
+* $type **string**
+* $method **string**
+* $target **string**
+* $rows **array&lt;mixed,\Athens\Core\Row\RowInterface&gt;**
+* $rowMakingFunction **callable|null**
+* $onValidFunc **callable**
+* $onInvalidFunc **callable**
+* $canRemove **boolean**
+* $actions **array&lt;mixed,\Athens\Core\Form\FormAction\FormActionInterface&gt;|null**
+* $validators **array&lt;mixed,callable&gt;|null**
+
+
+
+### accept
+
+    mixed Athens\Core\Visitor\VisitableInterface::accept(\Athens\Core\Visitor\Visitor $visitor)
+
+Accept a visitor, per the Visitor pattern.
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Visitor\VisitableInterface](Athens-Core-Visitor-VisitableInterface.md)
+
+
+#### Arguments
+* $visitor **[Athens\Core\Visitor\Visitor](Athens-Core-Visitor-Visitor.md)**
+
+
+
+### getType
+
+    string Athens\Core\Form\FormInterface::getType()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### getMethod
+
+    string Athens\Core\Form\FormInterface::getMethod()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### getTarget
+
+    string Athens\Core\Form\FormInterface::getTarget()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### onValid
+
+    void Athens\Core\Form\FormInterface::onValid()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### onInvalid
+
+    void Athens\Core\Form\FormInterface::onInvalid()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### isValid
+
+    boolean Athens\Core\Form\FormInterface::isValid()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### addError
+
+    void Athens\Core\Form\FormInterface::addError(string $error)
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+#### Arguments
+* $error **string**
+
+
+
+### getErrors
+
+    array<mixed,string> Athens\Core\Form\FormInterface::getErrors()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### getActions
+
+    array<mixed,\Athens\Core\Form\FormAction\FormAction> Athens\Core\Form\FormInterface::getActions()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### getSubForms
+
+    array<mixed,\Athens\Core\Form\FormInterface> Athens\Core\Form\FormInterface::getSubForms()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### getSubFormByName
+
+    \Athens\Core\Form\FormInterface Athens\Core\Form\FormInterface::getSubFormByName(string $name)
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+#### Arguments
+* $name **string**
+
+
+
+### propagateOnValid
+
+    void Athens\Core\Form\FormInterface::propagateOnValid()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Form\FormInterface](Athens-Core-Form-FormInterface.md)
+
+
+
+
+### getId
+
+    string Athens\Core\Writer\WritableInterface::getId()
+
+Return a unique identifier that will be consistent between requests.
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Writer\WritableInterface](Athens-Core-Writer-WritableInterface.md)
+
+
+
+
+### getClasses
+
+    array<mixed,string> Athens\Core\Writer\WritableInterface::getClasses()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Writer\WritableInterface](Athens-Core-Writer-WritableInterface.md)
+
+
+
+
+### getData
+
+    array<mixed,string> Athens\Core\Writer\WritableInterface::getData()
+
+
+
+
+
+* Visibility: **public**
+* This method is defined by [Athens\Core\Writer\WritableInterface](Athens-Core-Writer-WritableInterface.md)
+
+
+

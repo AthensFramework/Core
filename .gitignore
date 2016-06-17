@@ -3,3 +3,6 @@ composer.phar
 composer.lock
 vendor/
 test.php
+
+*phpdoc-cache*
+doc/api/structure.xml
