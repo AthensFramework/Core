@@ -13,37 +13,10 @@ Class Settings is a static class for maintaining application-wide settings.
 
 
 
-Properties
-----------
-
-
-### $settings
-
-    protected array $settings = array("templateDirectories" => array(), "projectJS" => array(), "projectCSS" => array(), "acronyms" => array(), "defaultWriterClass" => '\Athens\Core\Writer\Writer', "defaultEmailerClass" => '\Athens\Core\Emailer\PhpEmailer', "defaultInitializerClass" => '\Athens\Core\Initializer\Initializer', "defaultPagination" => 12)
-
-
-
-
-
-* Visibility: **protected**
-* This property is **static**.
 
 
 Methods
 -------
-
-
-### __construct
-
-    mixed Athens\Core\Etc\Settings::__construct()
-
-Disallow class instantiation.
-
-
-
-* Visibility: **protected**
-
-
 
 
 ### addTemplateTheme
@@ -308,22 +281,5 @@ Disallow class instantiation.
 
 #### Arguments
 * $value **integer** - &lt;p&gt;The default number of rows per page to display, when paginating.&lt;/p&gt;
-
-
-
-### getSetting
-
-    null|mixed Athens\Core\Etc\Settings::getSetting(string $key)
-
-
-
-
-
-* Visibility: **protected**
-* This method is **static**.
-
-
-#### Arguments
-* $key **string**
 
 

@@ -14,52 +14,6 @@ Class PickABuilder
 
 
 
-Properties
-----------
-
-
-### $manifest
-
-    protected array $manifest = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $id
-
-    protected string $id
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $classes
-
-    protected array<mixed,string> $classes = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $data
-
-    protected array<mixed,string> $data = array()
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods
@@ -201,19 +155,5 @@ an HTML5 data attribute like:
 #### Arguments
 * $key **string**
 * $value **string**
-
-
-
-### validateId
-
-    void Athens\Core\Etc\AbstractBuilder::validateId()
-
-Assert that a unique identifier has been provided for the element to be built.
-
-
-
-* Visibility: **protected**
-* This method is defined by [Athens\Core\Etc\AbstractBuilder](Athens-Core-Etc-AbstractBuilder.md)
-
 
 

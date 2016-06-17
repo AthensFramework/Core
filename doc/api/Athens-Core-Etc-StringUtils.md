@@ -19,19 +19,6 @@ Methods
 -------
 
 
-### __construct
-
-    mixed Athens\Core\Etc\StringUtils::__construct()
-
-Disallow class instantiation
-
-
-
-* Visibility: **private**
-
-
-
-
 ### slugify
 
     string Athens\Core\Etc\StringUtils::slugify(string $string)

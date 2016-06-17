@@ -14,173 +14,6 @@ Class TableFormBuilder
 
 
 
-Properties
-----------
-
-
-### $rowMakingFunction
-
-    protected callable $rowMakingFunction
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $rows
-
-    protected array<mixed,\Athens\Core\Row\RowInterface> $rows = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $canRemove
-
-    protected boolean $canRemove = true
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $type
-
-    protected string $type = "base"
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $actions
-
-    protected array<mixed,\Athens\Core\Form\FormAction\FormAction> $actions
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $method
-
-    protected string $method = "post"
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $target
-
-    protected string $target = "_self"
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $onValidFunc
-
-    protected callable $onValidFunc
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $onInvalidFunc
-
-    protected callable $onInvalidFunc
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $onSuccessUrl
-
-    protected string $onSuccessUrl
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $validators
-
-    protected array<mixed,callable> $validators = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $subForms
-
-    protected array<mixed,\Athens\Core\Form\FormInterface> $subForms = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $id
-
-    protected string $id
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $classes
-
-    protected array<mixed,string> $classes = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $data
-
-    protected array<mixed,string> $data = array()
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods
@@ -216,32 +49,6 @@ Methods
 
 #### Arguments
 * $rowMakingFunction **callable**
-
-
-
-### validateOnInvalidFunc
-
-    void Athens\Core\Table\TableFormBuilder::validateOnInvalidFunc()
-
-
-
-
-
-* Visibility: **protected**
-
-
-
-
-### validateOnValidFunc
-
-    void Athens\Core\Table\TableFormBuilder::validateOnValidFunc()
-
-
-
-
-
-* Visibility: **protected**
-
 
 
 
@@ -421,32 +228,6 @@ Returns an instance of the object type under construction.
 
 
 
-### validateOnSuccessUrl
-
-    void Athens\Core\Table\TableFormBuilder::validateOnSuccessUrl()
-
-
-
-
-
-* Visibility: **protected**
-
-
-
-
-### validateActions
-
-    void Athens\Core\Table\TableFormBuilder::validateActions()
-
-
-
-
-
-* Visibility: **protected**
-
-
-
-
 ### begin
 
     static Athens\Core\Etc\AbstractBuilder::begin()
@@ -535,19 +316,5 @@ an HTML5 data attribute like:
 #### Arguments
 * $key **string**
 * $value **string**
-
-
-
-### validateId
-
-    void Athens\Core\Etc\AbstractBuilder::validateId()
-
-Assert that a unique identifier has been provided for the element to be built.
-
-
-
-* Visibility: **protected**
-* This method is defined by [Athens\Core\Etc\AbstractBuilder](Athens-Core-Etc-AbstractBuilder.md)
-
 
 

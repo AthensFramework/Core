@@ -55,107 +55,6 @@ Constants
 
 
 
-Properties
-----------
-
-
-### $statements
-
-    protected array<mixed,\Athens\Core\FilterStatement\FilterStatementInterface> $statements = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $queryStatements
-
-    protected array<mixed,\Athens\Core\FilterStatement\FilterStatementInterface> $queryStatements = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $options
-
-    protected array $options = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $feedback
-
-    protected string $feedback
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $canQueryFilter
-
-    protected boolean $canQueryFilter
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $nextFilter
-
-    protected \Athens\Core\Filter\FilterInterface $nextFilter
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $id
-
-    protected string $id
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $classes
-
-    protected array<mixed,string> $classes = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $data
-
-    protected array<mixed,string> $data = array()
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods
@@ -241,19 +140,6 @@ Methods
 
 
 
-### getRowStatements
-
-    array<mixed,\Athens\Core\FilterStatement\FilterStatementInterface> Athens\Core\Filter\Filter::getRowStatements()
-
-
-
-
-
-* Visibility: **protected**
-
-
-
-
 ### queryFilter
 
     \Propel\Runtime\ActiveQuery\ModelCriteria Athens\Core\Filter\FilterInterface::queryFilter(\Propel\Runtime\ActiveQuery\ModelCriteria $query)
@@ -268,70 +154,6 @@ Methods
 
 #### Arguments
 * $query **Propel\Runtime\ActiveQuery\ModelCriteria**
-
-
-
-### setOptionsByQuery
-
-    void Athens\Core\Filter\Filter::setOptionsByQuery(\Propel\Runtime\ActiveQuery\ModelCriteria $query)
-
-
-
-
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $query **Propel\Runtime\ActiveQuery\ModelCriteria**
-
-
-
-### setFeedbackByQuery
-
-    void Athens\Core\Filter\Filter::setFeedbackByQuery(\Propel\Runtime\ActiveQuery\ModelCriteria $query)
-
-
-
-
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $query **Propel\Runtime\ActiveQuery\ModelCriteria**
-
-
-
-### setOptionsByRows
-
-    void Athens\Core\Filter\Filter::setOptionsByRows(array<mixed,\Athens\Core\Row\RowInterface> $rows)
-
-
-
-
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $rows **array&lt;mixed,\Athens\Core\Row\RowInterface&gt;**
-
-
-
-### setFeedbackByRows
-
-    void Athens\Core\Filter\Filter::setFeedbackByRows(array<mixed,\Athens\Core\Row\RowInterface> $rows)
-
-
-
-
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $rows **array&lt;mixed,\Athens\Core\Row\RowInterface&gt;**
 
 
 

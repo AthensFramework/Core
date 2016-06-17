@@ -19,19 +19,6 @@ Methods
 -------
 
 
-### __construct
-
-    mixed Athens\Core\Etc\ArrayUtils::__construct()
-
-Disallow class instantiation
-
-
-
-* Visibility: **protected**
-
-
-
-
 ### findOrDefault
 
     mixed Athens\Core\Etc\ArrayUtils::findOrDefault(string|integer $needle, array $haystack, mixed $default)

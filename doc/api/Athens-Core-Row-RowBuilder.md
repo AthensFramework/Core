@@ -14,74 +14,6 @@ Class RowBuilder
 
 
 
-Properties
-----------
-
-
-### $onClick
-
-    protected string $onClick
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $highlightable
-
-    protected boolean $highlightable = false
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $fieldBearerBuilder
-
-    private \Athens\Core\FieldBearer\FieldBearerBuilder $fieldBearerBuilder
-
-
-
-
-
-* Visibility: **private**
-
-
-### $id
-
-    protected string $id
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $classes
-
-    protected array<mixed,string> $classes = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $data
-
-    protected array<mixed,string> $data = array()
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods
@@ -146,45 +78,6 @@ Returns an instance of the object type under construction.
 * Visibility: **public**
 * This method is **abstract**.
 * This method is defined by [Athens\Core\Etc\AbstractBuilder](Athens-Core-Etc-AbstractBuilder.md)
-
-
-
-
-### createFieldBearerBuilderIfNull
-
-    void Athens\Core\Row\RowBuilder::createFieldBearerBuilderIfNull()
-
-
-
-
-
-* Visibility: **private**
-
-
-
-
-### getFieldBearerBuilder
-
-    \Athens\Core\FieldBearer\FieldBearerBuilder Athens\Core\Row\RowBuilder::getFieldBearerBuilder()
-
-
-
-
-
-* Visibility: **private**
-
-
-
-
-### buildFieldBearer
-
-    \Athens\Core\FieldBearer\FieldBearer Athens\Core\Row\RowBuilder::buildFieldBearer()
-
-
-
-
-
-* Visibility: **protected**
 
 
 
@@ -473,19 +366,5 @@ an HTML5 data attribute like:
 #### Arguments
 * $key **string**
 * $value **string**
-
-
-
-### validateId
-
-    void Athens\Core\Etc\AbstractBuilder::validateId()
-
-Assert that a unique identifier has been provided for the element to be built.
-
-
-
-* Visibility: **protected**
-* This method is defined by [Athens\Core\Etc\AbstractBuilder](Athens-Core-Etc-AbstractBuilder.md)
-
 
 

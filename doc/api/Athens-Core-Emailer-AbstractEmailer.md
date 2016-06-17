@@ -21,25 +21,6 @@ Methods
 -------
 
 
-### doSend
-
-    boolean Athens\Core\Emailer\AbstractEmailer::doSend(string $body, \Athens\Core\Email\EmailInterface $email)
-
-Each Emailer must have a ::doSend which performs the actual sending of
-the email.
-
-
-
-* Visibility: **protected**
-* This method is **abstract**.
-
-
-#### Arguments
-* $body **string**
-* $email **[Athens\Core\Email\EmailInterface](Athens-Core-Email-EmailInterface.md)**
-
-
-
 ### send
 
     boolean Athens\Core\Emailer\EmailerInterface::send(\Athens\Core\Email\EmailInterface $email, \Athens\Core\Writer\Writer|null $writer)

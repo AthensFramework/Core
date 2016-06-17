@@ -14,52 +14,6 @@ only one at a time.
 
 
 
-Properties
-----------
-
-
-### $manifest
-
-    protected array $manifest = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $id
-
-    protected string $id
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $classes
-
-    protected array<mixed,string> $classes = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $data
-
-    protected array<mixed,string> $data = array()
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods

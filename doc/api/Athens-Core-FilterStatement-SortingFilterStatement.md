@@ -14,52 +14,6 @@ Class SortingFilterStatement
 
 
 
-Properties
-----------
-
-
-### $fieldName
-
-    protected string $fieldName
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $condition
-
-    protected string $condition
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $criterion
-
-    protected mixed $criterion
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $control
-
-    protected mixed $control
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods

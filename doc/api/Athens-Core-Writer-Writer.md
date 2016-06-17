@@ -14,81 +14,10 @@ Class Writer is a visitor which renders Writable elements.
 
 
 
-Properties
-----------
-
-
-### $environment
-
-    protected \Twig_Environment $environment
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods
 -------
-
-
-### getTemplatesDirectories
-
-    array<mixed,string> Athens\Core\Writer\Writer::getTemplatesDirectories()
-
-
-
-
-
-* Visibility: **protected**
-
-
-
-
-### write
-
-    string Athens\Core\Writer\Writer::write(\Athens\Core\Writer\WritableInterface $host)
-
-Visit a writable host and render it into html.
-
-
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $host **[Athens\Core\Writer\WritableInterface](Athens-Core-Writer-WritableInterface.md)**
-
-
-
-### getEnvironment
-
-    \Twig_Environment Athens\Core\Writer\Writer::getEnvironment()
-
-Get this Writer's Twig_Environment; create if it doesn't exist;
-
-
-
-* Visibility: **protected**
-
-
-
-
-### loadTemplate
-
-    \Twig_TemplateInterface Athens\Core\Writer\Writer::loadTemplate(string $subpath)
-
-Find a template by path from within the registered template directories.
-
-Ex: `loadTemplate("page/full_header.twig");`
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $subpath **string**
-
 
 
 ### visitSection
@@ -360,23 +289,6 @@ This method is generally called via double-dispatch, as provided by Visitor\Visi
 
 #### Arguments
 * $filter **[Athens\Core\Filter\FilterInterface](Athens-Core-Filter-FilterInterface.md)**
-
-
-
-### visitFilterOfType
-
-    string Athens\Core\Writer\Writer::visitFilterOfType(\Athens\Core\Filter\FilterInterface $filter, string $type)
-
-Helper method to render a FilterInterface to html.
-
-
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $filter **[Athens\Core\Filter\FilterInterface](Athens-Core-Filter-FilterInterface.md)**
-* $type **string**
 
 
 

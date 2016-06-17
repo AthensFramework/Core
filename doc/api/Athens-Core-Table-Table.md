@@ -13,63 +13,6 @@ Class Table
 
 
 
-Properties
-----------
-
-
-### $filter
-
-    protected \Athens\Core\Filter\FilterInterface $filter
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $rows
-
-    protected array<mixed,\Athens\Core\Row\RowInterface> $rows = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $id
-
-    protected string $id
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $classes
-
-    protected array<mixed,string> $classes = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $data
-
-    protected array<mixed,string> $data = array()
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods
@@ -106,19 +49,6 @@ Methods
 
 * Visibility: **public**
 * This method is defined by [Athens\Core\Table\TableInterface](Athens-Core-Table-TableInterface.md)
-
-
-
-
-### getUnfilteredRows
-
-    array<mixed,\Athens\Core\Row\RowInterface> Athens\Core\Table\Table::getUnfilteredRows()
-
-
-
-
-
-* Visibility: **protected**
 
 
 

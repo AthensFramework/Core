@@ -13,63 +13,6 @@ Class FieldBearer encapsulates a set of fields and child field bearers.
 
 
 
-Properties
-----------
-
-
-### $fieldBearers
-
-    protected array<mixed,\Athens\Core\FieldBearer\FieldBearerInterface> $fieldBearers = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $fields
-
-    protected array<mixed,\Athens\Core\Field\FieldInterface> $fields = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $visibleFieldNames
-
-    protected array<mixed,String> $visibleFieldNames = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $hiddenFieldNames
-
-    protected array<mixed,String> $hiddenFieldNames = array()
-
-
-
-
-
-* Visibility: **protected**
-
-
-### $saveFunction
-
-    protected callable $saveFunction
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods
@@ -244,22 +187,6 @@ Given a field's string name, return the field.
 
 
 
-### getLabelByFieldName
-
-    string Athens\Core\FieldBearer\FieldBearer::getLabelByFieldName(string $fieldName)
-
-
-
-
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $fieldName **string**
-
-
-
 ### getLabels
 
     array<mixed,String> Athens\Core\FieldBearer\FieldBearerInterface::getLabels()
@@ -313,23 +240,6 @@ Return the labels of the child fields.
 * Visibility: **public**
 * This method is defined by [Athens\Core\FieldBearer\FieldBearerInterface](Athens-Core-FieldBearer-FieldBearerInterface.md)
 
-
-
-
-### baseGetThingByName
-
-    mixed Athens\Core\FieldBearer\FieldBearer::baseGetThingByName(string $thingType, string $name)
-
-
-
-
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $thingType **string**
-* $name **string**
 
 
 

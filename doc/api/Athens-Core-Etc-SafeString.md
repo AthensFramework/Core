@@ -14,39 +14,10 @@ as safe for printing to any display.
 
 
 
-Properties
-----------
-
-
-### $value
-
-    protected string $value
-
-
-
-
-
-* Visibility: **protected**
 
 
 Methods
 -------
-
-
-### __construct
-
-    mixed Athens\Core\Etc\SafeString::__construct(string $value)
-
-
-
-
-
-* Visibility: **protected**
-
-
-#### Arguments
-* $value **string**
-
 
 
 ### __toString
