@@ -211,7 +211,6 @@ Steps
   
   use MyProject\StudentQuery;
   
-  
   $students = StudentQuery::create()->find();
   
   $rows = [];
