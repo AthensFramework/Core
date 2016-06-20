@@ -27,5 +27,10 @@
     "codeclimate/php-test-reporter": "dev-master",
     "squizlabs/php_codesniffer": "2.*",
     "athens/standard": "*"
+  },
+  "type" : "propel-behavior",
+  "extra": {
+    "name": "html-field",
+    "class": "\\Athens\\Core\\Behavior\\HTMLField"
   }
 }

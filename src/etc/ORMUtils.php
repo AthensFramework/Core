@@ -120,15 +120,7 @@ class ORMUtils
      */
     public static function isEncrypted($fieldName, $classTableMapName)
     {
-        $unqualifiedFieldName = explode('.', $fieldName)[1];
-
-        $unqualifiedPropelFieldName = $classTableMapName::translateFieldName(
-            $unqualifiedFieldName,
-            $classTableMapName::TYPE_PHPNAME,
-            $classTableMapName::TYPE_FIELDNAME
-        );
-
-        $qualifiedPropelFieldName = $classTableMapName::TABLE_NAME . "." . $unqualifiedPropelFieldName;
+        $qualifiedPropelFieldName = static::getQualifiedPropelFieldName($fieldName, $classTableMapName);
 
         return method_exists($classTableMapName, 'isEncryptedColumnName')
         && $classTableMapName::isEncryptedColumnName($qualifiedPropelFieldName);
@@ -168,6 +160,19 @@ class ORMUtils
                 }
             }
         }
+    }
+    
+    protected static function getQualifiedPropelFieldName($fieldName, $classTableMapName)
+    {
+        $unqualifiedFieldName = explode('.', $fieldName)[1];
+
+        $unqualifiedPropelFieldName = $classTableMapName::translateFieldName(
+            $unqualifiedFieldName,
+            $classTableMapName::TYPE_PHPNAME,
+            $classTableMapName::TYPE_FIELDNAME
+        );
+
+        return $classTableMapName::TABLE_NAME . "." . $unqualifiedPropelFieldName;
     }
 
     /**
@@ -275,7 +280,7 @@ class ORMUtils
     {
 
         $type = ORMUtils::$db_type_to_field_type_association[$column->getType()];
-
+        
         if ($type === "text" && $column->getSize() >= 128) {
             $type = "textarea";
         }
