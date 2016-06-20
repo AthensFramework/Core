@@ -10,7 +10,7 @@ Athens/Core
     
 <br>
 ![Athens in action](doc/assets/images/demo.png)  
-*Easily create forms and manage submission results in* Athens *created web applications*
+*Easily create forms and manage submission results in* Athens *created web applications*
 
 Applications built within *Athens* are:
 
