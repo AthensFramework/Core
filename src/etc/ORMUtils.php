@@ -9,6 +9,7 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use Athens\Core\Field\Field;
 use Athens\Core\Field\FieldInterface;
+use Athens\Core\Choice\ChoiceBuilder;
 
 /**
  * Class ORMUtils provides static methods for interpreting and interfacing
@@ -45,7 +46,12 @@ class ORMUtils
 
         foreach ($columns as $fieldName => $column) {
             $phpName = $column->getPhpName();
-            $initial = $object->{"get" . $phpName}();
+
+            if ($column->isForeignKey()) {
+                $initial = $object->{"get" . str_replace("Id", "", $phpName)}();
+            } else {
+                $initial = $object->{"get" . $phpName}();
+            }
 
             $fields[$fieldName]->setInitial($initial);
         }
@@ -151,6 +157,9 @@ class ORMUtils
             if ($field->hasValidatedData() === true) {
                 if ($column->isPrimaryKey() === true) {
                     // Don't accept form input for primary keys. These should be set at object creation.
+                } elseif ($column->isForeignKey() === true) {
+                    $object->{"set" . $column->getPhpName()}($field->getValidatedData()->getValue()->getId());
+                    $field->setInitial($field->getValidatedData());
                 } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
                     // Don't accept updates to the UpdatedAt or CreatedAt timestamps
                 } else {
@@ -300,7 +309,15 @@ class ORMUtils
                 $fieldType = FIELD::FIELD_TYPE_PRIMARY_KEY;
                 $fieldRequired = false;
             } elseif ($column->isForeignKey() === true) {
-                $fieldType = FIELD::FIELD_TYPE_FOREIGN_KEY;
+                $label = ucwords($column->getRelatedTableName());
+                $queryName = '\\' . str_replace('.', '\\', $column->getRelatedTable()->getOMClass(true)) . 'Query';
+
+                $query = $queryName::create();
+
+                foreach ($query->find() as $object) {
+                    $choices[] = ChoiceBuilder::begin()->setKey($object->getId())->setValue($object)->build();
+                }
+                $fieldType = FIELD::FIELD_TYPE_CHOICE;
                 $fieldRequired = false;
             } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
                 $fieldType = FIELD::FIELD_TYPE_AUTO_TIMESTAMP;

@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Test;
 
+use Athens\Core\Choice\ChoiceBuilder;
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Field\Field;
@@ -59,14 +60,21 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains("initial", $writer->visitField($field));
 
         /* A choice field */
+        $keys = ["key1", "key2"];
+        $values = ["value1", "value2"];
+        $choices = [
+            ChoiceBuilder::begin()->setKey($keys[0])->setValue($values[0])->build(),
+            ChoiceBuilder::begin()->setKey($keys[1])->setValue($values[1])->build(),
+        ];
+
         $field = new Field(
             [],
             [],
             "choice",
             "A literal field",
-            "first choice",
+            $values[0],
             true,
-            ["first choice", "second choice"],
+            $choices,
             200
         );
 
@@ -74,13 +82,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $result = $this->stripQuotes($writer->visitField($field));
 
         // Assert that the field contains our choices
-        $this->assertContains("first choice", $result);
-        $this->assertContains("second choice", $result);
-        $this->assertContains("value=" . StringUtils::slugify("first choice"), $result);
-        $this->assertContains("value=" . StringUtils::slugify("second choice"), $result);
+        $this->assertContains($values[0], $result);
+        $this->assertContains($values[1], $result);
+        $this->assertContains("value=" . StringUtils::slugify($keys[0]), $result);
+        $this->assertContains("value=" . StringUtils::slugify($keys[1]), $result);
 
         // Assert that the "initial" choice is selected
-        $this->assertContains("value=first-choice checked", $result);
+        $this->assertContains("value={$keys[0]} checked", $result);
 
         /* A multiple choice field */
         $field = new Field(
@@ -88,10 +96,9 @@ class WriterTest extends PHPUnit_Framework_TestCase
             [],
             "multiple-choice",
             "A multiple-choice field",
-            ["second choice"],
+            [$values[1]],
             true,
-            ["first choice",
-            "second choice"],
+            $choices,
             200
         );
 
@@ -99,13 +106,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
             $result = $this->stripQuotes($writer->visitField($field));
 
         // Assert that the field contains our choices
-            $this->assertContains("first choice", $result);
-            $this->assertContains("second choice", $result);
-            $this->assertContains("value=" . StringUtils::slugify("first choice"), $result);
-            $this->assertContains("value=" . StringUtils::slugify("second choice"), $result);
+            $this->assertContains($values[0], $result);
+            $this->assertContains($values[1], $result);
+            $this->assertContains("value=" . StringUtils::slugify($keys[0]), $result);
+            $this->assertContains("value=" . StringUtils::slugify($keys[1]), $result);
 
         // Assert that the "initial" choice is selected
-            $this->assertContains("value=second-choice checked", $result);
+            $this->assertContains("value=$keys[1] checked", $result);
 
         /* A text field */
             $field = new Field(

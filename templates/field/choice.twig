@@ -1,14 +1,14 @@
 <span class="choice-field {{ classes|join(' ') }}" {{ data|writedata|raw }}>
 
     {% if choices|length <= 2 %}
-        {% for choiceSlug, choice in choices %}
-        <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choice == initial %}checked{% endif %}> {{ choice }}
+        {% for choice in choices %}
+        <input type="radio" name="{{ slug }}" value="{{ choice.getKey }}" {% if choice.getValue == initial %}checked{% endif %}> {{ choice.getValue }}
         {% endfor %}
     {% else %}
         <select name="{{ slug }}">
             <option {% if initial is empty %}selected{% endif %} {% if required %}disabled{% endif %}></option>
         {% for choiceSlug, choice in choices %}
-            <option value="{{ choiceSlug }}" {% if choice == initial %}selected{% endif %}> {{ choice }} </option>
+            <option value="{{ choiceSlug }}" {% if choice.getValue == initial %}selected{% endif %}> {{ choice.getValue }} </option>
         {% endfor %}
         </select>
     {% endif %}

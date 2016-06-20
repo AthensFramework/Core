@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Test;
 
+use Athens\Core\Choice\ChoiceBuilder;
 use PHPUnit_Framework_TestCase;
 
 use DateTime;
@@ -284,6 +285,13 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
     public function testValidate()
     {
+        $keys = ["key1", "key2"];
+        $values = ["value1", "value2"];
+        $choices = [
+            ChoiceBuilder::begin()->setKey($keys[0])->setValue($values[0])->build(),
+            ChoiceBuilder::begin()->setKey($keys[1])->setValue($values[1])->build(),
+        ];
+
         // Field not required, but provided
         foreach ($this->testedFields() as $field) {
             $data = (string)rand();
@@ -344,7 +352,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         /* Choice Field */
         // Field has specified choices, submission does not match available choices
         foreach ($this->testedFields() as $field) {
-            $field->setChoices(["choice 1", "choice 2"]);
+            $field->setChoices($choices);
             $field->setType(Field::FIELD_TYPE_CHOICE);
             $data = (string)rand();
             $_POST[$field->getSlug()] = $data;
@@ -358,7 +366,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
         // Field has specified choices, submission does match available choices
         foreach ($this->testedFields() as $field) {
-            $field->setChoices(["choice 1", "choice 2"]);
+            $field->setChoices($choices);
             $field->setType(Field::FIELD_TYPE_CHOICE);
 
             $choice = $field->getChoices()[0];
@@ -376,7 +384,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         /* Multiple-Choice Field */
         // Field has specified choices, submission does not match available choices
         foreach ($this->testedFields() as $field) {
-            $field->setChoices(["choice 1", "choice 2"]);
+            $field->setChoices($choices);
             $field->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE);
             $data = (string)rand();
             $_POST[$field->getSlug()] = [$data];
@@ -390,7 +398,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
         // Field has specified choices, submission does match available choices
         foreach ($this->testedFields() as $field) {
-            $field->setChoices(["choice 1", "choice 2"]);
+            $field->setChoices($choices);
             $field->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE);
 
             $choice = $field->getChoices()[0];
