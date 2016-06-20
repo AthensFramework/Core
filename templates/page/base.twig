@@ -2,51 +2,59 @@
 <html>
 <head>
     {% block metahead %}
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ title }}</title>
-    <base href="{{ baseHref }}" target="_blank">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{{ title }}</title>
+        <base href="{{ baseHref }}" target="_blank">
     {% endblock metahead %}
 
     {% block head %}
-    <script type='text/javascript' src='//code.jquery.com/jquery-2.1.4.min.js'></script>
+        <script type='text/javascript' src='//code.jquery.com/jquery-2.1.4.min.js'></script>
 
-    {% include "page/library-js.twig" %}
+        {% include "page/library-js.twig" %}
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.css"/>
-    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.js'></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.css"/>
+        <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.js'></script>
 
-    <link rel="stylesheet" href="assets/css/web.css">
-    <link rel="stylesheet" href="assets/css/print.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css"/>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.structure.min.css"/>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.theme.min.css"/>
+        <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css"/>
+        <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.js'></script>
+
+        <link rel="stylesheet" href="assets/css/web.css">
+        <link rel="stylesheet" href="assets/css/print.css">
 
     {% endblock head %}
 
     {% block project_head %}
 
         {% for cssFile in projectCSS %}
-            <link rel="stylesheet" href="{{ cssFile }}">
+    <link rel="stylesheet" href="{{ cssFile }}">
         {% endfor %}
 
         {% for jsFile in projectJS %}
-            <script type='text/javascript' src='{{ jsFile }}'></script>
+        <script type='text/javascript' src='{{ jsFile }}'></script>
         {% endfor %}
 
     {% endblock project_head %}
 </head>
 <body id="{{ id }}" class="{{ pageType }} {{ classes|join(' ') }}" {{ data|writedata|raw }}>
 {% block body %}
-<div class="loading-gif hidden"></div>
+    <div class="loading-gif hidden"></div>
 
-<div id="mask-screen">
+    <div id="mask-screen">
 
-    <div class="search-div">
-        <div class="section-label">Search Criteria</div>
-        <div id="search-criteria-area"></div>
+        <div class="search-div">
+            <div class="section-label">Search Criteria</div>
+            <div id="search-criteria-area"></div>
+        </div>
+
     </div>
 
-</div>
-
-<div id='uwsearcharea' aria-hidden="true" class="uw-search-bar-container"></div>
+    <div id='uwsearcharea' aria-hidden="true" class="uw-search-bar-container"></div>
 
     <div id="notification-area">
 
@@ -56,51 +64,51 @@
         {% if breadCrumbs %}
 
             <nav class='breadcrumbs' role='navigation'><ul>
-            {% for crumbKey, crumbValue in breadCrumbs %}
-                {% if not loop.last %}
-                    <li><a target="_self" href="{{ crumbValue }}">{{ crumbKey }}</a></li>
-                {% else %}
-                    <li class="current"><span>{{ crumbValue }}</span></li>
-                {% endif %}
-            {% endfor %}
+                    {% for crumbKey, crumbValue in breadCrumbs %}
+                        {% if not loop.last %}
+                            <li><a target="_self" href="{{ crumbValue }}">{{ crumbKey }}</a></li>
+                        {% else %}
+                            <li class="current"><span>{{ crumbValue }}</span></li>
+                        {% endif %}
+                    {% endfor %}
 
-            </ul></nav>
+                </ul></nav>
         {% endif %}
 
         {% if returnTo %}
             {% for key, value in returnTo %}
-            <div>
-                <a target="_self" href="{{ value }}" >&#8678; {{ key }}</a>
-            </div>
+                <div>
+                    <a target="_self" href="{{ value }}" >&#8678; {{ key }}</a>
+                </div>
             {% endfor %}
         {% endif %}
     </div>
-<div id="page-content">
+    <div id="page-content">
 
-{% if header %}
-    <h1 class=header>{{ header }}</h1>
-{% endif %}
+        {% if header %}
+            <h1 class=header>{{ header }}</h1>
+        {% endif %}
 
-<div id=top-filters>
-</div>
+        <div id=top-filters>
+        </div>
 
-<br style="line-height:0;clear:both">
+        <br style="line-height:0;clear:both">
 
-{% if subHeader %}
-    <h2 class=subheader>{{ subHeader }}</h2>
-{% endif %}
+        {% if subHeader %}
+            <h2 class=subheader>{{ subHeader }}</h2>
+        {% endif %}
 
-<br class="page-content-head">
-
-
-    {% block content %}
-    {{ content|raw }}
-    {% endblock content %}
+        <br class="page-content-head">
 
 
-{% block footer %}{% endblock footer %}
+        {% block content %}
+            {{ content|raw }}
+        {% endblock content %}
 
-</div>
+
+        {% block footer %}{% endblock footer %}
+
+    </div>
 {% endblock body %}
 </body>
 </html>

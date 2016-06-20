@@ -279,8 +279,17 @@ class ORMUtils
     protected static function chooseFieldType(ColumnMap $column)
     {
 
-        $type = ORMUtils::$db_type_to_field_type_association[$column->getType()];
-        
+        $map = $column->getTable();
+
+        if (
+            method_exists($map, 'isHTMLFieldColumnName')
+            && $map::isHTMLFieldColumnName($column->getFullyQualifiedName())
+        ) {
+            $type = 'html';
+        } else {
+            $type = ORMUtils::$db_type_to_field_type_association[$column->getType()];
+        }
+
         if ($type === "text" && $column->getSize() >= 128) {
             $type = "textarea";
         }
