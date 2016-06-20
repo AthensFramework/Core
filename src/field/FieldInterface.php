@@ -3,6 +3,7 @@
 namespace Athens\Core\Field;
 
 use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Choice\ChoiceInterface;
 
 interface FieldInterface extends WritableInterface
 {
@@ -22,14 +23,14 @@ interface FieldInterface extends WritableInterface
      */
     public function setLabel($label);
 
-    /** @return string[] */
+    /** @return ChoiceInterface[] */
     public function getChoices();
 
     /** @return string[] */
     public function getChoiceSlugs();
 
     /**
-     * @param array $choices
+     * @param ChoiceInterface[] $choices
      * @return FieldInterface
      */
     public function setChoices(array $choices);

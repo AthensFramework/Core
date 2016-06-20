@@ -1,147 +1,93 @@
 <?php
 
-namespace Athens\Core\Field;
-
-use DateTime;
+namespace Athens\Core\Choice;
 
 use Athens\Core\Etc\StringUtils;
 use Athens\Core\Visitor\VisitableTrait;
+
+use DateTime;
 use Athens\Core\Writer\WritableTrait;
-use Athens\Core\Choice\ChoiceInterface;
 
 /**
- * Class Field provides a small, typed data container for display and
+ * Class Choice provides a small, typed data container for display and
  * user submission.
  *
- * @package Athens\Core\Field
+ * @package Athens\Core\Choice
  */
-class Field implements FieldInterface
+class Choice implements ChoiceInterface
 {
-
-    const FIELD_TYPE_TEXT = "text";
-    const FIELD_TYPE_TEXTAREA = "textarea";
-    const FIELD_TYPE_BOOLEAN = "boolean";
-    const FIELD_TYPE_CHECKBOX = "checkbox";
-    const FIELD_TYPE_BOOLEAN_RADIOS = "boolean-radios";
-    const FIELD_TYPE_CHOICE = "choice";
-    const FIELD_TYPE_MULTIPLE_CHOICE = "multiple-choice";
-    const FIELD_TYPE_LITERAL = "literal";
-    const FIELD_TYPE_SECTION_LABEL = "section-label";
-    const FIELD_TYPE_PRIMARY_KEY = "primary-key";
-    const FIELD_TYPE_FOREIGN_KEY = "foreign-key";
-    const FIELD_TYPE_AUTO_TIMESTAMP = "auto-timestamp";
-    const FIELD_TYPE_VERSION = "version";
 
     use WritableTrait;
 
-    /** @var bool  */
-    protected $required;
-
-    /** @var int  */
-    protected $fieldSize;
+    /** @var string */
+    protected $key;
 
     /** @var string */
-    protected $type;
-
-    /** @var string */
-    protected $label;
-
-    /** @var string|string[]  */
-    protected $initial;
-
-    /** @var string[] */
-    protected $fieldErrors = [];
-
-    /** @var string[] */
-    protected $prefixes = [];
-
-    /** @var string[] */
-    protected $suffixes = [];
-
-    /** @var string */
-    protected $validatedData;
-
-    /** @var boolean */
-    protected $hasValidatedData = false;
-
-    /** @var bool */
-    protected $isValid;
-
-    /** @var ChoiceInterface[] */
-    protected $choices;
-
-    /** @var string */
-    protected $helptext;
-
-    /** @var string */
-    protected $placeholder;
-
+    protected $value;
+    
     use VisitableTrait;
 
     /**
-     * Provides the unique identifier for this field.
+     * Provides the unique identifier for this choice.
      *
      * @return string
      */
     public function getId()
     {
-        return md5($this->getSlug());
+        return md5($this->getKey() . $this->getValue());
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 
     /**
      * @param string[]    $classes
      * @param string[]    $data
-     * @param string      $type
-     * @param string      $label
-     * @param string|null $initial
-     * @param boolean     $required
-     * @param ChoiceInterface[]    $choices
-     * @param integer     $fieldSize
-     * @param string      $helptext
-     * @param string      $placeholder
+     * @param string      $key
+     * @param string      $value
      */
     public function __construct(
         array $classes,
         array $data,
-        $type,
-        $label = "",
-        $initial = "",
-        $required = false,
-        array $choices = [],
-        $fieldSize = 255,
-        $helptext = "",
-        $placeholder = ""
+        $key,
+        $value
     ) {
-        $this->type = $type;
-        $this->label = $label;
+        $this->key = $key;
+        $this->value = $value;
 
-        $this->setInitial($initial);
-        
-        $this->required = $required;
-        $this->choices = $choices;
-        $this->fieldSize = $fieldSize;
-        $this->helptext = $helptext;
-        $this->placeholder = $placeholder;
         $this->classes = $classes;
         $this->data = $data;
     }
 
     /**
-     * Provides the data that was submitted to this field, if applicable.
+     * Provides the data that was submitted to this choice, if applicable.
      *
      * @return string
      */
     public function getSubmitted()
     {
-        $fieldType = $this->getType();
+        $choiceType = $this->getType();
 
-        if ($fieldType === "checkbox") {
+        if ($choiceType === "checkbox") {
             $data = (string)array_key_exists($this->getSlug(), $_POST);
         } else {
             $data = array_key_exists($this->getSlug(), $_POST) ? $_POST[$this->getSlug()]: "";
         }
 
-        if (in_array($fieldType, [static::FIELD_TYPE_CHOICE, static::FIELD_TYPE_MULTIPLE_CHOICE]) === true) {
+        if (in_array($choiceType, [static::CHOICE_TYPE_CHOICE, static::CHOICE_TYPE_MULTIPLE_CHOICE]) === true) {
             $data = $this->parseChoiceSlugs($data);
         }
 
@@ -149,7 +95,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * Predicate which reports whether the field received a submission.
+     * Predicate which reports whether the choice received a submission.
      *
      * @return boolean
      */
@@ -159,7 +105,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * Provides the text label assigned to this field.
+     * Provides the text label assigned to this choice.
      *
      * @return string
      */
@@ -169,10 +115,10 @@ class Field implements FieldInterface
     }
 
     /**
-     * Sets the text label to be displayed with this field.
+     * Sets the text label to be displayed with this choice.
      *
      * @param string $label
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function setLabel($label)
     {
@@ -181,9 +127,9 @@ class Field implements FieldInterface
     }
 
     /**
-     * Provides the available choices for submission to this field.
+     * Provides the available choices for submission to this choice.
      *
-     * @return ChoiceInterface[]
+     * @return string[]
      */
     public function getChoices()
     {
@@ -191,25 +137,25 @@ class Field implements FieldInterface
     }
 
     /**
-     * Provides the slugs which shall be used to identify valid submissions to this field.
+     * Provides the slugs which shall be used to identify valid submissions to this choice.
      *
      * @return string[]
      */
     public function getChoiceSlugs()
     {
-        $choiceSlugs = [];
-        foreach ($this->getChoices() as $choice) {
-            $choiceSlugs[] = $choice->getKey();
-        }
-
-        return $choiceSlugs;
+        return array_map(
+            function ($choice) {
+                return StringUtils::slugify($choice);
+            },
+            $this->choices
+        );
     }
 
     /**
-     * Sets the choices which shall be made available for submission to this field.
+     * Sets the choices which shall be made available for submission to this choice.
      *
-     * @param ChoiceInterface[] $choices
-     * @return FieldInterface
+     * @param array $choices
+     * @return ChoiceInterface
      */
     public function setChoices(array $choices)
     {
@@ -218,32 +164,32 @@ class Field implements FieldInterface
     }
 
     /**
-     * Provides the maximum size of a submission to this field.
+     * Provides the maximum size of a submission to this choice.
      *
      * @return integer
      */
     public function getSize()
     {
-        return $this->fieldSize;
+        return $this->choiceSize;
     }
 
     /**
-     * Sets the maximum size of a submission to this field.
+     * Sets the maximum size of a submission to this choice.
      *
      * @param integer $size
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function setSize($size)
     {
-        $this->fieldSize = $size;
+        $this->choiceSize = $size;
         return $this;
     }
 
     /**
-     * Provides the "type" of the field.
+     * Provides the "type" of the choice.
      *
-     * Most likely one of the Field::FIELD_TYPE_ constants. This type determines which
-     * template shall be used to render the field, and also some field validation behavior.
+     * Most likely one of the Choice::CHOICE_TYPE_ constants. This type determines which
+     * template shall be used to render the choice, and also some choice validation behavior.
      *
      * @return string
      */
@@ -253,12 +199,12 @@ class Field implements FieldInterface
     }
 
     /**
-     * Sets the "type" of the field.
+     * Sets the "type" of the choice.
      *
      * See the extended comments on ::getType for more information.
      *
      * @param string $type
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function setType($type)
     {
@@ -267,12 +213,12 @@ class Field implements FieldInterface
     }
 
     /**
-     * Adds a suffix, which shall be applied to this field's slug.
+     * Adds a suffix, which shall be applied to this choice's slug.
      *
-     * Framework will add suffixes to fields to avoid naming collisions.
+     * Framework will add suffixes to choices to avoid naming collisions.
      *
      * @param string $suffix
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function addSuffix($suffix)
     {
@@ -281,7 +227,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * Provides an array of the slug suffixes that have been added to this field.
+     * Provides an array of the slug suffixes that have been added to this choice.
      *
      * @return string[]
      */
@@ -291,12 +237,12 @@ class Field implements FieldInterface
     }
 
     /**
-     * Adds a prefix, which shall be applied to this field's slug.
+     * Adds a prefix, which shall be applied to this choice's slug.
      *
-     * Framework uses field slug prefixes to distinguish between sibling fields in TableForm rows.
+     * Framework uses choice slug prefixes to distinguish between sibling choices in TableForm rows.
      *
      * @param string $prefix
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function addPrefix($prefix)
     {
@@ -305,7 +251,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * Provides an array of the slug prefixes that have been added to this field.
+     * Provides an array of the slug prefixes that have been added to this choice.
      *
      * @return string[]
      */
@@ -315,7 +261,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * Provides a slug representation of the field's textual label.
+     * Provides a slug representation of the choice's textual label.
      *
      * @return string
      */
@@ -325,9 +271,9 @@ class Field implements FieldInterface
     }
 
     /**
-     * Gets the slug representation of the field.
+     * Gets the slug representation of the choice.
      *
-     * Generally this is a combination of the field's label slug, and any added prefixes
+     * Generally this is a combination of the choice's label slug, and any added prefixes
      * or suffixes.
      *
      * @return string
@@ -338,10 +284,10 @@ class Field implements FieldInterface
     }
 
     /**
-     * Sets the initial value to be displayed by the field.
+     * Sets the initial value to be displayed by the choice.
      *
      * @param string $value
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function setInitial($value)
     {
@@ -354,7 +300,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * Gets the initial value which is displayed by the field.
+     * Gets the initial value which is displayed by the choice.
      *
      * @return string
      */
@@ -364,42 +310,42 @@ class Field implements FieldInterface
     }
 
     /**
-     * Adds an error to the field.
+     * Adds an error to the choice.
      *
-     * Errors are usually added during field/form validation.
+     * Errors are usually added during choice/form validation.
      *
      * @param string $error
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function addError($error)
     {
-        $this->fieldErrors[] = $error;
+        $this->choiceErrors[] = $error;
         return $this;
     }
 
     /**
-     * Gets the errors which have been added to the field.
+     * Gets the errors which have been added to the choice.
      *
      * @return string[]
      */
     public function getErrors()
     {
-        return $this->fieldErrors;
+        return $this->choiceErrors;
     }
 
     /**
-     * Clears errors from the field.
+     * Clears errors from the choice.
      *
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function removeErrors()
     {
-        $this->fieldErrors = [];
+        $this->choiceErrors = [];
         return $this;
     }
 
     /**
-     * Perform basic validation on the field, add any apparent errors, and
+     * Perform basic validation on the choice, add any apparent errors, and
      * mark valid data.
      *
      * @return void
@@ -408,13 +354,13 @@ class Field implements FieldInterface
     {
         $data = $this->wasSubmitted() ? $this->getSubmitted() : null;
 
-        // Invalid selection on choice/multiple choice field
+        // Invalid selection on choice/multiple choice choice
         if ($data === []) {
             $this->addError("Unrecognized choice.");
         }
 
         if ($this->isRequired() === true && $data === null) {
-            $this->addError("This field is required.");
+            $this->addError("This choice is required.");
         }
 
         if ($this->getErrors() === []) {
@@ -423,7 +369,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * Predicate which reports whether the field includes choices.
+     * Predicate which reports whether the choice includes choices.
      *
      * @return boolean
      */
@@ -437,22 +383,24 @@ class Field implements FieldInterface
      * slug(s).
      *
      * @param mixed $slugs
-     * @return ChoiceInterface|ChoiceInterface[]
+     * @return array
      */
     protected function parseChoiceSlugs($slugs)
     {
-        if ($this->getType() === static::FIELD_TYPE_CHOICE) {
+        $choices = array_combine($this->getChoiceSlugs(), $this->getChoices());
+
+        if ($this->getType() === static::CHOICE_TYPE_CHOICE) {
             $slugs = [$slugs];
         }
 
         $result = [];
-        foreach ($this->getChoices() as $choice) {
-            if (in_array($choice->getKey(), $slugs) === true) {
-                $result[] = $choice;
+        foreach ($slugs as $choiceSlug) {
+            if (array_key_exists($choiceSlug, $choices) === true) {
+                $result[] = $choices[$choiceSlug];
             }
         }
 
-        if ($this->getType() === static::FIELD_TYPE_CHOICE && $result !== []) {
+        if ($this->getType() === static::CHOICE_TYPE_CHOICE && $result !== []) {
             $result = $result[0];
         }
 
@@ -461,7 +409,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * Predicate which reports whether the field must have a submission.
+     * Predicate which reports whether the choice must have a submission.
      *
      * @return boolean
      */
@@ -471,10 +419,10 @@ class Field implements FieldInterface
     }
 
     /**
-     * Sets whether the field must be submitted to during form submission.
+     * Sets whether the choice must be submitted to during form submission.
      *
      * @param boolean $required
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function setRequired($required)
     {
@@ -483,20 +431,20 @@ class Field implements FieldInterface
     }
 
     /**
-     * Predicate which reports whether or not the field has errors.
+     * Predicate which reports whether or not the choice has errors.
      *
      * @return boolean
      */
     public function isValid()
     {
-        return empty($this->fieldErrors);
+        return empty($this->choiceErrors);
     }
 
     /**
-     * Identifies the given data as validated for the field.
+     * Identifies the given data as validated for the choice.
      *
      * @param string $data
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function setValidatedData($data)
     {
@@ -507,11 +455,11 @@ class Field implements FieldInterface
 
     /**
      * Predicate which reports whether or not validated data has been set for
-     * this field.
+     * this choice.
      *
      * Because null or the empty string might be valid validated data, this function can be
      * used to determine whether or not the ::setValidatedData method was invoked to set
-     * validated data for this field.
+     * validated data for this choice.
      *
      * @return boolean
      */
@@ -521,7 +469,7 @@ class Field implements FieldInterface
     }
 
     /**
-     * Gets data which has been marked as validated for the field.
+     * Gets data which has been marked as validated for the choice.
      *
      * @return string
      */
@@ -540,7 +488,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $helptext
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function setHelptext($helptext)
     {
@@ -558,7 +506,7 @@ class Field implements FieldInterface
 
     /**
      * @param string $placeholder
-     * @return FieldInterface
+     * @return ChoiceInterface
      */
     public function setPlaceholder($placeholder)
     {

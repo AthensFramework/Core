@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Field;
 
+use Athens\Core\Choice\ChoiceInterface;
 use Athens\Core\Etc\AbstractBuilder;
 
 /**
@@ -24,10 +25,10 @@ class FieldBuilder extends AbstractBuilder
     /** @var string */
     protected $label;
 
-    /** @var string|string[]  */
+    /** @var mixed|mixed[]  */
     protected $initial;
 
-    /** @var string[] */
+    /** @var ChoiceInterface[] */
     protected $choices = [];
 
     /** @var string */
@@ -87,7 +88,7 @@ class FieldBuilder extends AbstractBuilder
     }
 
     /**
-     * @param string[] $choices
+     * @param ChoiceInterface[] $choices
      * @return FieldBuilder
      */
     public function setChoices(array $choices)
