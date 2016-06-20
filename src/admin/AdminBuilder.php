@@ -15,9 +15,9 @@ use Athens\Core\Page\PageInterface;
 use Athens\Core\Page\Page;
 
 /**
- * Class PageBuilder
+ * Class AdminBuilder
  *
- * @package Athens\Core\Page
+ * @package Athens\Core\Admin
  */
 class AdminBuilder extends PageBuilder
 {
@@ -30,7 +30,7 @@ class AdminBuilder extends PageBuilder
 
     /**
      * @param WritableInterface $writable
-     * @return PageBuilder
+     * @return AdminBuilder
      */
     public function setWritable(WritableInterface $writable)
     {
@@ -40,7 +40,7 @@ class AdminBuilder extends PageBuilder
 
     /**
      * @param string[] $message
-     * @return PageBuilder
+     * @return AdminBuilder
      */
     public function setMessage(array $message)
     {
@@ -51,7 +51,7 @@ class AdminBuilder extends PageBuilder
     /**
      * @param ModelCriteria     $objectManagerQuery
      * @param WritableInterface $detailPage
-     * @return PageBuilder
+     * @return AdminBuilder
      */
     public function addQuery(ModelCriteria $objectManagerQuery, WritableInterface $detailPage = null)
     {

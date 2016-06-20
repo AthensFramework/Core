@@ -2,9 +2,10 @@
 
 namespace Athens\Core\Admin;
 
+use Athens\Core\Etc\ORMUtils;
+use Athens\Core\Etc\StringUtils;
 use Athens\Core\Page\PageInterface;
 use Athens\Core\Section\SectionBuilder;
-use DOMPDF;
 
 use Athens\Core\Etc\ArrayUtils;
 use Athens\Core\Field\FieldBuilder;
@@ -33,6 +34,7 @@ class Admin extends Page
     const MODE_DETAIL = 'detail';
     const MODE_DELETE = 'delete';
 
+    const MODE_FIELD = 'mode';
     const OBJECT_ID_FIELD = 'object_id';
     const QUERY_INDEX_FIELD = 'query_index';
 
@@ -136,6 +138,17 @@ class Admin extends Page
     }
 
     /**
+     * @return integer|null
+     */
+    protected function getQueryIndex()
+    {
+        /** @var string|null $id */
+        $id = ArrayUtils::findOrDefault(static::QUERY_INDEX_FIELD, $_GET, null);
+
+        return $id === null ? null : (int)$id;
+    }
+
+    /**
      * Finds an object with the given id in this ObjectManager's query.
      *
      * @return ActiveRecordInterface
@@ -148,10 +161,12 @@ class Admin extends Page
         /** @var boolean $idWasProvided */
         $idWasProvided = $objectId !== null;
 
+        $query = $this->queries[$this->getQueryIndex()];
+
         if ($idWasProvided === true) {
-            $object = $this->query->findOneById((int)$_GET[static::OBJECT_ID_FIELD]);
+            $object = $query->findOneById((int)$_GET[static::OBJECT_ID_FIELD]);
         } else {
-            $class = $this->query->getTableMap()->getOMClass(false);
+            $class = $query->getTableMap()->getOMClass(false);
             $object = new $class();
         }
 
@@ -167,21 +182,31 @@ class Admin extends Page
     /**
      * @return WritableInterface[]
      */
-    protected function makeTables()
+    protected function makeTables($queries = null)
     {
         /** @var WritableInterface[] $tables */
         $tables = [];
-        foreach ($this->queries as $query) {
+        foreach ($this->queries as $queryIndex => $query) {
             /** @var ActiveRecordInterface[] $objects */
             $objects = $query->find();
 
             /** @var RowInterface[] $rows */
             $rows = [];
 
+            /** @var string $tableName */
+            $tableName = str_replace("_", " ", $query->getTableMap()->getName());
+
             foreach ($objects as $object) {
 
                 /** @var string $detailurl */
-                $detailurl = static::makeUrl($_SERVER['REQUEST_URI'], ["mode" => "detail", "id" => $object->getId()]);
+                $detailurl = static::makeUrl(
+                    $_SERVER['REQUEST_URI'],
+                    [
+                        static::MODE_FIELD => static::MODE_DETAIL,
+                        static::QUERY_INDEX_FIELD => $queryIndex,
+                        static::OBJECT_ID_FIELD => $object->getId()
+                    ]
+                );
 
                 $rows[] = RowBuilder::begin()
                     ->addObject($object)
@@ -195,7 +220,13 @@ class Admin extends Page
             }
 
             /** @var string $adderUrl */
-            $adderUrl = static::makeUrl($_SERVER['REQUEST_URI'], ["mode" => "detail"]);
+            $adderUrl = static::makeUrl(
+                $_SERVER['REQUEST_URI'],
+                [
+                    static::MODE_FIELD => static::MODE_DETAIL,
+                    static::QUERY_INDEX_FIELD => $queryIndex,
+                ]
+            );
 
             $rows[] = RowBuilder::begin()
                 ->addFields([
@@ -213,9 +244,15 @@ class Admin extends Page
                 )
                 ->build();
 
-            $tables[] = TableBuilder::begin()
-                ->setId('object-manager-table')
-                ->setRows($rows)
+            $tables[] = SectionBuilder::begin()
+                ->setId('object-manager-table-wrapper-' . $tableName)
+                ->addLabel(ucwords($tableName))
+                ->addWritable(
+                    TableBuilder::begin()
+                        ->setId('object-manager-table-' . $tableName)
+                        ->setRows($rows)
+                        ->build()
+                )
                 ->build();
         }
 
@@ -230,10 +267,16 @@ class Admin extends Page
     protected function makeDetail()
     {
         /** @var boolean $idWasProvided */
-        $idWasProvided = array_key_exists('id', $_GET);
+        $idWasProvided = array_key_exists(static::OBJECT_ID_FIELD, $_GET);
 
         /** @var ActiveRecordInterface $object */
         $object = $this->getObjectOr404();
+
+        /** @var string $className */
+        $className = join('',array_slice(explode('\\', get_class($object)), -1));
+
+        /** @var string $tableName */
+        $tableName = StringUtils::slugify($className);
 
         /** @var FormActionInterface $submitAction */
         $submitAction = new FormAction(
@@ -244,7 +287,7 @@ class Admin extends Page
             "
                 athens.ajax.AjaxSubmitForm($(this).closest('form'), function(){
                     athens.multi_panel.closePanel(1);
-                    athens.ajax_section.loadSection('object-manager-table');
+                    athens.ajax_section.loadSection('object-manager-table-$tableName');
                 });
                 return false;
             "
@@ -261,11 +304,18 @@ class Admin extends Page
 
         $actions = $idWasProvided === true ? [$submitAction, $deleteAction] : [$submitAction];
 
-        return FormBuilder::begin()
-            ->setId('object-manager-detail-form')
-            ->addObject($object)
-            ->setActions($actions)
-            ->build();
+        $sectionBuilder = SectionBuilder::begin()
+            ->setId('object-manager-detail-form-wrapper')
+            ->addLabel($className)
+            ->addWritable(
+                FormBuilder::begin()
+                    ->setId('object-manager-detail-form')
+                    ->addObject($object)
+                    ->setActions($actions)
+                    ->build()
+            );
+
+        return $sectionBuilder->build();
 
     }
 
