@@ -180,6 +180,7 @@ class Admin extends Page
     }
 
     /**
+     * @param ActiveRecordInterface|null $queries
      * @return WritableInterface[]
      */
     protected function makeTables($queries = null)
@@ -273,7 +274,7 @@ class Admin extends Page
         $object = $this->getObjectOr404();
 
         /** @var string $className */
-        $className = join('',array_slice(explode('\\', get_class($object)), -1));
+        $className = join('', array_slice(explode('\\', get_class($object)), -1));
 
         /** @var string $tableName */
         $tableName = StringUtils::slugify($className);

@@ -4,13 +4,13 @@ namespace Athens\Core\Behavior;
 
 use Propel\Generator\Model\Behavior;
 
-
 /**
  * Class HTMLField
  * @package Athens\Core\Behavior
  */
 class HTMLField extends Behavior
 {
+
     /**
      * Multiple encrypted columns in the same table is OK.
      *
@@ -69,6 +69,9 @@ EOT;
         
     }
 
+    /**
+     * @return string[]
+     */
     protected function getColumnNames()
     {
         $columnNames = [];
@@ -109,5 +112,4 @@ EOT;
             $this->getColumnNames()
         );
     }
-
 }

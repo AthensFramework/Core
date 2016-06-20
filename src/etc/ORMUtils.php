@@ -47,7 +47,7 @@ class ORMUtils
         foreach ($columns as $fieldName => $column) {
             $phpName = $column->getPhpName();
 
-            if ($column->isForeignKey()) {
+            if ($column->isForeignKey() === true) {
                 $initial = $object->{"get" . str_replace("Id", "", $phpName)}();
             } else {
                 $initial = $object->{"get" . $phpName}();
@@ -161,7 +161,12 @@ class ORMUtils
             }
         }
     }
-    
+
+    /**
+     * @param string $fieldName
+     * @param string $classTableMapName
+     * @return string
+     */
     protected static function getQualifiedPropelFieldName($fieldName, $classTableMapName)
     {
         $unqualifiedFieldName = explode('.', $fieldName)[1];
@@ -281,9 +286,8 @@ class ORMUtils
 
         $map = $column->getTable();
 
-        if (
-            method_exists($map, 'isHTMLFieldColumnName')
-            && $map::isHTMLFieldColumnName($column->getFullyQualifiedName())
+        if (method_exists($map, 'isHTMLFieldColumnName') === true
+            && $map::isHTMLFieldColumnName($column->getFullyQualifiedName() === true)
         ) {
             $type = 'html';
         } else {

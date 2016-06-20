@@ -90,16 +90,16 @@ class Field implements FieldInterface
     }
 
     /**
-     * @param string[]    $classes
-     * @param string[]    $data
-     * @param string      $type
-     * @param string      $label
-     * @param string|null $initial
-     * @param boolean     $required
-     * @param ChoiceInterface[]    $choices
-     * @param integer     $fieldSize
-     * @param string      $helptext
-     * @param string      $placeholder
+     * @param string[]          $classes
+     * @param string[]          $data
+     * @param string            $type
+     * @param string            $label
+     * @param string|null       $initial
+     * @param boolean           $required
+     * @param ChoiceInterface[] $choices
+     * @param integer           $fieldSize
+     * @param string            $helptext
+     * @param string            $placeholder
      */
     public function __construct(
         array $classes,

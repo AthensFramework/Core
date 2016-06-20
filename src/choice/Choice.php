@@ -54,10 +54,10 @@ class Choice implements ChoiceInterface
     }
 
     /**
-     * @param string[]    $classes
-     * @param string[]    $data
-     * @param string      $key
-     * @param string      $value
+     * @param string[] $classes
+     * @param string[] $data
+     * @param string   $key
+     * @param string   $value
      */
     public function __construct(
         array $classes,

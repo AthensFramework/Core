@@ -12,5 +12,4 @@ interface ChoiceInterface extends WritableInterface
 
     /** @return string */
     public function getValue();
-
 }

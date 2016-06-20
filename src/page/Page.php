@@ -250,11 +250,11 @@ class Page implements PageInterface
         while ($writables !== []) {
             $writable = array_pop($writables);
 
-            if (method_exists($writable, 'getWritable') && $writable->getWritable() !== null) {
+            if (method_exists($writable, 'getWritable') === true && $writable->getWritable() !== null) {
                 $writables[] = $writable->getWritable();
             }
 
-            if (method_exists($writable, 'getWritables')) {
+            if (method_exists($writable, 'getWritables') === true) {
                 $writables += $writable->getWritables();
             }
 
@@ -270,7 +270,6 @@ class Page implements PageInterface
         $objPHPExcel = new \PHPExcel();
 
         foreach ($tables as $table) {
-
             // Create a sheet
             $objWorkSheet = $objPHPExcel->createSheet();
 
@@ -295,7 +294,6 @@ class Page implements PageInterface
             } else {
                 $objWorkSheet->setCellValue("A1", "No records found");
             }
-
         }
 
         // Remove worksheet 0; it was created with the file but we never wrote to it

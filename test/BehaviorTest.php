@@ -102,5 +102,4 @@ class ApplicationTableMap extends TableMap
         return array_search($columnName, static::$htmlFieldColumns) !== false;
     }
 EOT;
-
 }
