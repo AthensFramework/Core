@@ -103,15 +103,15 @@ Add Ons
 
 Additional functionality is provided by the following libraries:
 
-1. [Encryption](/AthensFramework/Encryption/)
+1. [Encryption](https://github.com/AthensFramework/Encryption/)
   Seamlessly encrypt your sensitive data fields. The `Encryption` package keeps your data encrypted while at rest in the database for any table column you choose.
 
   *Athens* projects include the `Encryption` package by default; you only have to include a few extra lines in your `schema.xml` to add encryption to your models. See the [`Encryption` project documentation(/AthensFramework/Encryption/) or the [application creation tutorial](doc/application-creation.md) for an example.
   
-2. [SendGrid](/AthensFramework/SendGrid/)
+2. [SendGrid](https://github.com/AthensFramework/SendGrid/)
   Send your emails via your SendGrid account. With just a couple of extra lines in your settings, your *Athens* application will send all of its emails via SendGrid.
 
-3. [CSRF](/AthensFramework/CSRF/)
+3. [CSRF](https://github.com/AthensFramework/CSRF/)
   The standard *Athens* template project includes protection from CSRF attacks using the `CSRF` package. You can find out more by visiting the project documentation.
 
 Compatibility
