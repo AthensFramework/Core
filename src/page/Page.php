@@ -2,9 +2,10 @@
 
 namespace Athens\Core\Page;
 
+use Exception;
+
 use DOMPDF;
 
-use Athens\Core\Section\SectionInterface;
 use Athens\Core\Table\TableInterface;
 use Athens\Core\Writer\WritableInterface;
 use Athens\Core\Visitor\VisitableTrait;
@@ -203,22 +204,27 @@ class Page implements PageInterface
     }
 
     /**
-     * @param WritableInterface[] $writables
-     * @return boolean
+     * @param integer $number
+     * @return string
      */
-    protected static function areAllTableInterface(array $writables)
+    protected static function excelRow($number)
     {
-        $totalWritables = count($writables);
-        $totalTableInterface = count(
-            array_filter(
-                $writables,
-                function (WritableInterface $writable) {
-                    return $writable instanceof TableInterface;
-                }
-            )
-        );
+        /** @var string $index */
+        $index = "";
 
-        return $totalWritables === $totalTableInterface;
+        /** @var string $letters */
+        $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        $number += 1;
+        while ($number > 0) {
+            $remainder = $number % 25;
+            $letter = substr($letters, $remainder - 1, 1);
+            $index = $letter . $index;
+
+            $number = floor($number/26);
+        }
+
+        return $index;
     }
 
     /**
@@ -235,23 +241,36 @@ class Page implements PageInterface
         header("Content-Disposition: attachment; filename=$filename;");
         header("Content-Type: application/octet-stream");
 
-        if (($writable->getWritable() instanceof TableInterface)) {
-            $tables = [$writable->getWritable()];
-        } elseif ($writable->getWritable() instanceof SectionInterface &&
-            static::areAllTableInterface($writable->getWritable()->getWritables()) === true
-        ) {
-            $tables = $writable->getWritable()->getWritables();
-        } else {
-            throw new \Exception("The writable of an Excel template must either be a table, " .
-                "or a multiSection containing only tables.");
+        /** @var WritableInterface[] $writables */
+        $writables = [$writable];
+
+        /** @var TableInterface[] $tables */
+        $tables = [];
+
+        while ($writables !== []) {
+            $writable = array_pop($writables);
+
+            if (method_exists($writable, 'getWritable') && $writable->getWritable() !== null) {
+                $writables[] = $writable->getWritable();
+            }
+
+            if (method_exists($writable, 'getWritables')) {
+                $writables += $writable->getWritables();
+            }
+
+            if ($writable instanceof TableInterface) {
+                $tables[] = $writable;
+            }
+        }
+
+        if ($tables === []) {
+            throw new Exception("No tables found in writables.");
         }
 
         $objPHPExcel = new \PHPExcel();
 
-        $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        /** @var TableInterface $table */
         foreach ($tables as $table) {
+
             // Create a sheet
             $objWorkSheet = $objPHPExcel->createSheet();
 
@@ -259,7 +278,7 @@ class Page implements PageInterface
                 // Write header
                 /** @var FieldInterface $field */
                 foreach (array_values($table->getRows()[0]->getFieldBearer()->getVisibleFields()) as $j => $field) {
-                    $cellIndex = substr($letters, $j, 1) . "1";
+                    $cellIndex = static::excelRow($j) . "1";
                     $objWorkSheet->setCellValue($cellIndex, $field->getLabel());
                     $objWorkSheet->getStyle($cellIndex)->getFont()->setBold(true);
                 }
@@ -268,7 +287,7 @@ class Page implements PageInterface
                 foreach ($table->getRows() as $i => $row) {
                     foreach (array_values($row->getFieldBearer()->getVisibleFields()) as $j => $field) {
                         if ($field->getInitial() !== "") {
-                            $cellIndex = substr($letters, $j, 1) . ($i + 2);
+                            $cellIndex = static::excelRow($j) . ($i + 2);
                             $objWorkSheet->setCellValue($cellIndex, $field->getInitial());
                         }
                     }
@@ -276,6 +295,7 @@ class Page implements PageInterface
             } else {
                 $objWorkSheet->setCellValue("A1", "No records found");
             }
+
         }
 
         // Remove worksheet 0; it was created with the file but we never wrote to it
