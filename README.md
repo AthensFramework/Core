@@ -14,24 +14,25 @@ Athens/Core
 
 Applications built within *Athens* are:
 
-  1. Legible  
-  
-     *Athens* separates declaring *what elements shall be on a page* from *what those elements should look like* and the logic of *how those elements should behave*. Under this model, creating a page is not much more complicated than simply listing the presentational elements that should be present.  
-  
-  2. Extensible  
-  
-    This separation of concerns also promotes reusability of components: a web-displayed table can be turned into Excel by changing a single line of code; a web-displayed form can be presented as a PDF by changing a single line of code. Adding a column to a table takes only one line, and in most cases *Athens* will be able to populate that column from the database without any further instruction.
-  
-  3. Secure
+  1. Secure
 
     *Athens* automatically provides strong protection against a number of web attacks, including CSRF, XSS, and database injection.  
     
     *Athens* also provides easy, seamless encryption for sensitive student information. Encrypting a database column requires a simple declaration in your model schema for each data-field you want to protect. Calls to and from the database on that encrypted data are transparent; *Athens* knows which fields are encrypted and handles the encryption/decryption behind the scenes.
     
-  4. Attractive  
+  2. Attractive  
 
     *Athens* includes beautiful page templates and user-interface elements. These default templates can be easily overridden with custom themes to implement your own organization's brand.
-    
+
+  3. Legible  
+  
+     *Athens* separates declaring *what elements shall be on a page* from *what those elements should look like* and the logic of *how those elements should behave*. Under this model, creating a page is not much more complicated than simply listing the presentational elements that should be present.  
+  
+  4. Extensible  
+  
+    This separation of concerns also promotes reusability of components: a web-displayed table can be turned into Excel by changing a single line of code; a web-displayed form can be presented as a PDF by changing a single line of code. Adding a column to a table takes only one line, and in most cases *Athens* will be able to populate that column from the database without any further instruction.
+  
+
 Starting an Application
 =======================
 
@@ -107,14 +108,19 @@ Add Ons
 Additional functionality is provided by the following libraries:
 
 1. [Encryption](https://github.com/AthensFramework/Encryption/)
-  Seamlessly encrypt your sensitive data fields. The `Encryption` package keeps your data encrypted while at rest in the database for any table column you choose.
+  
+  Seamlessly encrypt your sensitive data fields. The `Encryption` package is included with your Athens project to keep any table column encrypted while at rest in the database.
 
   *Athens* projects include the `Encryption` package by default; you only have to include a few extra lines in your `schema.xml` to add encryption to your models. See the [`Encryption` project documentation(/AthensFramework/Encryption/) or the [application creation tutorial](doc/application-creation.md) for an example.
   
 2. [SendGrid](https://github.com/AthensFramework/SendGrid/)
+  
   Send your emails via your SendGrid account. With just a couple of extra lines in your settings, your *Athens* application will send all of its emails via SendGrid.
 
+  The `SendGrid` package is not automatically included in your *Athens* project; you must follow the project instructions to use this package. 
+
 3. [CSRF](https://github.com/AthensFramework/CSRF/)
+  
   The standard *Athens* template project includes protection from CSRF attacks using the `CSRF` package. You can find out more by visiting the project documentation.
 
 Compatibility
