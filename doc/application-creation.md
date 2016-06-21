@@ -241,7 +241,7 @@ Steps
   
   This is also a very basic table, but it already knows how to load students from the database, display them as rows, and include the appropriate column headers. We'll also make some improvements to it on the section below on making changes to an existing project.
   
-  * Upload to your code repository:
+* Upload to your code repository:
 
   If you use an IDE, it may place files into your project web root. Before uploading your code to your repository, be sure to exclude those files using your .gitignore file.
   
