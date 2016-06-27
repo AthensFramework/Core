@@ -10,6 +10,7 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Athens\Core\Field\Field;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Choice\ChoiceBuilder;
+use Athens\Core\Choice\ChoiceInterface;
 
 /**
  * Class ORMUtils provides static methods for interpreting and interfacing
@@ -88,7 +89,14 @@ class ORMUtils
                 foreach ($validateBehaviorsByColumn[$columnName] as $behavior) {
                     if ($behavior["validator"] === "Choice") {
                         $fields[$fieldName]->setType("choice");
-                        $fields[$fieldName]->setChoices($behavior["options"]["choices"]);
+
+                        /** @var ChoiceInterface[] $choices */
+                        $choices = [];
+                        foreach ($behavior['options']['choices'] as $choiceText) {
+                            $choices[] = ChoiceBuilder::begin()->setValue($choiceText)->build();
+                        }
+
+                        $fields[$fieldName]->setChoices($choices);
                     }
                 }
             }
@@ -147,15 +155,25 @@ class ORMUtils
             $field = $fields[$fieldName];
 
             if ($field->hasValidatedData() === true) {
+                $value = $field->getValidatedData();
+
+                if ($value instanceof ChoiceInterface) {
+                    $value = $value->getValue();
+                }
+
                 if ($column->isPrimaryKey() === true) {
                     // Don't accept form input for primary keys. These should be set at object creation.
                 } elseif ($column->isForeignKey() === true) {
-                    $object->{"set" . $column->getPhpName()}($field->getValidatedData()->getValue()->getId());
+                    if ($value instanceof ActiveRecordInterface) {
+                        $value = $value->getId();
+                    }
+
+                    $object->{"set" . $column->getPhpName()}($value);
                     $field->setInitial($field->getValidatedData());
                 } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
                     // Don't accept updates to the UpdatedAt or CreatedAt timestamps
                 } else {
-                    $object->{"set" . $column->getPhpName()}($field->getValidatedData());
+                    $object->{"set" . $column->getPhpName()}($value);
                     $field->setInitial($field->getValidatedData());
                 }
             }
@@ -233,14 +251,14 @@ class ORMUtils
         // by doing some complicated search and replace on the fully qualified
         // table map name of the child.
         $fullyQualifiedRelatedTableName = substr_replace(
-            $fullyQualifiedTableMapName,
-            $upperCamelCaseTableName,
-            strrpos(
                 $fullyQualifiedTableMapName,
-                "\\",
-                -1
-            ) + 1
-        ) . "\n";
+                $upperCamelCaseTableName,
+                strrpos(
+                    $fullyQualifiedTableMapName,
+                    "\\",
+                    -1
+                ) + 1
+            ) . "\n";
         $fullyQualifiedParentTableName = trim($fullyQualifiedRelatedTableName);
 
         return static::getClassTableMap($fullyQualifiedParentTableName);
@@ -328,7 +346,8 @@ class ORMUtils
                 $fieldRequired = false;
             } elseif ($column->isForeignKey() === true) {
                 $label = ucwords($column->getRelatedTableName());
-                $queryName = '\\' . str_replace('.', '\\', $column->getRelatedTable()->getOMClass(true)) . 'Query';
+                $foreignTable = $column->getRelation()->getForeignTable();
+                $queryName = '\\' . str_replace('.', '\\', $foreignTable->getOMClass(true)) . 'Query';
 
                 $query = $queryName::create();
 
