@@ -7,6 +7,17 @@ use Athens\Core\Etc\SafeString;
 
 /**
  * Class EmailBuilder
+ * 
+ * Build emails which satisfy Athens\Core\Email\EmailInterface
+ * 
+ * Example example of some more narrative documentation talking
+ * about building html vs plain text emails.
+ * 
+ * Building a plain text email:
+ * ```
+ *  EmailBuilder::begin()
+ *    ->
+ * ```
  *
  * @package Athens\Core\Email
  */
