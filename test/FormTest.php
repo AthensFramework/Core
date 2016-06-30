@@ -11,6 +11,7 @@ use Athens\Core\Etc\ORMUtils;
 use Athens\Core\FieldBearer\FieldBearerBuilder;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Form\FormInterface;
+use Athens\Core\Choice\ChoiceBuilder;
 
 use Athens\Core\Test\Mock\MockFieldBearer;
 
@@ -175,7 +176,11 @@ class FormTest extends PHPUnit_Framework_TestCase
 
         $newInitialValue = (string)rand();
         $newLabel = (string)rand();
-        $newChoices = [(string)rand(), (string)rand()];
+        $newChoices = [
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+        ];
 
         FormBuilder::begin()
             ->setId("f-" . (string)rand())
@@ -187,7 +192,7 @@ class FormTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($newInitialValue, $field1->getInitial());
         $this->assertEquals($newLabel, $field1->getLabel());
-        $this->assertEquals($newChoices, $field1->getChoices());
+        $this->assertEquals(array_values($newChoices), array_values($field1->getChoices()));
     }
 
     public function testLabelFieldCreation()

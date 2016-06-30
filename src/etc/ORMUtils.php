@@ -157,17 +157,9 @@ class ORMUtils
             if ($field->hasValidatedData() === true) {
                 $value = $field->getValidatedData();
 
-                if ($value instanceof ChoiceInterface) {
-                    $value = $value->getValue();
-                }
-
                 if ($column->isPrimaryKey() === true) {
                     // Don't accept form input for primary keys. These should be set at object creation.
                 } elseif ($column->isForeignKey() === true) {
-                    if ($value instanceof ActiveRecordInterface) {
-                        $value = $value->getId();
-                    }
-
                     $object->{"set" . $column->getPhpName()}($value);
                     $field->setInitial($field->getValidatedData());
                 } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {

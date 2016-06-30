@@ -232,8 +232,6 @@ class Writer extends Visitor
     {
         $template = 'field/' . $field->getType() . '.twig';
 
-        $choices = array_combine($field->getChoiceSlugs(), $field->getChoices());
-
         return $this
             ->loadTemplate($template)
             ->render(
@@ -243,7 +241,7 @@ class Writer extends Visitor
                     "data" => $field->getData(),
                     "slug" => $field->getSlug(),
                     "initial" => $field->getInitial(),
-                    "choices" => $choices,
+                    "choices" => $field->getChoices(),
                     "label" => $field->getLabel(),
                     "required" => $field->isRequired(),
                     "size" => $field->getSize(),

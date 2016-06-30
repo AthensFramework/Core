@@ -18,8 +18,8 @@ interface ChoiceInterface extends WritableInterface
 {
 
     /** @return string */
-    public function getKey();
+    public function getValue();
 
     /** @return string */
-    public function getValue();
+    public function getAlias();
 }

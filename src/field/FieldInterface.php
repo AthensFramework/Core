@@ -26,9 +26,6 @@ interface FieldInterface extends WritableInterface
     /** @return ChoiceInterface[] */
     public function getChoices();
 
-    /** @return string[] */
-    public function getChoiceSlugs();
-
     /**
      * @param ChoiceInterface[] $choices
      * @return FieldInterface

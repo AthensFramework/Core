@@ -1,6 +1,6 @@
 <span class="multiple-choice-field {{ classes|join(' ') }}" {{ data|writedata|raw }}>
     {% for choiceSlug, choice in choices %}
-        <input type="checkbox" name="{{ slug }}[]" value="{{ choice.getKey }}" {% if choice.getValue in initial %}checked{% endif %}> {{ choice.getValue }}
+        <input type="checkbox" name="{{ slug }}[]" value="{{ choiceSlug }}" {% if choice.getValue in initial %}checked{% endif %}> {{ choice.getValue }}
     {% endfor %}
 </span>
 {% include "field/errors.twig" %}

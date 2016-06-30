@@ -14,18 +14,18 @@ class ChoiceBuilder extends AbstractBuilder
 {
 
     /** @var string */
-    protected $key;
+    protected $alias;
 
     /** @var string */
     protected $value;
 
     /**
-     * @param string $key
+     * @param string $alias
      * @return ChoiceBuilder
      */
-    public function setKey($key)
+    public function setAlias($alias)
     {
-        $this->key = $key;
+        $this->alias = $alias;
         return $this;
     }
 
@@ -50,15 +50,15 @@ class ChoiceBuilder extends AbstractBuilder
             throw new \Exception("Must use ::setValue to set a value before building");
         }
 
-        if ($this->key === null) {
-            $this->key = StringUtils::slugify($this->value);
+        if ($this->alias === null) {
+            $this->alias = (string)$this->value;
         }
 
         return new Choice(
             $this->classes,
             $this->data,
-            $this->key,
-            $this->value
+            $this->value,
+            $this->alias
         );
     }
 }

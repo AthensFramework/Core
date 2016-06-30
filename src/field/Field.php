@@ -144,6 +144,14 @@ class Field implements FieldInterface
 
         if (in_array($fieldType, [static::FIELD_TYPE_CHOICE, static::FIELD_TYPE_MULTIPLE_CHOICE]) === true) {
             $data = $this->parseChoiceSlugs($data);
+
+            if (is_array($data) === true) {
+                foreach ($data as $index => $datum) {
+                    $data[$index] = $datum->getValue();
+                }
+            } else {
+                $data = $data->getValue();
+            }
         }
 
         return $data;
@@ -188,7 +196,7 @@ class Field implements FieldInterface
      */
     public function getChoices()
     {
-        return $this->choices;
+        return array_combine($this->getChoiceSlugs(), $this->choices);
     }
 
     /**
@@ -196,11 +204,11 @@ class Field implements FieldInterface
      *
      * @return string[]
      */
-    public function getChoiceSlugs()
+    protected function getChoiceSlugs()
     {
         $choiceSlugs = [];
-        foreach ($this->getChoices() as $choice) {
-            $choiceSlugs[] = $choice->getKey();
+        foreach ($this->choices as $index => $choice) {
+            $choiceSlugs[] = StringUtils::slugify("$index-{$choice->getAlias()}");
         }
 
         return $choiceSlugs;
@@ -447,8 +455,8 @@ class Field implements FieldInterface
         }
 
         $result = [];
-        foreach ($this->getChoices() as $choice) {
-            if (in_array($choice->getKey(), $slugs) === true) {
+        foreach ($this->getChoices() as $slug => $choice) {
+            if (in_array($slug, $slugs) === true) {
                 $result[] = $choice;
             }
         }

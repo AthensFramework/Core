@@ -29,7 +29,11 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $label = "label";
         $initial = "initial";
         $required = true;
-        $choices = ["choice 1", "choice 2"];
+        $choices = [
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+        ];
         $classes = ["class1", "class2"];
         $size = 200;
         $helptext = "h" . (string)rand();
@@ -52,12 +56,12 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($label, $field->getLabel());
         $this->assertEquals($initial, $field->getInitial());
         $this->assertEquals($required, $field->isRequired());
-        $this->assertEquals($choices, $field->getChoices());
+        $this->assertEquals(array_values($choices), array_values($field->getChoices()));
         $this->assertEquals($size, $field->getSize());
         $this->assertEquals($helptext, $field->getHelptext());
         $this->assertEquals($placeholder, $field->getPlaceholder());
-        $this->assertContains($classes[0], $field->getCLasses());
-        $this->assertContains($classes[1], $field->getCLasses());
+        $this->assertContains($classes[0], $field->getClasses());
+        $this->assertContains($classes[1], $field->getClasses());
     }
 
     /**
@@ -263,9 +267,17 @@ class FieldTest extends PHPUnit_Framework_TestCase
     public function testSetGetChoices()
     {
         foreach ($this->testedFields() as $field) {
-            $choices = ["choice 1", "choice 2"];
+            $choices = [
+                ChoiceBuilder::begin()->setValue(rand())->build(),
+                ChoiceBuilder::begin()->setValue(rand())->build(),
+                ChoiceBuilder::begin()->setValue(rand())->build(),
+            ];
             $field->setChoices($choices);
-            $this->assertEquals($choices, $field->getChoices(), "Failure on class: " . get_class($field));
+            $this->assertEquals(
+                array_values($choices),
+                array_values($field->getChoices()),
+                "Failure on class: " . get_class($field)
+            );
         }
     }
 
@@ -288,8 +300,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $keys = ["key1", "key2"];
         $values = ["value1", "value2"];
         $choices = [
-            ChoiceBuilder::begin()->setKey($keys[0])->setValue($values[0])->build(),
-            ChoiceBuilder::begin()->setKey($keys[1])->setValue($values[1])->build(),
+            ChoiceBuilder::begin()->setAlias($keys[0])->setValue($values[0])->build(),
+            ChoiceBuilder::begin()->setAlias($keys[1])->setValue($values[1])->build(),
         ];
 
         // Field not required, but provided
@@ -369,8 +381,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
             $field->setChoices($choices);
             $field->setType(Field::FIELD_TYPE_CHOICE);
 
-            $choice = $field->getChoices()[0];
-            $slug = $field->getChoiceSlugs()[0];
+            $choice = array_values($field->getChoices())[0];
+            $slug = array_keys($field->getChoices())[0];
 
             $_POST[$field->getSlug()] = $slug;
 
@@ -378,7 +390,11 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
             $this->assertTrue($field->isValid(), "Failure on class: " . get_class($field));
             $this->assertEmpty($field->getErrors(), "Failure on class: " . get_class($field));
-            $this->assertEquals($choice, $field->getValidatedData(), "Failure on class: " . get_class($field));
+            $this->assertEquals(
+                $choice->getValue(),
+                $field->getValidatedData(),
+                "Failure on class: " . get_class($field)
+            );
         }
 
         /* Multiple-Choice Field */
@@ -401,8 +417,8 @@ class FieldTest extends PHPUnit_Framework_TestCase
             $field->setChoices($choices);
             $field->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE);
 
-            $choice = $field->getChoices()[0];
-            $slug = $field->getChoiceSlugs()[0];
+            $choice = array_values($field->getChoices())[0];
+            $slug = array_keys($field->getChoices())[0];
 
             $_POST[$field->getSlug()] = [$slug];
 
@@ -410,7 +426,11 @@ class FieldTest extends PHPUnit_Framework_TestCase
 
             $this->assertTrue($field->isValid(), "Failure on class: " . get_class($field));
             $this->assertEmpty($field->getErrors(), "Failure on class: " . get_class($field));
-            $this->assertContains($choice, $field->getValidatedData(), "Failure on class: " . get_class($field));
+            $this->assertContains(
+                $choice->getValue(),
+                $field->getValidatedData(),
+                "Failure on class: " . get_class($field)
+            );
         }
     }
 

@@ -64,11 +64,11 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('textarea class="html"', $writer->visitField($field));
 
         /* A choice field */
-        $keys = ["key1", "key2"];
+        $aliases = ["alias1", "alias2"];
         $values = ["value1", "value2"];
         $choices = [
-            ChoiceBuilder::begin()->setKey($keys[0])->setValue($values[0])->build(),
-            ChoiceBuilder::begin()->setKey($keys[1])->setValue($values[1])->build(),
+            ChoiceBuilder::begin()->setAlias($aliases[0])->setValue($values[0])->build(),
+            ChoiceBuilder::begin()->setAlias($aliases[1])->setValue($values[1])->build(),
         ];
 
         $field = new Field(
@@ -81,6 +81,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             $choices,
             200
         );
+        
+        $keys = array_keys($field->getChoices());
 
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitField($field));
@@ -88,8 +90,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Assert that the field contains our choices
         $this->assertContains($values[0], $result);
         $this->assertContains($values[1], $result);
-        $this->assertContains("value=" . StringUtils::slugify($keys[0]), $result);
-        $this->assertContains("value=" . StringUtils::slugify($keys[1]), $result);
+        $this->assertContains("value=" . $keys[0], $result);
+        $this->assertContains("value=" . $keys[1], $result);
 
         // Assert that the "initial" choice is selected
         $this->assertContains("value={$keys[0]} checked", $result);
@@ -112,11 +114,11 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Assert that the field contains our choices
             $this->assertContains($values[0], $result);
             $this->assertContains($values[1], $result);
-            $this->assertContains("value=" . StringUtils::slugify($keys[0]), $result);
-            $this->assertContains("value=" . StringUtils::slugify($keys[1]), $result);
+            $this->assertContains("value={$keys[0]}", $result);
+            $this->assertContains("value={$keys[1]}", $result);
 
         // Assert that the "initial" choice is selected
-            $this->assertContains("value=$keys[1] checked", $result);
+            $this->assertContains("value={$keys[1]} checked", $result);
 
         /* A text field */
             $field = new Field(

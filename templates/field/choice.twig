@@ -1,8 +1,8 @@
 <span class="choice-field {{ classes|join(' ') }}" {{ data|writedata|raw }}>
 
     {% if choices|length <= 2 %}
-        {% for choice in choices %}
-        <input type="radio" name="{{ slug }}" value="{{ choice.getKey }}" {% if choice.getValue == initial %}checked{% endif %}> {{ choice.getValue }}
+        {% for choiceSlug, choice in choices %}
+        <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choice.getValue == initial %}checked{% endif %}> {{ choice.getValue }}
         {% endfor %}
     {% else %}
         <select name="{{ slug }}">

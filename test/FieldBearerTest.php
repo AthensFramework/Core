@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Test;
 
+use Athens\Core\Choice\ChoiceBuilder;
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Field\Field;
@@ -115,14 +116,18 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         $error = "e" . (string)rand();
         $type = "t" . (string)rand();
-        $choices = [rand(), rand(), rand()];
+        $choices = [
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+        ];
 
         $field
             ->addError($error)
             ->setType($type)
             ->setChoices($choices);
 
-        $this->assertEquals($choices, $field->getChoices());
+        $this->assertEquals(array_values($choices), array_values($field->getChoices()));
         $this->assertEquals([$error], $field->getErrors());
         $this->assertEquals($type, $field->getType());
     }
@@ -240,7 +245,11 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             "field1" => $field1,
         ];
 
-        $newChoices = [(string)rand(), (string)rand(), (string)rand()];
+        $newChoices = [
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+            ChoiceBuilder::begin()->setValue(rand())->build(),
+        ];
 
         FieldBearerBuilder::begin()
             ->addFields($fields)
@@ -248,7 +257,7 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $this->assertEquals(Field::FIELD_TYPE_CHOICE, $field1->getType());
-        $this->assertEquals($newChoices, $field1->getChoices());
+        $this->assertEquals(array_values($newChoices), array_values($field1->getChoices()));
     }
 
     public function testGetFieldBearers()
