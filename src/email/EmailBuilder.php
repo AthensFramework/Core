@@ -11,31 +11,21 @@ use Athens\Core\Etc\SafeString;
  * 
  * Build emails which satisfy Athens\Core\Email\EmailInterface
  * 
- * Example example of some more narrative documentation talking
- * about building html vs plain text emails.
- * 
- * Building a plain text email :
- * ```
- *  //namespaces
- *  use Athens\Core\Email\EmailBuilder;
- *  use Athens\SendGrid\Emailer;
- *  
- *  // creating the email 
- *  $email = EmailBuilder::begin()
- *    ->setTo($yourEmail)
- *    ->setFrom('my.awesome.email@gmail.com')
- *    ->setSubject('[INFO]: This will be the subject line')
- *    ->setMessage('Hey there buddy, you are awesome!')
- *    ->setType("base") 
- *    ->build();
- * 
- *  //sending the email
- *  $emailer = new Emailer();
- *  $emailer->send($email);
- * ```
  * You may set the type either to base or html, letting Athens know what type of email you would like to send.
  * 
- * Building an html email :
+ * Building a plain text email:
+ * ```
+ *  // creating the email 
+ *  $email = EmailBuilder::begin()
+ *    ->setType('base') 
+ *    ->setTo('recipient@example.com')
+ *    ->setFrom('sender@example.com')
+ *    ->setSubject('This will be the subject line')
+ *    ->setMessage('Hey there buddy, you are awesome!')
+ *    ->build();
+ * ```
+ * 
+ * Building an html email:
  * ```
  *  //namespaces
  *  use Athens\Core\Email\EmailBuilder;
@@ -43,20 +33,20 @@ use Athens\Core\Etc\SafeString;
  *  
  *  // creating the email 
  *  $email = EmailBuilder::begin()
- *    ->setTo($yourEmail)
- *    ->setFrom('my.awesome.email@gmail.com')
- *    ->setSubject('[INFO]: This will be the subject line')
- *    ->setType("html")
- *    ->setContentType('text/html; charset=UTF-8 ')
- *    ->setMessage($htmlMessage)
+ *    ->setType('html')
+ *    ->setContentType('text/html; charset=UTF-8')
+ *    ->setTo('recipient@example.com')
+ *    ->setFrom('sender@example.com')
+ *    ->setSubject('This will be the subject line')
+ *    ->setMessage('Hey there buddy, you are awesome!')
  *    ->build();
  * 
  *  //sending the email
  *  $emailer = new Emailer();
  *  $emailer->send($email);
  * ```
- * Other than setting the type to html, we also need to setContentType to 'text/html; charset=UTF-8' so that the 
- * email clients will know to expect an html email. 
+ * Other than setting the type to 'html', we also need to setContentType to 'text/html; charset=UTF-8'
+ * so that the recipient's email client will know to render the message as html. 
  * 
  * @package Athens\Core\Email
  */
