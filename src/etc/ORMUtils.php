@@ -243,14 +243,14 @@ class ORMUtils
         // by doing some complicated search and replace on the fully qualified
         // table map name of the child.
         $fullyQualifiedRelatedTableName = substr_replace(
-            $fullyQualifiedTableMapName,
-            $upperCamelCaseTableName,
-            strrpos(
                 $fullyQualifiedTableMapName,
-                "\\",
-                -1
-            ) + 1
-        ) . "\n";
+                $upperCamelCaseTableName,
+                strrpos(
+                    $fullyQualifiedTableMapName,
+                    "\\",
+                    -1
+                ) + 1
+            ) . "\n";
         $fullyQualifiedParentTableName = trim($fullyQualifiedRelatedTableName);
 
         return static::getClassTableMap($fullyQualifiedParentTableName);
@@ -297,7 +297,7 @@ class ORMUtils
         $map = $column->getTable();
 
         if (method_exists($map, 'isHTMLFieldColumnName') === true
-            && $map::isHTMLFieldColumnName($column->getFullyQualifiedName() === true)
+            && $map::isHTMLFieldColumnName($column->getFullyQualifiedName()) === true
         ) {
             $type = 'html';
         } else {
