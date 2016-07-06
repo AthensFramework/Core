@@ -235,7 +235,7 @@ class Field implements FieldInterface
     /**
      * Provides the "type" of the field.
      *
-     * Most likely one of the Field::FIELD_TYPE_ constants. This type determines which
+     * Most likely one of the FieldBuilder::TYPE_ constants. This type determines which
      * template shall be used to render the field, and also some field validation behavior.
      *
      * @return string

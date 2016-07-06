@@ -95,7 +95,7 @@ class FieldBearerBuilder extends AbstractBuilder
             $primaryKey = $object->getId();
 
             foreach ($fieldBearer->getFields() as $field) {
-                if ($field->getType() === Field::FIELD_TYPE_PRIMARY_KEY) {
+                if ($field->getType() === FieldBuilder::TYPE_PRIMARY_KEY) {
                     $field->setInitial($primaryKey);
                     break;
                 }
@@ -254,8 +254,8 @@ class FieldBearerBuilder extends AbstractBuilder
 
         if ($this->makeLiteral === true) {
             foreach ($fieldBearer->getFields() as $field) {
-                if ($field->getType() !== Field::FIELD_TYPE_SECTION_LABEL) {
-                    $field->setType(Field::FIELD_TYPE_LITERAL)->setRequired(false);
+                if ($field->getType() !== FieldBuilder::TYPE_SECTION_LABEL) {
+                    $field->setType(FieldBuilder::TYPE_LITERAL)->setRequired(false);
                 }
             }
         }
@@ -271,7 +271,7 @@ class FieldBearerBuilder extends AbstractBuilder
         foreach ($this->fieldChoices as $fieldName => $choices) {
             $field = $fieldBearer->getFieldByName($fieldName);
 
-            $field->setType(Field::FIELD_TYPE_CHOICE);
+            $field->setType(FieldBuilder::TYPE_CHOICE);
             $field->setChoices($choices);
         }
 

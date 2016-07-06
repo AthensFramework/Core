@@ -334,7 +334,7 @@ class ORMUtils
 
             // The primary key ID field should be presented as a hidden html field
             if ($column->isPrimaryKey() === true) {
-                $fieldType = Field::FIELD_TYPE_PRIMARY_KEY;
+                $fieldType = FieldBuilder::TYPE_PRIMARY_KEY;
                 $fieldRequired = false;
             } elseif ($column->isForeignKey() === true) {
                 $label = ucwords($column->getRelatedTableName());
@@ -346,13 +346,13 @@ class ORMUtils
                 foreach ($query->find() as $object) {
                     $choices[] = ChoiceBuilder::begin()->setValue($object->getId())->setAlias((string)$object)->build();
                 }
-                $fieldType = Field::FIELD_TYPE_CHOICE;
+                $fieldType = FieldBuilder::TYPE_CHOICE;
                 $fieldRequired = false;
             } elseif ($column->getPhpName() === "UpdatedAt" || $column->getPhpName() === "CreatedAt") {
-                $fieldType = Field::FIELD_TYPE_AUTO_TIMESTAMP;
+                $fieldType = FieldBuilder::TYPE_AUTO_TIMESTAMP;
                 $fieldRequired = false;
             } elseif ($column->getName() === $versionColumnName) {
-                $fieldType = Field::FIELD_TYPE_VERSION;
+                $fieldType = FieldBuilder::TYPE_VERSION;
                 $fieldRequired = false;
             } else {
                 $fieldType = self::chooseFieldType($column);

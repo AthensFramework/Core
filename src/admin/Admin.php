@@ -233,7 +233,7 @@ class Admin extends Page
                 ->addFields([
                     "adder" => FieldBuilder::begin()
                         ->setLabel("adder")
-                        ->setType(Field::FIELD_TYPE_LITERAL)
+                        ->setType(FieldBuilder::TYPE_LITERAL)
                         ->setInitial("+ Add another")
                         ->build()
                 ])

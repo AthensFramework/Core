@@ -140,7 +140,7 @@ trait FormBuilderTrait
         if ($this->onInvalidFunc === null) {
             $this->onInvalidFunc = function (FormInterface $thisForm) {
                 foreach ($thisForm->getFieldBearer()->getFields() as $field) {
-                    if ($field->getType() !== Field::FIELD_TYPE_LITERAL) {
+                    if ($field->getType() !== FieldBuilder::TYPE_LITERAL) {
                         $field->setInitial($field->getSubmitted());
                     }
                 }

@@ -131,7 +131,7 @@ class FieldBuilder extends AbstractBuilder implements FieldConstantsInterface
             throw new \Exception("Must use ::setLabel to set a field label before building");
         }
 
-        if ($this->type === Field::FIELD_TYPE_CHOICE || $this->type === Field::FIELD_TYPE_MULTIPLE_CHOICE) {
+        if ($this->type === static::TYPE_CHOICE || $this->type === static::TYPE_MULTIPLE_CHOICE) {
             if ($this->choices === []) {
                 throw new \Exception("For the chosen field type, you must include choices using ::setChoices");
             }

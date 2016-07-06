@@ -22,7 +22,7 @@ class FormBuilder extends AbstractBuilder
     public function addLabel($label)
     {
         $labelField = FieldBuilder::begin()
-            ->setType(Field::FIELD_TYPE_SECTION_LABEL)
+            ->setType(FieldBuilder::TYPE_SECTION_LABEL)
             ->setLabel($label)
             ->build();
 

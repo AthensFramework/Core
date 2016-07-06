@@ -3,7 +3,7 @@
 namespace Athens\Core\Table;
 
 use Athens\Core\Etc\AbstractBuilder;
-use Athens\Core\Field\Field;
+use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Form\FormBuilderTrait;
 
@@ -55,7 +55,7 @@ class TableFormBuilder extends AbstractBuilder
             $this->onInvalidFunc = function (TableFormInterface $form) {
                 foreach ($form->getRows() as $row) {
                     foreach ($row->getFieldBearer()->getFields() as $field) {
-                        if ($field->getType() !== Field::FIELD_TYPE_LITERAL) {
+                        if ($field->getType() !== FieldBuilder::TYPE_LITERAL) {
                             $field->setInitial($field->getSubmitted());
                         }
                     }
