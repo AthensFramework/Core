@@ -5,7 +5,7 @@ namespace Athens\Core\Section;
 use Athens\Core\Writer\WritableInterface;
 use Athens\Core\Initializer\InitializableInterface;
 
-interface SectionInterface extends WritableInterface, InitializableInterface
+interface SectionInterface extends WritableInterface, InitializableInterface, SectionConstantsInterface
 {
 
     /**

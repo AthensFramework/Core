@@ -5,6 +5,7 @@ namespace Athens\Core\Section;
 use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\Writer\WritableInterface;
 use Athens\Core\Writer\WritableTrait;
+use Athens\Core\WritableBearer\WritableBearerInterface;
 
 /**
  * A very general display element. May contain other writable elements.
@@ -13,21 +14,8 @@ use Athens\Core\Writer\WritableTrait;
  */
 class Section implements SectionInterface
 {
-
-    /** @var string */
-    protected $label;
-
-    /** @var string */
-    protected $content;
-
-    /** @var WritableInterface[] */
-    protected $writables;
-
-    /** @var callable */
-    protected $initFromPost;
-
-    /** @var callable */
-    protected $initFromGet;
+    /** @var WritableBearerInterface */
+    protected $writableBearer;
 
     /** @var  string */
     protected $type;
@@ -41,18 +29,17 @@ class Section implements SectionInterface
      * @param string              $id
      * @param string[]            $classes
      * @param array               $data
-     * @param WritableInterface[] $writables
+     * @param WritableBearerInterface $writableBearer
      * @param string              $type
-     * @internal param string $content
-     * @internal param string $label
      */
-    public function __construct($id, array $classes, array $data, array $writables, $type)
+    public function __construct($id, array $classes, array $data, WritableBearerInterface $writableBearer, $type)
     {
         $this->id = $id;
         $this->classes = $classes;
-        $this->writables = $writables;
         $this->type = $type;
         $this->data = $data;
+        
+        $this->writableBearer = $writableBearer;
     }
 
     /**
@@ -68,6 +55,6 @@ class Section implements SectionInterface
      */
     public function getWritables()
     {
-        return $this->writables;
+        return $this->writableBearer;
     }
 }
