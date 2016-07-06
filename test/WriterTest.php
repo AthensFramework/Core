@@ -60,7 +60,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains("initial", $writer->visitField($field));
 
         /* An html field */
-        $field = new Field([], [], Field::FIELD_TYPE_HTML, "An HTML Field", "initial");
+        $field = new Field([], [], FieldBuilder::TYPE_HTML, "An HTML Field", "initial");
         $this->assertContains('textarea class="html"', $writer->visitField($field));
 
         /* A choice field */

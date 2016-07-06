@@ -91,9 +91,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
     public function testMakeLiteral()
     {
         $fields = [
-            "label" => new Field([], [], Field::FIELD_TYPE_SECTION_LABEL, "A section label"),
-            "fieldName" => new Field([], [], Field::FIELD_TYPE_BOOLEAN, "A boolean field"),
-            "hiddenFieldName" => new Field([], [], Field::FIELD_TYPE_TEXT, "A text field")
+            "label" => new Field([], [], FieldBuilder::TYPE_SECTION_LABEL, "A section label"),
+            "fieldName" => new Field([], [], FieldBuilder::TYPE_BOOLEAN, "A boolean field"),
+            "hiddenFieldName" => new Field([], [], FieldBuilder::TYPE_TEXT, "A text field")
         ];
 
         $fieldBearer = FieldBearerBuilder::begin()
@@ -103,9 +103,9 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         foreach ($fieldBearer->getFields() as $name => $field) {
             if ($name === "label") {
-                $this->assertEquals(Field::FIELD_TYPE_SECTION_LABEL, $field->getType());
+                $this->assertEquals(FieldBuilder::TYPE_SECTION_LABEL, $field->getType());
             } else {
-                $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field->getType());
+                $this->assertEquals(FieldBuilder::TYPE_LITERAL, $field->getType());
             }
         }
     }
@@ -163,7 +163,7 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             "field2" => $field2
         ];
 
-        $newTypeValue = Field::FIELD_TYPE_BOOLEAN;
+        $newTypeValue = FieldBuilder::TYPE_BOOLEAN;
 
         FieldBearerBuilder::begin()
             ->addFields($fields)
@@ -239,7 +239,7 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
     public function testSetChoicesWithFieldBearerBuilder()
     {
-        $field1 = new Field([], [], Field::FIELD_TYPE_TEXT, "", []);
+        $field1 = new Field([], [], FieldBuilder::TYPE_TEXT, "", []);
 
         $fields = [
             "field1" => $field1,
@@ -256,7 +256,7 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             ->setFieldChoices("field1", $newChoices)
             ->build();
 
-        $this->assertEquals(Field::FIELD_TYPE_CHOICE, $field1->getType());
+        $this->assertEquals(FieldBuilder::TYPE_CHOICE, $field1->getType());
         $this->assertEquals(array_values($newChoices), array_values($field1->getChoices()));
     }
 

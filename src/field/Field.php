@@ -17,22 +17,6 @@ use Athens\Core\Choice\ChoiceInterface;
  */
 class Field implements FieldInterface
 {
-
-    const FIELD_TYPE_TEXT = 'text';
-    const FIELD_TYPE_TEXTAREA = 'textarea';
-    const FIELD_TYPE_BOOLEAN = 'boolean';
-    const FIELD_TYPE_CHECKBOX = 'checkbox';
-    const FIELD_TYPE_BOOLEAN_RADIOS = 'boolean-radios';
-    const FIELD_TYPE_CHOICE = 'choice';
-    const FIELD_TYPE_MULTIPLE_CHOICE = 'multiple-choice';
-    const FIELD_TYPE_LITERAL = 'literal';
-    const FIELD_TYPE_SECTION_LABEL = 'section-label';
-    const FIELD_TYPE_PRIMARY_KEY = 'primary-key';
-    const FIELD_TYPE_FOREIGN_KEY = 'foreign-key';
-    const FIELD_TYPE_AUTO_TIMESTAMP = 'auto-timestamp';
-    const FIELD_TYPE_HTML = 'html';
-    const FIELD_TYPE_VERSION = 'version';
-
     use WritableTrait;
 
     /** @var bool  */

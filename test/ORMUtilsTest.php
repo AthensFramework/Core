@@ -40,7 +40,7 @@ class ORMUtilsTest extends PHPUnit_Framework_TestCase
         $fields = ORMUtils::makeFieldsFromObject($o);
 
         // Test that the inferred field types are correct
-        $this->assertEquals(Field::FIELD_TYPE_PRIMARY_KEY, $fields["TestClass.Id"]->getType());
+        $this->assertEquals(FieldBuilder::TYPE_PRIMARY_KEY, $fields["TestClass.Id"]->getType());
         $this->assertEquals("text", $fields["TestClass.FieldSmallVarchar"]->getType());
         $this->assertEquals("textarea", $fields["TestClass.FieldLargeVarchar"]->getType());
         $this->assertEquals("text", $fields["TestClass.FieldInteger"]->getType());

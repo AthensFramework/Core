@@ -88,7 +88,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
      */
     public function testBuilderNeedsChoicesException()
     {
-        $field = FieldBuilder::begin()->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE)->setLabel("label")->build();
+        $field = FieldBuilder::begin()->setType(FieldBuilder::TYPE_MULTIPLE_CHOICE)->setLabel("label")->build();
     }
 
     public function testGetSubmitted()
@@ -365,7 +365,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         // Field has specified choices, submission does not match available choices
         foreach ($this->testedFields() as $field) {
             $field->setChoices($choices);
-            $field->setType(Field::FIELD_TYPE_CHOICE);
+            $field->setType(FieldBuilder::TYPE_CHOICE);
             $data = (string)rand();
             $_POST[$field->getSlug()] = $data;
 
@@ -379,7 +379,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         // Field has specified choices, submission does match available choices
         foreach ($this->testedFields() as $field) {
             $field->setChoices($choices);
-            $field->setType(Field::FIELD_TYPE_CHOICE);
+            $field->setType(FieldBuilder::TYPE_CHOICE);
 
             $choice = array_values($field->getChoices())[0];
             $slug = array_keys($field->getChoices())[0];
@@ -401,7 +401,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         // Field has specified choices, submission does not match available choices
         foreach ($this->testedFields() as $field) {
             $field->setChoices($choices);
-            $field->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE);
+            $field->setType(FieldBuilder::TYPE_MULTIPLE_CHOICE);
             $data = (string)rand();
             $_POST[$field->getSlug()] = [$data];
 
@@ -415,7 +415,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         // Field has specified choices, submission does match available choices
         foreach ($this->testedFields() as $field) {
             $field->setChoices($choices);
-            $field->setType(Field::FIELD_TYPE_MULTIPLE_CHOICE);
+            $field->setType(FieldBuilder::TYPE_MULTIPLE_CHOICE);
 
             $choice = array_values($field->getChoices())[0];
             $slug = array_keys($field->getChoices())[0];

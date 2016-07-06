@@ -139,9 +139,9 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testMakeLiteralWithFormBuilder()
     {
-        $label = new Field([], [], Field::FIELD_TYPE_SECTION_LABEL, "section label");
-        $field1 = new Field([], [], Field::FIELD_TYPE_BOOLEAN, "", []);
-        $field2 = new Field([], [], Field::FIELD_TYPE_TEXT, "", []);
+        $label = new Field([], [], FieldBuilder::TYPE_SECTION_LABEL, "section label");
+        $field1 = new Field([], [], FieldBuilder::TYPE_BOOLEAN, "", []);
+        $field2 = new Field([], [], FieldBuilder::TYPE_TEXT, "", []);
 
         $fields = [
             "label" => $label,
@@ -157,9 +157,9 @@ class FormTest extends PHPUnit_Framework_TestCase
 
         foreach ($form->getFieldBearer()->getFields() as $name => $field) {
             if ($name === "label") {
-                $this->assertEquals(Field::FIELD_TYPE_SECTION_LABEL, $field->getType());
+                $this->assertEquals(FieldBuilder::TYPE_SECTION_LABEL, $field->getType());
             } else {
-                $this->assertEquals(Field::FIELD_TYPE_LITERAL, $field->getType());
+                $this->assertEquals(FieldBuilder::TYPE_LITERAL, $field->getType());
             }
         }
     }
@@ -206,7 +206,7 @@ class FormTest extends PHPUnit_Framework_TestCase
 
         $labelField = $form->getFieldBearer()->getFields()[0];
 
-        $this->assertEquals(Field::FIELD_TYPE_SECTION_LABEL, $labelField->getType());
+        $this->assertEquals(FieldBuilder::TYPE_SECTION_LABEL, $labelField->getType());
         $this->assertEquals($labelText, $labelField->getLabel());
     }
 

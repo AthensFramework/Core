@@ -10,7 +10,7 @@ use Athens\Core\Etc\AbstractBuilder;
  *
  * @package Athens\Core\Field
  */
-class FieldBuilder extends AbstractBuilder
+class FieldBuilder extends AbstractBuilder implements FieldConstantsInterface
 {
 
     /** @var bool  */

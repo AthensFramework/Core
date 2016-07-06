@@ -216,13 +216,13 @@ class TableFormTest extends PHPUnit_Framework_TestCase
 
         $field1 = FieldBuilder::begin()
             ->setLabel("Literal Field")
-            ->setType(Field::FIELD_TYPE_LITERAL)
+            ->setType(FieldBuilder::TYPE_LITERAL)
             ->setInitial("")
             ->build();
 
         $field2 = FieldBuilder::begin()
             ->setLabel("Text Field")
-            ->setType(Field::FIELD_TYPE_TEXT)
+            ->setType(FieldBuilder::TYPE_TEXT)
             ->setInitial("")
             ->build();
 
