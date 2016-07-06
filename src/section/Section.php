@@ -55,6 +55,6 @@ class Section implements SectionInterface
      */
     public function getWritables()
     {
-        return $this->writableBearer;
+        return $this->writableBearer->getWritables();
     }
 }
