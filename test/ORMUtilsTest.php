@@ -5,7 +5,7 @@ namespace Athens\Core\Test;
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Etc\ORMUtils;
-use Athens\Core\Field\Field;
+use Athens\Core\Field\FieldBuilder;
 
 use AthensTest\TestClass;
 use AthensTest\TestClassQuery;

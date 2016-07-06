@@ -9,6 +9,7 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use Athens\Core\Field\Field;
 use Athens\Core\Field\FieldInterface;
+use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Choice\ChoiceBuilder;
 use Athens\Core\Choice\ChoiceInterface;
 

@@ -12,6 +12,7 @@ use Athens\Core\FieldBearer\FieldBearerBuilder;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\Choice\ChoiceBuilder;
+use Athens\Core\Field\FieldBuilder;
 
 use Athens\Core\Test\Mock\MockFieldBearer;
 

@@ -4,7 +4,7 @@ namespace Athens\Core\Form;
 
 use Athens\Core\FieldBearer\FieldBearerBearerBuilderTrait;
 use Athens\Core\Form\FormAction\FormAction;
-use Athens\Core\Field\Field;
+use Athens\Core\Field\FieldBuilder;
 
 trait FormBuilderTrait
 {

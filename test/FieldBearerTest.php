@@ -2,9 +2,10 @@
 
 namespace Athens\Core\Test;
 
-use Athens\Core\Choice\ChoiceBuilder;
 use PHPUnit_Framework_TestCase;
 
+use Athens\Core\Choice\ChoiceBuilder;
+use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Field\Field;
 use Athens\Core\FieldBearer\FieldBearerBuilder;
 use Athens\Core\Etc\ORMUtils;

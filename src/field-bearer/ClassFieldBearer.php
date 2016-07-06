@@ -5,7 +5,7 @@ namespace Athens\Core\FieldBearer;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
 use Athens\Core\Etc\ORMUtils;
-use Athens\Core\Field\Field;
+use Athens\Core\Field\FieldBuilder;
 
 /**
  * Class ClassFieldBearer Encapsulates an ActiveRecordInterface object with Framework fields.

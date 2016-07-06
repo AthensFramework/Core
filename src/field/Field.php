@@ -126,7 +126,7 @@ class Field implements FieldInterface
             $data = array_key_exists($this->getSlug(), $_POST) ? $_POST[$this->getSlug()]: "";
         }
 
-        if (in_array($fieldType, [static::FIELD_TYPE_CHOICE, static::FIELD_TYPE_MULTIPLE_CHOICE]) === true) {
+        if (in_array($fieldType, [static::TYPE_CHOICE, static::TYPE_MULTIPLE_CHOICE]) === true) {
             $data = $this->parseChoiceSlugs($data);
 
             if (is_array($data) === true) {
@@ -434,7 +434,7 @@ class Field implements FieldInterface
      */
     protected function parseChoiceSlugs($slugs)
     {
-        if ($this->getType() === static::FIELD_TYPE_CHOICE) {
+        if ($this->getType() === static::TYPE_CHOICE) {
             $slugs = [$slugs];
         }
 
@@ -445,7 +445,7 @@ class Field implements FieldInterface
             }
         }
 
-        if ($this->getType() === static::FIELD_TYPE_CHOICE && $result !== []) {
+        if ($this->getType() === static::TYPE_CHOICE && $result !== []) {
             $result = $result[0];
         }
 
