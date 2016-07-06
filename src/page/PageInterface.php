@@ -7,7 +7,7 @@ use Athens\Core\Initializer\InitializableInterface;
 use Athens\Core\Writer\Writer;
 use Athens\Core\Initializer\Initializer;
 
-interface PageInterface extends WritableInterface, InitializableInterface
+interface PageInterface extends WritableInterface, InitializableInterface, PageConstantsInterface
 {
 
     /**

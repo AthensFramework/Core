@@ -22,17 +22,6 @@ use Athens\Core\Writer\WritableTrait;
  */
 class Page implements PageInterface
 {
-
-    const PAGE_TYPE_AJAX_ACTION = 'ajax-action';
-    const PAGE_TYPE_AJAX_PAGE = 'ajax-page';
-    const PAGE_TYPE_EXCEL = 'excel';
-    const PAGE_TYPE_FULL_HEADER = 'full-header';
-    const PAGE_TYPE_MINI_HEADER = 'mini-header';
-    const PAGE_TYPE_MULTI_PANEL = 'multi-panel';
-    const PAGE_TYPE_PDF = 'pdf';
-    
-    const PAGE_TYPE_MARKDOWN_DOCUMENTATION = 'markdown-documentation';
-
     use VisitableTrait;
     use WritableTrait;
 
@@ -104,7 +93,7 @@ class Page implements PageInterface
     /**
      * Returns the type of the page.
      *
-     * This will usually be one of the Page::PAGE_TYPE_ consts defined above.
+     * This will usually be one of the PageBuilder::TYPE_ consts defined above.
      *
      * @return string
      */

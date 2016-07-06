@@ -924,7 +924,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
     {
         $writer = new Writer();
 
-        $pageType = Page::PAGE_TYPE_FULL_HEADER;
+        $pageType = PageBuilder::TYPE_FULL_HEADER;
         $pageHeader = "Page Header";
         $pageSubHeader = "Page subheader";
 

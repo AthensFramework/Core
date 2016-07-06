@@ -13,7 +13,7 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
  *
  * @package Athens\Core\Page
  */
-class PageBuilder extends AbstractBuilder
+class PageBuilder extends AbstractBuilder implements PageConstantsInterface
 {
 
     /** @var string */
@@ -146,12 +146,12 @@ class PageBuilder extends AbstractBuilder
         }
 
         if ($this->message !== null) {
-            if ($this->type !== Page::PAGE_TYPE_AJAX_ACTION) {
+            if ($this->type !== PageBuilder::TYPE_AJAX_ACTION) {
                 throw new \Exception("You may only set a message on an ajax-action page.");
             }
         }
 
-        if ($this->type === Page::PAGE_TYPE_AJAX_ACTION) {
+        if ($this->type === PageBuilder::TYPE_AJAX_ACTION) {
             if ($this->message === null) {
                 throw new \Exception("You must provide a message for an ajax-action page using ::setMessage");
             }

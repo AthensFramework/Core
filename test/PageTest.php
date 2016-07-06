@@ -54,7 +54,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $baseHref = ".";
         $header = "header";
         $subHeader = "subHeader";
-        $type = Page::PAGE_TYPE_FULL_HEADER;
+        $type = PageBuilder::TYPE_FULL_HEADER;
 
         $page = PageBuilder::begin()
             ->setId($id)
@@ -89,7 +89,7 @@ class PageTest extends PHPUnit_Framework_TestCase
     public function testBuildFilterErrorWithoutHandle()
     {
         $filter = PageBuilder::begin()
-            ->setType(Page::PAGE_TYPE_FULL_HEADER)
+            ->setType(PageBuilder::TYPE_FULL_HEADER)
             ->build();
     }
 
@@ -107,7 +107,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $title = "Test Page";
         $page = PageBuilder::begin()
             ->setId("test-page")
-            ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
+            ->setType(PageBuilder::TYPE_FULL_HEADER)
             ->setTitle($title)
             ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
             ->build();
@@ -129,7 +129,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         /* Writer provided to render */
         $page = PageBuilder::begin()
             ->setId("test-page")
-            ->setType(PAGE::PAGE_TYPE_FULL_HEADER)
+            ->setType(PageBuilder::TYPE_FULL_HEADER)
             ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
             ->build();
 
@@ -160,7 +160,7 @@ class PageTest extends PHPUnit_Framework_TestCase
 
         $page = PageBuilder::begin()
             ->setId("test-page")
-            ->setType(PAGE::PAGE_TYPE_AJAX_ACTION)
+            ->setType(PageBuilder::TYPE_AJAX_ACTION)
             ->setMessage($message)
             ->build();
 
@@ -180,7 +180,7 @@ class PageTest extends PHPUnit_Framework_TestCase
     {
         $page = PageBuilder::begin()
             ->setId("test-page")
-            ->setType(PAGE::PAGE_TYPE_AJAX_ACTION)
+            ->setType(PageBuilder::TYPE_AJAX_ACTION)
             ->build();
     }
 
@@ -192,7 +192,7 @@ class PageTest extends PHPUnit_Framework_TestCase
     {
         $page = PageBuilder::begin()
             ->setId("test-page")
-            ->setType(PAGE::PAGE_TYPE_MULTI_PANEL)
+            ->setType(PageBuilder::TYPE_MULTI_PANEL)
             ->setMessage(["test", "messages"])
             ->build();
     }
