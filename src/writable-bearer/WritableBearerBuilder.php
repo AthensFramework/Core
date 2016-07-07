@@ -6,9 +6,10 @@ use Athens\Core\Etc\SafeString;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Field\Field;
 use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Writable\WritableInterface;
 
-class WritableBearerBuilder extends AbstractBuilder
+class WritableBearerBuilder extends AbstractWritableBuilder
 {
 
     /** @var string */

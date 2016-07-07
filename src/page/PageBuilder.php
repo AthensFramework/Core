@@ -115,15 +115,19 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
         $content = $this->addClass('page-content')->buildWritableBearer();
         
-        if ($this->breadCrumbTitles !== []) {
-            $breadCrumbs = SectionBuilder::begin()
-                ->setType('div')
-                ->addClass('breadcrumbs-container')
-                ->addLiteralContent(SafeString::fromString(''))
-        }
-        
-        $topMatter = WritableBearerBuilder::begin()
-            ->addWritable()
+//        if ($this->breadCrumbTitles !== []) {
+//            $breadCrumbs = SectionBuilder::begin()
+//                ->setType('div')
+//                ->addClass('breadcrumbs-container')
+//                ->addLiteralContent(SafeString::fromString(''))
+//        }
+//
+//        $topMatter = WritableBearerBuilder::begin()
+//            ->addWritable()
+
+        $writable = WritableBearerBuilder::begin()
+            ->addWritable($content)
+            ->build();
         
 
         return new Page($this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $writable);

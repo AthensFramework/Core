@@ -21,6 +21,16 @@ abstract class AbstractWritableBuilder extends AbstractBuilder
     protected $data = [];
 
     /**
+     * @param string $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
      * Add a display class name to the element to be built.
      *
      * @param string $class
