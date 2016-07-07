@@ -74,18 +74,17 @@ class AdminBuilder extends PageBuilder
                 "For an object manager page, you must provide a Propel query(ies) using ::addQuery."
             );
         }
-
+        
+        $writable = $this->buildWritableBearer();
+        
         $admin = new Admin(
             $this->id,
             $this->type,
             $this->classes,
             $this->title,
             $this->baseHref,
-            $this->header,
-            $this->subHeader,
-            $this->breadCrumbs,
-            $this->returnTo,
             $this->queries,
+            $writable,
             $this->detailPages
         );
 

@@ -945,16 +945,15 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setId($id)
             ->addClass($classes[0])
             ->addClass($classes[1])
-            ->setWritable($section)
+            ->addWritable($section)
             ->addData(array_keys($data)[0], array_values($data)[0])
             ->addData(array_keys($data)[1], array_values($data)[1])
             ->setHeader($pageHeader)
             ->setSubHeader($pageSubHeader)
-            ->setReturnTo(["Another name" => "http://another.link"])
             ->setType($pageType)
             ->setTitle("Page Title")
             ->setBaseHref(".")
-            ->setBreadCrumbs(["Key" => "http://example.com", "Another name"])
+//            ->setBreadCrumbs(["Key" => "http://example.com", "Another name"])
             ->build();
 
         // Add project CSS and JS

@@ -209,7 +209,7 @@ class InitializerTest extends PHPUnit_Framework_TestCase
 
         $page = PageBuilder::begin()
             ->setId("test-page")
-            ->setWritable(
+            ->addWritable(
                 SectionBuilder::begin()
                     ->setId("s" . (string)rand())
                     ->addWritable($form)

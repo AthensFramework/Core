@@ -47,10 +47,9 @@ class AdminTest extends PHPUnit_Framework_TestCase
             ->addClass($classes[0])
             ->addClass($classes[1])
             ->setBaseHref($baseHref)
-            ->setBreadCrumbs($breadCrumbs)
+            ->addBreadCrumb(array_keys($breadCrumbs)[0], array_values($breadCrumbs)[0])
             ->setHeader($header)
             ->setSubHeader($subHeader)
-            ->setReturnTo($returnTo)
             ->addQuery($query)
 //            ->setType($type)
             ->build();
@@ -59,11 +58,9 @@ class AdminTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($classes, $page->getClasses());
         $this->assertEquals($title, $page->getTitle());
         $this->assertEquals($baseHref, $page->getBaseHref());
-        $this->assertEquals($breadCrumbs, $page->getBreadCrumbs());
-        $this->assertEquals($header, $page->getHeader());
-        $this->assertEquals($subHeader, $page->getSubHeader());
-        $this->assertEquals($returnTo, $page->getReturnTo());
 //        $this->assertEquals($type, $page->getType());
+
+        $this->fail('Add test for bread crumbs, and header, and subheader ?');
     }
 
     /**

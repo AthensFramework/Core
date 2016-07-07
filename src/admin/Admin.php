@@ -29,7 +29,6 @@ use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
  */
 class Admin extends Page
 {
-
     const MODE_TABLE = 'table';
     const MODE_DETAIL = 'detail';
     const MODE_DELETE = 'delete';
@@ -52,11 +51,8 @@ class Admin extends Page
      * @param string[]               $classes
      * @param string                 $title
      * @param string                 $baseHref
-     * @param string                 $header
-     * @param string                 $subHeader
-     * @param string[]               $breadCrumbs
-     * @param string[]               $returnTo
      * @param ModelCriteria[]        $queries
+     * @param WritableInterface      $writable
      * @param {PageInterface|null}[] $detailPages
      * @throws \Exception If an invalid object manager mode is provided.
      */
@@ -66,11 +62,8 @@ class Admin extends Page
         array $classes,
         $title,
         $baseHref,
-        $header,
-        $subHeader,
-        array $breadCrumbs,
-        array $returnTo,
         array $queries,
+        $writable,
         array $detailPages
     ) {
 
@@ -92,18 +85,18 @@ class Admin extends Page
                 }
 
                 $writable = $sectionBuilder->build();
-                $type = static::PAGE_TYPE_MULTI_PANEL;
+                $type = static::TYPE_MULTI_PANEL;
                 break;
             case static::MODE_DETAIL:
                 $writable = $this->makeDetail();
-                $type = static::PAGE_TYPE_AJAX_PAGE;
+                $type = static::TYPE_AJAX_PAGE;
 
                 $header = "";
                 $subHeader = "";
                 break;
             case static::MODE_DELETE:
                 $writable = $this->makeDelete();
-                $type = static::PAGE_TYPE_AJAX_ACTION;
+                $type = static::TYPE_AJAX_ACTION;
                 break;
             default:
                 throw new \Exception(
@@ -112,17 +105,7 @@ class Admin extends Page
         }
 
         parent::__construct(
-            $id,
-            $type,
-            $classes,
-            [],
-            $title,
-            $baseHref,
-            $header,
-            $subHeader,
-            $breadCrumbs,
-            $returnTo,
-            $writable
+            $id, $type, $classes, [], $title, $baseHref, $writable
         );
     }
 

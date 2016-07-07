@@ -31,18 +31,6 @@ class Page implements PageInterface
     /** @var string */
     protected $baseHref;
 
-    /** @var string */
-    protected $header;
-
-    /** @var string */
-    protected $subHeader;
-
-    /** @var string[] */
-    protected $breadCrumbs;
-
-    /** @var string[] */
-    protected $returnTo;
-
     /** @var WritableInterface */
     protected $writable;
 
@@ -52,38 +40,20 @@ class Page implements PageInterface
     /**
      * Page constructor.
      *
-     * @param string                 $id
-     * @param string                 $type
-     * @param string[]               $classes
-     * @param string[]               $data
-     * @param string                 $title
-     * @param string                 $baseHref
-     * @param string                 $header
-     * @param string                 $subHeader
-     * @param string[]               $breadCrumbs
-     * @param string[]               $returnTo
+     * @param string $id
+     * @param string $type
+     * @param string[] $classes
+     * @param string[] $data
+     * @param string $title
+     * @param string $baseHref
      * @param WritableInterface|null $writable
      */
     public function __construct(
-        $id,
-        $type,
-        array $classes,
-        array $data,
-        $title,
-        $baseHref,
-        $header,
-        $subHeader,
-        array $breadCrumbs,
-        array $returnTo,
-        WritableInterface $writable = null
+        $id, $type, array $classes, array $data, $title, $baseHref, WritableInterface $writable = null
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->baseHref = $baseHref;
-        $this->header = $header;
-        $this->subHeader = $subHeader;
-        $this->breadCrumbs = $breadCrumbs;
-        $this->returnTo = $returnTo;
         $this->writable = $writable;
         $this->type = $type;
         $this->classes = $classes;
@@ -120,50 +90,6 @@ class Page implements PageInterface
     public function getBaseHref()
     {
         return $this->baseHref;
-    }
-
-    /**
-     * Returns the header of the page.
-     *
-     * In HTML output, this header is displayed within an <h1> tag.
-     *
-     * @return string
-     */
-    public function getHeader()
-    {
-        return $this->header;
-    }
-
-    /**
-     * Returns the subheader of the page.
-     *
-     * In HTML output, this subheader is displayed within an <h2> tag.
-     *
-     * @return string
-     */
-    public function getSubHeader()
-    {
-        return $this->subHeader;
-    }
-
-    /**
-     * Return the roster of breadcrumbs.
-     *
-     * Provide example of roster output.
-     *
-     * @return string[]
-     */
-    public function getBreadCrumbs()
-    {
-        return $this->breadCrumbs;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getReturnTo()
-    {
-        return $this->returnTo;
     }
 
     /**
@@ -327,13 +253,13 @@ class Page implements PageInterface
     protected function makeDefaultRendererFunction()
     {
         switch ($this->getType()) {
-            case static::PAGE_TYPE_PDF:
+            case static::TYPE_PDF:
                 $page = $this;
                 $renderFunction = function (PageInterface $writable, $writer) use ($page) {
                     $page->renderPDF($writable, $writer);
                 };
                 break;
-            case static::PAGE_TYPE_EXCEL:
+            case static::TYPE_EXCEL:
                 $page = $this;
                 $renderFunction = function (PageInterface $writable, $writer) use ($page) {
                     $page->renderExcel($writable, $writer);

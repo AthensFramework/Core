@@ -50,7 +50,6 @@ class PageTest extends PHPUnit_Framework_TestCase
         $title = "title";
         $classes = [(string)rand(), (string)rand()];
         $breadCrumbs = ["name" => "http://link"];
-        $returnTo = ["Another name" => "http://another.link"];
         $baseHref = ".";
         $header = "header";
         $subHeader = "subHeader";
@@ -62,11 +61,10 @@ class PageTest extends PHPUnit_Framework_TestCase
             ->addClass($classes[0])
             ->addClass($classes[1])
             ->setBaseHref($baseHref)
-            ->setBreadCrumbs($breadCrumbs)
-            ->setWritable($writable)
+            ->addBreadCrumb(array_keys($breadCrumbs)[0], array_values($breadCrumbs)[0])
+            ->addWritable($writable)
             ->setHeader($header)
             ->setSubHeader($subHeader)
-            ->setReturnTo($returnTo)
             ->setType($type)
             ->build();
 
@@ -78,8 +76,9 @@ class PageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($breadCrumbs, $page->getBreadCrumbs());
         $this->assertEquals($header, $page->getHeader());
         $this->assertEquals($subHeader, $page->getSubHeader());
-        $this->assertEquals($returnTo, $page->getReturnTo());
         $this->assertEquals($type, $page->getType());
+
+        $this->fail('Add test for bread crumbs.');
     }
 
     /**
@@ -109,7 +108,7 @@ class PageTest extends PHPUnit_Framework_TestCase
             ->setId("test-page")
             ->setType(PageBuilder::TYPE_FULL_HEADER)
             ->setTitle($title)
-            ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
+            ->addWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
             ->build();
 
         // Our mock writer will simply echo the title of the page
@@ -161,7 +160,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $page = PageBuilder::begin()
             ->setId("test-page")
             ->setType(PageBuilder::TYPE_AJAX_ACTION)
-            ->setMessage($message)
+            ->addLiteralContent(json_encode($message))
             ->build();
 
         $_SERVER["REQUEST_URI"] = null;
@@ -181,19 +180,6 @@ class PageTest extends PHPUnit_Framework_TestCase
         $page = PageBuilder::begin()
             ->setId("test-page")
             ->setType(PageBuilder::TYPE_AJAX_ACTION)
-            ->build();
-    }
-
-    /**
-     * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #You may only set a message on an ajax-action page.*#
-     */
-    public function testBuildNonAjaxActionPageWithMessageRaisesException()
-    {
-        $page = PageBuilder::begin()
-            ->setId("test-page")
-            ->setType(PageBuilder::TYPE_MULTI_PANEL)
-            ->setMessage(["test", "messages"])
             ->build();
     }
 

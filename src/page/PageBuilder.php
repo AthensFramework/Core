@@ -6,7 +6,7 @@ use Athens\Core\Etc\AbstractBuilder;
 use Athens\Core\Writer\WritableInterface;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Etc\SafeString;
-use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
 
 /**
  * Class PageBuilder
@@ -26,13 +26,10 @@ class PageBuilder extends AbstractBuilder implements PageConstantsInterface
     protected $subHeader;
 
     /** @var string[] */
-    protected $breadCrumbs = [];
+    protected $breadCrumbTitles = [];
 
     /** @var string[] */
-    protected $returnTo = [];
-
-    /** @var WritableInterface */
-    protected $writable;
+    protected $breadCrumbLinks = [];
 
     /** @var string */
     protected $type;
@@ -40,8 +37,7 @@ class PageBuilder extends AbstractBuilder implements PageConstantsInterface
     /** @var string */
     protected $title;
 
-    /** @var string[] */
-    protected $message;
+    use WritableBearerBearerBuilderTrait;
 
     /**
      * @param string $type
@@ -94,42 +90,15 @@ class PageBuilder extends AbstractBuilder implements PageConstantsInterface
     }
 
     /**
-     * @param string[] $breadCrumbs
+     * @param string $title
+     * @param string $link
      * @return PageBuilder
      */
-    public function setBreadCrumbs(array $breadCrumbs)
+    public function addBreadCrumb($title, $link = "")
     {
-        $this->breadCrumbs = $breadCrumbs;
-        return $this;
-    }
-
-    /**
-     * @param string[] $returnTo
-     * @return PageBuilder
-     */
-    public function setReturnTo(array $returnTo)
-    {
-        $this->returnTo = $returnTo;
-        return $this;
-    }
-
-    /**
-     * @param WritableInterface $writable
-     * @return PageBuilder
-     */
-    public function setWritable(WritableInterface $writable)
-    {
-        $this->writable = $writable;
-        return $this;
-    }
-
-    /**
-     * @param string[] $message
-     * @return PageBuilder
-     */
-    public function setMessage(array $message)
-    {
-        $this->message = $message;
+        $this->breadCrumbTitles[] = $title;
+        $this->breadCrumbLinks[] = $link;
+        
         return $this;
     }
 
@@ -139,47 +108,12 @@ class PageBuilder extends AbstractBuilder implements PageConstantsInterface
      */
     public function build()
     {
-        $this->validateId();
-
         if ($this->type === null) {
             throw new \Exception("You must set a page type using ::setType before calling this function.");
         }
 
-        if ($this->message !== null) {
-            if ($this->type !== PageBuilder::TYPE_AJAX_ACTION) {
-                throw new \Exception("You may only set a message on an ajax-action page.");
-            }
-        }
+        $writable = $this->buildWritableBearer();
 
-        if ($this->type === PageBuilder::TYPE_AJAX_ACTION) {
-            if ($this->message === null) {
-                throw new \Exception("You must provide a message for an ajax-action page using ::setMessage");
-            }
-
-            foreach ($this->message as $key => $value) {
-                $this->message[$key] = htmlentities($value);
-            }
-
-            $this->writable = SectionBuilder::begin()
-                ->setId("ajax-action-" . $_SERVER["REQUEST_URI"])
-                ->addContent(SafeString::fromString(json_encode($this->message)))
-                ->build();
-        }
-
-        $page = new Page(
-            $this->id,
-            $this->type,
-            $this->classes,
-            $this->data,
-            $this->title,
-            $this->baseHref,
-            $this->header,
-            $this->subHeader,
-            $this->breadCrumbs,
-            $this->returnTo,
-            $this->writable
-        );
-
-        return $page;
+        return new Page($this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $writable);
     }
 }
