@@ -4,7 +4,7 @@ namespace Athens\Core\FieldBearer;
 
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
-use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Etc\ORMUtils;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Field\FieldBuilder;
@@ -13,7 +13,7 @@ use Athens\Core\Field\FieldBuilder;
  * Class FieldBearerBuilder
  * @package Athens\Core\FieldBearer
  */
-class FieldBearerBuilder extends AbstractBuilder
+class FieldBearerBuilder extends AbstractWritableBuilder
 {
     /** @var FieldBearerInterface[] */
     protected $fieldBearers = [];

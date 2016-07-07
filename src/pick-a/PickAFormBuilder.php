@@ -2,16 +2,16 @@
 
 namespace Athens\Core\PickA;
 
-use Athens\Core\Etc\AbstractBuilder;
 use Athens\Core\Form\FormAction\FormAction;
 use Athens\Core\Form\FormAction\FormActionInterface;
+use Athens\Core\Writable\AbstractWritableBuilder;
 
 /**
  * Class PickAFormBuilder
  *
  * @package Athens\Core\PickA
  */
-class PickAFormBuilder extends AbstractBuilder
+class PickAFormBuilder extends AbstractWritableBuilder
 {
     /** @var string */
     protected $type = "base";

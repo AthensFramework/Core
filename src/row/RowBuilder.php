@@ -2,14 +2,14 @@
 
 namespace Athens\Core\Row;
 
-use Athens\Core\Etc\AbstractBuilder;
 use Athens\Core\FieldBearer\FieldBearerBearerBuilderTrait;
+use Athens\Core\Writable\AbstractWritableBuilder;
 
 /**
  * Class RowBuilder
  * @package Athens\Core\Row
  */
-class RowBuilder extends AbstractBuilder
+class RowBuilder extends AbstractWritableBuilder
 {
 
     /** @var string */

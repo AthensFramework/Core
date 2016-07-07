@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Choice;
 
-use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Etc\StringUtils;
 
 /**
@@ -10,7 +10,7 @@ use Athens\Core\Etc\StringUtils;
  *
  * @package Athens\Core\Choice
  */
-class ChoiceBuilder extends AbstractBuilder
+class ChoiceBuilder extends AbstractWritableBuilder
 {
 
     /** @var string */

@@ -10,7 +10,7 @@ use Athens\Core\Writable\AbstractWritableBuilder;
  *
  * @package Athens\Core\Field
  */
-class FieldBuilder extends AbstractWritableBuilder implements FieldConstantsInterface
+class LinkBuilder extends AbstractWritableBuilder
 {
 
     /** @var bool  */

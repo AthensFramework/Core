@@ -2,17 +2,17 @@
 
 namespace Athens\Core\Table;
 
-use Athens\Core\Etc\AbstractBuilder;
 use Athens\Core\Filter\DummyFilter;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Filter\FilterInterface;
+use Athens\Core\Writable\AbstractWritableBuilder;
 
 /**
  * Class TableBuilder
  *
  * @package Athens\Core\Table
  */
-class TableBuilder extends AbstractBuilder
+class TableBuilder extends AbstractWritableBuilder
 {
 
     /** @var RowInterface[] */

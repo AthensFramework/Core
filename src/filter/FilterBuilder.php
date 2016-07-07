@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Filter;
 
-use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Etc\Settings;
 use Athens\Core\FilterStatement\FilterStatement;
 use Athens\Core\FilterStatement\FilterStatementInterface;
@@ -15,7 +15,7 @@ use Athens\Core\FilterStatement\SortingFilterStatement;
  *
  * @package Athens\Core\Filter
  */
-class FilterBuilder extends AbstractBuilder
+class FilterBuilder extends AbstractWritableBuilder
 {
 
     /** @var string */

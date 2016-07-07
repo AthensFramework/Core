@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Form;
 
-use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Field\Field;
 
@@ -11,7 +11,7 @@ use Athens\Core\Field\Field;
  *
  * @package Athens\Core\Form
  */
-class FormBuilder extends AbstractBuilder
+class FormBuilder extends AbstractWritableBuilder
 {
     use FormBuilderTrait;
 

@@ -2,18 +2,19 @@
 
 namespace Athens\Core\Page;
 
-use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Etc\SafeString;
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
+use Athens\Core\WritableBearer\WritableBearerBuilder;
 
 /**
  * Class PageBuilder
  *
  * @package Athens\Core\Page
  */
-class PageBuilder extends AbstractBuilder implements PageConstantsInterface
+class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterface
 {
 
     /** @var string */
@@ -112,7 +113,18 @@ class PageBuilder extends AbstractBuilder implements PageConstantsInterface
             throw new \Exception("You must set a page type using ::setType before calling this function.");
         }
 
-        $writable = $this->buildWritableBearer();
+        $content = $this->addClass('page-content')->buildWritableBearer();
+        
+        if ($this->breadCrumbTitles !== []) {
+            $breadCrumbs = SectionBuilder::begin()
+                ->setType('div')
+                ->addClass('breadcrumbs-container')
+                ->addLiteralContent(SafeString::fromString(''))
+        }
+        
+        $topMatter = WritableBearerBuilder::begin()
+            ->addWritable()
+        
 
         return new Page($this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $writable);
     }

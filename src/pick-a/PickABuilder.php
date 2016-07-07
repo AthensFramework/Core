@@ -2,14 +2,14 @@
 
 namespace Athens\Core\PickA;
 
-use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Writable\AbstractWritableBuilder;
 
 /**
  * Class PickABuilder
  *
  * @package Athens\Core\PickA
  */
-class PickABuilder extends AbstractBuilder
+class PickABuilder extends AbstractWritableBuilder
 {
 
     /** @var array */

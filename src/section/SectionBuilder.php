@@ -6,6 +6,7 @@ use Athens\Core\Etc\AbstractBuilder;
 use Athens\Core\Etc\SafeString;
 use Athens\Core\Field\Field;
 use Athens\Core\Field\FieldBuilder;
+use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
 use Athens\Core\Writable\WritableInterface;
 
@@ -14,7 +15,7 @@ use Athens\Core\Writable\WritableInterface;
  *
  * @package Athens\Core\Section
  */
-class SectionBuilder extends AbstractBuilder implements SectionConstantsInterface
+class SectionBuilder extends AbstractWritableBuilder implements SectionConstantsInterface
 {
     const PAGE_TYPE_AJAX_ACTION = 'ajax-action';
     const PAGE_TYPE_AJAX_PAGE = 'ajax-page';

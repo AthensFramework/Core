@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Email;
 
-use Athens\Core\Etc\AbstractBuilder;
+use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Etc\SafeString;
 
 /**
@@ -50,7 +50,7 @@ use Athens\Core\Etc\SafeString;
  *
  * @package Athens\Core\Email
  */
-class EmailBuilder extends AbstractBuilder
+class EmailBuilder extends AbstractWritableBuilder
 {
 
     /** @var string */
