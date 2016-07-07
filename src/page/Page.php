@@ -34,9 +34,6 @@ class Page implements PageInterface
     /** @var WritableInterface */
     protected $writable;
 
-    /** @var string */
-    protected $type;
-
     /**
      * Page constructor.
      *

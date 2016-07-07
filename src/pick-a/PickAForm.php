@@ -18,10 +18,6 @@ use Athens\Core\Writable\WritableTrait;
  */
 class PickAForm implements PickAFormInterface
 {
-
-    /** @var string */
-    protected $type;
-
     /** @var string */
     protected $method;
 

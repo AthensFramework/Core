@@ -13,6 +13,9 @@ trait WritableTrait
     /** @var string[] */
     protected $data = [];
 
+    /** @var string */
+    protected $type = "base";
+
     /**
      * @return string
      */
@@ -35,5 +38,13 @@ trait WritableTrait
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

@@ -11,9 +11,6 @@ trait FormTrait
     use WritableTrait;
 
     /** @var string */
-    protected $type;
-
-    /** @var string */
     protected $method;
 
     /** @var string */

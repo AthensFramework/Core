@@ -26,9 +26,6 @@ class Field implements FieldInterface
     protected $fieldSize;
 
     /** @var string */
-    protected $type;
-
-    /** @var string */
     protected $label;
 
     /** @var string|string[]  */

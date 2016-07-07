@@ -13,9 +13,6 @@ use Athens\Core\Writable\WritableTrait;
 class Email implements EmailInterface
 {
     /** @var string */
-    protected $type;
-
-    /** @var string */
     protected $subject;
 
     /** @var string */

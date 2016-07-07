@@ -17,9 +17,6 @@ class Section implements SectionInterface
     /** @var WritableBearerInterface */
     protected $writableBearer;
 
-    /** @var  string */
-    protected $type;
-
     use VisitableTrait;
     use WritableTrait;
 
