@@ -7,7 +7,7 @@ use Athens\Core\Writable\WritableInterface;
 interface LinkInterface extends WritableInterface
 {
     /** @return string */
-    public function getLink();
+    public function getURI();
 
     /** @return string */
     public function getText();

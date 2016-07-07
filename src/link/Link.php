@@ -43,7 +43,7 @@ class Link implements LinkInterface
     /**
      * @return string
      */
-    public function getLink()
+    public function getURI()
     {
         return $this->link;
     }

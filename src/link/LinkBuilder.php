@@ -1,153 +1,57 @@
 <?php
 
-namespace Athens\Core\Field;
+namespace Athens\Core\Link;
 
-use Athens\Core\Choice\ChoiceInterface;
 use Athens\Core\Writable\AbstractWritableBuilder;
 
-/**
- * Class FieldBuilder
- *
- * @package Athens\Core\Field
- */
 class LinkBuilder extends AbstractWritableBuilder
 {
-
-    /** @var bool  */
-    protected $required;
-
-    /** @var int  */
-    protected $fieldSize;
+    /** @var string */
+    protected $uri;
 
     /** @var string */
-    protected $type;
-
-    /** @var string */
-    protected $label;
-
-    /** @var mixed|mixed[]  */
-    protected $initial;
-
-    /** @var ChoiceInterface[] */
-    protected $choices = [];
-
-    /** @var string */
-    protected $helptext = "";
-
-    /** @var string */
-    protected $placeholder = "";
+    protected $text;
 
     /**
-     * @param boolean $required
-     * @return FieldBuilder
+     * @param string $uri
+     * @return LinkBuilder
      */
-    public function setRequired($required)
+    public function setURI($uri)
     {
-        $this->required = $required;
+        $this->uri = $uri;
         return $this;
     }
 
     /**
-     * @param integer $fieldSize
-     * @return FieldBuilder
+     * @param string $text
+     * @return LinkBuilder
      */
-    public function setFieldSize($fieldSize)
+    public function setText($text)
     {
-        $this->fieldSize = $fieldSize;
+        $this->text = $text;
         return $this;
     }
 
     /**
-     * @param string $type
-     * @return FieldBuilder
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
-    }
-
-    /**
-     * @param string $label
-     * @return FieldBuilder
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-        return $this;
-    }
-
-    /**
-     * @param string|string[] $initial
-     * @return FieldBuilder
-     */
-    public function setInitial($initial)
-    {
-        $this->initial = $initial;
-        return $this;
-    }
-
-    /**
-     * @param ChoiceInterface[] $choices
-     * @return FieldBuilder
-     */
-    public function setChoices(array $choices)
-    {
-        $this->choices = $choices;
-        return $this;
-    }
-
-    /**
-     * @param string $helptext
-     * @return FieldBuilder
-     */
-    public function setHelptext($helptext)
-    {
-        $this->helptext = $helptext;
-        return $this;
-    }
-
-    /**
-     * @param string $placeholder
-     * @return FieldBuilder
-     */
-    public function setPlaceholder($placeholder)
-    {
-        $this->placeholder = $placeholder;
-        return $this;
-    }
-
-    /**
-     * @return Field
+     * @return Link
      * @throws \Exception If the correct settings have not been provided.
      */
     public function build()
     {
-        if ($this->type === null) {
-            throw new \Exception("Must use ::setType to set a field type before building");
+        if ($this->uri === null) {
+            throw new \Exception("Must use ::setURI to set link URI before building");
         }
 
-        if ($this->label === null) {
-            throw new \Exception("Must use ::setLabel to set a field label before building");
+        if ($this->text === null) {
+            throw new \Exception("Must use ::setText to set link text before building");
         }
 
-        if ($this->type === static::TYPE_CHOICE || $this->type === static::TYPE_MULTIPLE_CHOICE) {
-            if ($this->choices === []) {
-                throw new \Exception("For the chosen field type, you must include choices using ::setChoices");
-            }
-        }
-
-        return new Field(
+        return new Link(
             $this->classes,
             $this->data,
             $this->type,
-            $this->label,
-            $this->initial,
-            $this->required,
-            $this->choices,
-            $this->fieldSize,
-            $this->helptext,
-            $this->placeholder
+            $this->uri,
+            $this->text
         );
     }
 }
