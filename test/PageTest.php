@@ -143,7 +143,7 @@ class PageTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testBuildAjaxActionPage()
+    public function testBuildBarePage()
     {
         $status = (string)rand();
         $messageContent = (string)rand();
@@ -159,7 +159,7 @@ class PageTest extends PHPUnit_Framework_TestCase
 
         $page = PageBuilder::begin()
             ->setId("test-page")
-            ->setType(PageBuilder::TYPE_AJAX_ACTION)
+            ->setType(PageBuilder::TYPE_BARE)
             ->addLiteralContent(json_encode($message))
             ->build();
 
@@ -167,8 +167,10 @@ class PageTest extends PHPUnit_Framework_TestCase
 
         // Assert that the page contains a section, with content equal to the json
         // encoding of message.
-        $this->assertEquals(json_encode($message), $page->getWritable()->getWritables()[0]->getInitial());
-        $this->assertContains($requestURI, $page->getWritable()->getId());
+//        $this->assertEquals(json_encode($message), $page->getWritable()->getWritables()[0]->getInitial());
+//        $this->assertContains($requestURI, $page->getWritable()->getId());
+
+        $this->fail('Write tests');
     }
 
     /**
@@ -179,7 +181,7 @@ class PageTest extends PHPUnit_Framework_TestCase
     {
         $page = PageBuilder::begin()
             ->setId("test-page")
-            ->setType(PageBuilder::TYPE_AJAX_ACTION)
+            ->setType(PageBuilder::TYPE_BARE)
             ->build();
     }
 

@@ -89,14 +89,14 @@ class Admin extends Page
                 break;
             case static::MODE_DETAIL:
                 $writable = $this->makeDetail();
-                $type = static::TYPE_AJAX_PAGE;
+                $type = static::TYPE_BARE;
 
                 $header = "";
                 $subHeader = "";
                 break;
             case static::MODE_DELETE:
                 $writable = $this->makeDelete();
-                $type = static::TYPE_AJAX_ACTION;
+                $type = static::TYPE_BARE;
                 break;
             default:
                 throw new \Exception(
