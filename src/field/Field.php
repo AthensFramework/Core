@@ -6,7 +6,7 @@ use DateTime;
 
 use Athens\Core\Etc\StringUtils;
 use Athens\Core\Visitor\VisitableTrait;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableTrait;
 use Athens\Core\Choice\ChoiceInterface;
 
 /**

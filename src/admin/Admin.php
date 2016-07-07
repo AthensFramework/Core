@@ -9,7 +9,7 @@ use Athens\Core\Section\SectionBuilder;
 
 use Athens\Core\Etc\ArrayUtils;
 use Athens\Core\Field\FieldBuilder;
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Table\TableBuilder;
 use Athens\Core\Row\RowBuilder;
 use Athens\Core\Row\RowInterface;

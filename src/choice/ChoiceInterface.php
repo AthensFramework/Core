@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Choice;
 
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 
 /**
  * Interface ChoiceInterface describes a small, typed data container for elements

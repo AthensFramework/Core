@@ -5,7 +5,7 @@ namespace Athens\Core\Table;
 use Athens\Core\Filter\FilterInterface;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Visitor\VisitableTrait;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableTrait;
 
 /**
  * Class Table

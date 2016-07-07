@@ -2,7 +2,7 @@
 
 namespace Athens\Core\PickA;
 
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 
 interface PickAInterface extends WritableInterface
 {

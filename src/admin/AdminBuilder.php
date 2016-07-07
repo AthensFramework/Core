@@ -7,7 +7,7 @@ use Exception;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use Athens\Core\Etc\AbstractBuilder;
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Etc\SafeString;
 use Athens\Core\Page\PageBuilder;

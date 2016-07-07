@@ -6,10 +6,10 @@ use Athens\Core\FieldBearer\FieldBearer;
 use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\Etc\StringUtils;
 use Athens\Core\FieldBearer\FieldBearerInterface;
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\Form\FormAction\FormActionInterface;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableTrait;
 
 /**
  * Class PickAForm

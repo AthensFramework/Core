@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Page;
 
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Initializer\InitializableInterface;
 use Athens\Core\Writer\Writer;
 use Athens\Core\Initializer\Initializer;

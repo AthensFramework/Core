@@ -1,6 +1,6 @@
 <?php
 
-namespace Athens\Core\Writer;
+namespace Athens\Core\Writable;
 
 use Athens\Core\Visitor\VisitableInterface;
 

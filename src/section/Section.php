@@ -3,8 +3,8 @@
 namespace Athens\Core\Section;
 
 use Athens\Core\Visitor\VisitableTrait;
-use Athens\Core\Writer\WritableInterface;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableInterface;
+use Athens\Core\Writable\WritableTrait;
 use Athens\Core\WritableBearer\WritableBearerInterface;
 
 /**

@@ -3,7 +3,7 @@
 namespace Athens\Core\Email;
 
 use Athens\Core\Visitor\VisitableTrait;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableTrait;
 
 /**
  * Class Email encapsulates the data which consitutes an email.

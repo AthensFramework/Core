@@ -8,7 +8,7 @@ use Athens\Core\Etc\ORMUtils;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\FilterStatement\FilterStatementInterface;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableTrait;
 
 /**
  * Class Filter

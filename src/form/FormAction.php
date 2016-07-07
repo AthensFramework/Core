@@ -3,7 +3,7 @@
 namespace Athens\Core\Form\FormAction;
 
 use Athens\Core\Visitor\VisitableTrait;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableTrait;
 
 /**
  * Class FormAction

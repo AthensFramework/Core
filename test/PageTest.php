@@ -129,7 +129,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $page = PageBuilder::begin()
             ->setId("test-page")
             ->setType(PageBuilder::TYPE_FULL_HEADER)
-            ->setWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
+            ->addWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
             ->build();
 
         $writer = new MockWriter();

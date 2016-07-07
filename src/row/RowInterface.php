@@ -3,7 +3,7 @@
 namespace Athens\Core\Row;
 
 use Athens\Core\FieldBearer\FieldBearerInterface;
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 
 interface RowInterface extends WritableInterface
 {

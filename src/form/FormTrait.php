@@ -4,7 +4,7 @@ namespace Athens\Core\Form;
 
 use Athens\Core\FieldBearer\FieldBearerInterface;
 use Athens\Core\Form\FormAction\FormAction;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableTrait;
 
 trait FormTrait
 {

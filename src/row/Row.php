@@ -4,7 +4,7 @@ namespace Athens\Core\Row;
 
 use Athens\Core\FieldBearer\FieldBearerInterface;
 use Athens\Core\Visitor\VisitableTrait;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableTrait;
 
 /**
  * A Table child which contains fields

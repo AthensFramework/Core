@@ -36,7 +36,7 @@ class PickABuilder extends AbstractBuilder
     }
 
     /**
-     * @param \Athens\Core\Writer\WritableInterface[] $writables
+     * @param \Athens\Core\Writable\WritableInterface[] $writables
      * @return PickABuilder
      */
     public function addWritables(array $writables)

@@ -6,7 +6,7 @@ use Guzzle\Service\Resource\Model;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use Athens\Core\FilterStatement\FilterStatementInterface;
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 
 interface FilterInterface extends WritableInterface
 {

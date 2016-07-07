@@ -2,7 +2,7 @@
 
 namespace Athens\Core\WritableBearer;
 
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Etc\SafeString;
 

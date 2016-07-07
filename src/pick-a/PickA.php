@@ -3,8 +3,8 @@
 namespace Athens\Core\PickA;
 
 use Athens\Core\Visitor\VisitableTrait;
-use Athens\Core\Writer\WritableInterface;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableInterface;
+use Athens\Core\Writable\WritableTrait;
 
 /**
  * Class PickA presents users with multiple sections which may be viewed

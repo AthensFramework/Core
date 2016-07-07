@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Writer;
 
+use Athens\Core\WritableBearer\WritableBearerInterface;
 use Twig_SimpleFilter;
 
 use Athens\Core\Email\EmailInterface;
@@ -152,6 +153,31 @@ class Writer extends Visitor
     protected function loadTemplate($subpath)
     {
         return $this->getEnvironment()->loadTemplate($subpath);
+    }
+
+    /**
+     * Render $writableBearer into html.
+     *
+     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
+     *
+     * @param WritableBearerInterface $writableBearer
+     * @return string
+     */
+    public function visitWritableBearer(WritableBearerInterface $writableBearer)
+    {
+
+        $template = 'writable-bearer/' . $writableBearer->getType() . '.twig';
+
+        return $this
+            ->loadTemplate($template)
+            ->render(
+                [
+                    "id" => $writableBearer->getId(),
+                    "classes" => $writableBearer->getClasses(),
+                    "data" => $writableBearer->getData(),
+                    "writables" => $writableBearer->getWritables(),
+                ]
+            );
     }
 
     /**

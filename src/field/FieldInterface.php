@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Field;
 
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Choice\ChoiceInterface;
 
 interface FieldInterface extends WritableInterface, FieldConstantsInterface

@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Email;
 
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Writer\Writer;
 use Athens\Core\Emailer\EmailerInterface;
 

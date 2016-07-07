@@ -3,8 +3,8 @@
 namespace Athens\Core\WritableBearer;
 
 use Athens\Core\Visitor\VisitableTrait;
-use Athens\Core\Writer\WritableInterface;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableInterface;
+use Athens\Core\Writable\WritableTrait;
 
 /**
  * A very general display element. May contain other writable elements.

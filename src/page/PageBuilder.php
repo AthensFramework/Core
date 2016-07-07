@@ -3,7 +3,7 @@
 namespace Athens\Core\Page;
 
 use Athens\Core\Etc\AbstractBuilder;
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Etc\SafeString;
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;

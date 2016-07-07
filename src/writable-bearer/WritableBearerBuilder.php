@@ -6,7 +6,7 @@ use Athens\Core\Etc\SafeString;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Field\Field;
 use Athens\Core\Etc\AbstractBuilder;
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 
 class WritableBearerBuilder extends AbstractBuilder
 {

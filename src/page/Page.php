@@ -7,13 +7,13 @@ use Exception;
 use DOMPDF;
 
 use Athens\Core\Table\TableInterface;
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\Writer\Writer;
 use Athens\Core\Etc\Settings;
 use Athens\Core\Initializer\Initializer;
 use Athens\Core\Field\FieldInterface;
-use Athens\Core\Writer\WritableTrait;
+use Athens\Core\Writable\WritableTrait;
 
 /**
  * Class Page Provides the primary writable for a page request.

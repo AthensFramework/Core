@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Form\FormAction;
 
-use Athens\Core\Writer\WritableInterface;
+use Athens\Core\Writable\WritableInterface;
 
 /**
  * Interface FormActionInterface
