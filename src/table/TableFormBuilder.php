@@ -2,17 +2,17 @@
 
 namespace Athens\Core\Table;
 
-use Athens\Core\Etc\AbstractBuilder;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Form\FormBuilderTrait;
+use Athens\Core\Writable\AbstractWritableBuilder;
 
 /**
  * Class TableFormBuilder
  *
  * @package Athens\Core\Table
  */
-class TableFormBuilder extends AbstractBuilder
+class TableFormBuilder extends AbstractWritableBuilder
 {
 
     use FormBuilderTrait;
