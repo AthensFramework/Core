@@ -2,9 +2,9 @@
 
 namespace Athens\Core\Writer;
 
-use Athens\Core\WritableBearer\WritableBearerInterface;
 use Twig_SimpleFilter;
 
+use Athens\Core\WritableBearer\WritableBearerInterface;
 use Athens\Core\Email\EmailInterface;
 use Athens\Core\Etc\SafeString;
 use Athens\Core\Field\FieldInterface;
@@ -25,6 +25,7 @@ use Athens\Core\Field\Field;
 use Athens\Core\Filter\FilterInterface;
 use Athens\Core\Filter\SearchFilter;
 use Athens\Core\Table\TableFormInterface;
+use Athens\Core\Writable\WritableInterface;
 
 /**
  * Class Writer is a visitor which renders Writable elements.
@@ -234,14 +235,10 @@ class Writer extends Visitor
                     "data" => $page->getData(),
                     "pageType" => $page->getType(),
                     "title" => $page->getTitle(),
-                    "header" => $page->getHeader(),
-                    "subHeader" => $page->getSubHeader(),
                     "baseHref" => $page->getBaseHref(),
-                    "breadCrumbs" => $page->getBreadCrumbs(),
-                    "returnTo" => $page->getReturnTo(),
+                    "writable" => $writable,
                     "projectCSS" => Settings::getProjectCSS(),
                     "projectJS" => Settings::getProjectJS(),
-                    "content" => $content,
                 ]
             );
     }
