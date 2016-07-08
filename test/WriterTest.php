@@ -25,6 +25,7 @@ use Athens\Core\FilterStatement\FilterStatement;
 use Athens\Core\PickA\PickABuilder;
 use Athens\Core\PickA\PickAFormBuilder;
 use Athens\Core\Table\TableFormBuilder;
+use Athens\Core\Link\LinkBuilder;
 
 use Athens\Core\Test\Mock\MockWriter;
 use Athens\Core\Test\Mock\MockFieldBearer;
@@ -918,6 +919,39 @@ class WriterTest extends PHPUnit_Framework_TestCase
         foreach ($optionNames as $name) {
             $this->assertContains($name, $result);
         }
+    }
+
+    public function testVisitLink()
+    {
+        $writer = new Writer();
+
+        $uri = 'u' . (string)rand();
+        $text = 't' . (string)rand();
+
+        $classes = ["class1", "class2"];
+        $data = [
+            'd' . (string)rand() => (string)rand(),
+            'd' . (string)rand() => (string)rand(),
+        ];
+
+        $link = LinkBuilder::begin()
+            ->addClass($classes[0])
+            ->addClass($classes[1])
+            ->addData(array_keys($data)[0], array_values($data)[0])
+            ->addData(array_keys($data)[1], array_values($data)[1])
+            ->setURI($uri)
+            ->setText($text)
+            ->build();
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitLink($link));
+
+        $this->assertContains("<a", $result);
+        $this->assertContains("href=$uri", $result);
+        $this->assertContains(">$text</a>", $result);
+        $this->assertContains("class=link " . implode(' ', $classes), $result);
+        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
+        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
     }
 
     public function testVisitPage()

@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Page;
 
+use Athens\Core\Link\LinkBuilder;
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Section\SectionBuilder;
@@ -115,18 +116,52 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
         $content = $this->addClass('page-content')->buildWritableBearer();
         
-//        if ($this->breadCrumbTitles !== []) {
-//            $breadCrumbs = SectionBuilder::begin()
-//                ->setType('div')
-//                ->addClass('breadcrumbs-container')
-//                ->addLiteralContent(SafeString::fromString(''))
-//        }
-//
-//        $topMatter = WritableBearerBuilder::begin()
-//            ->addWritable()
+        $topMatterBuilder = SectionBuilder::begin()
+            ->setType(SectionBuilder::TYPE_SPAN);
+        
+        if ($this->breadCrumbTitles !== []) {
 
+            $breadCrumbsBuilder = SectionBuilder::begin()
+                ->setType(SectionBuilder::TYPE_BREADCRUMBS);
+
+            foreach ($this->breadCrumbTitles as $index => $breadCrumbTitle) {
+                $breadCrumbLink = $this->breadCrumbLinks[$index];
+
+                $breadCrumbsBuilder->addWritable(
+                    LinkBuilder::begin()->setText($breadCrumbTitle)->setURI($breadCrumbLink)->build()
+                );
+            }
+
+            $topMatterBuilder->addWritable($breadCrumbsBuilder->build());
+        }
+
+        if ($this->header !== null) {
+            $topMatterBuilder->addWritable(
+                SectionBuilder::begin()
+                    ->setType('header')
+                    ->addLiteralContent($this->header)
+                    ->build()
+            );
+        }
+
+        if ($this->subHeader !== null) {
+            $topMatterBuilder->addWritable(
+                SectionBuilder::begin()
+                    ->setType('subheader')
+                    ->addLiteralContent($this->subHeader)
+                    ->build()
+            );
+        }
+        
         $writable = WritableBearerBuilder::begin()
-            ->addWritable($content)
+            ->addWritable($topMatterBuilder->build())
+            ->addWritable(
+                SectionBuilder::begin()
+                    ->setType(SectionBuilder::TYPE_DIV)
+                    ->setId('page-content')
+                    ->addWritable($content)
+                    ->build()
+            )
             ->build();
         
 

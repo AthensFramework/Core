@@ -26,9 +26,9 @@ interface PageInterface extends WritableInterface, InitializableInterface, PageC
     public function getType();
 
     /**
-     * @return WritableInterface
+     * @return WritableInterface[]
      */
-    public function getWritable();
+    public function getWritables();
 
     /**
      * @param Initializer|null $initializer

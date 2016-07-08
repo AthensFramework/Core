@@ -1,0 +1,9 @@
+<div class = 'breadcrumbs-container'>
+    <nav class='breadcrumbs' role='navigation'>
+        <ul>
+            {% for writable in writables %}
+                <li>{{ writable|write }}</li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>

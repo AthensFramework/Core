@@ -17,9 +17,6 @@ use Athens\Core\Writable\WritableInterface;
  */
 class SectionBuilder extends AbstractWritableBuilder implements SectionConstantsInterface
 {
-    const PAGE_TYPE_AJAX_ACTION = 'ajax-action';
-    const PAGE_TYPE_AJAX_PAGE = 'ajax-page';
-    
     /** @var string */
     protected $type = "base";
     

@@ -1,0 +1,7 @@
+<h1 id="{{ id }}" class="header-container {{ classes|join(' ') }}" data-request-uri="{{ requestURI }}" {{ data|writedata|raw }}>
+    <span class="section-writables">
+        {% for writable in writables  %}
+            {{ writable|write|raw }}
+        {% endfor %}
+    </span>
+</h1>

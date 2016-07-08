@@ -19,6 +19,21 @@ abstract class AbstractWritableBuilder extends AbstractBuilder
 
     /** @var string[] An associative array of extra data fields to attach to the object */
     protected $data = [];
+    
+    /** @var string The sub-type of the element */
+    protected $type = "base";
+
+    /**
+     * Set the sub-type of this writable element.
+     * 
+     * @param string $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
 
     /**
      * @param string $id

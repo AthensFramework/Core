@@ -21,7 +21,7 @@ use Athens\Core\Row\RowInterface;
 use Athens\Core\Table\TableInterface;
 use Athens\Core\Etc\Settings;
 use Athens\Core\Etc\StringUtils;
-use Athens\Core\Field\Field;
+use Athens\Core\Link\LinkInterface;
 use Athens\Core\Filter\FilterInterface;
 use Athens\Core\Filter\SearchFilter;
 use Athens\Core\Table\TableFormInterface;
@@ -207,6 +207,32 @@ class Writer extends Visitor
     }
 
     /**
+     * Render $link into html.
+     *
+     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
+     *
+     * @param LinkInterface $link
+     * @return string
+     */
+    public function visitLink(LinkInterface $link)
+    {
+
+        $template = 'link/' . $link->getType() . '.twig';
+
+        return $this
+            ->loadTemplate($template)
+            ->render(
+                [
+                    "id" => $link->getId(),
+                    "classes" => $link->getClasses(),
+                    "data" => $link->getData(),
+                    "uri" => $link->getURI(),
+                    "text" => $link->getText(),
+                ]
+            );
+    }
+
+    /**
      * Render $page into html.
      *
      * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
@@ -218,14 +244,6 @@ class Writer extends Visitor
     {
         $template = 'page/' . $page->getType() . '.twig';
 
-        $writable = $page->getWritable();
-
-        if ($writable !== null) {
-            $content = $writable->accept($this);
-        } else {
-            $content = "";
-        }
-
         return $this
             ->loadTemplate($template)
             ->render(
@@ -233,10 +251,9 @@ class Writer extends Visitor
                     "id" => $page->getId(),
                     "classes" => $page->getClasses(),
                     "data" => $page->getData(),
-                    "pageType" => $page->getType(),
                     "title" => $page->getTitle(),
                     "baseHref" => $page->getBaseHref(),
-                    "writable" => $writable,
+                    "writables" => $page->getWritables(),
                     "projectCSS" => Settings::getProjectCSS(),
                     "projectJS" => Settings::getProjectJS(),
                 ]
