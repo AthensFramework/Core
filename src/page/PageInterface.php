@@ -4,10 +4,14 @@ namespace Athens\Core\Page;
 
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Initializer\InitializableInterface;
+use Athens\Core\WritableBearer\WritableBearerBearerInterface;
 use Athens\Core\Writer\Writer;
 use Athens\Core\Initializer\Initializer;
 
-interface PageInterface extends WritableInterface, InitializableInterface, PageConstantsInterface
+interface PageInterface extends WritableInterface,
+    WritableBearerBearerInterface,
+    InitializableInterface,
+    PageConstantsInterface
 {
 
     /**
@@ -24,11 +28,6 @@ interface PageInterface extends WritableInterface, InitializableInterface, PageC
      * @return string
      */
     public function getType();
-
-    /**
-     * @return WritableInterface[]
-     */
-    public function getWritables();
 
     /**
      * @param Initializer|null $initializer

@@ -4,8 +4,12 @@ namespace Athens\Core\Section;
 
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Initializer\InitializableInterface;
+use Athens\Core\WritableBearer\WritableBearerBearerInterface;
 
-interface SectionInterface extends WritableInterface, InitializableInterface, SectionConstantsInterface
+interface SectionInterface extends WritableInterface, 
+    WritableBearerBearerInterface,
+    InitializableInterface,
+    SectionConstantsInterface
 {
 
     /**

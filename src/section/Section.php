@@ -3,8 +3,8 @@
 namespace Athens\Core\Section;
 
 use Athens\Core\Visitor\VisitableTrait;
-use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Writable\WritableTrait;
+use Athens\Core\WritableBearer\WritableBearerBearerTrait;
 use Athens\Core\WritableBearer\WritableBearerInterface;
 
 /**
@@ -14,11 +14,9 @@ use Athens\Core\WritableBearer\WritableBearerInterface;
  */
 class Section implements SectionInterface
 {
-    /** @var WritableBearerInterface */
-    protected $writableBearer;
-
     use VisitableTrait;
     use WritableTrait;
+    use WritableBearerBearerTrait;
 
     /**
      * Create a new section

@@ -6,7 +6,7 @@ use Exception;
 
 use DOMPDF;
 
-use Athens\Core\WritableBearer\WritableBearerInterface;
+use Athens\Core\WritableBearer\WritableBearerBearerTrait;
 use Athens\Core\Table\TableInterface;
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Visitor\VisitableTrait;
@@ -25,15 +25,13 @@ class Page implements PageInterface
 {
     use VisitableTrait;
     use WritableTrait;
+    use WritableBearerBearerTrait;
 
     /** @var string */
     protected $title;
 
     /** @var string */
     protected $baseHref;
-
-    /** @var WritableBearerInterface */
-    protected $writableBearer;
 
     /**
      * Page constructor.
@@ -88,14 +86,6 @@ class Page implements PageInterface
     public function getBaseHref()
     {
         return $this->baseHref;
-    }
-
-    /**
-     * @return WritableInterface[]|null
-     */
-    public function getWritables()
-    {
-        return $this->writableBearer->getWritables();
     }
 
     /**
