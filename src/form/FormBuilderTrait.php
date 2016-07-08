@@ -8,9 +8,6 @@ use Athens\Core\Field\FieldBuilder;
 
 trait FormBuilderTrait
 {
-    /** @var string */
-    protected $type = "base";
-
     /** @var FormAction[] */
     protected $actions;
 
