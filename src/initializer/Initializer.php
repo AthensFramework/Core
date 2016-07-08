@@ -9,6 +9,7 @@ use Athens\Core\Section\SectionInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\FieldBearer\FieldBearerInterface;
 use Athens\Core\PickA\PickAFormInterface;
+use Athens\Core\WritableBearer\WritableBearerInterface;
 
 /**
  * Class Initializer performs actions on page load to InitizableInterfaces
@@ -37,7 +38,7 @@ class Initializer extends Visitor
      */
     public function visitPage(PageInterface $page)
     {
-        $this->visitChild($page->getWritable());
+        $this->visitChild($page->getWritableBearer());
     }
 
     /**
@@ -46,7 +47,16 @@ class Initializer extends Visitor
      */
     public function visitSection(SectionInterface $section)
     {
-        foreach ($section->getWritables() as $writable) {
+        $this->visitChild($section->getWritableBearer());
+    }
+
+    /**
+     * @param WritableBearerInterface $writableBearer
+     * @return void
+     */
+    public function visitWritableBearer(WritableBearerInterface $writableBearer)
+    {
+        foreach ($writableBearer->getWritables() as $writable) {
             $this->visitChild($writable);
         }
     }
