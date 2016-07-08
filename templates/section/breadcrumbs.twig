@@ -1,4 +1,4 @@
-<div class = 'breadcrumbs-container'>
+<div {% if id %}id="{{ id }}"{% endif %} class = 'breadcrumbs-container'>
     <nav class='breadcrumbs' role='navigation'>
         <ul>
             {% for writable in writables %}

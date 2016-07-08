@@ -2,13 +2,8 @@
 
 namespace Athens\Core\Section;
 
-use Athens\Core\Etc\AbstractBuilder;
-use Athens\Core\Etc\SafeString;
-use Athens\Core\Field\Field;
-use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
-use Athens\Core\Writable\WritableInterface;
 
 /**
  * Class SectionBuilder
@@ -37,8 +32,6 @@ class SectionBuilder extends AbstractWritableBuilder implements SectionConstants
      */
     public function build()
     {
-        $this->validateId();
-
         $writableBearer = $this->buildWritableBearer();
 
         return new Section($this->id, $this->classes, $this->data, $writableBearer, $this->type);
