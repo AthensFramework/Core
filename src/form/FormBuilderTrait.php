@@ -34,16 +34,6 @@ trait FormBuilderTrait
 
     use FieldBearerBearerBuilderTrait;
 
-     /**
-     * @param string $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
-    }
-
     /**
      * @param FormAction[] $actions
      * @return $this
