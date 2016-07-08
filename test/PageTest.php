@@ -2,8 +2,14 @@
 
 namespace Athens\Core\Test;
 
+use Athens\Core\Field\FieldInterface;
+use Athens\Core\Link\Link;
+use Athens\Core\Section\SectionInterface;
 use PHPUnit_Framework_TestCase;
 
+use Athens\Core\Writable\WritableInterface;
+use Athens\Core\WritableBearer\WritableBearerInterface;
+use Athens\Core\WritableBearer\WritableBearerBearerInterface;
 use Athens\Core\Page\PageBuilder;
 use Athens\Core\Page\Page;
 use Athens\Core\Section\SectionBuilder;
@@ -25,6 +31,27 @@ class PageTest extends PHPUnit_Framework_TestCase
         return [
             PageBuilder::begin(),
         ];
+    }
+
+    /**
+     * @param WritableInterface $writable
+     * @return WritableInterface[]
+     */
+    public function flattenWritables(WritableInterface $writable)
+    {
+        $writables = [$writable];
+
+        if ($writable instanceof WritableBearerBearerInterface || $writable instanceof WritableBearerInterface) {
+            if ($writable instanceof WritableBearerBearerInterface) {
+                $writables[] = $writable->getWritableBearer();
+            }
+
+            foreach ($writable->getWritables() as $child) {
+                $writables = array_merge($writables, $this->flattenWritables($child));
+            }
+        }
+
+        return $writables;
     }
 
     /**
@@ -68,28 +95,44 @@ class PageTest extends PHPUnit_Framework_TestCase
             ->setType($type)
             ->build();
 
+        $writables = $this->flattenWritables($page->getWritableBearer());
+
         $this->assertEquals($id, $page->getId());
-        $this->assertEquals($classes, $page->getClasses());
+        $this->assertArraySubset($classes, $page->getClasses());
         $this->assertEquals($title, $page->getTitle());
-        $this->assertEquals($writable, $page->getWritable());
+        $this->assertContains($writable, $writables);
         $this->assertEquals($baseHref, $page->getBaseHref());
-        $this->assertEquals($breadCrumbs, $page->getBreadCrumbs());
-        $this->assertEquals($header, $page->getHeader());
-        $this->assertEquals($subHeader, $page->getSubHeader());
         $this->assertEquals($type, $page->getType());
 
-        $this->fail('Add test for bread crumbs.');
-    }
+        $breadCrumbFilter = function($writable) use ($breadCrumbs) {
+            return (
+                $writable instanceof Link
+                && $writable->getURI() === array_values($breadCrumbs)[0]
+                && $writable->getText() === array_keys($breadCrumbs)[0]
+            );
+        };
 
-    /**
-     * @expectedException              \Exception
-     * @expectedExceptionMessageRegExp #Must use ::setId to provide a unique id.*#
-     */
-    public function testBuildFilterErrorWithoutHandle()
-    {
-        $filter = PageBuilder::begin()
-            ->setType(PageBuilder::TYPE_FULL_HEADER)
-            ->build();
+        $headerFilter = function($writable) use ($header) {
+            return (
+                $writable instanceof SectionInterface
+                && $writable->getType() === SectionInterface::TYPE_HEADER
+                && $writable->getWritables()[0] instanceof FieldInterface
+                && strpos($writable->getWritables()[0]->getInitial(), $header) !== false
+            );
+        };
+
+        $subheaderFilter = function($writable) use ($subHeader) {
+            return (
+                $writable instanceof SectionInterface
+                && $writable->getType() === SectionInterface::TYPE_SUBHEADER
+                && $writable->getWritables()[0] instanceof FieldInterface
+                && strpos($writable->getWritables()[0]->getInitial(), $subHeader) !== false
+            );
+        };
+
+        $this->assertEquals(1, sizeof(array_filter($writables, $breadCrumbFilter)));
+        $this->assertEquals(1, sizeof(array_filter($writables, $headerFilter)));
+        $this->assertEquals(1, sizeof(array_filter($writables, $subheaderFilter)));
     }
 
     public function testRender()
@@ -142,61 +185,4 @@ class PageTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(MockWriter::$used);
 
     }
-
-    public function testBuildBarePage()
-    {
-        $status = (string)rand();
-        $messageContent = (string)rand();
-
-        $message = [
-            "status" => $status,
-            "message" => $messageContent
-        ];
-
-        $requestURI = (string)rand();
-
-        $_SERVER["REQUEST_URI"] = $requestURI;
-
-        $page = PageBuilder::begin()
-            ->setId("test-page")
-            ->setType(PageBuilder::TYPE_BARE)
-            ->addLiteralContent(json_encode($message))
-            ->build();
-
-        $_SERVER["REQUEST_URI"] = null;
-
-        // Assert that the page contains a section, with content equal to the json
-        // encoding of message.
-//        $this->assertEquals(json_encode($message), $page->getWritable()->getWritables()[0]->getInitial());
-//        $this->assertContains($requestURI, $page->getWritable()->getId());
-
-        $this->fail('Write tests');
-    }
-
-    /**
-     * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #You must provide a message.*#
-     */
-    public function testBuildAjaxActionPageWithoutMessageRaisesException()
-    {
-        $page = PageBuilder::begin()
-            ->setId("test-page")
-            ->setType(PageBuilder::TYPE_BARE)
-            ->build();
-    }
-
-    /*
-     * The below methods are tested sufficiently above
-    public function testGetWritables() {
-
-    }
-
-    public function testGetLabel() {
-
-    }
-
-    public function testGetContent() {
-
-    }
-    */
 }

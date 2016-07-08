@@ -25,7 +25,7 @@
 
     {% endblock project_head %}
 </head>
-<body id="{{ id }}" class="{{ pageType }} {{ classes|join(' ') }}" {{ data|writedata|raw }}>
+<body id="{{ id }}" class="{{ classes|join(' ') }}" {{ data|writedata|raw }}>
 {% block body %}
     <div class="loading-gif hidden"></div>
 

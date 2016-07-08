@@ -34,9 +34,6 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
     protected $breadCrumbLinks = [];
 
     /** @var string */
-    protected $type;
-
-    /** @var string */
     protected $title;
 
     use WritableBearerBearerBuilderTrait;
@@ -104,21 +101,11 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
         return $this;
     }
 
-    /**
-     * @return PageInterface
-     * @throws \Exception If the type of the page has not been set.
-     */
-    public function build()
+    protected function buildTopMatter()
     {
-        if ($this->type === null) {
-            throw new \Exception("You must set a page type using ::setType before calling this function.");
-        }
-
-        $content = $this->addClass('page-content')->buildWritableBearer();
-        
         $topMatterBuilder = SectionBuilder::begin()
             ->setType(SectionBuilder::TYPE_SPAN);
-        
+
         if ($this->breadCrumbTitles !== []) {
 
             $breadCrumbsBuilder = SectionBuilder::begin()
@@ -138,7 +125,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
         if ($this->header !== null) {
             $topMatterBuilder->addWritable(
                 SectionBuilder::begin()
-                    ->setType('header')
+                    ->setType(SectionBuilder::TYPE_HEADER)
                     ->addLiteralContent($this->header)
                     ->build()
             );
@@ -147,14 +134,34 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
         if ($this->subHeader !== null) {
             $topMatterBuilder->addWritable(
                 SectionBuilder::begin()
-                    ->setType('subheader')
+                    ->setType(SectionBuilder::TYPE_SUBHEADER)
                     ->addLiteralContent($this->subHeader)
                     ->build()
             );
         }
-        
+
+        return $topMatterBuilder->build();
+    }
+
+    protected function buildContent()
+    {
+
+    }
+
+    /**
+     * @return PageInterface
+     * @throws \Exception If the type of the page has not been set.
+     */
+    public function build()
+    {
+        if ($this->type === null) {
+            throw new \Exception("You must set a page type using ::setType before calling this function.");
+        }
+
+        $content = $this->buildWritableBearer();
+
         $writable = WritableBearerBuilder::begin()
-            ->addWritable($topMatterBuilder->build())
+            ->addWritable($this->buildTopMatter())
             ->addWritable(
                 SectionBuilder::begin()
                     ->setType(SectionBuilder::TYPE_DIV)
@@ -163,7 +170,6 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
                     ->build()
             )
             ->build();
-        
 
         return new Page($this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $writable);
     }

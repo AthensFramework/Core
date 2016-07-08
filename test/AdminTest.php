@@ -58,9 +58,6 @@ class AdminTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($classes, $page->getClasses());
         $this->assertEquals($title, $page->getTitle());
         $this->assertEquals($baseHref, $page->getBaseHref());
-//        $this->assertEquals($type, $page->getType());
-
-        $this->fail('Add test for bread crumbs, and header, and subheader ?');
     }
 
     /**

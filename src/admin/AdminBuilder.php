@@ -6,13 +6,11 @@ use Exception;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-use Athens\Core\Etc\AbstractBuilder;
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Section\SectionBuilder;
-use Athens\Core\Etc\SafeString;
 use Athens\Core\Page\PageBuilder;
 use Athens\Core\Page\PageInterface;
-use Athens\Core\Page\Page;
+use Athens\Core\WritableBearer\WritableBearerBuilder;
 
 /**
  * Class AdminBuilder
@@ -63,19 +61,28 @@ class AdminBuilder extends PageBuilder
 
     /**
      * @return PageInterface
-     * @throws Exception If the type of the page has not been set.
+     * @throws Exception If the a query has not been provided.
      */
     public function build()
     {
-        $this->validateId();
-
         if ($this->queries === []) {
             throw new Exception(
                 "For an object manager page, you must provide a Propel query(ies) using ::addQuery."
             );
         }
-        
-        $writable = $this->buildWritableBearer();
+
+        $content = $this->buildWritableBearer();
+
+        $writable = WritableBearerBuilder::begin()
+            ->addWritable($this->buildTopMatter())
+            ->addWritable(
+                SectionBuilder::begin()
+                    ->setType(SectionBuilder::TYPE_DIV)
+                    ->setId('page-content')
+                    ->addWritable($content)
+                    ->build()
+            )
+            ->build();
         
         $admin = new Admin(
             $this->id,

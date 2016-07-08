@@ -969,6 +969,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             'd' . (string)rand() => (string)rand(),
         ];
 
+        $breadCrumbs = ['t' . (string)rand() => 'u' . (string)rand()];
+
         $section = SectionBuilder::begin()
             ->setId("s" . (string)rand())
             ->addLabel("Label")
@@ -987,7 +989,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setType($pageType)
             ->setTitle("Page Title")
             ->setBaseHref(".")
-//            ->setBreadCrumbs(["Key" => "http://example.com", "Another name"])
+            ->addBreadCrumb(array_keys($breadCrumbs)[0], array_values($breadCrumbs)[0])
             ->build();
 
         // Add project CSS and JS
@@ -1015,12 +1017,12 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("<base href=.", $result);
         $this->assertContains("</head>", $result);
         $this->assertContains("<body id=$id", $result);
-        $this->assertContains("class=$pageType " . implode(" ", $classes), $result);
+        $this->assertContains("class=" . implode(" ", $classes), $result);
         $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
         $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
-        $this->assertContains("<li><a target=_self href=http://example.com>Key</a></li>", $result);
-        $this->assertContains("<h1 class=header>$pageHeader</h1>", $result);
-        $this->assertContains("<h2 class=subheader>$pageSubHeader</h2>", $result);
+        $this->assertContains("href=" . array_values($breadCrumbs)[0] . ">" . array_keys($breadCrumbs)[0] . "</a>", $result);
+        $this->assertRegExp("/h1.*class=header.*$pageHeader.*h1/s", $result);
+        $this->assertRegExp("/h2.*class=subheader.*$pageSubHeader.*h2/s", $result);
         $this->assertContains("<div class=section-label  >Label</div>", $result);
 
         $this->assertContains($cssFile1, $result);

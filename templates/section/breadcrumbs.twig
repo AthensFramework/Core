@@ -2,7 +2,7 @@
     <nav class='breadcrumbs' role='navigation'>
         <ul>
             {% for writable in writables %}
-                <li>{{ writable|write }}</li>
+                <li>{{ writable|write|raw }}</li>
             {% endfor %}
         </ul>
     </nav>
