@@ -2,11 +2,12 @@
 
 namespace Athens\Core\Writer;
 
-use Athens\Core\Filter\DummyFilter;
-use Athens\Core\Filter\SelectFilter;
+use Exception;
 
 use Twig_SimpleFilter;
 
+use Athens\Core\Filter\DummyFilter;
+use Athens\Core\Filter\SelectFilter;
 use Athens\Core\WritableBearer\WritableBearerInterface;
 use Athens\Core\Email\EmailInterface;
 use Athens\Core\Etc\SafeString;
@@ -172,7 +173,7 @@ class ExcelWriter extends AbstractWriter
         }
 
         if ($tables === []) {
-//            throw new Exception("No tables found in writables.");
+            throw new Exception("No tables found in writables.");
         }
 
         $objPHPExcel = new \PHPExcel();

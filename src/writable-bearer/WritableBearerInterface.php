@@ -12,5 +12,4 @@ interface WritableBearerInterface extends InitializableInterface, WritableInterf
      * @return WritableInterface[]
      */
     public function getWritables();
-
 }

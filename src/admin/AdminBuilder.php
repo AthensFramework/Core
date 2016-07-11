@@ -34,7 +34,7 @@ class AdminBuilder extends PageBuilder
      * @param VisitorInterface $renderer
      * @return AdminBuilder
      */
-    public function setRenderer($renderer)
+    public function setRenderer(VisitorInterface $renderer)
     {
         $this->renderer = $renderer;
         return $this;
@@ -101,7 +101,15 @@ class AdminBuilder extends PageBuilder
             ->build();
         
         $admin = new Admin(
-            $this->id, $this->type, $this->classes, $this->title, $this->baseHref, $this->queries, $this->renderer, $writable, $this->detailPages
+            $this->id,
+            $this->type,
+            $this->classes,
+            $this->title,
+            $this->baseHref,
+            $this->queries,
+            $this->renderer,
+            $writable,
+            $this->detailPages
         );
 
         return $admin;

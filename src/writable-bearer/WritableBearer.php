@@ -8,7 +8,7 @@ use Athens\Core\Writable\WritableTrait;
 
 /**
  * A very general display element. May contain other writable elements.
- * 
+ *
  * Generally renders to html as a <span> element.
  *
  * @package Athens\Core\WritableBearer
@@ -21,7 +21,14 @@ class WritableBearer implements WritableBearerInterface
 
     use VisitableTrait;
     use WritableTrait;
-    
+
+    /**
+     * WritableBearer constructor.
+     * @param string $id
+     * @param array  $classes
+     * @param array  $data
+     * @param array  $writables
+     */
     public function __construct($id, array $classes, array $data, array $writables)
     {
         $this->id = $id;

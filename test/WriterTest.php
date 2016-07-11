@@ -1020,7 +1020,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("class=" . implode(" ", $classes), $result);
         $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
         $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
-        $this->assertContains("href=" . array_values($breadCrumbs)[0] . ">" . array_keys($breadCrumbs)[0] . "</a>", $result);
+        $this->assertContains(
+            "href=" . array_values($breadCrumbs)[0] . ">" . array_keys($breadCrumbs)[0] . "</a>",
+            $result
+        );
         $this->assertRegExp("/h1.*class=header.*$pageHeader.*h1/s", $result);
         $this->assertRegExp("/h2.*class=subheader.*$pageSubHeader.*h2/s", $result);
         $this->assertContains("<div class=section-label  >Label</div>", $result);

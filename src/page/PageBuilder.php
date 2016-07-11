@@ -2,12 +2,15 @@
 
 namespace Athens\Core\Page;
 
+use Exception;
+
 use Athens\Core\Link\LinkBuilder;
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
 use Athens\Core\WritableBearer\WritableBearerBuilder;
 use Athens\Core\Visitor\VisitorInterface;
+use Athens\Core\Section\SectionInterface;
 
 /**
  * Class PageBuilder
@@ -103,13 +106,17 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
         return $this;
     }
 
+    /**
+     * Build the bread crumbs, header, sub header, etc., of the page.
+     *
+     * @return SectionInterface
+     */
     protected function buildTopMatter()
     {
         $topMatterBuilder = SectionBuilder::begin()
             ->setType(SectionBuilder::TYPE_SPAN);
 
         if ($this->breadCrumbTitles !== []) {
-
             $breadCrumbsBuilder = SectionBuilder::begin()
                 ->setType(SectionBuilder::TYPE_BREADCRUMBS);
 
@@ -145,15 +152,14 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
         return $topMatterBuilder->build();
     }
 
-    protected function buildContent()
-    {
-
-    }
-    
+    /**
+     * Construct a renderer from setting defaults, if none has been provided.
+     *
+     * @return void
+     */
     protected function validateRenderer()
     {
         if ($this->renderer === null) {
-            
             $settingsInstance = $this->getSettingsInstance();
             
             if ($this->type === static::TYPE_EXCEL) {
@@ -199,6 +205,15 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
             )
             ->build();
 
-        return new Page($this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $this->renderer , $writable);
+        return new Page(
+            $this->id,
+            $this->type,
+            $this->classes,
+            $this->data,
+            $this->title,
+            $this->baseHref,
+            $this->renderer,
+            $writable
+        );
     }
 }

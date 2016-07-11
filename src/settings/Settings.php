@@ -6,7 +6,7 @@ use Exception;
 
 /**
  * Class Settings is a static class for maintaining application-wide settings.
- * 
+ *
  * @package Athens\Core\Etc
  */
 class Settings implements SettingsInterface
@@ -42,7 +42,8 @@ class Settings implements SettingsInterface
 
     /**
      * @param string $name
-     * @return array $arguments
+     * @param array  $arguments
+     * @return mixed
      * @throws Exception if setting attribute not found.
      */
     protected function get($name, array $arguments)
@@ -52,12 +53,13 @@ class Settings implements SettingsInterface
 
     /**
      * @param string $name
-     * @param array $arguments
-     * @throws Exception if setting attribute not found
+     * @param array  $arguments
+     * @return void
+     * @throws Exception if setting attribute not found.
      */
     protected function set($name, array $arguments)
     {
-        if (is_array(static::$settings[$name])) {
+        if (is_array(static::$settings[$name]) === true) {
             throw new Exception(
                 "Setting $name is an array. Try using ::add" . ucfirst($name) . " method instead."
             );
@@ -66,14 +68,25 @@ class Settings implements SettingsInterface
         static::$settings[$name] = $arguments[0];
     }
 
+    /**
+     * @param string $name
+     * @param array  $arguments
+     * @return void
+     */
     protected function add($name, array $arguments)
     {
         static::$settings[$name] = array_merge(static::$settings[$name], $arguments);
     }
 
+    /**
+     * @param string $methodName
+     * @param array  $arguments
+     * @return mixed
+     * @throws Exception if method does not exist and can not be supported.
+     */
     public function __call($methodName, array $arguments)
     {
-        if (method_exists($this, $methodName)) {
+        if (method_exists($this, $methodName) === true) {
             call_user_func($this->$methodName, $arguments);
         }
 
@@ -100,6 +113,9 @@ class Settings implements SettingsInterface
         return $this->$methodPrefix($settingAttributeName, $arguments);
     }
 
+    /**
+     * @return static
+     */
     public static function getInstance()
     {
         if (static::$instance === null) {

@@ -46,19 +46,27 @@ class Admin extends Page
     /**
      * Admin constructor.
      *
-     * @param string $id
-     * @param string $type
-     * @param string[] $classes
-     * @param string $title
-     * @param string $baseHref
-     * @param ModelCriteria[] $queries
-     * @param VisitorInterface $renderer
+     * @param string            $id
+     * @param string            $type
+     * @param string[]          $classes
+     * @param string            $title
+     * @param string            $baseHref
+     * @param ModelCriteria[]   $queries
+     * @param VisitorInterface  $renderer
      * @param WritableInterface $writable
-     * @param array $detailPages
+     * @param array             $detailPages
      * @throws \Exception If an invalid object manager mode is provided.
      */
     public function __construct(
-        $id, $type, array $classes, $title, $baseHref, array $queries, VisitorInterface $renderer, $writable, array $detailPages
+        $id,
+        $type,
+        array $classes,
+        $title,
+        $baseHref,
+        array $queries,
+        VisitorInterface $renderer,
+        WritableInterface $writable,
+        array $detailPages
     ) {
 
         /** @var string $mode */
@@ -99,7 +107,14 @@ class Admin extends Page
         }
 
         parent::__construct(
-            $id, $type, $classes, [], $title, $baseHref, $renderer, $writable
+            $id,
+            $type,
+            $classes,
+            [],
+            $title,
+            $baseHref,
+            $renderer,
+            $writable
         );
         $this->renderer = $renderer;
     }

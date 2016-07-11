@@ -6,6 +6,7 @@ use Athens\Core\Writable\WritableInterface;
 
 interface LinkInterface extends WritableInterface
 {
+
     /** @return string */
     public function getURI();
 

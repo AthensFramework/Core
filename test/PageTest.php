@@ -104,7 +104,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($baseHref, $page->getBaseHref());
         $this->assertEquals($type, $page->getType());
 
-        $breadCrumbFilter = function($writable) use ($breadCrumbs) {
+        $breadCrumbFilter = function ($writable) use ($breadCrumbs) {
             return (
                 $writable instanceof Link
                 && $writable->getURI() === array_values($breadCrumbs)[0]
@@ -112,7 +112,7 @@ class PageTest extends PHPUnit_Framework_TestCase
             );
         };
 
-        $headerFilter = function($writable) use ($header) {
+        $headerFilter = function ($writable) use ($header) {
             return (
                 $writable instanceof SectionInterface
                 && $writable->getType() === SectionInterface::TYPE_HEADER
@@ -121,7 +121,7 @@ class PageTest extends PHPUnit_Framework_TestCase
             );
         };
 
-        $subheaderFilter = function($writable) use ($subHeader) {
+        $subheaderFilter = function ($writable) use ($subHeader) {
             return (
                 $writable instanceof SectionInterface
                 && $writable->getType() === SectionInterface::TYPE_SUBHEADER

@@ -25,7 +25,7 @@ abstract class AbstractWritableBuilder extends AbstractBuilder
 
     /**
      * Set the sub-type of this writable element.
-     * 
+     *
      * @param string $type
      * @return $this
      */

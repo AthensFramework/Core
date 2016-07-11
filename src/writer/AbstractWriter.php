@@ -5,8 +5,14 @@ namespace Athens\Core\Writer;
 use Athens\Core\Visitor\Visitor;
 use Athens\Core\Writable\WritableInterface;
 
+/**
+ * Class AbstractWriter
+ *
+ * @package Athens\Core\Writer
+ */
 abstract class AbstractWriter implements WriterInterface
 {
+
     /**
      * Visit a writable host and render it into html.
      *
@@ -17,5 +23,4 @@ abstract class AbstractWriter implements WriterInterface
     {
         return $host->accept($this);
     }
-    
 }

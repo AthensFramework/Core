@@ -8,11 +8,13 @@ use Athens\Core\WritableBearer\WritableBearerBearerInterface;
 use Athens\Core\Writer\HTMLWriter;
 use Athens\Core\Initializer\Initializer;
 
-interface PageInterface extends WritableInterface,
+interface PageInterface extends
+    WritableInterface,
     WritableBearerBearerInterface,
     InitializableInterface,
     PageConstantsInterface
 {
+
     /**
      * @return string
      */

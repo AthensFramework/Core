@@ -9,8 +9,8 @@ interface EmailerInterface
 {
 
     /**
-     * @param EmailInterface $email
-     * @param HTMLWriter|null    $writer
+     * @param EmailInterface  $email
+     * @param HTMLWriter|null $writer
      * @return boolean
      */
     public function send(EmailInterface $email, HTMLWriter $writer);

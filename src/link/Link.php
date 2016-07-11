@@ -5,6 +5,10 @@ namespace Athens\Core\Link;
 use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\Writable\WritableTrait;
 
+/**
+ * Class Link
+ * @package Athens\Core\Link
+ */
 class Link implements LinkInterface
 {
     use WritableTrait;
@@ -19,8 +23,8 @@ class Link implements LinkInterface
 
     /**
      * Link constructor.
-     * @param array $classes
-     * @param array $data
+     * @param array  $classes
+     * @param array  $data
      * @param string $type
      * @param string $link
      * @param string $text
@@ -55,5 +59,4 @@ class Link implements LinkInterface
     {
         return $this->text;
     }
-
 }

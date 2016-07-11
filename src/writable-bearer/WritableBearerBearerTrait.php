@@ -25,5 +25,4 @@ trait WritableBearerBearerTrait
     {
         return $this->writableBearer->getWritables();
     }
-
 }

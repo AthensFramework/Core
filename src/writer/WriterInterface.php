@@ -20,6 +20,7 @@ use Athens\Core\Table\TableFormInterface;
 
 interface WriterInterface extends VisitorInterface
 {
+
     /**
      * Render $writableBearer into a string.
      *
@@ -157,5 +158,4 @@ interface WriterInterface extends VisitorInterface
      * @return string
      */
     public function visitEmail(EmailInterface $email);
-
 }

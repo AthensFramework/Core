@@ -9,6 +9,11 @@ use Athens\Core\Etc\AbstractBuilder;
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Writable\WritableInterface;
 
+/**
+ * Class WritableBearerBuilder
+ *
+ * @package Athens\Core\WritableBearer
+ */
 class WritableBearerBuilder extends AbstractWritableBuilder
 {
 
@@ -30,10 +35,11 @@ class WritableBearerBuilder extends AbstractWritableBuilder
 
     /**
      * @param WritableInterface $writable
-     * @param string $name
+     * @param string            $name
      * @return WritableBearerBuilder
      */
-    public function addWritable(WritableInterface $writable, $name = "") {
+    public function addWritable(WritableInterface $writable, $name = "")
+    {
         if ($name === "") {
             $this->writables[] = $writable;
         } else {

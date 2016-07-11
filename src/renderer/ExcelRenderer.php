@@ -2,9 +2,21 @@
 
 namespace Athens\Core\Renderer;
 
+use Athens\Core\Writable\WritableInterface;
+
+/**
+ * Class ExcelRenderer
+ *
+ * @package Athens\Core\Renderer
+ */
 class ExcelRenderer extends AbstractRenderer
 {
-    public function render($writable)
+
+    /**
+     * @param WritableInterface $writable
+     * @return void
+     */
+    public function render(WritableInterface $writable)
     {
         $writable->accept($this->initializer);
         $content = $writable->accept($this->writer);

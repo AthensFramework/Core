@@ -6,6 +6,7 @@ use Athens\Core\Writable\WritableInterface;
 
 interface WritableBearerBearerInterface
 {
+
     /**
      * @return WritableBearerInterface
      */
@@ -15,5 +16,4 @@ interface WritableBearerBearerInterface
      * @return WritableInterface[]
      */
     public function getWritables();
-
 }

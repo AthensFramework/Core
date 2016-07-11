@@ -21,11 +21,11 @@ class Section implements SectionInterface
     /**
      * Create a new section
      *
-     * @param string              $id
-     * @param string[]            $classes
-     * @param array               $data
+     * @param string                  $id
+     * @param string[]                $classes
+     * @param array                   $data
      * @param WritableBearerInterface $writableBearer
-     * @param string              $type
+     * @param string                  $type
      */
     public function __construct($id, array $classes, array $data, WritableBearerInterface $writableBearer, $type)
     {

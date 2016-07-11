@@ -4,6 +4,10 @@ namespace Athens\Core\Link;
 
 use Athens\Core\Writable\AbstractWritableBuilder;
 
+/**
+ * Class LinkBuilder
+ * @package Athens\Core\Link
+ */
 class LinkBuilder extends AbstractWritableBuilder
 {
     /** @var string */

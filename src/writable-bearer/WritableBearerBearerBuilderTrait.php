@@ -6,7 +6,6 @@ use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Etc\SafeString;
 
-
 trait WritableBearerBearerBuilderTrait
 {
     /** @var WritableBearerBuilder */
@@ -46,7 +45,8 @@ trait WritableBearerBearerBuilderTrait
      * @param WritableInterface $writable
      * @return $this
      */
-    public function addWritable(WritableInterface $writable) {
+    public function addWritable(WritableInterface $writable)
+    {
         $this->getWritableBearerBuilder()->addWritable($writable);
         
         return $this;
@@ -101,7 +101,7 @@ trait WritableBearerBearerBuilderTrait
 
     /**
      * @param WritableBearerInterface $writableBearer
-     * @param string $name
+     * @param string                  $name
      * @return $this
      */
     public function addWritableBearer(WritableBearerInterface $writableBearer, $name = "")
@@ -109,6 +109,4 @@ trait WritableBearerBearerBuilderTrait
         $this->getWritableBearerBuilder()->addWritableBearer($writableBearer, $name);
         return $this;
     }
-
-
 }

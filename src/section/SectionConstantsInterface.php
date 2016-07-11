@@ -2,7 +2,6 @@
 
 namespace Athens\Core\Section;
 
-
 interface SectionConstantsInterface
 {
     const TYPE_DIV = 'div';
