@@ -7,7 +7,7 @@ use PHPUnit_Framework_TestCase;
 use Athens\Core\FilterStatement\FilterStatement;
 use Athens\Core\Filter\FilterBuilder;
 use Athens\Core\Filter\Filter;
-use Athens\Core\Etc\Settings;
+use Athens\Core\Settings\Settings;
 use Athens\Core\Filter\PaginationFilter;
 use Athens\Core\Filter\FilterControls;
 use Athens\Core\Filter\SortFilter;
@@ -160,10 +160,10 @@ class FilterTest extends PHPUnit_Framework_TestCase
         $type = Filter::TYPE_PAGINATION;
 
         // Store the current default pagination
-        $defaultPagination = Settings::getDefaultPagination();
+        $defaultPagination = Settings::getInstance()->getDefaultPagination();
 
         // Set our new pagination
-        Settings::setDefaultPagination($paginateBy);
+        Settings::getInstance()->setDefaultPagination($paginateBy);
 
         $filter = FilterBuilder::begin()
             ->setType($type)
@@ -180,7 +180,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($paginateBy, $statement->getCriterion());
 
         // Return the old default pagination
-        Settings::setDefaultPagination($defaultPagination);
+        Settings::getInstance()->setDefaultPagination($defaultPagination);
     }
 
     /**

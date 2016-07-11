@@ -13,7 +13,7 @@ use Athens\Core\WritableBearer\WritableBearerBearerInterface;
 use Athens\Core\Page\PageBuilder;
 use Athens\Core\Page\Page;
 use Athens\Core\Section\SectionBuilder;
-use Athens\Core\Etc\Settings;
+use Athens\Core\Settings\Settings;
 
 use Athens\Core\Test\Mock\MockQuery;
 use Athens\Core\Test\Mock\MockHTMLWriter;
@@ -140,11 +140,11 @@ class PageTest extends PHPUnit_Framework_TestCase
         /* No writer provided to render, page uses default writer class from settings */
 
         // Store the current default writer/initializer from the settings
-        $defaultWriterClass = Settings::getDefaultWriterClass();
-        $defaultInitializerClass = Settings::getDefaultInitializerClass();
+        $defaultWriterClass = Settings::getInstance()->getDefaultWriterClass();
+        $defaultInitializerClass = Settings::getInstance()->getDefaultInitializerClass();
 
-        Settings::setDefaultWriterClass("\\Athens\\Core\\Test\\Mock\\MockHTMLWriter");
-        Settings::setDefaultInitializerClass("\\Athens\\Core\\Test\\Mock\\MockInitializer");
+        Settings::getInstance()->setDefaultWriterClass("\\Athens\\Core\\Test\\Mock\\MockHTMLWriter");
+        Settings::getInstance()->setDefaultInitializerClass("\\Athens\\Core\\Test\\Mock\\MockInitializer");
 
         $title = "Test Page";
         $page = PageBuilder::begin()
@@ -155,7 +155,7 @@ class PageTest extends PHPUnit_Framework_TestCase
             ->build();
 
         // Our mock writer will simply echo the title of the page
-        $page->render(null, null);
+        $page->render();
 
         $this->assertTrue(MockInitializer::$used);
         $this->assertTrue(MockHTMLWriter::$used);
@@ -165,24 +165,8 @@ class PageTest extends PHPUnit_Framework_TestCase
         MockHTMLWriter::$used = false;
 
         // Return the default writer/initializer class to its original value
-        Settings::setDefaultWriterClass($defaultWriterClass);
-        Settings::setDefaultInitializerClass($defaultInitializerClass);
-
-        /* Writer provided to render */
-        $page = PageBuilder::begin()
-            ->setId("test-page")
-            ->setType(PageBuilder::TYPE_FULL_HEADER)
-            ->addWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
-            ->build();
-
-        $writer = new MockHTMLWriter();
-        $initializer = new MockInitializer();
-
-        // Our mock writer will simply echo the title of the page
-        $page->render($initializer, $writer);
-
-        $this->assertTrue(MockInitializer::$used);
-        $this->assertTrue(MockHTMLWriter::$used);
+        Settings::getInstance()->setDefaultWriterClass($defaultWriterClass);
+        Settings::getInstance()->setDefaultInitializerClass($defaultInitializerClass);
 
     }
 }

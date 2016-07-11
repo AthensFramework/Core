@@ -3,7 +3,7 @@
 namespace Athens\Core\Filter;
 
 use Athens\Core\Writable\AbstractWritableBuilder;
-use Athens\Core\Etc\Settings;
+use Athens\Core\Settings\Settings;
 use Athens\Core\FilterStatement\FilterStatement;
 use Athens\Core\FilterStatement\FilterStatementInterface;
 use Athens\Core\FilterStatement\ExcludingFilterStatement;
@@ -211,7 +211,7 @@ class FilterBuilder extends AbstractWritableBuilder
 
                 break;
             case Filter::TYPE_PAGINATION:
-                $maxPerPage = isset($this->maxPerPage) ? $this->maxPerPage : Settings::getDefaultPagination();
+                $maxPerPage = isset($this->maxPerPage) ? $this->maxPerPage : Settings::getInstance()->getDefaultPagination();
                 $page = isset($this->page) ? $this->page : FilterControls::getControl($this->id, "page", 1);
 
                 return new PaginationFilter($this->id, $this->classes, $maxPerPage, $page, $this->nextFilter);

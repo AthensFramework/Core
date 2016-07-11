@@ -2,13 +2,12 @@
 
 namespace Athens\Core\Renderer;
 
+use Athens\Core\Visitor\VisitorInterface;
 use Athens\Core\Writer\WriterInterface;
 use Athens\Core\Writable\WritableInterface;
 
-interface RendererInterface
+interface RendererInterface extends VisitorInterface
 {
-    public function __construct(WriterInterface $writer);
-
     /**
      * @param WritableInterface $writable
      * @return void

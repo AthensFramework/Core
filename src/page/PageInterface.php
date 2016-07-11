@@ -13,12 +13,6 @@ interface PageInterface extends WritableInterface,
     InitializableInterface,
     PageConstantsInterface
 {
-
-    /**
-     * PageInterface constructor.
-     */
-    public function __construct();
-
     /**
      * @return string
      */

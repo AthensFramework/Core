@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Admin;
 
+use Athens\Core\Visitor\VisitorInterface;
 use Exception;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -25,6 +26,19 @@ class AdminBuilder extends PageBuilder
 
     /** @var {PageInterface|null}[] */
     protected $detailPages = [];
+
+    /** @var VisitorInterface */
+    protected $renderer;
+
+    /**
+     * @param VisitorInterface $renderer
+     * @return AdminBuilder
+     */
+    public function setRenderer($renderer)
+    {
+        $this->renderer = $renderer;
+        return $this;
+    }
 
     /**
      * @param WritableInterface $writable
@@ -65,6 +79,8 @@ class AdminBuilder extends PageBuilder
      */
     public function build()
     {
+        $this->validateRenderer();
+        
         if ($this->queries === []) {
             throw new Exception(
                 "For an object manager page, you must provide a Propel query(ies) using ::addQuery."
@@ -85,14 +101,7 @@ class AdminBuilder extends PageBuilder
             ->build();
         
         $admin = new Admin(
-            $this->id,
-            $this->type,
-            $this->classes,
-            $this->title,
-            $this->baseHref,
-            $this->queries,
-            $writable,
-            $this->detailPages
+            $this->id, $this->type, $this->classes, $this->title, $this->baseHref, $this->queries, $this->renderer, $writable, $this->detailPages
         );
 
         return $admin;

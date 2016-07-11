@@ -3,7 +3,7 @@
 namespace Athens\Core\Emailer;
 
 use Athens\Core\Email\EmailInterface;
-use Athens\Core\Etc\Settings;
+use Athens\Core\Settings\Settings;
 use Athens\Core\Writer\HTMLWriter;
 
 /**
@@ -35,7 +35,7 @@ abstract class AbstractEmailer implements EmailerInterface
     public function send(EmailInterface $email, HTMLWriter $writer = null)
     {
         if ($writer === null) {
-            $writer = Settings::getDefaultWriterClass();
+            $writer = Settings::getInstance()->getDefaultWriterClass();
             $writer = new $writer();
         }
         $body = $email->accept($writer);

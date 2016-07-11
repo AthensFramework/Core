@@ -6,7 +6,7 @@ use Athens\Core\Etc\ORMUtils;
 use Athens\Core\Etc\StringUtils;
 use Athens\Core\Page\PageInterface;
 use Athens\Core\Section\SectionBuilder;
-
+use Athens\Core\Visitor\VisitorInterface;
 use Athens\Core\Etc\ArrayUtils;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Writable\WritableInterface;
@@ -46,25 +46,19 @@ class Admin extends Page
     /**
      * Admin constructor.
      *
-     * @param string                 $id
-     * @param string                 $type
-     * @param string[]               $classes
-     * @param string                 $title
-     * @param string                 $baseHref
-     * @param ModelCriteria[]        $queries
-     * @param WritableInterface      $writable
-     * @param {PageInterface|null}[] $detailPages
+     * @param string $id
+     * @param string $type
+     * @param string[] $classes
+     * @param string $title
+     * @param string $baseHref
+     * @param ModelCriteria[] $queries
+     * @param VisitorInterface $renderer
+     * @param WritableInterface $writable
+     * @param array $detailPages
      * @throws \Exception If an invalid object manager mode is provided.
      */
     public function __construct(
-        $id,
-        $type,
-        array $classes,
-        $title,
-        $baseHref,
-        array $queries,
-        $writable,
-        array $detailPages
+        $id, $type, array $classes, $title, $baseHref, array $queries, VisitorInterface $renderer, $writable, array $detailPages
     ) {
 
         /** @var string $mode */
@@ -105,8 +99,9 @@ class Admin extends Page
         }
 
         parent::__construct(
-            $id, $type, $classes, [], $title, $baseHref, $writable
+            $id, $type, $classes, [], $title, $baseHref, $renderer, $writable
         );
+        $this->renderer = $renderer;
     }
 
     /**

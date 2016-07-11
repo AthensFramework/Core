@@ -15,6 +15,7 @@ use Athens\Core\Etc\Settings;
 use Athens\Core\Initializer\Initializer;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Writable\WritableTrait;
+use Athens\Core\Visitor\VisitorInterface;
 
 /**
  * Class Page Provides the primary writable for a page request.
@@ -33,6 +34,9 @@ class Page implements PageInterface
     /** @var string */
     protected $baseHref;
 
+    /** @var VisitorInterface */
+    protected $renderer;
+
     /**
      * Page constructor.
      *
@@ -42,10 +46,11 @@ class Page implements PageInterface
      * @param string[] $data
      * @param string $title
      * @param string $baseHref
+     * @param VisitorInterface $renderer
      * @param WritableInterface|null $writable
      */
     public function __construct(
-        $id, $type, array $classes, array $data, $title, $baseHref, WritableInterface $writable = null
+        $id, $type, array $classes, array $data, $title, $baseHref, VisitorInterface $renderer, WritableInterface $writable = null
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -54,12 +59,13 @@ class Page implements PageInterface
         $this->type = $type;
         $this->classes = $classes;
         $this->data = $data;
+        $this->renderer = $renderer;
     }
     
     /**
      * Returns the type of the page.
      *
-     * This will usually be one of the PageBuilder::TYPE_ consts defined above.
+     * This will usually be one of the TYPE_ consts defined in PageConstantsInterface
      *
      * @return string
      */
@@ -89,25 +95,12 @@ class Page implements PageInterface
     }
 
     /**
-     * @return Initializer
+     * Render the page and its contents, including any necessary headers, using the
+     * renderer provided to __construct.
+     *
+     * @return void
      */
-    protected function makeDefaultInitializer()
-    {
-        $initializerClass = Settings::getDefaultInitializerClass();
-        return new $initializerClass();
-    }
-
-    /**
-     * @return HTMLWriter
-     */
-    protected function makeDefaultWriter()
-    {
-        $writerClass = Settings::getDefaultWriterClass();
-        return new $writerClass();
-    }
-    
     public function render() {
-        $this->accept($initializer);
-        $renderFunction($this, $writer);
+        $this->accept($this->renderer);
     }
 }

@@ -13,7 +13,7 @@ use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Page\PageBuilder;
 use Athens\Core\Page\Page;
 use Athens\Core\Etc\StringUtils;
-use Athens\Core\Etc\Settings;
+use Athens\Core\Settings\Settings;
 use Athens\Core\Etc\SafeString;
 use Athens\Core\Row\RowBuilder;
 use Athens\Core\FieldBearer\FieldBearerBuilder;
@@ -998,11 +998,11 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $jsFile1 = "/path/to/file/1.js";
         $jsFile2= "/path/to/file/2.js";
 
-        Settings::addProjectCSS($cssFile1);
-        Settings::addProjectCSS($cssFile2);
+        Settings::getInstance()->addProjectCSS($cssFile1);
+        Settings::getInstance()->addProjectCSS($cssFile2);
 
-        Settings::addProjectJS($jsFile1);
-        Settings::addProjectJS($jsFile2);
+        Settings::getInstance()->addProjectJS($jsFile1);
+        Settings::getInstance()->addProjectJS($jsFile2);
 
         // Provide a request URI, for the page's hash function
         $requestURI = (string)rand();

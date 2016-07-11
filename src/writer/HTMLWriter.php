@@ -22,7 +22,7 @@ use Athens\Core\Visitor\Visitor;
 use Athens\Core\Page\PageInterface;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Table\TableInterface;
-use Athens\Core\Etc\Settings;
+use Athens\Core\Settings\Settings;
 use Athens\Core\Etc\StringUtils;
 use Athens\Core\Link\LinkInterface;
 use Athens\Core\Filter\FilterInterface;
@@ -45,7 +45,7 @@ class HTMLWriter extends AbstractWriter
      */
     protected function getTemplatesDirectories()
     {
-        return array_merge(Settings::getTemplateDirectories(), [dirname(__FILE__) . '/../../templates']);
+        return array_merge(Settings::getInstance()->getTemplateDirectories(), [dirname(__FILE__) . '/../../templates']);
     }
 
     /**
@@ -246,8 +246,8 @@ class HTMLWriter extends AbstractWriter
                     "title" => $page->getTitle(),
                     "baseHref" => $page->getBaseHref(),
                     "writables" => $page->getWritables(),
-                    "projectCSS" => Settings::getProjectCSS(),
-                    "projectJS" => Settings::getProjectJS(),
+                    "projectCSS" => Settings::getInstance()->getProjectCSS(),
+                    "projectJS" => Settings::getInstance()->getProjectJS(),
                 ]
             );
     }

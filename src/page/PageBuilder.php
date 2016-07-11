@@ -4,11 +4,10 @@ namespace Athens\Core\Page;
 
 use Athens\Core\Link\LinkBuilder;
 use Athens\Core\Writable\AbstractWritableBuilder;
-use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Section\SectionBuilder;
-use Athens\Core\Etc\SafeString;
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
 use Athens\Core\WritableBearer\WritableBearerBuilder;
+use Athens\Core\Visitor\VisitorInterface;
 
 /**
  * Class PageBuilder
@@ -35,6 +34,9 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
     /** @var string */
     protected $title;
+    
+    /** @var  VisitorInterface|null */
+    protected $renderer;
 
     use WritableBearerBearerBuilderTrait;
 
@@ -147,6 +149,30 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
     {
 
     }
+    
+    protected function validateRenderer()
+    {
+        if ($this->renderer === null) {
+            
+            $settingsInstance = $this->getSettingsInstance();
+            
+            if ($this->type === static::TYPE_EXCEL) {
+                $initializerClass = $settingsInstance->getDefaultExcelInitializerClass();
+                $writerClass = $settingsInstance->getDefaultExcelWriterClass();
+                $rendererClass = $settingsInstance->getDefaultExcelRendererClass();
+            } elseif ($this->type === static::TYPE_PDF) {
+                $initializerClass = $settingsInstance->getDefaultPdfInitializerClass();
+                $writerClass = $settingsInstance->getDefaultPdfWriterClass();
+                $rendererClass = $settingsInstance->getDefaultPdfRendererClass();
+            } else {
+                $initializerClass = $settingsInstance->getDefaultInitializerClass();
+                $writerClass = $settingsInstance->getDefaultWriterClass();
+                $rendererClass = $settingsInstance->getDefaultRendererClass();
+            }
+
+            $this->renderer = new $rendererClass(new $initializerClass(), new $writerClass());
+        }
+    }
 
     /**
      * @return PageInterface
@@ -157,6 +183,8 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
         if ($this->type === null) {
             throw new \Exception("You must set a page type using ::setType before calling this function.");
         }
+
+        $this->validateRenderer();
 
         $content = $this->buildWritableBearer();
 
@@ -171,6 +199,6 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
             )
             ->build();
 
-        return new Page($this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $writable);
+        return new Page($this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $this->renderer , $writable);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Athens\Core\Etc;
 
+use Athens\Core\Settings\Settings;
+
 /**
  * Class StringUtils is a static class to provide string manipulation utilities
  *
@@ -58,7 +60,7 @@ class StringUtils
             'at','from','by','on','off','for','in','out','over','to','into','with'
         ];
 
-        $acronyms = Settings::getAcronyms();
+        $acronyms = Settings::getInstance()->getAcronyms();
 
         foreach ($name_array as $index => $value) {
             if (in_array($value, $acronyms) === true) {

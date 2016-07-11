@@ -8,7 +8,7 @@ use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Page\Page;
 use Athens\Core\Section\SectionBuilder;
-use Athens\Core\Etc\Settings;
+use Athens\Core\Settings\Settings;
 use Athens\Core\Admin\AdminBuilder;
 
 use Athens\Core\Test\Mock\MockQuery;
