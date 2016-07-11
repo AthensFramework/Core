@@ -2,6 +2,9 @@
 
 namespace Athens\Core\Writer;
 
+use Athens\Core\Filter\DummyFilter;
+use Athens\Core\Filter\SelectFilter;
+
 use Twig_SimpleFilter;
 
 use Athens\Core\WritableBearer\WritableBearerInterface;
@@ -15,7 +18,6 @@ use Athens\Core\Form\FormAction\FormActionInterface;
 use Athens\Core\PickA\PickAFormInterface;
 use Athens\Core\PickA\PickAInterface;
 use Athens\Core\Section\SectionInterface;
-use Athens\Core\Visitor\Visitor;
 use Athens\Core\Page\PageInterface;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Table\TableInterface;
@@ -28,133 +30,14 @@ use Athens\Core\Table\TableFormInterface;
 use Athens\Core\Writable\WritableInterface;
 
 /**
- * Class Writer is a visitor which renders Writable elements.
+ * Class Writer is a visitor which writes Writable elements to Excel strings.
  *
  * @package Athens\Core\Writer
  */
-class Writer extends Visitor
+class ExcelWriter extends AbstractWriter
 {
     /** @var \Twig_Environment */
     protected $environment;
-
-    /**
-     * @return string[] An array containing all Framework-registered Twig template directories.
-     */
-    protected function getTemplatesDirectories()
-    {
-        return array_merge(Settings::getTemplateDirectories(), [dirname(__FILE__) . '/../../templates']);
-    }
-
-    /**
-     * Visit a writable host and render it into html.
-     *
-     * @param WritableInterface $host
-     * @return string
-     */
-    protected function write(WritableInterface $host)
-    {
-        return $host->accept($this);
-    }
-
-    /**
-     * Get this Writer's Twig_Environment; create if it doesn't exist;
-     *
-     * @return \Twig_Environment
-     */
-    protected function getEnvironment()
-    {
-        if ($this->environment === null) {
-            $loader = new \Twig_Loader_Filesystem($this->getTemplatesDirectories());
-            $this->environment = new \Twig_Environment($loader);
-
-            $filter = new Twig_SimpleFilter(
-                'write',
-                function (WritableInterface $host) {
-                    return $host->accept($this);
-                }
-            );
-            $this->environment->addFilter($filter);
-
-            $filter = new Twig_SimpleFilter(
-                'slugify',
-                function ($string) {
-                    return StringUtils::slugify($string);
-                }
-            );
-            $this->environment->addFilter($filter);
-
-            $filter = new Twig_SimpleFilter(
-                'md5',
-                function ($string) {
-                    return md5($string);
-                }
-            );
-            $this->environment->addFilter($filter);
-
-            $filter = new Twig_SimpleFilter(
-                'stripForm',
-                function ($string) {
-                    $string = str_replace("<form", "<div", $string);
-                    $string = preg_replace('#<div class="form-actions">(.*?)</div>#', '', $string);
-                    $string = str_replace("form-actions", "form-actions hidden", $string);
-                    $string = str_replace(" form-errors", " form-errors hidden", $string);
-                    $string = str_replace('"form-errors', '"form-errors hidden', $string);
-                    $string = str_replace("</form>", "</div>", $string);
-                    return $string;
-                }
-            );
-            $this->environment->addFilter($filter);
-
-            $filter = new Twig_SimpleFilter(
-                'saferaw',
-                function ($string) {
-                    if ($string instanceof SafeString) {
-                        $string = (string)$string;
-                    } else {
-                        $string = htmlentities($string);
-                    }
-
-                    return $string;
-                }
-            );
-            $this->environment->addFilter($filter);
-
-            $filter = new Twig_SimpleFilter(
-                'writedata',
-                function ($data) {
-                    $string = ' ';
-
-                    foreach ($data as $key => $value) {
-                        $key = htmlentities($key);
-                        $value = htmlentities($value);
-
-                        $string .= "data-$key='$value' ";
-                    }
-
-                    return trim($string);
-                }
-            );
-            $this->environment->addFilter($filter);
-
-            $requestURI = array_key_exists("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : "";
-            $this->environment->addGlobal("requestURI", $requestURI);
-        }
-
-        return $this->environment;
-    }
-
-    /**
-     * Find a template by path from within the registered template directories.
-     *
-     * Ex: `loadTemplate("page/full_header.twig");`
-     *
-     * @param string $subpath
-     * @return \Twig_TemplateInterface
-     */
-    protected function loadTemplate($subpath)
-    {
-        return $this->getEnvironment()->loadTemplate($subpath);
-    }
 
     /**
      * Render $writableBearer into html.
@@ -233,6 +116,30 @@ class Writer extends Visitor
     }
 
     /**
+     * @param integer $number
+     * @return string
+     */
+    protected static function excelRow($number)
+    {
+        /** @var string $index */
+        $index = "";
+
+        /** @var string $letters */
+        $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        $number += 1;
+        while ($number > 0) {
+            $remainder = $number % 25;
+            $letter = substr($letters, $remainder - 1, 1);
+            $index = $letter . $index;
+
+            $number = floor($number/26);
+        }
+
+        return $index;
+    }
+
+    /**
      * Render $page into html.
      *
      * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
@@ -242,6 +149,97 @@ class Writer extends Visitor
      */
     public function visitPage(PageInterface $page)
     {
+        /** @var WritableInterface[] $writables */
+        $writables = [$page];
+
+        /** @var TableInterface[] $tables */
+        $tables = [];
+
+        while ($writables !== []) {
+            $writable = array_pop($writables);
+
+            if (method_exists($writable, 'getWritable') === true && $writable->getWritable() !== null) {
+                $writables[] = $writable->getWritable();
+            }
+
+            if (method_exists($writable, 'getWritables') === true) {
+                $writables += $writable->getWritables();
+            }
+
+            if ($writable instanceof TableInterface) {
+                $tables[] = $writable;
+            }
+        }
+
+        if ($tables === []) {
+//            throw new Exception("No tables found in writables.");
+        }
+
+        $objPHPExcel = new \PHPExcel();
+
+        foreach ($tables as $table) {
+            // Create a sheet
+            $objWorkSheet = $objPHPExcel->createSheet();
+
+            if (sizeof($table->getRows()) > 0) {
+                // Write header
+                /** @var FieldInterface $field */
+                foreach (array_values($table->getRows()[0]->getFieldBearer()->getVisibleFields()) as $j => $field) {
+                    $cellIndex = static::excelRow($j) . "1";
+                    $objWorkSheet->setCellValue($cellIndex, $field->getLabel());
+                    $objWorkSheet->getStyle($cellIndex)->getFont()->setBold(true);
+                }
+
+                // Write cells
+                foreach ($table->getRows() as $i => $row) {
+                    foreach (array_values($row->getFieldBearer()->getVisibleFields()) as $j => $field) {
+                        if ($field->getInitial() !== "") {
+                            $cellIndex = static::excelRow($j) . ($i + 2);
+                            $objWorkSheet->setCellValue($cellIndex, $field->getInitial());
+                        }
+                    }
+                }
+            } else {
+                $objWorkSheet->setCellValue("A1", "No records found");
+            }
+        }
+
+        // Remove worksheet 0; it was created with the file but we never wrote to it
+        $objPHPExcel->removeSheetByIndex(0);
+
+        // Auto size columns for each worksheet
+        foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+            $objPHPExcel->setActiveSheetIndex($objPHPExcel->getIndex($worksheet));
+            $sheet = $objPHPExcel->getActiveSheet();
+            $cellIterator = $sheet->getRowIterator()->current()->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true);
+            foreach ($cellIterator as $cell) {
+                $sheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
+            }
+        }
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
+
+        ob_start();
+        $objWriter->save('php://output');
+        return ob_end_flush();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         $template = 'page/' . $page->getType() . '.twig';
 
         return $this
@@ -484,107 +482,26 @@ class Writer extends Visitor
     }
 
     /**
-     * Render a PaginationFilter into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
-     *
-     * @param PaginationFilter $filter
-     * @return string
-     */
-    public function visitPaginationFilter(PaginationFilter $filter)
-    {
-        $type = $filter->getType();
-
-        return $this->visitFilterOfType($filter, "$type-pagination");
-    }
-
-    /**
-     * Render a SortFilter into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
-     *
-     * @param SortFilter $filter
-     * @return string
-     */
-    public function visitSortFilter(SortFilter $filter)
-    {
-        return $this->visitFilterOfType($filter, "sort");
-    }
-
-    /**
-     * Render a SearchFilter into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
-     *
-     * @param SearchFilter $filter
-     * @return string
-     */
-    public function visitSearchFilter(SearchFilter $filter)
-    {
-        return $this->visitFilterOfType($filter, "search");
-    }
-
-    /**
-     * Render a StaticFilter into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
-     *
-     * @param FilterInterface $filter
-     * @return string
-     */
-    public function visitStaticFilter(FilterInterface $filter)
-    {
-        return $this->visitFilterOfType($filter, "static");
-    }
-
-    /**
-     * Render a SelectFilter into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
-     *
-     * @param FilterInterface $filter
-     * @return string
-     */
-    public function visitSelectFilter(FilterInterface $filter)
-    {
-        return $this->visitFilterOfType($filter, "select");
-    }
-
-    /**
-     * Render a DummyFilter into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
-     *
-     * @param FilterInterface $filter
-     * @return string
-     */
-    public function visitDummyFilter(FilterInterface $filter)
-    {
-        return "";
-    }
-
-    /**
-     * Render a FilterInterface into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
+     * Helper method to render a FilterInterface to html.
      *
      * @param FilterInterface $filter
      * @return string
      */
     public function visitFilter(FilterInterface $filter)
     {
-        return $this->visitFilterOfType($filter);
-    }
-
-    /**
-     * Helper method to render a FilterInterface to html.
-     *
-     * @param FilterInterface $filter
-     * @param string          $type
-     * @return string
-     */
-    protected function visitFilterOfType(FilterInterface $filter, $type = "base")
-    {
+        if ($filter instanceof DummyFilter) {
+            $type = 'dummy';
+        } elseif ($filter instanceof SelectFilter) {
+            $type = 'select';
+        } elseif ($filter instanceof SearchFilter) {
+            $type = 'search';
+        } elseif ($filter instanceof SortFilter) {
+            $type = 'sort';
+        } elseif ($filter instanceof PaginationFilter) {
+            $type = 'pagination';
+        } else {
+            $type = 'blank';
+        }
         $template = "filter/$type.twig";
 
         return $this

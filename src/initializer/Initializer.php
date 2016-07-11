@@ -9,6 +9,7 @@ use Athens\Core\Section\SectionInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\FieldBearer\FieldBearerInterface;
 use Athens\Core\PickA\PickAFormInterface;
+use Athens\Core\Visitor\VisitorInterface;
 use Athens\Core\WritableBearer\WritableBearerInterface;
 
 /**
@@ -16,7 +17,7 @@ use Athens\Core\WritableBearer\WritableBearerInterface;
  *
  * @package Athens\Core\Initializer
  */
-class Initializer extends Visitor
+class Initializer implements VisitorInterface
 {
 
     /**

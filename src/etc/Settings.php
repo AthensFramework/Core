@@ -14,7 +14,7 @@ class Settings
         "projectJS" => [],
         "projectCSS" => [],
         "acronyms" => [],
-        "defaultWriterClass" => '\Athens\Core\Writer\Writer',
+        "defaultWriterClass" => '\Athens\Core\Writer\HTMLWriter',
         "defaultEmailerClass" => '\Athens\Core\Emailer\PhpEmailer',
         "defaultInitializerClass" => '\Athens\Core\Initializer\Initializer',
         "defaultPagination" => 12

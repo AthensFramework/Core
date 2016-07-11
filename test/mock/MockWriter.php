@@ -2,10 +2,10 @@
 
 namespace Athens\Core\Test\Mock;
 
-use Athens\Core\Writer\Writer;
+use Athens\Core\Writer\HTMLWriter;
 use Athens\Core\Page\PageInterface;
 
-class MockWriter extends Writer
+class MockHTMLWriter extends HTMLWriter
 {
 
     public static $used = false;

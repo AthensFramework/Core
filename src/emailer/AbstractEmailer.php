@@ -4,7 +4,7 @@ namespace Athens\Core\Emailer;
 
 use Athens\Core\Email\EmailInterface;
 use Athens\Core\Etc\Settings;
-use Athens\Core\Writer\Writer;
+use Athens\Core\Writer\HTMLWriter;
 
 /**
  * Class AbstractEmailer provides the framework for rendering an email body before
@@ -29,10 +29,10 @@ abstract class AbstractEmailer implements EmailerInterface
      * Invoke the Emailer's ::doSend method.
      *
      * @param EmailInterface $email
-     * @param Writer|null    $writer
+     * @param HTMLWriter|null    $writer
      * @return boolean
      */
-    public function send(EmailInterface $email, Writer $writer = null)
+    public function send(EmailInterface $email, HTMLWriter $writer = null)
     {
         if ($writer === null) {
             $writer = Settings::getDefaultWriterClass();

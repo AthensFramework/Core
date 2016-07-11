@@ -2,9 +2,9 @@
 
 namespace Athens\Core\Test\Mock;
 
-use Athens\Core\Visitor\Visitor;
+use Athens\Core\Visitor\VisitorInterface;
 
-class MockVisitor extends Visitor
+class MockVisitor implements VisitorInterface
 {
 
     public $result;

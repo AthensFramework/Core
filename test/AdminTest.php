@@ -12,7 +12,7 @@ use Athens\Core\Etc\Settings;
 use Athens\Core\Admin\AdminBuilder;
 
 use Athens\Core\Test\Mock\MockQuery;
-use Athens\Core\Test\Mock\MockWriter;
+use Athens\Core\Test\Mock\MockHTMLWriter;
 use Athens\Core\Test\Mock\MockInitializer;
 
 class AdminTest extends PHPUnit_Framework_TestCase

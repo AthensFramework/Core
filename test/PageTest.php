@@ -16,7 +16,7 @@ use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Etc\Settings;
 
 use Athens\Core\Test\Mock\MockQuery;
-use Athens\Core\Test\Mock\MockWriter;
+use Athens\Core\Test\Mock\MockHTMLWriter;
 use Athens\Core\Test\Mock\MockInitializer;
 
 class PageTest extends PHPUnit_Framework_TestCase
@@ -143,7 +143,7 @@ class PageTest extends PHPUnit_Framework_TestCase
         $defaultWriterClass = Settings::getDefaultWriterClass();
         $defaultInitializerClass = Settings::getDefaultInitializerClass();
 
-        Settings::setDefaultWriterClass("\\Athens\\Core\\Test\\Mock\\MockWriter");
+        Settings::setDefaultWriterClass("\\Athens\\Core\\Test\\Mock\\MockHTMLWriter");
         Settings::setDefaultInitializerClass("\\Athens\\Core\\Test\\Mock\\MockInitializer");
 
         $title = "Test Page";
@@ -158,11 +158,11 @@ class PageTest extends PHPUnit_Framework_TestCase
         $page->render(null, null);
 
         $this->assertTrue(MockInitializer::$used);
-        $this->assertTrue(MockWriter::$used);
+        $this->assertTrue(MockHTMLWriter::$used);
 
         // Set $used back to false on the initializer and writer
         MockInitializer::$used = false;
-        MockWriter::$used = false;
+        MockHTMLWriter::$used = false;
 
         // Return the default writer/initializer class to its original value
         Settings::setDefaultWriterClass($defaultWriterClass);
@@ -175,14 +175,14 @@ class PageTest extends PHPUnit_Framework_TestCase
             ->addWritable(SectionBuilder::begin()->setId("s" . (string)rand())->addContent("content")->build())
             ->build();
 
-        $writer = new MockWriter();
+        $writer = new MockHTMLWriter();
         $initializer = new MockInitializer();
 
         // Our mock writer will simply echo the title of the page
         $page->render($initializer, $writer);
 
         $this->assertTrue(MockInitializer::$used);
-        $this->assertTrue(MockWriter::$used);
+        $this->assertTrue(MockHTMLWriter::$used);
 
     }
 }

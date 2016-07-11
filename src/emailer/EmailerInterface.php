@@ -3,15 +3,15 @@
 namespace Athens\Core\Emailer;
 
 use Athens\Core\Email\EmailInterface;
-use Athens\Core\Writer\Writer;
+use Athens\Core\Writer\HTMLWriter;
 
 interface EmailerInterface
 {
 
     /**
      * @param EmailInterface $email
-     * @param Writer|null    $writer
+     * @param HTMLWriter|null    $writer
      * @return boolean
      */
-    public function send(EmailInterface $email, Writer $writer);
+    public function send(EmailInterface $email, HTMLWriter $writer);
 }

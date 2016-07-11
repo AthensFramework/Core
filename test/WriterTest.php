@@ -6,7 +6,7 @@ use Athens\Core\Choice\ChoiceBuilder;
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Field\Field;
-use Athens\Core\Writer\Writer;
+use Athens\Core\Writer\HTMLWriter;
 use Athens\Core\Form\FormAction\FormAction;
 use Athens\Core\Form\FormBuilder;
 use Athens\Core\Section\SectionBuilder;
@@ -27,7 +27,7 @@ use Athens\Core\PickA\PickAFormBuilder;
 use Athens\Core\Table\TableFormBuilder;
 use Athens\Core\Link\LinkBuilder;
 
-use Athens\Core\Test\Mock\MockWriter;
+use Athens\Core\Test\Mock\MockHTMLWriter;
 use Athens\Core\Test\Mock\MockFieldBearer;
 
 class WriterTest extends PHPUnit_Framework_TestCase
@@ -43,7 +43,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
     }
     public function testVisitField()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         /* A literal field */
         $field = new Field(["field-class"], [], "literal", "A literal field", "initial", true, [], 200);
@@ -178,7 +178,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testRenderBooleanField()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         /* A required boolean field*/
         $initialFalseField = new Field([], [], "boolean", "A boolean field", "", true, []);
@@ -250,7 +250,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testRenderFieldErrors()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         /* Field not required, no data provided: no field errors */
         $field = new Field([], [], "text", "An unrequired field", "5", false, [], 200);
@@ -283,7 +283,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitForm()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $actions = [
             new FormAction([], [], "JS Action", "JS", "console.log('here');"),
@@ -359,7 +359,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitTableForm()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $actions = [
             new FormAction([], [], "JS Action", "JS", "console.log('here');"),
@@ -429,7 +429,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitTableFormDisableRemove()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $id = "f" . (string)rand();
 
@@ -476,7 +476,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
      */
     public function testVisitNonBaseForm()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
@@ -492,7 +492,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testRenderFormErrors()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $_SERVER["REQUEST_URI"] = "";
 
@@ -536,7 +536,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitSection()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $id = "s" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
@@ -579,7 +579,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitPickA()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $id = "p" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
@@ -646,7 +646,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitPickAForm()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $actions = [new FormAction([], [], "label", "method", "")];
 
@@ -712,7 +712,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
      */
     public function testVisitNoneBasePickAForm()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $id = "f" . (string)rand();
 
@@ -736,7 +736,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitRow()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $initialText = (string)rand();
         $initialLiteral = SafeString::fromString('<a href="http://example.com">A link</a>');
@@ -812,7 +812,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitTable()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $id = "t" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
@@ -866,7 +866,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitSortFilter()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $handle = (string)rand();
         $type = Filter::TYPE_SORT;
@@ -883,7 +883,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitSelectFilter()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $handle = (string)rand();
         $optionNames = ["s".(string)rand(), "s".(string)rand(), "s".(string)rand()];
@@ -923,7 +923,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitLink()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $uri = 'u' . (string)rand();
         $text = 't' . (string)rand();
@@ -956,7 +956,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testVisitPage()
     {
-        $writer = new Writer();
+        $writer = new HTMLWriter();
 
         $pageType = PageBuilder::TYPE_FULL_HEADER;
         $pageHeader = "Page Header";
@@ -1033,7 +1033,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testSaferawFilter()
     {
-        $writer = new MockWriter();
+        $writer = new MockHTMLWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ var|saferaw|raw }}";
@@ -1052,7 +1052,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testWritedataFilter()
     {
-        $writer = new MockWriter();
+        $writer = new MockHTMLWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ data|writedata|raw }}";
@@ -1071,7 +1071,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testSlugifyFilter()
     {
-        $writer = new MockWriter();
+        $writer = new MockHTMLWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ var|slugify }}";
@@ -1085,7 +1085,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
     public function testStripFormFilter()
     {
-        $writer = new MockWriter();
+        $writer = new MockHTMLWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ var|stripForm|raw }}";
@@ -1109,7 +1109,7 @@ HTML;
 
     public function testMD5Filter()
     {
-        $writer = new MockWriter();
+        $writer = new MockHTMLWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ var|md5 }}";
@@ -1126,7 +1126,7 @@ HTML;
         $requestURI = (string)rand();
         $_SERVER["REQUEST_URI"] = $requestURI;
 
-        $writer = new MockWriter();
+        $writer = new MockHTMLWriter();
         $env = $writer->getEnvironment();
 
         $template = "{{ requestURI }}";

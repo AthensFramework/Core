@@ -15,10 +15,10 @@ trait VisitableTrait
     /**
      * Accept a visitor, per the Visitor pattern.
      *
-     * @param Visitor $visitor
+     * @param VisitorInterface $visitor
      * @return mixed
      */
-    public function accept(Visitor $visitor)
+    public function accept(VisitorInterface $visitor)
     {
         $hierarchy = array_merge([get_class($this)], array_values(class_parents($this)));
 

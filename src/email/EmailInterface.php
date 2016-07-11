@@ -3,7 +3,7 @@
 namespace Athens\Core\Email;
 
 use Athens\Core\Writable\WritableInterface;
-use Athens\Core\Writer\Writer;
+use Athens\Core\Writer\HTMLWriter;
 use Athens\Core\Emailer\EmailerInterface;
 
 interface EmailInterface extends WritableInterface
