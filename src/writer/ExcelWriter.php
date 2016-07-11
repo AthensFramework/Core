@@ -152,5 +152,4 @@ class ExcelWriter extends AbstractWriter
         $objWriter->save('php://output');
         return ob_end_flush();
     }
-
 }
