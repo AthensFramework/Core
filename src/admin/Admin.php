@@ -244,7 +244,7 @@ class Admin extends Page
                 ->addWritable(
                     TableBuilder::begin()
                         ->setId('object-manager-table-' . $tableName)
-                        ->setRows($rows)
+                        ->addRows($rows)
                         ->build()
                 )
                 ->build();

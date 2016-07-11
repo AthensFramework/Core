@@ -49,7 +49,7 @@ class TableTest extends PHPUnit_Framework_TestCase
 
         $table = TableBuilder::begin()
             ->setId($id)
-            ->setRows($rows)
+            ->addRows($rows)
             ->addClass($classes[0])
             ->addClass($classes[1])
             ->addFilter($filter)
@@ -88,7 +88,7 @@ class TableTest extends PHPUnit_Framework_TestCase
 
         $table = TableBuilder::begin()
             ->setId("t" . (string)rand())
-            ->setRows($rows)
+            ->addRows($rows)
             ->addFilter($filter)
             ->build();
 

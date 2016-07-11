@@ -840,7 +840,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->addClass($classes[1])
             ->addData(array_keys($data)[0], array_values($data)[0])
             ->addData(array_keys($data)[1], array_values($data)[1])
-            ->setRows([$row1, $row2])
+            ->addRows([$row1, $row2])
             ->build();
 
         $_SERVER["REQUEST_URI"] = $requestURI;

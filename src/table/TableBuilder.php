@@ -25,10 +25,19 @@ class TableBuilder extends AbstractWritableBuilder
      * @param RowInterface[] $rows
      * @return TableBuilder
      */
-    public function setRows(array $rows)
+    public function addRows(array $rows)
     {
-        $this->rows = $rows;
+        $this->rows = array_merge($this->rows, $rows);
         return $this;
+    }
+
+    /**
+     * @param RowInterface $row
+     * @return TableBuilder
+     */
+    public function addRow(RowInterface $row)
+    {
+        return $this->addRows([$row]);
     }
 
     /**
