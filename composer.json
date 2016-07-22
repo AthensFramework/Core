@@ -28,6 +28,9 @@
     "squizlabs/php_codesniffer": "2.*",
     "athens/standard": "*"
   },
+  "bin": [
+    "bin/manage"
+  ],
   "type" : "propel-behavior",
   "extra": {
     "name": "html-field",
