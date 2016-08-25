@@ -1,12 +1,12 @@
-<form id={{ id }}
+<form id="{{ id|escape('html_attr') }}"
         class="prevent-double-submit {% if errors is not empty %}has-errors{% endif %}"
-        method="{{ method }}" target="{{ target }}" data-request-uri="{{ requestURI }}" {{ data|writedata|raw }}>
+        method="{{ method|escape('html_attr') }}" target="{{ target|escape('html_attr') }}" data-request-uri="{{ requestURI|escape('html_attr') }}" {{ data|writedata|raw }}>
 
-<table class="multi-adder" data-request-uri="{{ requestURI }}">
+<table class="multi-adder" data-request-uri="{{ requestURI|escape('html_attr') }}">
 
     <tr>
         {% for fieldName, field in prototypicalRow.getFieldBearer.getVisibleFields %}
-            <th class="{{ field.getSlug }}" data-header-for="{{ fieldName }}">{{ field.getLabel }}</td>
+            <th class="{{ field.getSlug|escape('html_attr') }}" data-header-for="{{ fieldName|escape('html_attr') }}">{{ field.getLabel }}</td>
         {% endfor %}
         {% if canRemove %}
             <th data-header-for="remove">Remove</th>
@@ -17,11 +17,11 @@
     {% if prototypicalRow %}
     <tr class="prototypical form-row">
         {% for fieldName, field in prototypicalRow.getFieldBearer.getVisibleFields %}
-            <td class="{{ field.getSlug }}">{{ field|write|raw }}</td>
+            <td class="{{ field.getSlug|escape('html_attr') }}">{{ field|write|raw }}</td>
         {% endfor %}
 
         {% for fieldName, field in prototypicalRow.getFieldBearer.getHiddenFields %}
-            <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|raw }}</td>
+            <td class="{{ field.getSlug|escape('html_attr') }} hidden" style="display:none">{{ field|write|raw }}</td>
         {% endfor %}
         {% if canRemove %}
             <td class="remove"> - </td>
@@ -34,7 +34,7 @@
     {% for row in rows %}
         <tr class="actual form-row">
             {% for fieldName, field in row.getFieldBearer.getVisibleFields %}
-                <td class="{{ field.getSlug }}">
+                <td class="{{ field.getSlug|escape('html_attr') }}">
                     {{ field|write|raw }}
                 </td>
             {% endfor %}
@@ -43,7 +43,7 @@
             {% endif %}
 
             {% for fieldName, field in row.getFieldBearer.getHiddenFields %}
-                <td class="{{ field.getSlug }} hidden" style="display:none">{{ field|write|raw }}</td>
+                <td class="{{ field.getSlug|escape('html_attr') }} hidden" style="display:none">{{ field|write|raw }}</td>
             {% endfor %}
         </tr>
     {% endfor %}
