@@ -76,6 +76,14 @@ class HTMLWriter extends AbstractWriter
             $this->environment->addFilter($filter);
 
             $filter = new Twig_SimpleFilter(
+                'html_attribute',
+                function ($string) {
+                    return preg_replace(array('/[^a-zA-Z0-9 -]/','/^-|-$/'), array('',''), $string);
+                }
+            );
+            $this->environment->addFilter($filter);
+
+            $filter = new Twig_SimpleFilter(
                 'md5',
                 function ($string) {
                     return md5($string);

@@ -1,4 +1,4 @@
-<div id="{{ id|escape('html_attr') }}" class="table-container {{ classes|join(' ')|escape('html_attr') }}"  data-request-uri="{{ requestURI }}" {{ data|writedata|raw }}>
+<div id="{{ id|escape('html_attr') }}" class="table-container {{ classes|join(' ')|html_attribute }}"  data-request-uri="{{ requestURI }}" {{ data|writedata|raw }}>
     <div class="filter-controls" data-table-for="{{ id }}">
         {% for filter in filters %}
             {{ filter|write|raw }}

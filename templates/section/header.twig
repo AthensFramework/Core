@@ -1,4 +1,4 @@
-<h1 {% if id %}id="{{ id|escape('html_attr') }}"{% endif %}  class="header {{ classes|join(' ')|escape('html_attr') }}" data-request-uri="{{ requestURI|escape('html_attr') }}" {{ data|writedata|raw }}>
+<h1 {% if id %}id="{{ id|escape('html_attr') }}"{% endif %}  class="header {{ classes|join(' ')|html_attribute }}" data-request-uri="{{ requestURI|escape('html_attr') }}" {{ data|writedata|raw }}>
     <span class="section-writables">
         {% for writable in writables  %}
             {{ writable|write|raw }}
