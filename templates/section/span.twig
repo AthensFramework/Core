@@ -1,4 +1,4 @@
-<span {% if id %}id="{{ id }}"{% endif %} class="section-container {{ classes|join(' ') }}" data-request-uri="{{ requestURI }}" {{ data|writedata|raw }}>
+<span {% if id %}id="{{ id|escape('html_attr') }}"{% endif %} class="section-container {{ classes|join(' ')|escape('html_attr') }}" data-request-uri="{{ requestURI|escape('html_attr') }}" {{ data|writedata|raw }}>
     <div class="section-writables">
     {% for writable in writables  %}
         {{ writable|write|raw }}
