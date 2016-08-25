@@ -123,9 +123,15 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
             foreach ($this->breadCrumbTitles as $index => $breadCrumbTitle) {
                 $breadCrumbLink = $this->breadCrumbLinks[$index];
 
-                $breadCrumbsBuilder->addWritable(
-                    LinkBuilder::begin()->setText($breadCrumbTitle)->setURI($breadCrumbLink)->build()
-                );
+                if ($breadCrumbLink !== '') {
+                    $breadCrumbsBuilder->addWritable(
+                        LinkBuilder::begin()->setText($breadCrumbTitle)->setURI($breadCrumbLink)->build()
+                    );
+                } else {
+                    $breadCrumbsBuilder->addContent(
+                        $breadCrumbTitle
+                    );
+                }
             }
 
             $topMatterBuilder->addWritable($breadCrumbsBuilder->build());
@@ -139,6 +145,13 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
                     ->build()
             );
         }
+
+        $topMatterBuilder->addWritable(
+            SectionBuilder::begin()
+                ->setType(SectionBuilder::TYPE_DIV)
+                ->setId('top-filters')
+                ->build()
+        );
 
         if ($this->subHeader !== null) {
             $topMatterBuilder->addWritable(
@@ -192,15 +205,25 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
         $this->validateRenderer();
 
-        $content = $this->buildWritableBearer();
-
         $writable = WritableBearerBuilder::begin()
-            ->addWritable($this->buildTopMatter())
             ->addWritable(
                 SectionBuilder::begin()
                     ->setType(SectionBuilder::TYPE_DIV)
                     ->setId('page-content')
-                    ->addWritable($content)
+                    ->addWritable(
+                        SectionBuilder::begin()
+                            ->setType(SectionBuilder::TYPE_DIV)
+                            ->setId('page-content-head')
+                            ->addWritable($this->buildTopMatter())
+                            ->build()
+                    )
+                    ->addWritable(
+                        SectionBuilder::begin()
+                            ->setType(SectionBuilder::TYPE_DIV)
+                            ->setId('page-content-body')
+                            ->addWritable($this->buildWritableBearer())
+                            ->build()
+                    )
                     ->build()
             )
             ->build();
