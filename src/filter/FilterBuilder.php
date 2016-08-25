@@ -175,7 +175,7 @@ class FilterBuilder extends AbstractWritableBuilder
      * @param ModelCriteria $query
      * @return FilterBuilder
      */
-    public function setQuery($query)
+    public function setQuery(ModelCriteria $query)
     {
         $this->query = $query;
         return $this;

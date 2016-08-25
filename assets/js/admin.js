@@ -1,6 +1,6 @@
 athens.admin = (function () {
     
-    $(function() {
+    $(function () {
         var adminTablesContainer = $('#admin-tables-container');
 
         if (adminTablesContainer.length > 0) {

@@ -14,24 +14,38 @@ use Athens\Core\Row\RowInterface;
 
 use Forms\FormQuery;
 
+/**
+ * Class RelationFilter
+ *
+ * @package Athens\Core\Filter
+ */
 class RelationFilter extends SelectFilter
 {
 
     const ALL = 'All';
-    
+
+    /** @var array */
     protected $relations = [];
+
+    /** @var string */
     protected $relationName = '';
 
     /**
-     * @param string                     $id
-     * @param string[]                   $classes
-     * @param string[]                   $data
-     * @param ModelCriteria              $query
-     * @param string                     $default
-     * @param FilterInterface|null       $nextFilter
+     * @param string               $id
+     * @param string[]             $classes
+     * @param string[]             $data
+     * @param ModelCriteria        $query
+     * @param string               $default
+     * @param FilterInterface|null $nextFilter
      */
-    public function __construct($id, array $classes, array $data, ModelCriteria $query, $default, FilterInterface $nextFilter = null)
-    {
+    public function __construct(
+        $id,
+        array $classes,
+        array $data,
+        ModelCriteria $query,
+        $default,
+        FilterInterface $nextFilter = null
+    ) {
         $this->relationName = array_slice(explode('\\', $query->getModelName()), -1)[0];
 
         $relations = $query->find();
@@ -60,7 +74,7 @@ class RelationFilter extends SelectFilter
     /**
      * @param ModelCriteria $query
      * @return ModelCriteria
-     * @throws \Exception if given an incompatible query type
+     * @throws \Exception if given an incompatible query type.
      */
     public function queryFilter(ModelCriteria $query)
     {
@@ -92,5 +106,4 @@ class RelationFilter extends SelectFilter
     {
         return $rows;
     }
-
 }
