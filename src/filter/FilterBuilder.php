@@ -2,6 +2,8 @@
 
 namespace Athens\Core\Filter;
 
+use Propel\Runtime\ActiveQuery\ModelCriteria;
+
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Settings\Settings;
 use Athens\Core\FilterStatement\FilterStatement;
@@ -47,7 +49,10 @@ class FilterBuilder extends AbstractWritableBuilder
 
     /** @var string */
     protected $default;
-
+    
+    /** @var ModelCriteria */
+    protected $query;
+    
     /**
      * null is an acceptable value for criterion, so we use this flag to know
      * whether or not criterion has been set.
@@ -167,6 +172,16 @@ class FilterBuilder extends AbstractWritableBuilder
     }
 
     /**
+     * @param ModelCriteria $query
+     * @return FilterBuilder
+     */
+    public function setQuery($query)
+    {
+        $this->query = $query;
+        return $this;
+    }
+
+    /**
      * @param FilterInterface $nextFilter
      * @return FilterBuilder
      */
@@ -252,6 +267,19 @@ class FilterBuilder extends AbstractWritableBuilder
                     $this->classes,
                     $this->data,
                     $statements,
+                    $default,
+                    $this->nextFilter
+                );
+                break;
+            case Filter::TYPE_RELATION:
+                $query = $this->retrieveOrException("query", __METHOD__, "chose to create a relation filter");
+                $default = $this->retrieveOrException("default", __METHOD__, "chose to create a relation filter");
+
+                return new RelationFilter(
+                    $this->id,
+                    $this->classes,
+                    $this->data,
+                    $query,
                     $default,
                     $this->nextFilter
                 );
