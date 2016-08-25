@@ -5,6 +5,7 @@ namespace Athens\Core\WritableBearer;
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Etc\SafeString;
+use Athens\Core\Section\SectionBuilder;
 
 trait WritableBearerBearerBuilderTrait
 {
@@ -95,6 +96,24 @@ trait WritableBearerBearerBuilderTrait
             ->build();
 
         $this->addWritable($content);
+
+        return $this;
+    }
+
+    /**
+     * @param string $class
+     * @return $this
+     */
+    public function addBreak($class = '')
+    {
+        $contentBuilder = SectionBuilder::begin()
+            ->setType(SectionBuilder::TYPE_BREAK);
+
+        if ($class !== '') {
+            $contentBuilder->addClass($class);
+        }
+
+        $this->addWritable($contentBuilder->build());
 
         return $this;
     }
