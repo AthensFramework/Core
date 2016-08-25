@@ -87,15 +87,30 @@ class AdminBuilder extends PageBuilder
             );
         }
 
-        $content = $this->buildWritableBearer();
-
-        $writable = WritableBearerBuilder::begin()
-            ->addWritable($this->buildTopMatter())
+        $pageContents = WritableBearerBuilder::begin()
             ->addWritable(
                 SectionBuilder::begin()
                     ->setType(SectionBuilder::TYPE_DIV)
                     ->setId('page-content')
-                    ->addWritable($content)
+                    ->addWritable(
+                        SectionBuilder::begin()
+                            ->setType(SectionBuilder::TYPE_DIV)
+                            ->setId('page-content-head')
+                            ->addWritable($this->buildTopMatter())
+                            ->build()
+                    )
+                    ->addWritable(
+                        SectionBuilder::begin()
+                            ->setType(SectionBuilder::TYPE_DIV)
+                            ->setId('page-content-body')
+                            ->addWritable($this->buildWritableBearer())
+                            ->addWritable(
+                                SectionBuilder::begin()
+                                    ->setId('admin-tables-container')
+                                    ->build()
+                            )
+                            ->build()
+                    )
                     ->build()
             )
             ->build();
@@ -108,7 +123,7 @@ class AdminBuilder extends PageBuilder
             $this->baseHref,
             $this->queries,
             $this->renderer,
-            $writable,
+            $pageContents,
             $this->detailPages
         );
 

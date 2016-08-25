@@ -19,6 +19,7 @@ use Athens\Core\Field\Field;
 use Athens\Core\Form\FormAction\FormActionInterface;
 use Athens\Core\Page\Page;
 
+use Athens\Core\WritableBearer\WritableBearerBuilder;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
@@ -29,6 +30,7 @@ use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
  */
 class Admin extends Page
 {
+    const MODE_PAGE = 'page';
     const MODE_TABLE = 'table';
     const MODE_DETAIL = 'detail';
     const MODE_DELETE = 'delete';
@@ -53,7 +55,7 @@ class Admin extends Page
      * @param string            $baseHref
      * @param ModelCriteria[]   $queries
      * @param VisitorInterface  $renderer
-     * @param WritableInterface $writable
+     * @param WritableInterface $pageContents
      * @param array             $detailPages
      * @throws \Exception If an invalid object manager mode is provided.
      */
@@ -65,36 +67,38 @@ class Admin extends Page
         $baseHref,
         array $queries,
         VisitorInterface $renderer,
-        WritableInterface $writable,
+        WritableInterface $pageContents,
         array $detailPages
     ) {
 
         /** @var string $mode */
-        $mode = ArrayUtils::findOrDefault('mode', $_GET, static::MODE_TABLE);
+        $mode = ArrayUtils::findOrDefault('mode', $_GET, static::MODE_PAGE);
 
         $this->queries = $queries;
         $this->detailPages = $detailPages;
 
         switch ($mode) {
+            case static::MODE_PAGE:
+                $writable = $pageContents;
+                $type = static::TYPE_MULTI_PANEL;
+                break;
             case static::MODE_TABLE:
-                $tables = $this->makeTables();
-
                 $sectionBuilder = SectionBuilder::begin()
                     ->setId('admin-tables-container');
 
-                foreach ($tables as $table) {
+                foreach ($this->makeTables() as $table) {
                     $sectionBuilder->addWritable($table);
                 }
 
-                $writable = $sectionBuilder->build();
-                $type = static::TYPE_MULTI_PANEL;
+                $writable = WritableBearerBuilder::begin()
+                    ->addWritable($sectionBuilder->build())
+                    ->build();
+
+                $type = static::TYPE_MINI_HEADER;
                 break;
             case static::MODE_DETAIL:
                 $writable = $this->makeDetail();
                 $type = static::TYPE_BARE;
-
-                $header = "";
-                $subHeader = "";
                 break;
             case static::MODE_DELETE:
                 $writable = $this->makeDelete();
