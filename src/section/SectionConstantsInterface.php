@@ -11,4 +11,5 @@ interface SectionConstantsInterface
     const TYPE_BREADCRUMBS = 'breadcrumbs';
     const TYPE_HEADER = 'header';
     const TYPE_SUBHEADER = 'subheader';
+    const TYPE_BREAK = 'break';
 }
