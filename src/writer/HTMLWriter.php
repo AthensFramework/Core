@@ -492,9 +492,9 @@ class HTMLWriter extends AbstractWriter
         } elseif ($filter instanceof SortFilter) {
             $type = 'sort';
         } elseif ($filter instanceof PaginationFilter) {
-            $type = 'pagination';
+            $type = "{$filter->getType()}-pagination";
         } else {
-            $type = 'blank';
+            $type = 'dummy';
         }
         $template = "filter/$type.twig";
 
