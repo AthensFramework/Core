@@ -1,4 +1,4 @@
-<span id="{{ id }}" class="writable-bearer-container {{ classes|join(' ') }}" data-request-uri="{{ requestURI }}" {{ data|writedata|raw }}>
+<span id="{{ id|escape('html_attr') }}" class="writable-bearer-container {{ classes|join(' ')|escape('html_attr') }}" data-request-uri="{{ requestURI }}" {{ data|writedata|raw }}>
     {% for writable in writables  %}
         {{ writable|write|raw }}
     {% endfor %}
