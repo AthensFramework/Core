@@ -6,6 +6,7 @@ h1.header {
 h2.subheader {
     margin-top:-15px;
     float:left;
+    clear:left
 }
 
 .section-label {
@@ -495,6 +496,10 @@ div.uw-container-inner {
     margin:auto
 }
 
+#loadItHere #page-content {
+    width:100%;
+}
+
 br.footer-break {
     line-height:90px
 }
@@ -541,7 +546,6 @@ button.form-action, input.form-action {
 }
 
 div.breadcrumbs-container {
-    width:85%;
     min-width:500px;
     margin:auto;
     position:relative;
@@ -575,4 +579,8 @@ label.field-label.required::after {
     white-space: nowrap;
 }
 
+#page-content-body {
+    clear:left;
+    padding-top:50px;
+}
 
