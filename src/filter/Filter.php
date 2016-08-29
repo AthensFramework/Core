@@ -18,11 +18,12 @@ use Athens\Core\Writable\WritableTrait;
 class Filter implements FilterInterface
 {
 
-    const TYPE_SEARCH = "search";
-    const TYPE_SORT = "sort";
-    const TYPE_SELECT = "select";
-    const TYPE_STATIC = "static";
-    const TYPE_PAGINATION = "pagination";
+    const TYPE_SEARCH = 'search';
+    const TYPE_SORT = 'sort';
+    const TYPE_SELECT = 'select';
+    const TYPE_STATIC = 'static';
+    const TYPE_PAGINATION = 'pagination';
+    const TYPE_RELATION = 'relation';
 
     /** @var FilterStatementInterface[] */
     protected $statements = [];

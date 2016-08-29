@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Filter;
 
+use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
 use Athens\Core\Etc\ORMUtils;
@@ -23,6 +24,8 @@ class RelationFilter extends SelectFilter
 {
 
     const ALL = 'All';
+    const ANY = 'Any';
+    const NONE = 'None';
 
     /** @var array */
     protected $relations = [];
@@ -57,7 +60,7 @@ class RelationFilter extends SelectFilter
         
         $this->relations = array_combine($relationNames, iterator_to_array($relations));
 
-        $this->options = array_merge([$default, ''], $relationNames, [static::ALL]);
+        $this->options = array_merge([$default, ''], $relationNames, [static::ALL, static::ANY, static::NONE]);
 
         if ($nextFilter === null) {
             $this->nextFilter = new DummyFilter();
@@ -88,11 +91,24 @@ class RelationFilter extends SelectFilter
             $this->canQueryFilter = false;
         }
         
-        if ($this->canQueryFilter === true  && $choice !== static::ALL) {
-            $filterMethod = "filterBy{$this->relationName}";
-            $relation = $this->relations[$choice];
-
-            $query = $query->$filterMethod($relation);
+        if ($this->canQueryFilter === true) {
+            switch ($choice) {
+                case static::ALL:
+                    break;
+                case static::ANY:
+                    $filterMethod = "filterBy{$this->relationName}Id";
+                    $query = $query->$filterMethod(null, Criteria::NOT_EQUAL);
+                    break;
+                case static::NONE:
+                    $filterMethod = "filterBy{$this->relationName}Id";
+                    $query = $query->$filterMethod(null);
+                    break;
+                default:
+                    $filterMethod = "filterBy{$this->relationName}";
+                    $relation = $this->relations[$choice];
+                    $query = $query->$filterMethod($relation);
+                    break;
+            }
         }
 
         return $query;
