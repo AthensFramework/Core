@@ -167,6 +167,5 @@ class PageTest extends PHPUnit_Framework_TestCase
         // Return the default writer/initializer class to its original value
         Settings::getInstance()->setDefaultWriterClass($defaultWriterClass);
         Settings::getInstance()->setDefaultInitializerClass($defaultInitializerClass);
-
     }
 }

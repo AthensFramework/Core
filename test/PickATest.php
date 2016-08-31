@@ -150,6 +150,5 @@ class PickATest extends PHPUnit_Framework_TestCase
         $this->assertContains($sections["l1"], $writables);
         $this->assertContains($sections["l2"], $writables);
         $this->assertContains($sections["l3"], $writables);
-
     }
 }

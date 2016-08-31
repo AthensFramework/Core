@@ -25,6 +25,5 @@ class ArrayUtilsTest extends PHPUnit_Framework_TestCase
 
         // ArrayUtils provides the default when the key is not present.
         $this->assertEquals($default, ArrayUtils::findOrDefault("four", $array, $default));
-
     }
 }

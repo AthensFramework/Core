@@ -126,7 +126,6 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
             $thisNumber = $row->getFieldBearer()->getFieldByName(Utils::INT_FIELD_NAME)->getInitial();
             $this->assertGreaterThan($criterion, $thisNumber);
         }
-
     }
 
     public function testRowFilterEqualTo()

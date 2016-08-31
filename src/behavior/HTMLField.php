@@ -66,7 +66,6 @@ EOT;
             strrpos($script, '}') - 1,
             0
         );
-        
     }
 
     /**

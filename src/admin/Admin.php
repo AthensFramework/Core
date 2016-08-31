@@ -173,7 +173,6 @@ class Admin extends Page
         }
 
         return $object;
-
     }
 
     /**
@@ -255,7 +254,6 @@ class Admin extends Page
         }
 
         return $tables;
-
     }
 
     /**
@@ -314,7 +312,6 @@ class Admin extends Page
             );
 
         return $sectionBuilder->build();
-
     }
 
     /**

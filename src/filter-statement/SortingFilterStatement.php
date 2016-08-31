@@ -50,7 +50,6 @@ class SortingFilterStatement extends FilterStatement
 
         $comparisonOperator = function ($a, $b) {
             return $a - $b;
-
         };
         switch ($cond) {
             case static::COND_SORT_ASC:
@@ -60,7 +59,6 @@ class SortingFilterStatement extends FilterStatement
             case static::COND_SORT_DESC:
                 $comparisonOperator = function ($a, $b) {
                     return $b - $a;
-
                 };
                 break;
         }

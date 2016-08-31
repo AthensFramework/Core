@@ -291,11 +291,9 @@ class WriterTest extends PHPUnit_Framework_TestCase
         ];
         $onValidFunc = function () {
             return "valid";
-
         };
         $onInvalidFunc = function () {
             return "invalid";
-
         };
 
         $id = "f" . (string)rand();

@@ -161,7 +161,6 @@ class FieldTest extends PHPUnit_Framework_TestCase
             $this->assertContains($suffix, $field->getSuffixes(), "Failure on class: " . get_class($field));
             $this->assertContains($suffix, $field->getSlug(), "Failure on class: " . get_class($field));
         }
-
     }
 
     public function testAddGetPrefixes()
@@ -200,7 +199,6 @@ class FieldTest extends PHPUnit_Framework_TestCase
             // Sanity check: assert that the slug has some length and did not pass because it's empty
             $this->assertGreaterThan(8, strlen($slug));
         }
-
     }
 
     public function testGetSlug()

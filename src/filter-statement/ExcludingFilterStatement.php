@@ -74,49 +74,42 @@ class ExcludingFilterStatement extends FilterStatement
 
         $filterFunction = function ($val) use ($criterion) {
             return true;
-
         };
 
         switch ($condition) {
             case static::COND_LESS_THAN:
                 $filterFunction = function ($val) use ($criterion) {
                     return $val < $criterion;
-
                 };
                 break;
 
             case static::COND_GREATER_THAN:
                 $filterFunction = function ($val) use ($criterion) {
                     return $val > $criterion;
-
                 };
                 break;
 
             case static::COND_EQUAL_TO:
                 $filterFunction = function ($val) use ($criterion) {
                     return $val === $criterion;
-
                 };
                 break;
 
             case static::COND_NOT_EQUAL_TO:
                 $filterFunction = function ($val) use ($criterion) {
                     return $val !== $criterion;
-
                 };
                 break;
 
             case static::COND_CONTAINS:
                 $filterFunction = function ($val) use ($criterion) {
                     return strripos($val, $criterion) !== false;
-
                 };
                 break;
 
             case static::COND_ALL:
                 $filterFunction = function ($val) use ($criterion) {
                     return true;
-
                 };
                 break;
         }

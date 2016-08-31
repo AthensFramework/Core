@@ -70,7 +70,6 @@ class PickAFormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("base", $form->getType());
         $this->assertEquals("post", $form->getMethod());
         $this->assertEquals("_self", $form->getTarget());
-
     }
 
     public function testGetSelectedSlug()

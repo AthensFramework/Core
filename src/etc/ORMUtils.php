@@ -104,7 +104,6 @@ class ORMUtils
         }
 
         return $fields;
-
     }
 
     /**

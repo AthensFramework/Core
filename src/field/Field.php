@@ -447,7 +447,6 @@ class Field implements FieldInterface
         }
 
         return $result;
-
     }
 
     /**

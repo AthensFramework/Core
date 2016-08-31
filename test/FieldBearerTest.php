@@ -45,7 +45,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
         $saveFunc = function () {
             return "saved";
-
         };
 
         $fieldBearer = FieldBearerBuilder::begin()
@@ -282,7 +281,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
 
             $this->assertEquals($fieldBearers, $fieldBearer->getFieldBearers());
         }
-
     }
 
     public function testGetFieldBearerByName()
@@ -335,7 +333,6 @@ class FieldBearerTest extends PHPUnit_Framework_TestCase
             // Sanity check
             $this->assertNotEquals($field1, $fieldBearer->getFieldByName("field3"));
         }
-
     }
 
     public function testGetNameByField()

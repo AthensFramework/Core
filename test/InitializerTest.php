@@ -220,7 +220,6 @@ class InitializerTest extends PHPUnit_Framework_TestCase
         $initializer->visitPage($page);
 
         $this->assertTrue($form->validated);
-
     }
 
     public function testVisitFieldBearer()
