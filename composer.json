@@ -29,7 +29,7 @@
     "athens/standard": "*"
   },
   "bin": [
-    "bin/manage"
+    "bin/athens"
   ],
   "type" : "propel-behavior",
   "extra": {
