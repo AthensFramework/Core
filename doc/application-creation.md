@@ -28,7 +28,7 @@ Steps
 
 * Create the development project web root:
 
-  Like any other Php project, your Framework project needs to live inside of a web root. You can create a directory inside of your server's web root and use that as a project web root, or you can use the server's web root directly as your project web root.
+  Like any other PHP project, your Framework project needs to live inside of a web root. You can create a directory inside of your server's web root and use that as a project web root, or you can use the server's web root directly as your project web root.
   
   For example, if your server's web root is `/www`, then you could create the directory `/www/myproject`. The directory `/www/myproject` would be your project web root.
   
@@ -72,14 +72,14 @@ Steps
 
   Now we tell composer to download our project's dependencies:
   ```
-  php composer.phar install
+  php composer.phar update
   ```
 
 * Initialize the project:
   
   Now that Framework is installed, we use it to create the bare-bones of a Framework project.
   ```
-  php vendor/athens/core/bin/manage.php init
+  vendor/bin/athens init
   ```
   
   This command creates a handful of directories and files in your project web root, as well as adding a few directives to your composer.json.
@@ -129,7 +129,7 @@ Steps
   
 * (Optional) Install a template set:
   
-  Framework comes with a set of functional, utilitarian templates for document layout and styling. This example uses a set of templates produced for the University of Washington. This example uses this set of templates, and if you're building for an organization licensed to use the University of Washington's brand assets then you can too.
+  Framework comes with a set of functional, utilitarian templates for document layout and styling. You can create your own templates or template packages to convey your unique brand and styling. This example uses the Athens Framework [example theme](https://github.com/AthensFramework/theme).
 
   If you don't have a set of templates to use, you can skip this step and create and install templates later; just changing one line of code in one file will update all of your pages to use your new templates!
   
@@ -138,21 +138,21 @@ Steps
   ```
   "require": {
         ...
-        "uwdoem/boundless": "0.*",
+        "athens/theme": "0.*",
         ...
   },
   ```
   
-  Then add the Boundless templates in your project's `setup.php`, **above** the line that adds your project-templates:
+  Then add the Boundless templates in your project's `setup.php`, **below** the line that adds your project-templates:
   
   ```
-  Settings::addTemplateDirectory(dirname(__FILE__) ."/vendor/uwdoem/boundless/templates");
-  Settings::addTemplateDirectory(dirname(__FILE__) ."/project-templates");
+  Settings::getInstance()->addTemplateDirectories(dirname(__FILE__) ."/project-templates");
+  Settings::getInstance()->addTemplateDirectories(dirname(__FILE__) ."/vendor/athens/theme/templates");
   ```
   
-  Finally, you have to tell composer to download the `uwdoem/boundless` requirement you added. So `cd` into your project root and issue the following:
+  Finally, you have to tell composer to download the `athens/theme` requirement you added. So `cd` into your project root and issue the following:
   ```
-  php composer.phar install
+  php composer.phar update
   ```
   
 
@@ -165,7 +165,7 @@ Steps
   ```
   <?php
 
-  require_once dirname(__FILE__) ."/../setup.php";
+  require_once dirname(__FILE__) .'/../setup.php';
   
   use Athens\Core\Form\FormBuilder;
   use Athens\Core\Page\PageBuilder;
@@ -174,21 +174,23 @@ Steps
   use MyProject\Student;
   
   $form = FormBuilder::begin()
-      ->setId("student-form")
+      ->setId('student-form')
+      ->addClass('inline-fields')
       ->addObject(new Student())
       ->build();
       
   $page = PageBuilder::begin()
       ->setId('student-entry-page')
-      ->setType(Page::PAGE_TYPE_FULL_HEADER)
-      ->setTitle("My Project: Enter a Student")
-      ->setHeader("My Project")
-      ->setSubHeader("Enter a Student")
-      ->setBaseHref("..")
-      ->setWritable($form)
+      ->setType(Page::TYPE_FULL_HEADER)
+      ->setTitle('My Project: Enter a Student')
+      ->setHeader('My Project')
+      ->setSubHeader('Enter a Student')
+      ->setBaseHref('..')
+      ->addLabel('Enter a Student')
+      ->addWritable($form)
       ->build();
 
-  $page->render(null, null);
+  $page->render();
   ```
   
   Now try visiting `pages/enter-student.php` in your web browser. Try submitting a student. Try submitting a student while neglecting to provide a required field. Try submitting a student and then viewing the results in your database.
@@ -202,7 +204,7 @@ Steps
   ```
   <?php
 
-  require_once dirname(__FILE__) ."/../setup.php";
+  require_once dirname(__FILE__) .'/../setup.php';
   
   use Athens\Core\Page\PageBuilder;
   use Athens\Core\Page\Page;
@@ -219,21 +221,21 @@ Steps
   }
   
   $table = TableBuilder::begin()
-      ->setId("students-table")
-      ->setRows($rows)
+      ->setId('students-table')
+      ->addRows($rows)
       ->build();
       
   $page = PageBuilder::begin()
       ->setId('student-view-page')
-      ->setType(Page::PAGE_TYPE_FULL_HEADER)
-      ->setTitle("My Project: View Students")
-      ->setHeader("My Project")
-      ->setSubHeader("View Students")
-      ->setBaseHref("..")
-      ->setWritable($table)
+      ->setType(Page::TYPE_FULL_HEADER)
+      ->setTitle('My Project: View Students')
+      ->setHeader('My Project')
+      ->setSubHeader('View Students')
+      ->setBaseHref('..')
+      ->addWritable($table)
       ->build();
 
-  $page->render(null, null);
+  $page->render();
   ```
   
   ![Your table of students](assets/images/student-table.png)<br>
