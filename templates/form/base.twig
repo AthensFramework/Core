@@ -8,29 +8,20 @@
     </span>
     {% endif %}
 
-    <table>
+
         {% for fieldName, field in visibleFields %}
-            {% if field.getType is same as("section-label") %}
-                </table>
-                    {{ field|write|raw }}
-                <table>
-            {% else %}
-                <tr data-for="{{ field.getSlug }}">
-                    <td class="label">
-                        <label data-for="{{ field.getSlug }}" class="field-label {% if field.isRequired %}required{% endif %}">
-                            {{ field.getLabel }}
-                        </label>
-                        {% if field.getHelptext %}
-                            <span class="field-helptext">{{ field.getHelptext }}</span>
-                        {% endif %}
-                    </td>
-                    <td class="data">
-                    {{ field|write|raw }}
-                    </td>
-                </tr>
-            {% endif %}
+            <div class="form-group" data-field-for="{{ field.getSlug }}" data-field-type-for="{{ field.getType }}">
+                <label for="{{ field.getSlug }}" class="field-label {% if field.isRequired %}required{% endif %}">
+                    {{ field.getLabel }}
+                </label>
+
+                {{ field|write|raw }}
+
+                {% if field.getHelptext %}
+                    <span class="field-helptext">{{ field.getHelptext }}</span>
+                {% endif %}
+            </div>
         {% endfor %}
-    </table>
 
     {% for name, subForm in subForms %}
         {{ subForm|write|stripForm|raw }}
