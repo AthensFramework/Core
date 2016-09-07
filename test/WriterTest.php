@@ -62,7 +62,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         /* An html field */
         $field = new Field([], [], FieldBuilder::TYPE_HTML, "An HTML Field", "initial");
-        $this->assertContains('textarea class="html"', $writer->visitField($field));
+        $this->assertContains('textarea class=html', $this->stripQuotes($writer->visitField($field)));
 
         /* A choice field */
         $aliases = ["alias1", "alias2"];
@@ -119,7 +119,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
             $this->assertContains("value={$keys[1]}", $result);
 
         // Assert that the "initial" choice is selected
-            $this->assertContains("value={$keys[1]} checked", $result);
+            $this->assertContains("value={$keys[1]} selected", $result);
 
         /* A text field */
             $field = new Field(
@@ -336,11 +336,11 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("method=$method", $result);
         $this->assertContains("target=$target", $result);
         $this->assertContains("data-request-uri=$requestURI", $result);
-        $this->assertContains("data-for=a-literal-field", $result);
+        $this->assertContains("data-field-for=a-literal-field", $result);
         $this->assertContains("A literal field", $result);
-        $this->assertContains("<label data-for=a-literal-field class=field-label required>", $result);
+        $this->assertContains("<label for=a-literal-field class=field-label required>", $result);
         $this->assertContains("Literal field content", $result);
-        $this->assertContains("data-for=a-text-field", $result);
+        $this->assertContains("data-field-for=a-text-field", $result);
         $this->assertContains("A text field", $result);
         $this->assertContains("span class=field-helptext>$helptext", $result);
         $this->assertContains("value=5", $result);
@@ -348,7 +348,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('<input type=text', $result);
         $this->assertContains('onclick=console.log(here);', $result);
         $this->assertContains('JS Action</button>', $result);
-        $this->assertContains('<input class=form-action name=submit type=submit', $result);
+        $this->assertContains('<input class=form-action', $result);
+        $this->assertContains('name=submit type=submit', $result);
         $this->assertContains('value=POST Action', $result);
         $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
         $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
@@ -419,7 +420,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains('<input type=text', $result);
         $this->assertContains('onclick=console.log(here);', $result);
         $this->assertContains('JS Action</button>', $result);
-        $this->assertContains('<input class=form-action name=submit type=submit', $result);
+        $this->assertContains('<input class=form-action', $result);
+        $this->assertContains('name=submit type=submit', $result);
         $this->assertContains('value=POST Action', $result);
         $this->assertContains('</form>', $result);
         $this->assertContains("athens.multi_adder.disablePrototypicalRows();", $result);
