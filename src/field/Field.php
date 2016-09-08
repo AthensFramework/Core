@@ -98,7 +98,7 @@ class Field implements FieldInterface
         $this->label = $label;
 
         $this->setInitial($initial);
-        
+
         $this->required = $required;
         $this->choices = $choices;
         $this->fieldSize = $fieldSize;
@@ -431,7 +431,7 @@ class Field implements FieldInterface
      */
     protected function parseChoiceSlugs($slugs)
     {
-        if ($this->getType() === static::TYPE_CHOICE) {
+        if ($this->getType() === static::TYPE_CHOICE || (bool)($slugs) === false) {
             $slugs = [$slugs];
         }
 
