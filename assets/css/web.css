@@ -22,6 +22,10 @@ h2.subheader {
     font-weight: 600;
 }
 
+div.form-group[data-field-type-for="section-label"] label {
+    display:none;
+}
+
 .cd-panel-container td {
     padding:5px !important;
 }
@@ -392,10 +396,10 @@ div.select-a-section-container div.option:not(.selected):not(.header):hover {
 }
 
 div.select-a-section-container div.option.header {
-     background-color: #dcdcdc;
-     color: black;
-     cursor:auto;
- }
+    background-color: #dcdcdc;
+    color: black;
+    cursor:auto;
+}
 
 div.select-a-section-container div.filler {
     border:1px solid #E7E7E7;
@@ -490,8 +494,11 @@ div.uw-container-inner {
     min-height:73%;
 }
 
+.page-width {
+    width:100%;
+}
+
 #page-content {
-    width:85%;
     min-width:500px;
     margin:auto
 }
