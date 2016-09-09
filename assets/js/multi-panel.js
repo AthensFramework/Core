@@ -1,38 +1,74 @@
 athens.multi_panel = (function () {
-    var openPanel = function (n) {
 
-        if (n === 1) {
-            $('.cd-panel.first-panel').addClass('is-visible');
-        } else if (n === 2) {
-            $('.cd-panel.second-panel').addClass('is-visible');
+    var getPanel = function (n) {
+        var panel = $('div.cd-panel[data-panel-for="' + n + '"]');
+
+        if (panel.length === 0) {
+            panel = $('<div class="cd-panel from-right" data-panel-for="' + n + '" style="z-index:' + n*10 + '"></div>');
+            panel.append('<div class="cd-panel-container" style="width:' + sizePanel(n) + 'px"><div class="cd-panel-content"></div></div>');
+            $('#page-container').append(panel);
+            attachClosers();
         }
+
+        return panel;
+    };
+
+    var sizePanel = function (n) {
+        var screenWidth = $(window).width();
+        return 1600 - (2000 - screenWidth)*.75 - (screenWidth/10)*(n-1);
+    };
+
+    var openPanel = function (n) {
+        setTimeout(function () {
+            getPanel(n).addClass('is-visible');
+
+            visPanelButtons();
+        }, 30);
     };
 
     var closePanel = function (n) {
+        getPanel(n).removeClass('is-visible');
+        visPanelButtons();
+    };
 
-        if (n === 1) {
-            $('.cd-panel.first-panel').removeClass('is-visible');
-            hideSecondPanelButton();
-        } else if (n === 2) {
-            $('.cd-panel.second-panel').removeClass('is-visible');
+    var createPanelButton = function (n, message) {
+        var button = getPanelButton(n);
+
+        if (button.length === 0) {
+            button = $('<div class="panel-button" data-panel-for="' + n + '" style="z-index:' + (n*10 - 5) + '"></div>');
+            button.append('<a href="#" class="cd-btn"><button type="button" style="padding:0 5px"><span class="message"></span></button></a>');
+            button.on('click', function (event) {
+                openPanel(n); event.preventDefault();});
         }
 
+        button.find('span.message').html(message);
+
+        $('#page-container').append(button);
+
+        visPanelButtons();
     };
 
-    var displaySecondPanelButton = function (message) {
-        $('.second-button').css("display", "block").fadeTo(
-            500,
-            1,
+    var destroyPanelButton = function (n, message) {
+        getPanelButton(n).remove();
+    };
+
+
+    var getPanelButton = function (n) {
+        return  $('.panel-button[data-panel-for="' + n + '"]');
+    };
+
+    var displayPanelButton = function (n) {
+        getPanelButton(n).css('display', 'block');
+        setTimeout(
             function () {
-                $(this).css("display", "block");  // Ensure that the button is displayed; concurrent animation queues have
-            // have managed to hide this button following fade-up.
-            }
+                getPanelButton(n).fadeTo(500, 1);
+            },
+            300
         );
-        $('.second-button span.message').html(message);
     };
 
-    var hideSecondPanelButton = function () {
-        $('.second-button').fadeTo(
+    var hidePanelButton = function (n) {
+        getPanelButton(n).fadeTo(
             250,
             0,
             function () {
@@ -41,13 +77,27 @@ athens.multi_panel = (function () {
         );
     };
 
-    var loadPanel = function (n, targetURL) {
-        var targetDiv;
-        if (n === 1) {
-            targetDiv = $("#loadItHere");
-        } else if (n === 2) {
-            targetDiv = $("#loadItHere2");
+    var visPanelButtons = function () {
+        var buttons = $('.panel-button');
+
+        for (var i = 0; i < buttons.length; i++) {
+            var button = $(buttons[i]);
+            var panelFor = parseInt(button.data('panel-for'));
+
+            if (panelFor === 1 || (getPanel(panelFor - 1).length > 0 && getPanel(panelFor - 1).hasClass('is-visible'))) {
+                displayPanelButton(panelFor);
+            } else {
+                hidePanelButton(panelFor);
+            }
         }
+    };
+
+    var getTargetPanelDiv = function (n) {
+        return getPanel(n).find('.cd-panel-content');
+    };
+
+    var loadPanel = function (n, targetURL) {
+        var targetDiv = getTargetPanelDiv(n);
 
         if (typeof targetDiv !== "undefined") {
             targetDiv.html("<div class=loading-gif></div>");
@@ -55,6 +105,7 @@ athens.multi_panel = (function () {
             $.get(
                 targetURL,
                 function ( data ) {
+                    data = $(data).find('#page-content-body').html();
                     targetDiv.html(data);
                     athens.ajax_section.doPostSectionActions(targetDiv);
                 }
@@ -62,44 +113,29 @@ athens.multi_panel = (function () {
         }
     };
 
-    $().ready(
-        function ($) {
-        //open the lateral panel
-            $('.cd-btn').on(
-                'click',
-                function (event) {
-                /** The number of the panel we would like to open */
-                    var panelNum = $(this).data("for-panel");
-                    openPanel(panelNum);
+    var attachClosers = function () {
+        //close the lateral panel
+        $('.cd-panel').on(
+            'click',
+            function (event) {
+                if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+
+                    /** The number of the panel we would like to close */
+                    var panelNum = $(this).data("panel-for");
+
+                    closePanel(panelNum);
                     event.preventDefault();
                 }
-            );
-        //close the lateral panel
-            $('.cd-panel').on(
-                'click',
-                function (event) {
-                    if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-
-                        /** The number of the panel we would like to close */
-                        var panelNum = $(this).data("for-panel");
-
-                        closePanel(panelNum);
-                        event.preventDefault();
-                    }
-                }
-            );
-        }
-    );
+            }
+        );
+    };
 
     return {
         loadPanel: loadPanel,
-        hideSecondPanelButton: hideSecondPanelButton,
-        displaySecondPanelButton: displaySecondPanelButton,
+        openPanel: openPanel,
         closePanel: closePanel,
-        openPanel: openPanel
+        createPanelButton: createPanelButton,
+        destroyPanelButton: destroyPanelButton,
     };
 
 }());
-
-
-

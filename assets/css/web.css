@@ -30,23 +30,6 @@ div.form-group[data-field-type-for="section-label"] label {
     padding:5px !important;
 }
 
-.second-button {
-    -ms-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-
-    position: fixed;
-    right:-265px;
-    bottom:450px;
-
-    display:none;
-    opacity:0;
-}
-
-.second-button button {
-    width:600px;
-}
-
 input {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -554,9 +537,8 @@ button.form-action, input.form-action {
 
 div.breadcrumbs-container {
     min-width:500px;
-    margin:auto;
     position:relative;
-    margin-top:10px;
+    margin:10px auto 50px;
 }
 
 tr.highlightable:hover {
@@ -588,6 +570,5 @@ label.field-label.required::after {
 
 #page-content-body {
     clear:left;
-    padding-top:50px;
+    padding-top:10px;
 }
-

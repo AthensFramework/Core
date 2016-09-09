@@ -8,8 +8,8 @@ athens.alert = (function () {
      * @param {number} duration How long to leave the alert displayed, in milliseconds.
      * @param {number} delay How long to wait to display the alert, in milliseconds.
      */
-    var makeAlert = function(message, type, duration, delay)
-    {
+    var makeAlert = function (message, type, duration, delay) {
+    
         if (typeof duration === 'undefined') {
             duration = 5000;
         }
@@ -33,7 +33,8 @@ athens.alert = (function () {
             hide(1);
 
             return {
-                close: function() { alert.fadeTo(0, 0).delay(300).hide(1); }
+                close: function () {
+                    alert.fadeTo(0, 0).delay(300).hide(1); }
             }
         }
     };
@@ -48,18 +49,18 @@ athens.alert = (function () {
      * @returns {DelayedAlert}
      * @constructor
      */
-    var DelayedAlert = function(message, type, duration, delay)
-    {
+    var DelayedAlert = function (message, type, duration, delay) {
+    
         var alert = undefined;
 
         this.timeout = window.setTimeout(
-            function() {
+            function () {
                 alert = makeAlert(message, type, duration, 0);
             },
             delay
         );
 
-        this.close = function() {
+        this.close = function () {
             window.clearTimeout(this.timeout);
 
             if (typeof alert !== 'undefined') {

@@ -10,29 +10,29 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, main {
-    display: block;
+  display: block;
 }
 body {
-    line-height: 1;
+  line-height: 1;
 }
 ol, ul {
-    list-style: none;
+  list-style: none;
 }
 blockquote, q {
-    quotes: none;
+  quotes: none;
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 
@@ -102,7 +102,7 @@ html, body {
   transition: background 0.3s 0.3s;
 }
 .cd-panel.is-visible {
-    background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.4);
   visibility: visible;
   -webkit-transition: visibility 0s 0s;
   -moz-transition: visibility 0s 0s;
@@ -224,23 +224,6 @@ html, body {
   -moz-transition-delay: 0s;
   transition-delay: 0s;
 }
-@media only screen and (min-width: 768px) {
-  .cd-panel-container.first-panel {
-    width: 75%;
-  }
-  .cd-panel-container.second-panel {
-        width: 50%;
-  }
-}
-@media only screen and (min-width: 1170px) {
-  .cd-panel-container.first-panel {
-    width: 80%;
-  }
-  .cd-panel-container.second-panel {
-    width: 60%;
-  }
-
-}
 
 .cd-panel-content {
   position: absolute;
@@ -261,5 +244,27 @@ html, body {
   margin-top: 0;
 }
 
+.panel-button {
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
 
+  position: fixed;
+  right:-265px;
+  bottom:450px;
 
+  display:none;
+  opacity:0;
+}
+
+.panel-button button {
+  width:600px;
+}
+
+.panel-button span.message:after {
+  content: '\0000a0\21D1';
+}
+
+.panel-button span.message:before {
+  content: '\21D1\0000a0';
+}

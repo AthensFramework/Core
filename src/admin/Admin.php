@@ -80,7 +80,7 @@ class Admin extends Page
         switch ($mode) {
             case static::MODE_PAGE:
                 $writable = $pageContents;
-                $type = static::TYPE_MULTI_PANEL;
+                $type = static::TYPE_MINI_HEADER;
                 break;
             case static::MODE_TABLE:
                 $sectionBuilder = SectionBuilder::begin()
