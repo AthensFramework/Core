@@ -94,12 +94,12 @@ athens.search = (function () {
 
         if (label.find("div.search-icon[data-handle-for=" + handle + "]").length === 0) {
             searchIcon.prependTo(label);
+
+            searchIcon.click(searchIconOnclick);
+
+            // This might suppose to be inside searchIconOnclick
+            $("input.search-submit." + handle).click(searchSubmitOnclick);
         }
-
-        searchIcon.click(searchIconOnclick);
-
-        // This might suppose to be inside searchIconOnclick
-        $("input.search-submit." + handle).click(searchSubmitOnclick);
 
         // If this search filter has feedback, add a clear search link:
         $("p.filter-feedback[data-handle-for=" + handle + "]")
