@@ -38,7 +38,7 @@ class TableTest extends PHPUnit_Framework_TestCase
     {
 
         $row = RowBuilder::begin()
-            ->addFields([new Field([], [], 'literal', 'A literal field', [])])
+            ->addWritable(new Field([], [], 'literal', 'A literal field', []))
             ->setOnClick("console.log('Click!');")
             ->build();
 
@@ -74,7 +74,7 @@ class TableTest extends PHPUnit_Framework_TestCase
         // Make one row for each of the field values
         foreach ($fieldValues as $fieldValue) {
             $rows[] = RowBuilder::begin()
-                ->addFields([$fieldName => new Field([], [], 'literal', 'A literal field', $fieldValue)])
+                ->addWritable(new Field([], [], 'literal', 'A literal field', $fieldValue), $fieldName, $fieldName)
                 ->build();
         }
 

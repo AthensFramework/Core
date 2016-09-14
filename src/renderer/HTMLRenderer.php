@@ -17,8 +17,7 @@ class HTMLRenderer extends AbstractRenderer
      */
     public function render(WritableInterface $writable)
     {
-        $writable->accept($this->initializer);
-        $content = $writable->accept($this->writer);
+        $content = $this->getContent($writable);
 
         echo $content;
     }

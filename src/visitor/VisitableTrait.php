@@ -41,10 +41,7 @@ trait VisitableTrait
         if (method_exists($visitor, "visit") === true) {
             return $visitor->visit($this);
         }
-
-        throw new \RuntimeException(
-            "No visit method in " . get_class($visitor) . " found among " .
-            implode(", ", $visitorMethods) . ", or default method ::visit."
-        );
+        
+        return null;
     }
 }

@@ -13,22 +13,17 @@ use Athens\Core\Writable\WritableInterface;
  */
 abstract class AbstractRenderer implements RendererInterface
 {
-    /** @var WriterInterface $writer */
-    protected $writer;
-    
-    /** @var VisitorInterface */
-    protected $initializer;
+    /** @var WriterInterface[] $writer */
+    protected $writers;
 
     /**
      * AbstractRenderer constructor.
      *
-     * @param VisitorInterface $initializer
-     * @param WriterInterface  $writer
+     * @param WriterInterface[]  $writers
      */
-    public function __construct(VisitorInterface $initializer, WriterInterface $writer)
+    public function __construct(array $writers)
     {
-        $this->writer = $writer;
-        $this->initializer = $initializer;
+        $this->writers = $writers;
     }
 
     /**
@@ -38,6 +33,21 @@ abstract class AbstractRenderer implements RendererInterface
     public function visit(VisitableInterface $visitable)
     {
         $this->render($visitable);
+    }
+
+    protected function getContent(WritableInterface $writable)
+    {
+        foreach ($this->writers as $writer) {
+            $content = $writable->accept($writer);
+
+            if ($content !== null) {
+                return $content;
+            }
+        }
+
+        throw new \RuntimeException(
+            "No visit method for " . get_class($writable) . " found among writers"
+        );
     }
 
     /**

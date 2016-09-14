@@ -35,18 +35,22 @@ class Page implements PageInterface
     protected $baseHref;
 
     /** @var VisitorInterface */
+    protected $initializer;
+
+    /** @var VisitorInterface */
     protected $renderer;
 
     /**
      * Page constructor.
      *
-     * @param string                 $id
-     * @param string                 $type
-     * @param string[]               $classes
-     * @param string[]               $data
-     * @param string                 $title
-     * @param string                 $baseHref
-     * @param VisitorInterface       $renderer
+     * @param string $id
+     * @param string $type
+     * @param string[] $classes
+     * @param string[] $data
+     * @param string $title
+     * @param string $baseHref
+     * @param VisitorInterface $initializer
+     * @param VisitorInterface $renderer
      * @param WritableInterface|null $writable
      */
     public function __construct(
@@ -56,6 +60,7 @@ class Page implements PageInterface
         array $data,
         $title,
         $baseHref,
+        VisitorInterface $initializer,
         VisitorInterface $renderer,
         WritableInterface $writable = null
     ) {
@@ -67,6 +72,7 @@ class Page implements PageInterface
         $this->classes = $classes;
         $this->data = $data;
         $this->renderer = $renderer;
+        $this->initializer = $initializer;
     }
     
     /**
@@ -100,15 +106,25 @@ class Page implements PageInterface
     {
         return $this->baseHref;
     }
+    
+    
+    public function initialize()
+    {
+        $this->accept($this->initializer);
+        
+        return $this;
+    }
 
     /**
      * Render the page and its contents, including any necessary headers, using the
      * renderer provided to __construct.
      *
-     * @return void
+     * @return $this
      */
     public function render()
     {
         $this->accept($this->renderer);
+        
+        return $this;
     }
 }

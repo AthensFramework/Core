@@ -52,7 +52,7 @@ class SearchFilter extends Filter
     protected function setOptionsByRows(array $rows)
     {
         if (sizeof($rows) >= 1) {
-            $this->options = $rows[0]->getFieldBearer()->getFieldNames();
+            $this->options = array_keys($rows[0]->getWritableBearer()->getWritables());
         }
     }
 }

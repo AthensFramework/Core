@@ -26,7 +26,7 @@ class FormBuilder extends AbstractWritableBuilder
             ->setLabel($label)
             ->build();
 
-        return $this->addFields([$label => $labelField]);
+        return $this->addWritable($labelField, $label);
     }
 
     /**
@@ -39,23 +39,13 @@ class FormBuilder extends AbstractWritableBuilder
 
         $this->validateOnInvalidFunc();
         $this->validateOnValidFunc();
-        $this->validateOnSuccessUrl();
         $this->validateActions();
 
+        $writableBearer = $this->buildWritableBearer();
+        $this->modifyFields($writableBearer);
+
         return new Form(
-            $this->id,
-            $this->classes,
-            $this->data,
-            $this->type,
-            $this->method,
-            $this->target,
-            $this->buildFieldBearer(),
-            $this->onValidFunc,
-            $this->onInvalidFunc,
-            $this->actions,
-            $this->subForms,
-            $this->validators,
-            []
+            $this->id, $this->classes, $this->data, $this->type, $this->method, $this->target, $writableBearer, $this->onValidFunction, $this->onInvalidFunction, $this->actions, $this->validators, []
         );
     }
 }

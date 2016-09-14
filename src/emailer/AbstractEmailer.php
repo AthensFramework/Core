@@ -4,7 +4,7 @@ namespace Athens\Core\Emailer;
 
 use Athens\Core\Email\EmailInterface;
 use Athens\Core\Settings\Settings;
-use Athens\Core\Writer\HTMLWriter;
+use Athens\Core\Writer\WriterInterface;
 
 /**
  * Class AbstractEmailer provides the framework for rendering an email body before
@@ -29,17 +29,32 @@ abstract class AbstractEmailer implements EmailerInterface
      * Invoke the Emailer's ::doSend method.
      *
      * @param EmailInterface  $email
-     * @param HTMLWriter|null $writer
+     * @param WriterInterface[] $writers
      * @return boolean
      */
-    public function send(EmailInterface $email, HTMLWriter $writer = null)
+    public function send(EmailInterface $email, array $writers = [])
     {
-        if ($writer === null) {
-            $writer = Settings::getInstance()->getDefaultWriterClass();
-            $writer = new $writer();
-        }
-        $body = $email->accept($writer);
+        if ($writers === []) {
 
-        return $this->doSend($body, $email);
+            $writerClasses = Settings::getInstance()->getDefaultWriterClasses();
+            
+            $writers = [];
+            foreach ($writerClasses as $writerClass) {
+                $writers[] = new $writerClass();
+            }
+        }
+
+        foreach ($writers as $writer) {
+
+            $body = $email->accept($writer);
+    
+            if ($body !== null) {
+                return $this->doSend($body, $email);
+            }
+        }
+
+        throw new \RuntimeException(
+            "No visit method for " . get_class($email) . " found among writers."
+        );
     }
 }

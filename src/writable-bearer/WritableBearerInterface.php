@@ -12,4 +12,10 @@ interface WritableBearerInterface extends InitializableInterface, WritableInterf
      * @return WritableInterface[]
      */
     public function getWritables();
+
+    /**
+     * @param string $handle
+     * @return WritableInterface|null
+     */
+    public function getWritableByHandle($handle);
 }

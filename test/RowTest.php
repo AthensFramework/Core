@@ -36,20 +36,20 @@ class RowTest extends PHPUnit_Framework_TestCase
         $onClick = "console.log('Click!');";
 
         $highlightableRow = RowBuilder::begin()
-            ->addFields([$fieldName => new Field([], [], 'literal', 'A literal field', [])])
+            ->addWritable(new Field([], [], 'literal', 'A literal field', []), $fieldName, $fieldName)
             ->setHighlightable(true)
             ->build();
 
-        $this->assertEquals([$fieldName], $highlightableRow->getFieldBearer()->getFieldNames());
+        $this->assertEquals([$fieldName], array_keys($highlightableRow->getWritableBearer()->getWritables()));
         $this->assertTrue($highlightableRow->isHighlightable());
 
         $clickableRow = RowBuilder::begin()
-            ->addFields([$fieldName => new Field([], [], 'literal', 'A literal field', [])])
+            ->addWritable(new Field([], [], 'literal', 'A literal field', []), $fieldName, $fieldName)
             ->setOnClick($onClick)
             ->build();
 
         $this->assertEquals($onClick, $clickableRow->getOnClick());
-        $this->assertEquals([$fieldName], $clickableRow->getFieldBearer()->getFieldNames());
+        $this->assertEquals([$fieldName], array_keys($clickableRow->getWritableBearer()->getWritables()));
         $this->assertFalse($clickableRow->isHighlightable());
     }
 
@@ -60,7 +60,7 @@ class RowTest extends PHPUnit_Framework_TestCase
     public function testBuilderThrowsExceptionSetContentOnAjaxLoaded()
     {
         $row = RowBuilder::begin()
-            ->addFields(["fieldName" => new Field([], [], 'literal', 'A literal field', [])])
+            ->addWritable(new Field([], [], 'literal', 'A literal field', []), "fieldName", "fieldName")
             ->setHighlightable(true)
             ->setOnClick("console.log('Click');")
             ->build();

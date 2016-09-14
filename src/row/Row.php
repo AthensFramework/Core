@@ -2,7 +2,8 @@
 
 namespace Athens\Core\Row;
 
-use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\WritableBearer\WritableBearerBearerTrait;
+use Athens\Core\WritableBearer\WritableBearerInterface;
 use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\Writable\WritableTrait;
 
@@ -17,34 +18,34 @@ class Row implements RowInterface
     /** @var string */
     protected $onClick;
 
-    /** @var FieldBearerInterface */
-    protected $fieldBearer;
-
     /** @var boolean */
     protected $highlightable;
 
+    /** @var string[] */
+    protected $labels;
+
     use VisitableTrait;
     use WritableTrait;
+    use WritableBearerBearerTrait;
 
     /**
-     * @param string[]             $classes
-     * @param string[]             $data
-     * @param FieldBearerInterface $fieldBearer
-     * @param string               $onClick
-     * @param boolean              $highlightable
+     * @param string[] $classes
+     * @param string[] $data
+     * @param WritableBearerInterface $writableBearer
+     * @param string[] $labels
+     * @param string $onClick
+     * @param boolean $highlightable
      */
     public function __construct(
-        array $classes,
-        array $data,
-        FieldBearerInterface $fieldBearer,
-        $onClick,
-        $highlightable
+        array $classes, array $data, WritableBearerInterface $writableBearer, array $labels, $onClick, $highlightable
     ) {
-        $this->fieldBearer = $fieldBearer;
+        $this->writableBearer = $writableBearer;
+        $this->labels = $labels;
         $this->onClick = $onClick;
         $this->highlightable = $highlightable;
         $this->classes = $classes;
         $this->data = $data;
+        $this->labels = $labels;
     }
 
     /**
@@ -56,11 +57,11 @@ class Row implements RowInterface
     }
 
     /**
-     * @return FieldBearerInterface
+     * @return string[]
      */
-    public function getFieldBearer()
+    public function getLabels()
     {
-        return $this->fieldBearer;
+        return $this->labels;
     }
 
     /**

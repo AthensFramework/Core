@@ -45,7 +45,7 @@ class SortingFilterStatement extends FilterStatement
 
         $getFieldValue = function ($row) use ($fieldName) {
             /** @var RowInterface $row */
-            return $row->getFieldBearer()->getFieldByName($fieldName)->getInitial();
+            return $row->getWritableBearer()->getWritableByHandle($fieldName)->getInitial();
         };
 
         $comparisonOperator = function ($a, $b) {

@@ -12,6 +12,8 @@ use Athens\Core\Field\FieldInterface;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Choice\ChoiceBuilder;
 use Athens\Core\Choice\ChoiceInterface;
+use Athens\Core\Section\SectionBuilder;
+use Athens\Core\Writable\WritableInterface;
 
 /**
  * Class ORMUtils provides static methods for interpreting and interfacing
@@ -32,6 +34,34 @@ class ORMUtils
         "BOOLEAN" => "boolean",
         "FLOAT" => "text",
     ];
+
+    /**
+     * @param ActiveRecordInterface $object
+     * @return WritableInterface[]
+     */
+    public static function makeSpansFromObject(ActiveRecordInterface $object)
+    {
+        $fieldNames = static::makeFieldNamesFromObject($object);
+
+        $columns = array_combine($fieldNames, static::getColumns($object::TABLE_MAP));
+
+        $spans = [];
+        foreach ($columns as $fieldName => $column) {
+            $phpName = $column->getPhpName();
+
+            if ($column->isForeignKey() === true) {
+                $value = $object->{"get" . str_replace("Id", "", $phpName)}();
+            } else {
+                $value = $object->{"get" . $phpName}();
+            }
+            $spans[$phpName] = SectionBuilder::begin()
+                ->setType(SectionBuilder::TYPE_SPAN)
+                ->addContent($value)
+                ->build();
+        }
+
+        return array_combine($fieldNames, $spans);
+    }
 
     /**
      * @param ActiveRecordInterface $object
@@ -59,6 +89,34 @@ class ORMUtils
         }
 
         return $fields;
+    }
+
+    public static function makeLabelsFromObject(ActiveRecordInterface $object)
+    {
+        $fieldNames = static::makeFieldNamesFromObject($object);
+        $labels = static::makeLabelsFromColumns(static::getColumns($object::TABLE_MAP));
+        
+        return array_combine($fieldNames, $labels);
+    }
+
+    /**
+     * @param \Propel\Runtime\Map\ColumnMap[] $columns
+     * @return string[]
+     */
+    protected static function makeLabelsFromColumns($columns)
+    {
+        $labels = [];
+        foreach ($columns as $column) {
+            $label = $column->getName();
+
+            if ($column->isForeignKey() === true) {
+                $label = ucwords($column->getRelatedTableName());
+            }
+
+            $labels[] = StringUtils::toTitleCase($label);
+        }
+
+        return $labels;
     }
 
     /**
@@ -313,11 +371,13 @@ class ORMUtils
 
     /**
      * @param \Propel\Runtime\Map\ColumnMap[] $columns
+     *
+     * TODO: Remove label generation from this method
+     *
      * @return Field[]
      */
     protected static function makeFieldsFromColumns(array $columns)
     {
-
         $fields = [];
         $initial = "";
 

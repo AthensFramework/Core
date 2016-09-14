@@ -2,7 +2,8 @@
 
 namespace Athens\Core\Form;
 
-use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\WritableBearer\WritableBearerInterface;
+use Athens\Core\Field\FieldInterface;
 use Athens\Core\Visitor\VisitableTrait;
 
 /**
@@ -28,32 +29,37 @@ class Form implements FormInterface
     {
         $this->isValid = true;
 
-        foreach ($this->getFieldBearer()->getFields() as $name => $field) {
-            $field->validate();
+        foreach ($this->getWritableBearer()->getWritables() as $name => $writable) {
+            if ($writable instanceof FieldInterface) {
+                $writable->validate();
+            }
         }
 
-        foreach ($this->getFieldBearer()->getFields() as $name => $field) {
+        foreach ($this->getWritableBearer()->getWritables() as $name => $writable) {
             if (array_key_exists($name, $this->validators) === true) {
                 foreach ($this->validators[$name] as $validator) {
-                    call_user_func_array($validator, [$field, $this]);
+                    call_user_func_array($validator, [$writable, $this]);
                 }
             }
         }
 
-        foreach ($this->getFieldBearer()->getVisibleFields() as $name => $field) {
-            if ($field->isValid() === false) {
+        foreach ($this->getWritableBearer()->getWritables() as $name => $writable) {
+            if ($writable instanceof FieldInterface && $writable->isValid() === false) {
                 $this->isValid = false;
                 $this->addError("Please correct the indicated errors and resubmit the form.");
                 break;
             }
         }
 
-        foreach ($this->getSubForms() as $subForm) {
+        foreach ($this->getWritableBearer()->getWritables() as $writable) {
+
             // Force validation on each subform via isValid()
             // If subform isn't valid and this form is not yet invalid, mark it as invalid
-            if ($subForm->isValid() === false && $this->isValid === true) {
-                $this->isValid = false;
-                $this->addError("Please correct the indicated errors and resubmit the form.");
+            if ($writable instanceof FormInterface) {
+                if ($writable->isValid() === false && $this->isValid === true) {
+                    $this->isValid = false;
+                    $this->addError("Please correct the indicated errors and resubmit the form.");
+                }
             }
         }
 
@@ -63,42 +69,29 @@ class Form implements FormInterface
     }
 
     /**
-     * @param string               $id
-     * @param string[]             $classes
-     * @param array                $data
-     * @param string               $type
-     * @param string               $method
-     * @param string               $target
-     * @param FieldBearerInterface $fieldBearer
-     * @param callable             $onValidFunc
-     * @param callable             $onInvalidFunc
-     * @param array|null           $actions
-     * @param array|null           $subForms
-     * @param array[]|null         $validators
+     * @param string $id
+     * @param string[] $classes
+     * @param array $data
+     * @param string $type
+     * @param string $method
+     * @param string $target
+     * @param WritableBearerInterface $fieldBearer
+     * @param callable $onValidFunc
+     * @param callable $onInvalidFunc
+     * @param array|null $actions
+     * @param array[]|null $validators
      */
     public function __construct(
-        $id,
-        array $classes,
-        array $data,
-        $type,
-        $method,
-        $target,
-        FieldBearerInterface $fieldBearer,
-        callable $onValidFunc,
-        callable $onInvalidFunc,
-        $actions = [],
-        $subForms = [],
-        $validators = []
+        $id, array $classes, array $data, $type, $method, $target, WritableBearerInterface $fieldBearer, callable $onValidFunc, callable $onInvalidFunc, $actions = [], $validators = []
     ) {
     
         $this->actions = $actions;
-        $this->fieldBearer = $fieldBearer;
+        $this->writableBearer = $fieldBearer;
 
         $this->onInvalidFunc = $onInvalidFunc;
         $this->onValidFunc = $onValidFunc;
 
         $this->validators = $validators;
-        $this->subForms = $subForms;
         $this->id = $id;
         $this->type = $type;
         $this->method = $method;

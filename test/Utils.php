@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jschilz
- * Date: 12/17/2015
- * Time: 11:17 AM
- */
 
 namespace Athens\Core\Test;
 
@@ -27,10 +21,12 @@ class Utils
         $rows = [];
         for ($i = 0; $i < 100; $i++) {
             $rows[] = RowBuilder::begin()
-                ->addFields([
-                    Utils::INT_FIELD_NAME => new Field([], [], "literal", "a literal field", rand(1, 100)),
-                    Utils::STRING_FIELD_NAME => new Field([], [], "literal", "a literal field", (string)rand())
-                ])
+                ->addWritable(
+                    new Field([], [], "literal", "a literal field", rand(1, 100)), Utils::INT_FIELD_NAME, Utils::INT_FIELD_NAME
+                )
+                ->addWritable(
+                    new Field([], [], "literal", "a literal field", (string)rand()), Utils::STRING_FIELD_NAME, Utils::STRING_FIELD_NAME
+                )
                 ->build();
         }
         return $rows;
@@ -50,7 +46,7 @@ class Utils
 
         $vals = array_map(
             function ($key) use ($rows) {
-                return $rows[$key]->getFieldBearer()->getFieldByName(Utils::INT_FIELD_NAME)->getInitial();
+                return $rows[$key]->getWritableBearer()->getWritableByHandle(Utils::INT_FIELD_NAME)->getInitial();
             },
             $rand_keys
         );

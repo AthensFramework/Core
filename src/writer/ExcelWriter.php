@@ -110,7 +110,7 @@ class ExcelWriter extends AbstractWriter
             if (sizeof($table->getRows()) > 0) {
                 // Write header
                 /** @var FieldInterface $field */
-                foreach (array_values($table->getRows()[0]->getFieldBearer()->getVisibleFields()) as $j => $field) {
+                foreach (array_values($table->getRows()[0]->getWritableBearer()->getVisibleFields()) as $j => $field) {
                     $cellIndex = static::excelRow($j) . "1";
                     $objWorkSheet->setCellValue($cellIndex, $field->getLabel());
                     $objWorkSheet->getStyle($cellIndex)->getFont()->setBold(true);
@@ -118,7 +118,7 @@ class ExcelWriter extends AbstractWriter
 
                 // Write cells
                 foreach ($table->getRows() as $i => $row) {
-                    foreach (array_values($row->getFieldBearer()->getVisibleFields()) as $j => $field) {
+                    foreach (array_values($row->getWritableBearer()->getVisibleFields()) as $j => $field) {
                         if ($field->getInitial() !== "") {
                             $cellIndex = static::excelRow($j) . ($i + 2);
                             $objWorkSheet->setCellValue($cellIndex, $field->getInitial());

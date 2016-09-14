@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Form;
 
-use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\WritableBearer\WritableBearerInterface;
 use Athens\Core\Form\FormAction\FormAction;
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Initializer\InitializableInterface;
@@ -26,20 +26,9 @@ interface FormInterface extends WritableInterface, InitializableInterface
     public function getTarget();
 
     /**
-     * @return FieldBearerInterface
+     * @return WritableBearerInterface
      */
-    public function getFieldBearer();
-
-    /**
-     * @return FormInterface[]
-     */
-    public function getSubForms();
-
-    /**
-     * @param string $name
-     * @return FormInterface
-     */
-    public function getSubFormByName($name);
+    public function getWritableBearer();
 
     /**
      * @return boolean

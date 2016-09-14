@@ -311,8 +311,8 @@ class HTMLWriter extends AbstractWriter
                     "hash" => $row->getId(),
                     "classes" => $row->getClasses(),
                     "data" => $row->getData(),
-                    "visibleFields" => $row->getFieldBearer()->getVisibleFields(),
-                    "hiddenFields" => $row->getFieldBearer()->getHiddenFields(),
+                    "writables" => $row->getWritableBearer()->getWritables(),
+                    "labels" => $row->getLabels(),
                     "highlightable" => $row->isHighlightable(),
                     "onClick" => $row->getOnClick(),
                 ]
@@ -370,11 +370,9 @@ class HTMLWriter extends AbstractWriter
                     "data" => $form->getData(),
                     "method" => $form->getMethod(),
                     "target" => $form->getTarget(),
-                    "visibleFields" => $form->getFieldBearer()->getVisibleFields(),
-                    "hiddenFields" => $form->getFieldBearer()->getHiddenFields(),
+                    "writables" => $form->getWritableBearer()->getWritables(),
                     "actions" => $form->getActions(),
                     "errors" => $form->getErrors(),
-                    "subForms" => $form->getSubForms()
                 ]
             );
     }

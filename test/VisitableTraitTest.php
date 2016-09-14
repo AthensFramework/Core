@@ -28,17 +28,13 @@ class VisitableTraitTest extends PHPUnit_Framework_TestCase
         $host->accept($visitor);
         $this->assertEquals("B", $visitor->result);
     }
-
-    /**
-     * @expectedException              \RuntimeException
-     * @expectedExceptionMessageRegExp #No visit method.*#
-     */
+    
     public function testAcceptFails()
     {
         $visitor = new MockVisitor();
         $host = new MockVisitableZ();
 
-        $host->accept($visitor);
+        $this->assertNull($host->accept($visitor));
     }
 
     public function testGenericAccept()

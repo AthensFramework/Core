@@ -33,6 +33,17 @@ trait WritableTrait
     }
 
     /**
+     * @param string $class
+     * @return $this
+     */
+    public function addClass($class)
+    {
+        $this->classes[] = $class;
+
+        return $this;
+    }
+
+    /**
      * @return string[]
      */
     public function getData()
@@ -41,10 +52,33 @@ trait WritableTrait
     }
 
     /**
+     * @param string $key
+     * @param string $value
+     * @return $this
+     */
+    public function addData($key, $value)
+    {
+        $this->data[$key] = $value;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @param string $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }

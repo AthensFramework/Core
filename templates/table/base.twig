@@ -12,8 +12,8 @@
         {% if rows is empty %}
             <th>No data found</th>
         {%  else %}
-            {% for fieldName, field in rows|first.getFieldBearer.getVisibleFields %}
-                <th data-header-for="{{ fieldName }}">{{ field.getLabel }}</th>
+            {% for key, label in rows|first.getLabels %}
+                <th data-header-for="{{ key }}">{{ label }}</th>
             {% endfor %}
         {% endif %}
     </tr>

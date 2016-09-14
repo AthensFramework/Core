@@ -37,8 +37,11 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
     /** @var string */
     protected $title;
+
+    /** @var  VisitorInterface */
+    protected $initializer;
     
-    /** @var  VisitorInterface|null */
+    /** @var  VisitorInterface */
     protected $renderer;
 
     use WritableBearerBearerBuilderTrait;
@@ -176,20 +179,44 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
             $settingsInstance = $this->getSettingsInstance();
             
             if ($this->type === static::TYPE_EXCEL) {
-                $initializerClass = $settingsInstance->getDefaultExcelInitializerClass();
-                $writerClass = $settingsInstance->getDefaultExcelWriterClass();
+                $writerClasses = $settingsInstance->getDefaultExcelWriterClasses();
                 $rendererClass = $settingsInstance->getDefaultExcelRendererClass();
             } elseif ($this->type === static::TYPE_PDF) {
-                $initializerClass = $settingsInstance->getDefaultPdfInitializerClass();
-                $writerClass = $settingsInstance->getDefaultPdfWriterClass();
-                $rendererClass = $settingsInstance->getDefaultPdfRendererClass();
+                $writerClasses = $settingsInstance->getDefaultPDFWriterClasses();
+                $rendererClass = $settingsInstance->getDefaultPDFRendererClass();
             } else {
-                $initializerClass = $settingsInstance->getDefaultInitializerClass();
-                $writerClass = $settingsInstance->getDefaultWriterClass();
+                $writerClasses = $settingsInstance->getDefaultWriterClasses();
                 $rendererClass = $settingsInstance->getDefaultRendererClass();
             }
 
-            $this->renderer = new $rendererClass(new $initializerClass(), new $writerClass());
+            $writerInstances = [];
+            foreach ($writerClasses as $writerClass) {
+                $writerInstances[] = new $writerClass();
+            }
+            
+            $this->renderer = new $rendererClass($writerInstances);
+        }
+    }
+
+    /**
+     * Construct an initializer from setting defaults, if none has been provided.
+     *
+     * @return void
+     */
+    protected function validateInitializer()
+    {
+        if ($this->renderer === null) {
+            $settingsInstance = $this->getSettingsInstance();
+
+            if ($this->type === static::TYPE_EXCEL) {
+                $initializerClass = $settingsInstance->getDefaultExcelInitializerClass();
+            } elseif ($this->type === static::TYPE_PDF) {
+                $initializerClass = $settingsInstance->getDefaultPdfInitializerClass();
+            } else {
+                $initializerClass = $settingsInstance->getDefaultInitializerClass();
+            }
+
+            $this->initializer = new $initializerClass;
         }
     }
 
@@ -203,6 +230,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
             throw new \Exception("You must set a page type using ::setType before calling this function.");
         }
 
+        $this->validateInitializer();
         $this->validateRenderer();
 
         $writable = WritableBearerBuilder::begin()
@@ -229,14 +257,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
             ->build();
 
         return new Page(
-            $this->id,
-            $this->type,
-            $this->classes,
-            $this->data,
-            $this->title,
-            $this->baseHref,
-            $this->renderer,
-            $writable
+            $this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $this->initializer, $this->renderer, $writable
         );
     }
 }

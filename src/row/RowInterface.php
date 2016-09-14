@@ -2,21 +2,20 @@
 
 namespace Athens\Core\Row;
 
-use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\WritableBearer\WritableBearerBearerInterface;
 use Athens\Core\Writable\WritableInterface;
 
-interface RowInterface extends WritableInterface
+interface RowInterface extends WritableInterface, WritableBearerBearerInterface
 {
-
-    /**
-     * @return FieldBearerInterface
-     */
-    public function getFieldBearer();
-
     /**
      * @return string
      */
     public function getOnClick();
+
+    /**
+     * @return string[]
+     */
+    public function getLabels();
 
     /**
      * @return boolean

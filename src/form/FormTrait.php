@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Form;
 
-use Athens\Core\FieldBearer\FieldBearerInterface;
+use Athens\Core\WritableBearer\WritableBearerInterface;
 use Athens\Core\Form\FormAction\FormAction;
 use Athens\Core\Writable\WritableTrait;
 
@@ -25,8 +25,8 @@ trait FormTrait
     /** @var FormAction[] */
     protected $actions;
 
-    /** @var FieldBearerInterface  */
-    protected $fieldBearer;
+    /** @var WritableBearerInterface  */
+    protected $writableBearer;
 
     /** @var callable */
     protected $onValidFunc;
@@ -36,9 +36,6 @@ trait FormTrait
 
     /** @var array[]  */
     protected $validators;
-
-    /** @var FormInterface[] */
-    protected $subForms;
 
     /** @return void */
     protected abstract function validate();
@@ -68,11 +65,11 @@ trait FormTrait
     }
 
     /**
-     * @return FieldBearerInterface
+     * @return WritableBearerInterface
      */
-    public function getFieldBearer()
+    public function getWritableBearer()
     {
-        return $this->fieldBearer;
+        return $this->writableBearer;
     }
 
     /**
@@ -130,14 +127,6 @@ trait FormTrait
     }
 
     /**
-     * @return FormInterface[]
-     */
-    public function getSubForms()
-    {
-        return $this->subForms;
-    }
-
-    /**
      * @param string $name
      * @return FormInterface
      */
@@ -152,9 +141,6 @@ trait FormTrait
     public function propagateOnValid()
     {
         $args = array_merge([$this], func_get_args());
-
-        $func = [$this->getFieldBearer(), "save"];
-        call_user_func_array($func, $args);
 
         foreach ($this->getSubForms() as $subForm) {
             $func = [$subForm, "onValid"];

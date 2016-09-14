@@ -2,6 +2,8 @@
 
 namespace Athens\Core\WritableBearer;
 
+use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
+
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Etc\SafeString;
@@ -44,12 +46,30 @@ trait WritableBearerBearerBuilderTrait
     
     /**
      * @param WritableInterface $writable
+     * @param string $handle
      * @return $this
      */
-    public function addWritable(WritableInterface $writable)
+    public function addWritable(WritableInterface $writable, $handle = null)
     {
-        $this->getWritableBearerBuilder()->addWritable($writable);
+        $this->getWritableBearerBuilder()->addWritable($writable, $handle);
         
+        return $this;
+    }
+    
+    public function removeWritable($name)
+    {
+        $this->getWritableBearerBuilder()->removeWritable($name);
+
+        return $this;
+    }
+
+    /**
+     * @param ActiveRecordInterface $object
+     * @return $this
+     */
+    public function addObject(ActiveRecordInterface $object)
+    {
+        $this->getWritableBearerBuilder()->addObject($object);
         return $this;
     }
 

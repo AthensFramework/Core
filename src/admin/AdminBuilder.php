@@ -79,6 +79,7 @@ class AdminBuilder extends PageBuilder
      */
     public function build()
     {
+        $this->validateInitializer();
         $this->validateRenderer();
         
         if ($this->queries === []) {
@@ -116,15 +117,7 @@ class AdminBuilder extends PageBuilder
             ->build();
         
         $admin = new Admin(
-            $this->id,
-            $this->type,
-            $this->classes,
-            $this->title,
-            $this->baseHref,
-            $this->queries,
-            $this->renderer,
-            $pageContents,
-            $this->detailPages
+            $this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $this->queries, $this->initializer, $this->renderer, $pageContents, $this->detailPages
         );
 
         return $admin;

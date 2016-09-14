@@ -28,4 +28,23 @@ interface WritableInterface extends VisitableInterface
      * @return string
      */
     public function getType();
+
+    /**
+     * @param string $class
+     * @return WritableInterface
+     */
+    public function addClass($class);
+
+    /**
+     * @param string $key
+     * @param string $value
+     * @return WritableInterface
+     */
+    public function addData($key, $value);
+
+    /**
+     * @param string $type
+     * @return WritableInterface
+     */
+    public function setType($type);
 }

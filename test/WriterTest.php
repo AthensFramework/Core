@@ -315,13 +315,15 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setMethod($method)
             ->setTarget($target)
             ->setActions($actions)
-            ->addFields([
-                "literalField" => new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []),
-                "textField" => new Field([], [], 'text', 'A text field', "5", false, [])
-            ])
+            ->addWritable(
+                new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []), "literalField"
+            )
+            ->addWritable(
+                new Field([], [], 'text', 'A text field', "5", false, []), "textField"
+            )
             ->setFieldHelptext("textField", $helptext)
-            ->setOnInvalidFunc($onInvalidFunc)
-            ->setOnValidFunc($onValidFunc)
+            ->addOnInvalidFunc($onInvalidFunc)
+            ->addOnValidFunc($onValidFunc)
             ->build();
 
         $requestURI = (string)rand();
@@ -355,121 +357,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
         $this->assertContains('</form>', $result);
     }
-
-    public function testVisitTableForm()
-    {
-        $writer = new HTMLWriter();
-
-        $actions = [
-            new FormAction([], [], "JS Action", "JS", "console.log('here');"),
-            new FormAction([], [], "POST Action", "POST", "post-target")
-        ];
-
-        $id = "f" . (string)rand();
-        $method = "m" . (string)rand();
-        $target = "t" . (string)rand();
-
-        $rowMakingFunction = function () {
-            return RowBuilder::begin()
-                ->addFields([
-                    "literalField" => new Field(
-                        [],
-                        [],
-                        'literal',
-                        'A literal field',
-                        'Literal field content',
-                        true,
-                        []
-                    ),
-                    "textField" => new Field([], [], 'text', 'A text field', "5", false, [])
-                ])
-                ->build();
-        };
-
-        $form = TableFormBuilder::begin()
-            ->setId($id)
-            ->setMethod($method)
-            ->setTarget($target)
-            ->setRowMakingFunction($rowMakingFunction)
-            ->setActions($actions)
-            ->setRows([$rowMakingFunction()])
-            ->build();
-
-        $requestURI = (string)rand();
-        $_SERVER["REQUEST_URI"] = $requestURI;
-
-        // Get result and strip quotes, for easier analysis
-        $result = $this->stripQuotes($writer->visitTableForm($form));
-
-        $this->assertContains("<form", $result);
-        $this->assertContains("id=$id", $result);
-        $this->assertContains("method=$method", $result);
-        $this->assertContains("target=$target", $result);
-        $this->assertContains("data-request-uri=$requestURI", $result);
-        $this->assertContains("<table class=multi-adder", $result);
-        $this->assertContains("<tr class=prototypical form-row>", $result);
-        $this->assertContains("<tr class=actual form-row>", $result);
-        $this->assertContains("<td class=remove>", $result);
-        $this->assertContains("<span class=initial-field  >", $result);
-        $this->assertContains("A literal field", $result);
-        $this->assertContains("Literal field content", $result);
-        $this->assertContains("<span class=text-field  >", $result);
-        $this->assertContains("A text field", $result);
-        $this->assertContains("value=5", $result);
-        $this->assertContains("name=a-text-field", $result);
-        $this->assertContains('<input type=text', $result);
-        $this->assertContains('onclick=console.log(here);', $result);
-        $this->assertContains('JS Action</button>', $result);
-        $this->assertContains('<input class=form-action', $result);
-        $this->assertContains('name=submit type=submit', $result);
-        $this->assertContains('value=POST Action', $result);
-        $this->assertContains('</form>', $result);
-        $this->assertContains("athens.multi_adder.disablePrototypicalRows();", $result);
-    }
-
-    public function testVisitTableFormDisableRemove()
-    {
-        $writer = new HTMLWriter();
-
-        $id = "f" . (string)rand();
-
-        $rowMakingFunction = function () {
-            return RowBuilder::begin()
-                ->addFields([
-                    "literalField" => new Field(
-                        [],
-                        [],
-                        'literal',
-                        'A literal field',
-                        'Literal field content',
-                        true,
-                        []
-                    ),
-                    "textField" => new Field([], [], 'text', 'A text field', "5", false, [])
-                ])
-                ->build();
-        };
-
-        $formWithRemove = TableFormBuilder::begin()
-            ->setId($id)
-            ->setRows([$rowMakingFunction()])
-            ->build();
-
-        $formWithoutRemove = TableFormBuilder::begin()
-            ->setId($id)
-            ->setRows([$rowMakingFunction()])
-            ->setCanRemove(false)
-            ->build();
-
-
-        // Get result and strip quotes, for easier analysis
-        $resultWithRemove = $this->stripQuotes($writer->visitTableForm($formWithRemove));
-        $resultWithoutRemove = $this->stripQuotes($writer->visitTableForm($formWithoutRemove));
-
-        $this->assertContains("<td class=remove>", $resultWithRemove);
-        $this->assertNotContains("<td class=remove>", $resultWithoutRemove);
-    }
-
+    
     /**
      * @expectedException              Twig_Error_Loader
      * @expectedExceptionMessageRegExp #Unable to find template "form/nonexistant-type.twig".*#
@@ -481,10 +369,12 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
             ->setType("nonexistant-type")
-            ->addFields([
-                "literalField" => new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []),
-                "textField" => new Field([], [], 'text', 'A text field', "5", false, [])
-            ])
+            ->addWritable(
+                new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []), "literalField"
+            )
+            ->addWritable(
+                new Field([], [], 'text', 'A text field', "5", false, []), "textField"
+            )
             ->build();
 
         $writer->visitForm($form);
@@ -500,7 +390,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field = new Field([], [], "text", "An unrequired field", "5", false, [], 200);
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
-            ->addFields([$field])
+            ->addWritable($field)
             ->build();
 
         // Confirm that the form is valid and has no errors
@@ -517,7 +407,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field = new Field([], [], "text", "A required field", "5", true, [], 200);
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
-            ->addFields([$field])
+            ->addWritable($field)
             ->build();
 
         // Confirm that the form is not valid and does have errors
@@ -577,163 +467,6 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("Some sub-content.", $result);
     }
 
-    public function testVisitPickA()
-    {
-        $writer = new HTMLWriter();
-
-        $id = "p" . (string)rand();
-        $classes = [(string)rand(), (string)rand()];
-        $data = [
-            'd' . (string)rand() => (string)rand(),
-            'd' . (string)rand() => (string)rand(),
-        ];
-        $requestURI = (string)rand();
-
-        $contents = [
-            "Some content",
-            "Some other content"
-        ];
-
-        $labels = [
-            "." . (string)rand(),
-            "." . (string)rand(),
-            ];
-
-        $sections = [
-            SectionBuilder::begin()
-            ->setId("s" . (string)rand())
-            ->addContent($contents[0])
-            ->build(),
-
-            SectionBuilder::begin()
-            ->setId("s" . (string)rand())
-            ->addLabel("Label")
-            ->addContent($contents[1])
-            ->build()
-        ];
-
-        $pickA = PickABuilder::begin()
-            ->setId($id)
-            ->addClass($classes[0])
-            ->addClass($classes[1])
-            ->addData(array_keys($data)[0], array_values($data)[0])
-            ->addData(array_keys($data)[1], array_values($data)[1])
-            ->addLabel($labels[0])
-            ->addWritables([
-                "l1" => $sections[0],
-                "l2" => $sections[1]
-            ])
-            ->addLabel($labels[1])
-            ->build();
-
-        $_SERVER["REQUEST_URI"] = $requestURI;
-
-        // Get result and strip quotes, for easier analysis
-        $result = $this->stripQuotes($writer->visitPickA($pickA));
-
-        $this->assertContains("<div id=$id class=select-a-section-container " . implode(" ", $classes), $result);
-        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
-        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
-        $this->assertContains("data-request-uri=$requestURI", $result);
-
-        $this->assertContains($labels[0], $result);
-
-
-        $this->assertContains($contents[0], $result);
-        $this->assertContains($labels[0], $result);
-        $this->assertContains($contents[1], $result);
-    }
-
-    public function testVisitPickAForm()
-    {
-        $writer = new HTMLWriter();
-
-        $actions = [new FormAction([], [], "label", "method", "")];
-
-        $requestURI = (string)rand();
-        $id = "f" . (string)rand();
-        $classes = [(string)rand(), (string)rand()];
-        $data = [
-            'd' . (string)rand() => (string)rand(),
-            'd' . (string)rand() => (string)rand(),
-        ];
-
-        $forms = [];
-        $labels = [];
-        for ($i = 0; $i < 3; $i++) {
-            $forms[] = FormBuilder::begin()
-                ->setId("f-" . (string)rand())
-                ->addFieldBearers([new MockFieldBearer])
-                ->build();
-            $labels[] = "Form $i";
-        }
-
-        $pickAForm = PickAFormBuilder::begin()
-            ->setId($id)
-            ->addClass($classes[0])
-            ->addClass($classes[1])
-            ->addData(array_keys($data)[0], array_values($data)[0])
-            ->addData(array_keys($data)[1], array_values($data)[1])
-            ->addLabel("Label Text")
-            ->addForms([
-                $labels[0] => $forms[0],
-                $labels[1] => $forms[1]
-            ])
-            ->addLabel("Label Text2")
-            ->addForms([
-                $labels[2] => $forms[2]
-            ])
-            ->setActions($actions)
-            ->build();
-
-        $_SERVER["REQUEST_URI"] = $requestURI;
-
-        // Get result and strip quotes, for easier analysis
-        $result = $this->stripQuotes($writer->visitPickAForm($pickAForm));
-
-        $this->assertContains("<div id=$id", $result);
-        $this->assertContains("class=select-a-section-container " . implode(" ", $classes), $result);
-        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
-        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
-        $this->assertContains("data-request-uri=$requestURI", $result);
-
-        $this->assertContains($labels[0], $result);
-        $this->assertContains($labels[1], $result);
-        $this->assertContains($labels[2], $result);
-
-        $this->assertContains($forms[0]->getId(), $result);
-        $this->assertContains($forms[1]->getId(), $result);
-        $this->assertContains($forms[2]->getId(), $result);
-    }
-
-    /**
-     * @expectedException              Twig_Error_Loader
-     * @expectedExceptionMessageRegExp #Unable to find template "pick-a-form/nonexistant-type.twig".*#
-     */
-    public function testVisitNoneBasePickAForm()
-    {
-        $writer = new HTMLWriter();
-
-        $id = "f" . (string)rand();
-
-        $forms = [];
-        for ($i = 0; $i < 3; $i++) {
-            $forms[] = FormBuilder::begin()
-                ->setId("f-" . (string)rand())
-                ->addFieldBearers([new MockFieldBearer])
-                ->build();
-        }
-
-        $pickAForm = PickAFormBuilder::begin()
-            ->setId("f" . (string)rand())
-            ->setType("nonexistant-type")
-            ->addLabel("Label Text")
-            ->addForms($forms)
-            ->build();
-
-        $result = $this->stripQuotes($writer->visitPickAForm($pickAForm));
-    }
-
     public function testVisitRow()
     {
         $writer = new HTMLWriter();
@@ -761,24 +494,10 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setInitial($initialHidden)
             ->build();
 
-        $fieldBearer = FieldBearerBuilder::begin()
-            ->addFields([
-                "TextField" => $textField,
-                "LiteralField" => $literalField,
-                "HiddenField" => $hiddenField
-            ])
-            ->setVisibleFieldNames(["TextField", "LiteralField"])
-            ->setHiddenFieldNames(["HiddenField"])
-            ->build();
-
         $highlightableRow = RowBuilder::begin()
-            ->addFields([
-                "TextField" => $textField,
-                "LiteralField" => $literalField,
-                "HiddenField" => $hiddenField
-            ])
-            ->setVisibleFieldNames(["TextField", "LiteralField"])
-            ->setHiddenFieldNames(["HiddenField"])
+            ->addWritable($textField, "TextField", "TextField")
+            ->addWritable($literalField, "LiteralField", "LiteralField")
+            ->addWritable($hiddenField, "HiddenField", "HiddenField")
             ->setHighlightable(true)
             ->build();
 
@@ -787,21 +506,19 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains("<tr", $result);
         $this->assertContains("</tr>", $result);
-        $this->assertContains("<td class=" . $textField->getSlug(), $result);
-        $this->assertContains("<td class=" . $literalField->getSlug(), $result);
+        $this->assertContains("<td class=TextField", $result);
+        $this->assertContains("<td class=LiteralField", $result);
+        $this->assertContains("<td class=HiddenField", $result);
         $this->assertContains("highlightable", $result);
         $this->assertContains("class= clickable", $result);
         $this->assertContains($this->stripQuotes($initialLiteral), $result);
-        $this->assertContains("style=display:none>$initialHidden</td>", $result);
 
         $clickableRow = RowBuilder::begin()
-            ->addFields([
-                "TextField" => $textField,
-                "LiteralField" => $literalField,
-                "HiddenField" => $hiddenField
-            ])
-            ->setVisibleFieldNames(["TextField", "LiteralField"])
-            ->setHiddenFieldNames(["HiddenField"])
+            ->addWritable($textField, "TextField")
+            ->addWritable($literalField, "LiteralField")
+            ->addWritable($hiddenField, "HiddenField")
+//            ->setVisibleFieldNames(["TextField", "LiteralField"])
+//            ->setHiddenFieldNames(["HiddenField"])
             ->setOnClick($onClick)
             ->build();
 
@@ -825,13 +542,13 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field1 = new Field([], [], "text", "Text Field Label", (string)rand());
         $field1Name = "TextField1";
         $row1 = RowBuilder::begin()
-            ->addFields([$field1Name => $field1])
+            ->addWritable($field1, $field1->getLabel(), $field1Name)
             ->build();
 
         $field2 = new Field([], [], "text", "Text Field Label", (string)rand());
         $field2Name = "TextField2";
         $row2 = RowBuilder::begin()
-            ->addFields([$field2Name => $field2])
+            ->addWritable($field2, $field2Name)
             ->build();
 
         $table = TableBuilder::begin()
@@ -840,7 +557,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->addClass($classes[1])
             ->addData(array_keys($data)[0], array_values($data)[0])
             ->addData(array_keys($data)[1], array_values($data)[1])
-            ->addRows([$row1, $row2])
+            ->addRow($row1)
+            ->addRow($row2)
             ->build();
 
         $_SERVER["REQUEST_URI"] = $requestURI;

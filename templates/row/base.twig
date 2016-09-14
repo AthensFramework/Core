@@ -1,11 +1,15 @@
 <tr class="{{ classes|join(' ') }} {% if onClick %}clickable{% endif %} {% if highlightable %}highlightable{% endif %}"
     {% if onClick %}onClick="{{ onClick|raw }}"{% endif %} {{ data|writedata|raw }}>
 
-    {% for fieldName, field in visibleFields %}
-        <td class="{{ field.getSlug }}">{{ field.getInitial|saferaw|raw }}</td>
+    {% for key, writable in writables  %}
+        <td class="{{ key }}">{{ writable|write|raw }}</td>
     {% endfor %}
 
-    {% for fieldName, field in hiddenFields %}
-        <td class="{{ field.getSlug }} hidden" style="display:none">{{ field.getInitial|saferaw|raw }}</td>
+    {% for fieldName, field in visibleFields %}
+
     {% endfor %}
+
+    {#{% for fieldName, field in hiddenFields %}#}
+        {#<td class="{{ field.getSlug }} hidden" style="display:none">{{ field.getInitial|saferaw|raw }}</td>#}
+    {#{% endfor %}#}
 </tr>

@@ -45,4 +45,13 @@ class WritableBearer implements WritableBearerInterface
     {
         return $this->writables;
     }
+
+    /**
+     * @param string $handle
+     * @return WritableInterface|null
+     */
+    public function getWritableByHandle($handle)
+    {
+        return array_key_exists($handle, $this->writables) === true ? $this->writables[$handle] : null;
+    }
 }

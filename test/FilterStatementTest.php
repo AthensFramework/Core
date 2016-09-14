@@ -54,7 +54,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
 
         $lastNumber = -1;
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(Utils::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getWritableBearer()->getWritableByHandle(Utils::INT_FIELD_NAME)->getInitial();
 
             $this->assertGreaterThanOrEqual($lastNumber, $thisNumber);
 
@@ -77,7 +77,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
 
         $lastNumber = getrandmax() + 1;
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(Utils::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getWritableBearer()->getWritableByHandle(Utils::INT_FIELD_NAME)->getInitial();
 
             $this->assertLessThanOrEqual($lastNumber, $thisNumber);
 
@@ -101,7 +101,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(Utils::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getWritableBearer()->getWritableByHandle(Utils::INT_FIELD_NAME)->getInitial();
             $this->assertLessThan($criterion, $thisNumber);
         }
     }
@@ -123,7 +123,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(Utils::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getWritableBearer()->getWritableByHandle(Utils::INT_FIELD_NAME)->getInitial();
             $this->assertGreaterThan($criterion, $thisNumber);
         }
     }
@@ -144,7 +144,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(Utils::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getWritableBearer()->getWritableByHandle(Utils::INT_FIELD_NAME)->getInitial();
             $this->assertEquals($criterion, $thisNumber);
         }
     }
@@ -165,7 +165,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(Utils::INT_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getWritableBearer()->getWritableByHandle(Utils::INT_FIELD_NAME)->getInitial();
             $this->assertNotEquals($criterion, $thisNumber);
         }
     }
@@ -186,7 +186,7 @@ class FilterStatementTest extends PHPUnit_Framework_TestCase
         $rows = $statement->applyToRows($rows);
 
         foreach ($rows as $row) {
-            $thisNumber = $row->getFieldBearer()->getFieldByName(Utils::STRING_FIELD_NAME)->getInitial();
+            $thisNumber = $row->getWritableBearer()->getWritableByHandle(Utils::STRING_FIELD_NAME)->getInitial();
             $this->assertContains($criterion, $thisNumber);
         }
 

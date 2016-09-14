@@ -9,7 +9,7 @@
     {% endif %}
 
 
-        {% for fieldName, field in visibleFields %}
+        {% for fieldName, field in writables %}
             <div class="form-group" data-field-for="{{ field.getSlug }}" data-field-type-for="{{ field.getType }}">
                 <label for="{{ field.getSlug }}" class="field-label {% if field.isRequired %}required{% endif %}">
                     {{ field.getLabel }}

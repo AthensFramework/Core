@@ -70,7 +70,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         // Make one row for each of the field values
         foreach ($fieldValues as $fieldValue) {
             $rows[] = RowBuilder::begin()
-                ->addFields([$fieldName => new Field([], [], 'literal', 'A literal field', $fieldValue)])
+                ->addWritable(new Field([], [], 'literal', 'A literal field', $fieldValue), $fieldName, $fieldName)
                 ->build();
         }
 
@@ -290,10 +290,8 @@ class FilterTest extends PHPUnit_Framework_TestCase
         $field2Name = "TextField2";
 
         $row = RowBuilder::begin()
-            ->addFields([
-                $field1Name => $field1,
-                $field2Name => $field2
-            ])
+            ->addWritable($field1, $field1Name, $field1Name)
+            ->addWritable($field2, $field2Name, $field2Name)
             ->build();
 
         $filter->rowFilter([$row]);
