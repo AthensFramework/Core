@@ -150,6 +150,7 @@ class Admin extends Page
 
         if ($idWasProvided === true) {
             $object = $query->findOneById((int)$_GET[static::OBJECT_ID_FIELD]);
+            
         } else {
             $class = $query->getTableMap()->getOMClass(false);
             $object = new $class();
@@ -214,13 +215,14 @@ class Admin extends Page
             );
 
             $rows[] = RowBuilder::begin()
-                ->addFields([
-                    "adder" => FieldBuilder::begin()
+                ->addWritable(
+                    FieldBuilder::begin()
                         ->setLabel("adder")
                         ->setType(FieldBuilder::TYPE_LITERAL)
                         ->setInitial("+ Add another")
-                        ->build()
-                ])
+                        ->build(),
+                    "adder"
+                )
                 ->setOnClick(
                     "
                     athens.multi_panel.loadPanel(1, '$adderUrl');

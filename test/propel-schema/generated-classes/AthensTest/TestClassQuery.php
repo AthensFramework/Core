@@ -17,4 +17,14 @@ use AthensTest\Base\TestClassQuery as BaseTestClassQuery;
 class TestClassQuery extends BaseTestClassQuery
 {
 
+    /**
+     * Stub for mocking.
+     * 
+     * @param int $id
+     * @return TestClass
+     */
+    public function findOneById($id)
+    {
+    }
+
 }

@@ -48,7 +48,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
     /**
      * @param string $type
-     * @return PageBuilder
+     * @return $this
      */
     public function setType($type)
     {
@@ -58,7 +58,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
     /**
      * @param string $title
-     * @return PageBuilder
+     * @return $this
      */
     public function setTitle($title)
     {
@@ -68,7 +68,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
     /**
      * @param string $baseHref
-     * @return PageBuilder
+     * @return $this
      */
     public function setBaseHref($baseHref)
     {
@@ -78,7 +78,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
     /**
      * @param string $header
-     * @return PageBuilder
+     * @return $this
      */
     public function setHeader($header)
     {
@@ -88,7 +88,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
     /**
      * @param string $subHeader
-     * @return PageBuilder
+     * @return $this
      */
     public function setSubHeader($subHeader)
     {
@@ -99,7 +99,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
     /**
      * @param string $title
      * @param string $link
-     * @return PageBuilder
+     * @return $this
      */
     public function addBreadCrumb($title, $link = "")
     {

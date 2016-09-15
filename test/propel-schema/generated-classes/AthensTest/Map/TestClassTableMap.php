@@ -32,6 +32,15 @@ class TestClassTableMap extends TableMap
     use TableMapTrait;
 
     /**
+     * Stub method for mocking. 
+     * @return string
+     */
+    public function getName()
+    {
+        return static::TABLE_NAME;
+    }
+
+    /**
      * The (dot-path) name of this class
      */
     const CLASS_NAME = 'AthensTest.Map.TestClassTableMap';

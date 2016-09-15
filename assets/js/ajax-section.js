@@ -113,6 +113,35 @@ athens.ajax_section = (function () {
         return ret;
     };
 
+    function getQueryParams(qs) {
+        qs = qs.split('+').join(' ');
+
+        var params = {},
+            tokens,
+            re = /[?&]?([^=]+)=([^&]*)/g;
+
+        while (tokens = re.exec(qs)) {
+            params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+        }
+
+        return params;
+    }
+
+    function cleanQueryParams(url) {
+        var qs = url.substr(url.indexOf("?") + 1);
+        params = getQueryParams(qs);
+
+        qs = '';
+        for (var param in params) {
+            if (params.hasOwnProperty(param)) {
+                qs += encodeURIComponent(param) + '=' + encodeURIComponent(params[param]) + '&';
+            }
+        }
+
+        return url.split('?')[0] + '?' + qs;
+    }
+
+
     /**
      * Load a registered section by name
      *
@@ -135,8 +164,12 @@ athens.ajax_section = (function () {
             targetUrl += "?";
         }
 
+        targetUrl = targetUrl + renderGetVars(id);
+
+        targetUrl = cleanQueryParams(targetUrl);
+
         $.get(
-            targetUrl + renderGetVars(id),
+            targetUrl,
             function (data) {
                 var targetResponse = $(data).find("#" + id);
                 targetDiv.replaceWith(targetResponse);
@@ -175,6 +208,3 @@ athens.ajax_section = (function () {
     };
 
 }());
-
-
-
