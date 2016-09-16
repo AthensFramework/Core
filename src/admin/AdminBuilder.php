@@ -24,39 +24,6 @@ class AdminBuilder extends PageBuilder
     /** @var ModelCriteria[] */
     protected $queries = [];
 
-    /** @var VisitorInterface */
-    protected $renderer;
-
-    /**
-     * @param VisitorInterface $renderer
-     * @return AdminBuilder
-     */
-    public function setRenderer(VisitorInterface $renderer)
-    {
-        $this->renderer = $renderer;
-        return $this;
-    }
-
-    /**
-     * @param WritableInterface $writable
-     * @return AdminBuilder
-     */
-    public function setWritable(WritableInterface $writable)
-    {
-        $this->writable = $writable;
-        return $this;
-    }
-
-    /**
-     * @param string[] $message
-     * @return AdminBuilder
-     */
-    public function setMessage(array $message)
-    {
-        $this->message = $message;
-        return $this;
-    }
-
     /**
      * @param ModelCriteria     $objectManagerQuery
      * @return AdminBuilder
