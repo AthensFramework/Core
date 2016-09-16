@@ -2,18 +2,12 @@
 
 namespace Athens\Core\Filter;
 
+use Exception;
+
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-use Athens\Core\Etc\ORMUtils;
-use Athens\Core\Filter\SelectFilter;
-use Athens\Core\Filter\FilterInterface;
-use Athens\Core\Filter\FilterControls;
-use Athens\Core\Visitor\Visitor;
-use Athens\Core\Filter\DummyFilter;
 use Athens\Core\Row\RowInterface;
-
-use Forms\FormQuery;
 
 /**
  * Class RelationFilter
@@ -117,9 +111,10 @@ class RelationFilter extends SelectFilter
     /**
      * @param RowInterface[] $rows
      * @return RowInterface[]
+     * @throws Exception if try to row filter.
      */
     public function rowFilter(array $rows)
     {
-        return $rows;
+        throw new Exception("Class RelationFilter cannot filter by rows. Try moving this filter higher in the filter stack.");
     }
 }

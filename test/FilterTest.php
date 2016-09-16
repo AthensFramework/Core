@@ -2,6 +2,9 @@
 
 namespace Athens\Core\Test;
 
+use ArrayIterator;
+use Exception;
+
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\FilterStatement\FilterStatement;
@@ -13,8 +16,13 @@ use Athens\Core\Filter\FilterControls;
 use Athens\Core\Filter\SortFilter;
 use Athens\Core\Row\RowBuilder;
 use Athens\Core\Field\Field;
+use Athens\Core\Filter\RelationFilter;
 
 use Athens\Core\Test\Mock\MockQuery;
+
+use AthensTest\TestClassQuery;
+use AthensTest\TestClass;
+use AthensTest\Map\TestClassTableMap;
 
 class FilterTest extends PHPUnit_Framework_TestCase
 {
@@ -29,6 +37,34 @@ class FilterTest extends PHPUnit_Framework_TestCase
         FilterStatement::COND_PAGINATE_BY,
         FilterStatement::COND_ALL,
     ];
+
+    protected $instances;
+    protected $instanceMap;
+    protected $query;
+    protected $tableMap;
+
+    public function setUp()
+    {
+        $this->instances = [
+            0 => $this->createMock(TestClass::class),
+            1 => $this->createMock(TestClass::class),
+        ];
+
+        $this->instanceMap = [
+            [0, $this->instances[0]],
+            [1, $this->instances[1]],
+            [2, null],
+        ];
+
+        $this->query = $this->createMock(TestClassQuery::class);
+
+        $this->tableMap = $this->createMock(TestClassTableMap::class);
+        $this->tableMap->method('getClassName')->willReturn(TestClass::class);
+        $this->query->method('getTableMap')->willReturn($this->tableMap);
+
+        $this->query->method('find')->willReturn(new ArrayIterator($this->instances));
+        $this->query->method('findOneById')->willReturnMap($this->instanceMap);
+    }
 
     public function testBuildStaticFilter()
     {
@@ -151,6 +187,34 @@ class FilterTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($fieldName, $statement->getFieldName());
         $this->assertEquals($order, $statement->getCondition());
+    }
+
+    public function testBuildRelationFilter()
+    {
+        $filter = FilterBuilder::begin()
+            ->setId('test-relation-filter')
+            ->setType(Filter::TYPE_RELATION)
+            ->setQuery($this->query)
+            ->setDefault(RelationFilter::ALL)
+            ->build();
+
+        $this->assertInstanceOf(RelationFilter::class, $filter);
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #Class RelationFilter cannot filter by rows.*#
+     */
+    public function testRelationFilterWontFilterByRow()
+    {
+        $filter = FilterBuilder::begin()
+            ->setId('test-relation-filter')
+            ->setType(Filter::TYPE_RELATION)
+            ->setQuery($this->query)
+            ->setDefault(RelationFilter::ALL)
+            ->build();
+
+        $filter->rowFilter([]);
     }
 
     public function testBuildPaginationFilterUsesPaginateSetting()
