@@ -2,25 +2,15 @@
 
 namespace Athens\Core\Test;
 
-use Athens\Core\Initializer\Initializer;
-use Athens\Core\Renderer\HTMLRenderer;
 use Exception;
 
 use PHPUnit_Framework_TestCase;
 
-use Athens\Core\Page\Page;
-use Athens\Core\Section\SectionBuilder;
-use Athens\Core\Settings\Settings;
 use Athens\Core\Admin\AdminBuilder;
 use Athens\Core\Admin\Admin;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\Table\TableInterface;
-use Athens\Core\Row\RowInterface;
-
-use Athens\Core\Test\Mock\MockQuery;
-use Athens\Core\Test\Mock\MockHTMLWriter;
-use Athens\Core\Test\Mock\MockInitializer;
 
 use AthensTest\TestClass;
 use AthensTest\TestClassQuery;
@@ -28,6 +18,33 @@ use AthensTest\Map\TestClassTableMap;
 
 class AdminTest extends PHPUnit_Framework_TestCase
 {
+    protected $instances;
+    protected $instanceMap;
+    protected $query;
+    protected $tableMap;
+
+    public function setUp()
+    {
+        $this->instances = [
+            0 => $this->createMock(TestClass::class),
+            1 => $this->createMock(TestClass::class),
+        ];
+
+        $this->instanceMap = [
+            [0, $this->instances[0]],
+            [1, $this->instances[1]],
+            [2, null],
+        ];
+
+        $this->query = $this->createMock(TestClassQuery::class);
+
+        $this->tableMap = $this->createMock(TestClassTableMap::class);
+        $this->tableMap->method('getClassName')->willReturn(TestClass::class);
+        $this->query->method('getTableMap')->willReturn($this->tableMap);
+
+        $this->query->method('find')->willReturn($this->instances);
+        $this->query->method('findOneById')->willReturnMap($this->instanceMap);
+    }
 
     /**
      * Basic tests for the Section builder classes.
@@ -43,12 +60,9 @@ class AdminTest extends PHPUnit_Framework_TestCase
         $title = "title";
         $classes = [(string)rand(), (string)rand()];
         $breadCrumbs = ["name" => "http://link"];
-        $returnTo = ["Another name" => "http://another.link"];
         $baseHref = ".";
         $header = "header";
         $subHeader = "subHeader";
-
-        $query = $this->createMock(TestClassQuery::class);
 
         $admin = AdminBuilder::begin()
             ->setId($id)
@@ -59,7 +73,7 @@ class AdminTest extends PHPUnit_Framework_TestCase
             ->addBreadCrumb(array_keys($breadCrumbs)[0], array_values($breadCrumbs)[0])
             ->setHeader($header)
             ->setSubHeader($subHeader)
-            ->addQuery($query)
+            ->addQuery($this->query)
             ->build();
 
         $this->assertEquals($id, $admin->getId());
@@ -103,11 +117,9 @@ class AdminTest extends PHPUnit_Framework_TestCase
     {
         $_GET['mode'] = Admin::MODE_PAGE;
 
-        $query = $this->createMock(TestClassQuery::class);
-
         $admin = AdminBuilder::begin()
             ->setId("test-page")
-            ->addQuery($query)
+            ->addQuery($this->query)
             ->build();
 
         $this->assertEquals('page-content', $admin->getWritables()[0]->getId());
@@ -118,21 +130,9 @@ class AdminTest extends PHPUnit_Framework_TestCase
         $_GET['mode'] = Admin::MODE_TABLE;
         $_SERVER['REQUEST_URI'] = '.';
 
-        $tableMap = $this->createMock(TestClassTableMap::class);
-        $tableMap->method('getName')->willReturn('Test Class');
-
-        $instances = [
-            0 => $this->createMock(TestClass::class),
-            1 => $this->createMock(TestClass::class),
-        ];
-
-        $query = $this->createMock(TestClassQuery::class);
-        $query->method('getTableMap')->willReturn($tableMap);
-        $query->method('find')->willReturn($instances);
-
         $admin = AdminBuilder::begin()
             ->setId("test-page")
-            ->addQuery($query)
+            ->addQuery($this->query)
             ->build();
 
         $writables = $admin->getWritables();
@@ -141,7 +141,7 @@ class AdminTest extends PHPUnit_Framework_TestCase
         
         $table = $writables[0]->getWritables()[0]->getWritables()[1];
         
-        $this->assertEquals(sizeof($instances) + 1, sizeof($table->getRows()));
+        $this->assertEquals(sizeof($this->instances) + 1, sizeof($table->getRows()));
 
     }
 
@@ -149,22 +149,34 @@ class AdminTest extends PHPUnit_Framework_TestCase
     {
         $_GET['mode'] = Admin::MODE_DETAIL;
 
-        $instances = [
-            0 => $this->createMock(TestClass::class),
-            1 => $this->createMock(TestClass::class),
-        ];
-
-        $query = $this->createMock(TestClassQuery::class);
-
-        $query->method('find')->willReturn($instances);
-        $query->method('findOneById')->willReturn($instances[0]);
-
         $_GET[Admin::OBJECT_ID_FIELD] = 0;
         $_GET[Admin::QUERY_INDEX_FIELD] = 0;
 
         $admin = AdminBuilder::begin()
             ->setId("test-page")
-            ->addQuery($query)
+            ->addQuery($this->query)
+            ->build();
+
+        $writables = $admin->getWritables();
+
+        $this->assertInstanceOf(FieldInterface::class, $writables[0]);
+        $this->assertInstanceOf(FormInterface::class, $writables[1]);
+
+        $this->instances[0]->expects($this->once())->method('save');
+
+        $writables[1]->onValid();
+    }
+
+    public function testDetailModeWithoutId()
+    {
+        $_GET['mode'] = Admin::MODE_DETAIL;
+
+        unset($_GET[Admin::OBJECT_ID_FIELD]);
+        $_GET[Admin::QUERY_INDEX_FIELD] = 0;
+
+        $admin = AdminBuilder::begin()
+            ->setId("test-page")
+            ->addQuery($this->query)
             ->build();
 
         $writables = $admin->getWritables();
@@ -173,14 +185,45 @@ class AdminTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(FormInterface::class, $writables[1]);
     }
 
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #Object not found.*#
+     */
+    public function testDetailModeWithNonExistentObject()
+    {
+        $_GET['mode'] = Admin::MODE_DETAIL;
+
+        $_GET[Admin::OBJECT_ID_FIELD] = 2;
+        $_GET[Admin::QUERY_INDEX_FIELD] = 0;
+
+        $admin = AdminBuilder::begin()
+            ->setId("test-page")
+            ->addQuery($this->query)
+            ->build();
+
+        $writables = $admin->getWritables();
+
+        $this->assertInstanceOf(FieldInterface::class, $writables[0]);
+        $this->assertInstanceOf(FormInterface::class, $writables[1]);
+
+        $this->instances[0]->expects($this->once())->method('save');
+
+        $writables[1]->onValid();
+    }
+
     public function testDeleteMode()
     {
         $_GET['mode'] = Admin::MODE_DELETE;
 
+        $_GET[Admin::OBJECT_ID_FIELD] = 0;
+        $_GET[Admin::QUERY_INDEX_FIELD] = 0;
 
-
-
-
+        $this->instances[0]->expects($this->once())->method('delete');
+        
+        $admin = AdminBuilder::begin()
+            ->setId("test-page")
+            ->addQuery($this->query)
+            ->build();
 
     }
 }

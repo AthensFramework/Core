@@ -152,7 +152,7 @@ class Admin extends Page
             $object = $query->findOneById((int)$_GET[static::OBJECT_ID_FIELD]);
             
         } else {
-            $class = $query->getTableMap()->getOMClass(false);
+            $class = $query->getTableMap()->getClassName();
             $object = new $class();
         }
 
@@ -309,7 +309,9 @@ class Admin extends Page
      */
     protected function makeDelete()
     {
-        return null;
+        $object = $this->getObjectOr404();
+        
+        $object->delete();
     }
 
     /**
