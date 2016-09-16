@@ -36,7 +36,8 @@ class RowBuilder extends AbstractWritableBuilder
      * @param string $name
      * @return $this
      */
-    public function addWritable(WritableInterface $writable, $label=null, $name=null) {
+    public function addWritable(WritableInterface $writable, $label = null, $name = null)
+    {
         $this->writableBearerBearerBuilderTraitAddWritable($writable, $name);
 
         if ($label === null) {
@@ -112,7 +113,12 @@ class RowBuilder extends AbstractWritableBuilder
         }
 
         return new Row(
-            $this->classes, $this->data, $writableBearer, $this->labels, $this->onClick, $this->highlightable
+            $this->classes,
+            $this->data,
+            $writableBearer,
+            $this->labels,
+            $this->onClick,
+            $this->highlightable
         );
     }
 }

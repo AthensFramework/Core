@@ -35,7 +35,6 @@ abstract class AbstractEmailer implements EmailerInterface
     public function send(EmailInterface $email, array $writers = [])
     {
         if ($writers === []) {
-
             $writerClasses = Settings::getInstance()->getDefaultWriterClasses();
             
             $writers = [];
@@ -45,7 +44,6 @@ abstract class AbstractEmailer implements EmailerInterface
         }
 
         foreach ($writers as $writer) {
-
             $body = $email->accept($writer);
     
             if ($body !== null) {

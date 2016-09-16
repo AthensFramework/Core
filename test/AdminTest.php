@@ -142,7 +142,6 @@ class AdminTest extends PHPUnit_Framework_TestCase
         $table = $writables[0]->getWritables()[0]->getWritables()[1];
         
         $this->assertEquals(sizeof($this->instances) + 1, sizeof($table->getRows()));
-
     }
 
     public function testDetailMode()
@@ -224,6 +223,5 @@ class AdminTest extends PHPUnit_Framework_TestCase
             ->setId("test-page")
             ->addQuery($this->query)
             ->build();
-
     }
 }

@@ -2,9 +2,7 @@
 
 namespace Athens\Core\Admin;
 
-use Athens\Core\Etc\ORMUtils;
 use Athens\Core\Etc\StringUtils;
-use Athens\Core\Page\PageInterface;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Visitor\VisitorInterface;
 use Athens\Core\Etc\ArrayUtils;
@@ -15,7 +13,6 @@ use Athens\Core\Row\RowBuilder;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Form\FormBuilder;
 use Athens\Core\Form\FormAction\FormAction;
-use Athens\Core\Field\Field;
 use Athens\Core\Form\FormAction\FormActionInterface;
 use Athens\Core\Page\Page;
 
@@ -42,9 +39,6 @@ class Admin extends Page
     /** @var ModelCriteria[] */
     protected $queries;
 
-    /** @var  {PageInterface|null}[] */
-    protected $detailPages;
-
     /**
      * Admin constructor.
      *
@@ -54,22 +48,29 @@ class Admin extends Page
      * @param array $data
      * @param string $title
      * @param string $baseHref
-     * @param ModelCriteria[] $queries
      * @param VisitorInterface $initializer
      * @param VisitorInterface $renderer
      * @param WritableInterface $pageContents
-     * @param array $detailPages
+     * @param ModelCriteria[] $queries
      * @throws \Exception If an invalid object manager mode is provided.
      */
     public function __construct(
-        $id, $type, array $classes, array $data, $title, $baseHref, array $queries, VisitorInterface $initializer, VisitorInterface $renderer, WritableInterface $pageContents, array $detailPages
+        $id,
+        $type,
+        array $classes,
+        array $data,
+        $title,
+        $baseHref,
+        VisitorInterface $initializer,
+        VisitorInterface $renderer,
+        WritableInterface $pageContents,
+        array $queries
     ) {
 
         /** @var string $mode */
         $mode = ArrayUtils::findOrDefault('mode', $_GET, static::MODE_PAGE);
 
         $this->queries = $queries;
-        $this->detailPages = $detailPages;
 
         switch ($mode) {
             case static::MODE_PAGE:
@@ -105,10 +106,16 @@ class Admin extends Page
         }
 
         parent::__construct(
-            $id, $type, $classes, $data, $title, $baseHref, $initializer, $renderer, $writable
+            $id,
+            $type,
+            $classes,
+            $data,
+            $title,
+            $baseHref,
+            $initializer,
+            $renderer,
+            $writable
         );
-        $this->renderer = $renderer;
-        $this->data = $data;
     }
 
     /**
@@ -119,7 +126,7 @@ class Admin extends Page
         /** @var string|null $id */
         $id = ArrayUtils::findOrDefault(static::OBJECT_ID_FIELD, $_GET, null);
 
-        return $id === null ? null : (int)$id;
+        return is_numeric($id) === true ? (int)$id : null;
     }
 
     /**
@@ -133,26 +140,34 @@ class Admin extends Page
         return $id === null ? null : (int)$id;
     }
 
+    protected function getQuery()
+    {
+        return $this->queries[$this->getQueryIndex()];
+    }
+
     /**
      * Finds an object with the given id in this ObjectManager's query.
      *
+     * @param boolean $createOnNoId If an Id is not provided, then
      * @return ActiveRecordInterface
      * @throws \Exception If object can not be found.
      */
-    protected function getObjectOr404()
+    protected function getObjectOr404($createOnNoId = false)
     {
+        /** @var integer|null $objectId */
         $objectId = static::getObjectId();
 
         /** @var boolean $idWasProvided */
         $idWasProvided = $objectId !== null;
 
-        $query = $this->queries[$this->getQueryIndex()];
+        /** @var ActiveRecordInterface $object */
+        $object = null;
+
 
         if ($idWasProvided === true) {
-            $object = $query->findOneById((int)$_GET[static::OBJECT_ID_FIELD]);
-            
-        } else {
-            $class = $query->getTableMap()->getClassName();
+            $object = $this->getQuery()->findOneById((int)$_GET[static::OBJECT_ID_FIELD]);
+        } elseif ($createOnNoId) {
+            $class = $this->getQuery()->getTableMap()->getClassName();
             $object = new $class();
         }
 
@@ -256,7 +271,7 @@ class Admin extends Page
         $idWasProvided = array_key_exists(static::OBJECT_ID_FIELD, $_GET);
 
         /** @var ActiveRecordInterface $object */
-        $object = $this->getObjectOr404();
+        $object = $this->getObjectOr404(true);
 
         /** @var string $className */
         $className = join('', array_slice(explode('\\', get_class($object)), -1));
@@ -309,9 +324,7 @@ class Admin extends Page
      */
     protected function makeDelete()
     {
-        $object = $this->getObjectOr404();
-        
-        $object->delete();
+        $this->getObjectOr404()->delete();
     }
 
     /**

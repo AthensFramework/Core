@@ -52,7 +52,6 @@ class Form implements FormInterface
         }
 
         foreach ($this->getWritableBearer()->getWritables() as $writable) {
-
             // Force validation on each subform via isValid()
             // If subform isn't valid and this form is not yet invalid, mark it as invalid
             if ($writable instanceof FormInterface) {
@@ -82,7 +81,17 @@ class Form implements FormInterface
      * @param array[]|null $validators
      */
     public function __construct(
-        $id, array $classes, array $data, $type, $method, $target, WritableBearerInterface $fieldBearer, callable $onValidFunc, callable $onInvalidFunc, $actions = [], $validators = []
+        $id,
+        array $classes,
+        array $data,
+        $type,
+        $method,
+        $target,
+        WritableBearerInterface $fieldBearer,
+        callable $onValidFunc,
+        callable $onInvalidFunc,
+        $actions = [],
+        $validators = []
     ) {
     
         $this->actions = $actions;

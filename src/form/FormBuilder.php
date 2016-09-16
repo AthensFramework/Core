@@ -45,7 +45,18 @@ class FormBuilder extends AbstractWritableBuilder
         $this->modifyFields($writableBearer);
 
         return new Form(
-            $this->id, $this->classes, $this->data, $this->type, $this->method, $this->target, $writableBearer, $this->onValidFunction, $this->onInvalidFunction, $this->actions, $this->validators, []
+            $this->id,
+            $this->classes,
+            $this->data,
+            $this->type,
+            $this->method,
+            $this->target,
+            $writableBearer,
+            $this->onValidFunction,
+            $this->onInvalidFunction,
+            $this->actions,
+            $this->validators,
+            []
         );
     }
 }

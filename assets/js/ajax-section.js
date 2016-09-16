@@ -113,7 +113,8 @@ athens.ajax_section = (function () {
         return ret;
     };
 
-    function getQueryParams(qs) {
+    function getQueryParams(qs)
+    {
         qs = qs.split('+').join(' ');
 
         var params = {},
@@ -127,7 +128,8 @@ athens.ajax_section = (function () {
         return params;
     }
 
-    function cleanQueryParams(url) {
+    function cleanQueryParams(url)
+    {
         var qs = url.substr(url.indexOf("?") + 1);
         params = getQueryParams(qs);
 

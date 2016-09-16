@@ -121,7 +121,6 @@ class Initializer implements VisitorInterface
                 
                 $count++;
             }
-
         }
 
 

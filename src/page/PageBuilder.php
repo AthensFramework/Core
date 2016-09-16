@@ -257,7 +257,15 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
             ->build();
 
         return new Page(
-            $this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $this->initializer, $this->renderer, $writable
+            $this->id,
+            $this->type,
+            $this->classes,
+            $this->data,
+            $this->title,
+            $this->baseHref,
+            $this->initializer,
+            $this->renderer,
+            $writable
         );
     }
 }

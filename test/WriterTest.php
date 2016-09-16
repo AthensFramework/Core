@@ -316,10 +316,12 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setTarget($target)
             ->setActions($actions)
             ->addWritable(
-                new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []), "literalField"
+                new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []),
+                "literalField"
             )
             ->addWritable(
-                new Field([], [], 'text', 'A text field', "5", false, []), "textField"
+                new Field([], [], 'text', 'A text field', "5", false, []),
+                "textField"
             )
             ->setFieldHelptext("textField", $helptext)
             ->addOnInvalidFunc($onInvalidFunc)
@@ -370,10 +372,12 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->setId("f-" . (string)rand())
             ->setType("nonexistant-type")
             ->addWritable(
-                new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []), "literalField"
+                new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []),
+                "literalField"
             )
             ->addWritable(
-                new Field([], [], 'text', 'A text field', "5", false, []), "textField"
+                new Field([], [], 'text', 'A text field', "5", false, []),
+                "textField"
             )
             ->build();
 

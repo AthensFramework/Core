@@ -37,7 +37,12 @@ class Row implements RowInterface
      * @param boolean $highlightable
      */
     public function __construct(
-        array $classes, array $data, WritableBearerInterface $writableBearer, array $labels, $onClick, $highlightable
+        array $classes,
+        array $data,
+        WritableBearerInterface $writableBearer,
+        array $labels,
+        $onClick,
+        $highlightable
     ) {
         $this->writableBearer = $writableBearer;
         $this->labels = $labels;

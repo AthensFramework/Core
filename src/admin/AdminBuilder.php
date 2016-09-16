@@ -24,9 +24,6 @@ class AdminBuilder extends PageBuilder
     /** @var ModelCriteria[] */
     protected $queries = [];
 
-    /** @var {PageInterface|null}[] */
-    protected $detailPages = [];
-
     /** @var VisitorInterface */
     protected $renderer;
 
@@ -62,13 +59,11 @@ class AdminBuilder extends PageBuilder
 
     /**
      * @param ModelCriteria     $objectManagerQuery
-     * @param WritableInterface $detailPage
      * @return AdminBuilder
      */
-    public function addQuery(ModelCriteria $objectManagerQuery, WritableInterface $detailPage = null)
+    public function addQuery(ModelCriteria $objectManagerQuery)
     {
         $this->queries[] = $objectManagerQuery;
-        $this->detailPages[] = $detailPage;
 
         return $this;
     }
@@ -117,7 +112,16 @@ class AdminBuilder extends PageBuilder
             ->build();
         
         $admin = new Admin(
-            $this->id, $this->type, $this->classes, $this->data, $this->title, $this->baseHref, $this->queries, $this->initializer, $this->renderer, $pageContents, $this->detailPages
+            $this->id,
+            $this->type,
+            $this->classes,
+            $this->data,
+            $this->title,
+            $this->baseHref,
+            $this->initializer,
+            $this->renderer,
+            $pageContents,
+            $this->queries
         );
 
         return $admin;
