@@ -118,6 +118,11 @@ class Admin extends Page
         );
     }
 
+    /**
+     * @param $key
+     * @param null $default
+     * @return string
+     */
     protected function getParameter($key, $default = null)
     {
         return ArrayUtils::findOrDefault($key, $_GET, $default);
@@ -145,6 +150,9 @@ class Admin extends Page
         return is_numeric($queryIndex) === true ? (int)$queryIndex : null;
     }
 
+    /**
+     * @return ModelCriteria
+     */
     protected function getQuery()
     {
         return $this->queries[$this->getQueryIndex()];
