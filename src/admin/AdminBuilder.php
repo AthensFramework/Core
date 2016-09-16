@@ -2,12 +2,10 @@
 
 namespace Athens\Core\Admin;
 
-use Athens\Core\Visitor\VisitorInterface;
 use Exception;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 
-use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Page\PageBuilder;
 use Athens\Core\Page\PageInterface;
