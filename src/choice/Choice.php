@@ -17,6 +17,7 @@ class Choice implements ChoiceInterface
 {
 
     use WritableTrait;
+    use VisitableTrait;
 
     /** @var string */
     protected $alias;
@@ -24,18 +25,6 @@ class Choice implements ChoiceInterface
     /** @var string */
     protected $value;
     
-    use VisitableTrait;
-
-    /**
-     * Provides the unique identifier for this choice.
-     *
-     * @return string
-     */
-    public function getId()
-    {
-        return md5($this->getValue() . $this->getAlias());
-    }
-
     /**
      * @return string
      */
@@ -53,20 +42,19 @@ class Choice implements ChoiceInterface
     }
 
     /**
+     * @param string $id
      * @param string[] $classes
      * @param string[] $data
-     * @param string   $value
-     * @param string   $alias
+     * @param string $value
+     * @param string $alias
      */
     public function __construct(
-        array $classes,
-        array $data,
-        $value,
-        $alias
+        $id, array $classes, array $data, $value, $alias
     ) {
         $this->value = $value;
         $this->alias = $alias;
 
+        $this->id = $id;
         $this->classes = $classes;
         $this->data = $data;
     }
