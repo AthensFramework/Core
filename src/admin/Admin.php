@@ -2,6 +2,9 @@
 
 namespace Athens\Core\Admin;
 
+use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
+
 use Athens\Core\Etc\StringUtils;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Visitor\VisitorInterface;
@@ -15,10 +18,7 @@ use Athens\Core\Form\FormBuilder;
 use Athens\Core\Form\FormAction\FormAction;
 use Athens\Core\Form\FormAction\FormActionInterface;
 use Athens\Core\Page\Page;
-
 use Athens\Core\WritableBearer\WritableBearerBuilder;
-use Propel\Runtime\ActiveQuery\ModelCriteria;
-use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
 /**
  * Class ObjectManager
@@ -128,10 +128,10 @@ class Admin extends Page
      */
     protected function getObjectId()
     {
-        /** @var string|null $id */
-        $id = $this->getParameter(static::OBJECT_ID_FIELD);
+        /** @var string|null $objectId */
+        $objectId = $this->getParameter(static::OBJECT_ID_FIELD);
 
-        return is_numeric($id) === true ? (int)$id : null;
+        return is_numeric($objectId) === true ? (int)$objectId : null;
     }
 
     /**
@@ -139,10 +139,10 @@ class Admin extends Page
      */
     protected function getQueryIndex()
     {
-        /** @var string|null $id */
-        $id = $this->getParameter(static::QUERY_INDEX_FIELD);
+        /** @var string|null $queryIndex */
+        $queryIndex = $this->getParameter(static::QUERY_INDEX_FIELD);
 
-        return is_numeric($id) === true ? (int)$id : null;
+        return is_numeric($queryIndex) === true ? (int)$queryIndex : null;
     }
 
     protected function getQuery()
@@ -203,7 +203,6 @@ class Admin extends Page
 
                 /** @var string $detailurl */
                 $detailurl = static::makeUrl(
-                    $_SERVER['REQUEST_URI'],
                     [
                         static::MODE_FIELD => static::MODE_DETAIL,
                         static::QUERY_INDEX_FIELD => $queryIndex,
@@ -224,7 +223,6 @@ class Admin extends Page
 
             /** @var string $adderUrl */
             $adderUrl = static::makeUrl(
-                $_SERVER['REQUEST_URI'],
                 [
                     static::MODE_FIELD => static::MODE_DETAIL,
                     static::QUERY_INDEX_FIELD => $queryIndex,
@@ -330,12 +328,14 @@ class Admin extends Page
     }
 
     /**
-     * @param string   $location
      * @param string[] $data
+     * @param string   $location
      * @return string
      */
-    protected static function makeUrl($location, array $data)
+    protected static function makeUrl(array $data, $location = null)
     {
+        $location = $location === null ? $_SERVER['REQUEST_URI'] : $location;
+
         $args = http_build_query($data);
 
         return strpos($location, '?') === false ? "$location?$args" : "$location&$args";
