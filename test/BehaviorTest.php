@@ -32,6 +32,21 @@ class BehaviorTest extends PHPUnit_Framework_TestCase
 
         return $string;
     }
+    
+    public function testAllowMultiple()
+    {
+
+        $behavior = new MockHTMLFieldBehavior(
+            $this->columns,
+            [
+                'column_name_1' => "Column1",
+                'column_name_2' => "Column2",
+            ]
+        );
+        
+        $this->assertFalse($behavior->allowMultiple());
+        
+    }
 
     public function testMapFilter()
     {

@@ -85,21 +85,6 @@ EOT;
     /**
      * @return string[]
      */
-    protected function getColumnPhpNames()
-    {
-        $table = $this->getTable();
-
-        return array_map(
-            function ($columnName) use ($table) {
-                return $table->getColumn($columnName)->getPhpName();
-            },
-            $this->getColumnNames()
-        );
-    }
-
-    /**
-     * @return string[]
-     */
     protected function getColumnRealNames()
     {
         $tableName = $this->getTable()->getName();
