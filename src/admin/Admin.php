@@ -68,7 +68,7 @@ class Admin extends Page
     ) {
 
         /** @var string $mode */
-        $mode = ArrayUtils::findOrDefault('mode', $_GET, static::MODE_PAGE);
+        $mode = $this->getParameter(static::MODE_FIELD, static::MODE_PAGE);
 
         $this->queries = $queries;
 
@@ -118,13 +118,18 @@ class Admin extends Page
         );
     }
 
+    protected function getParameter($key, $default = null)
+    {
+        return ArrayUtils::findOrDefault($key, $_GET, $default);
+    }
+
     /**
      * @return integer|null
      */
-    public static function getObjectId()
+    protected function getObjectId()
     {
         /** @var string|null $id */
-        $id = ArrayUtils::findOrDefault(static::OBJECT_ID_FIELD, $_GET, null);
+        $id = $this->getParameter(static::OBJECT_ID_FIELD);
 
         return is_numeric($id) === true ? (int)$id : null;
     }
@@ -135,9 +140,9 @@ class Admin extends Page
     protected function getQueryIndex()
     {
         /** @var string|null $id */
-        $id = ArrayUtils::findOrDefault(static::QUERY_INDEX_FIELD, $_GET, null);
+        $id = $this->getParameter(static::QUERY_INDEX_FIELD);
 
-        return $id === null ? null : (int)$id;
+        return is_numeric($id) === true ? (int)$id : null;
     }
 
     protected function getQuery()
@@ -157,15 +162,12 @@ class Admin extends Page
         /** @var integer|null $objectId */
         $objectId = static::getObjectId();
 
-        /** @var boolean $idWasProvided */
-        $idWasProvided = $objectId !== null;
-
         /** @var ActiveRecordInterface $object */
         $object = null;
 
 
-        if ($idWasProvided === true) {
-            $object = $this->getQuery()->findOneById((int)$_GET[static::OBJECT_ID_FIELD]);
+        if ($objectId !== null) {
+            $object = $this->getQuery()->findOneById($objectId);
         } elseif ($createOnNoId) {
             $class = $this->getQuery()->getTableMap()->getClassName();
             $object = new $class();
@@ -268,7 +270,7 @@ class Admin extends Page
     protected function makeDetail()
     {
         /** @var boolean $idWasProvided */
-        $idWasProvided = array_key_exists(static::OBJECT_ID_FIELD, $_GET);
+        $idWasProvided = static::getObjectId() === null;
 
         /** @var ActiveRecordInterface $object */
         $object = $this->getObjectOr404(true);

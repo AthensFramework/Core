@@ -55,7 +55,6 @@ class AdminTest extends PHPUnit_Framework_TestCase
      */
     public function testBuilder()
     {
-
         $id = "i" . (string)rand();
         $title = "title";
         $classes = [(string)rand(), (string)rand()];
