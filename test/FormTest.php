@@ -67,7 +67,7 @@ class FormTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $this->assertEquals($actions, $form->getActions());
-        $this->assertContains($field, $form->getWritableBearer()->getWritables());
+        $this->assertContains($field, $form->getWritables());
         $this->assertEquals($id, $form->getId());
         $this->assertEquals($classes, $form->getClasses());
         $this->assertEquals($type, $form->getType());
@@ -98,7 +98,7 @@ class FormTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
-        $this->assertEquals($expectedFieldNames, array_keys($form->getWritableBearer()->getWritables()));
+        $this->assertEquals($expectedFieldNames, array_keys($form->getWritables()));
 
         /* Test FormBuilder::addFieldBearer */
         $field = new Field([], [], 'literal', 'A literal field', []);
@@ -112,7 +112,7 @@ class FormTest extends PHPUnit_Framework_TestCase
             ->addWritableBearer($writableBearer)
             ->build();
 
-        $this->assertContains("field", array_keys($form->getWritableBearer()->getWritables()));
+        $this->assertContains("field", array_keys($form->getWritables()));
 
         /* Test FormBuilder::addSubForms */
         $field = new Field([], [], 'literal', 'A literal field', []);
@@ -137,65 +137,10 @@ class FormTest extends PHPUnit_Framework_TestCase
             ->addWritable($form2, "Form2")
             ->build();
 
-        $this->assertEquals(2, sizeof($form->getWritableBearer()->getWritables()));
-        $this->assertContains($form1, $form->getWritableBearer()->getWritables());
-        $this->assertContains($form2, $form->getWritableBearer()->getWritables());
+        $this->assertEquals(2, sizeof($form->getWritables()));
+        $this->assertContains($form1, $form->getWritables());
+        $this->assertContains($form2, $form->getWritables());
     }
-
-//    public function testMakeLiteralWithFormBuilder()
-//    {
-//        $label = new Field([], [], FieldBuilder::TYPE_SECTION_LABEL, "section label");
-//        $field1 = new Field([], [], FieldBuilder::TYPE_BOOLEAN, "", []);
-//        $field2 = new Field([], [], FieldBuilder::TYPE_TEXT, "", []);
-//
-//        $form = FormBuilder::begin()
-//            ->setId("f-" . (string)rand())
-//            ->addWritable($label, "label")
-//            ->addWritable($field1, "field1")
-//            ->addWritable($field2, "field2")
-//            ->makeLiteral()
-//            ->build();
-//
-//        foreach ($form->getWritableBearer()->getWritables() as $name => $field) {
-//            if ($name === "label") {
-//                $this->assertEquals(FieldBuilder::TYPE_SECTION_LABEL, $field->getType());
-//            } else {
-//                $this->assertEquals(FieldBuilder::TYPE_LITERAL, $field->getType());
-//            }
-//        }
-//    }
-
-//    public function testSetFieldValuesWithFormBuilder()
-//    {
-//        $field1 = new Field([], [], "literal", "", []);
-//        $field2 = new Field([], [], "literal", "", []);
-//
-//        $fields = [
-//            "field1" => $field1,
-//            "field2" => $field2
-//        ];
-//
-//        $newInitialValue = (string)rand();
-//        $newLabel = (string)rand();
-//        $newChoices = [
-//            ChoiceBuilder::begin()->setValue(rand())->build(),
-//            ChoiceBuilder::begin()->setValue(rand())->build(),
-//            ChoiceBuilder::begin()->setValue(rand())->build(),
-//        ];
-//
-//        FormBuilder::begin()
-//            ->setId("f-" . (string)rand())
-//            ->addWritable($field1, "field1")
-//            ->addWritable($field2, "field2")
-//            ->setInitialFieldValue("field1", $newInitialValue)
-//            ->setFieldLabel("field1", $newLabel)
-//            ->setFieldChoices("field1", $newChoices)
-//            ->build();
-//
-//        $this->assertEquals($newInitialValue, $field1->getInitial());
-//        $this->assertEquals($newLabel, $field1->getLabel());
-//        $this->assertEquals(array_values($newChoices), array_values($field1->getChoices()));
-//    }
 
     public function testLabelFieldCreation()
     {
@@ -206,7 +151,7 @@ class FormTest extends PHPUnit_Framework_TestCase
             ->addLabel($labelText)
             ->build();
 
-        $labelField = array_values($form->getWritableBearer()->getWritables())[0];
+        $labelField = array_values($form->getWritables())[0];
 
         $this->assertEquals(FieldBuilder::TYPE_SECTION_LABEL, $labelField->getType());
         $this->assertEquals($labelText, $labelField->getLabel());

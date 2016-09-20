@@ -3,11 +3,12 @@
 namespace Athens\Core\Form;
 
 use Athens\Core\WritableBearer\WritableBearerInterface;
+use Athens\Core\WritableBearer\WritableBearerBearerInterface;
 use Athens\Core\Form\FormAction\FormAction;
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Initializer\InitializableInterface;
 
-interface FormInterface extends WritableInterface, InitializableInterface
+interface FormInterface extends WritableInterface, InitializableInterface, WritableBearerBearerInterface
 {
 
     /**
@@ -60,9 +61,5 @@ interface FormInterface extends WritableInterface, InitializableInterface
      * @return void
      */
     public function addError($error);
-
-    /**
-     * @return void
-     */
-    public function propagateOnValid();
+    
 }
