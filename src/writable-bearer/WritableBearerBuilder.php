@@ -52,6 +52,11 @@ class WritableBearerBuilder extends AbstractWritableBuilder
         return $this;
     }
 
+    /**
+     * @param WritableBearerInterface $writableBearer
+     * @param string                  $name
+     * @return $this
+     */
     public function addWritableBearer(WritableBearerInterface $writableBearer, $name = '')
     {
         $this->addWritable($writableBearer, $name);
@@ -59,6 +64,10 @@ class WritableBearerBuilder extends AbstractWritableBuilder
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function removeWritable($name)
     {
         $this->writables = array_diff_key($this->writables, [$name => '']);
@@ -66,6 +75,10 @@ class WritableBearerBuilder extends AbstractWritableBuilder
         return $this;
     }
 
+    /**
+     * @param ActiveRecordInterface $object
+     * @return $this
+     */
     public function addObject(ActiveRecordInterface $object)
     {
         $fields = ORMUtils::makeFieldsFromObject($object);

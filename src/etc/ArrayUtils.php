@@ -28,6 +28,6 @@ class ArrayUtils
      */
     public static function findOrDefault($needle, array $haystack, $default)
     {
-        return array_key_exists($needle, $haystack) ? $haystack[$needle] : $default;
+        return array_key_exists($needle, $haystack) === true ? $haystack[$needle] : $default;
     }
 }

@@ -55,7 +55,11 @@ class ChoiceBuilder extends AbstractWritableBuilder
         }
 
         return new Choice(
-            $this->id, $this->classes, $this->data, $this->value, $this->alias
+            $this->id,
+            $this->classes,
+            $this->data,
+            $this->value,
+            $this->alias
         );
     }
 }

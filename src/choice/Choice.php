@@ -42,14 +42,18 @@ class Choice implements ChoiceInterface
     }
 
     /**
-     * @param string $id
+     * @param string   $id
      * @param string[] $classes
      * @param string[] $data
-     * @param string $value
-     * @param string $alias
+     * @param string   $value
+     * @param string   $alias
      */
     public function __construct(
-        $id, array $classes, array $data, $value, $alias
+        $id,
+        array $classes,
+        array $data,
+        $value,
+        $alias
     ) {
         $this->value = $value;
         $this->alias = $alias;

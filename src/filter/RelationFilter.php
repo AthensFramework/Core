@@ -110,11 +110,13 @@ class RelationFilter extends SelectFilter
 
     /**
      * @param RowInterface[] $rows
-     * @return RowInterface[]
      * @throws Exception if try to row filter.
+     * @return void
      */
     public function rowFilter(array $rows)
     {
-        throw new Exception("Class RelationFilter cannot filter by rows. Try moving this filter higher in the filter stack.");
+        throw new Exception(
+            "Class RelationFilter cannot filter by rows. Try moving this filter higher in the filter stack."
+        );
     }
 }

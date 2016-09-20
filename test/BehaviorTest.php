@@ -45,7 +45,6 @@ class BehaviorTest extends PHPUnit_Framework_TestCase
         );
         
         $this->assertFalse($behavior->allowMultiple());
-        
     }
 
     public function testMapFilter()

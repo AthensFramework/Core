@@ -7,6 +7,7 @@ use Athens\Core\Writable\WritableInterface;
 
 interface RowInterface extends WritableInterface, WritableBearerBearerInterface
 {
+
     /**
      * @return string
      */

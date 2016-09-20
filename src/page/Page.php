@@ -43,14 +43,14 @@ class Page implements PageInterface
     /**
      * Page constructor.
      *
-     * @param string $id
-     * @param string $type
-     * @param string[] $classes
-     * @param string[] $data
-     * @param string $title
-     * @param string $baseHref
-     * @param VisitorInterface $initializer
-     * @param VisitorInterface $renderer
+     * @param string                 $id
+     * @param string                 $type
+     * @param string[]               $classes
+     * @param string[]               $data
+     * @param string                 $title
+     * @param string                 $baseHref
+     * @param VisitorInterface       $initializer
+     * @param VisitorInterface       $renderer
      * @param WritableInterface|null $writable
      */
     public function __construct(
@@ -106,8 +106,10 @@ class Page implements PageInterface
     {
         return $this->baseHref;
     }
-    
-    
+
+    /**
+     * @return $this
+     */
     public function initialize()
     {
         $this->accept($this->initializer);

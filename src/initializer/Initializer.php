@@ -70,7 +70,7 @@ class Initializer implements VisitorInterface
         $this->suffixFormFields($form);
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $form->isValid() ? $form->onValid(): $form->onInvalid();
+            $form->isValid() === true ? $form->onValid(): $form->onInvalid();
         }
     }
 
@@ -129,7 +129,7 @@ class Initializer implements VisitorInterface
 
     /**
      * @param WritableBearerInterface $fieldBearer
-     * @param integer              $countBegin
+     * @param integer                 $countBegin
      * @return void
      */
     protected function suffixFieldBearerFields(WritableBearerInterface $fieldBearer, $countBegin = 0)

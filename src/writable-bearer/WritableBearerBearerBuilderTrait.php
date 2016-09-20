@@ -46,7 +46,7 @@ trait WritableBearerBearerBuilderTrait
     
     /**
      * @param WritableInterface $writable
-     * @param string $handle
+     * @param string            $handle
      * @return $this
      */
     public function addWritable(WritableInterface $writable, $handle = null)
@@ -55,7 +55,11 @@ trait WritableBearerBearerBuilderTrait
         
         return $this;
     }
-    
+
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function removeWritable($name)
     {
         $this->getWritableBearerBuilder()->removeWritable($name);

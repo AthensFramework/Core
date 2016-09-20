@@ -91,6 +91,10 @@ class ORMUtils
         return $fields;
     }
 
+    /**
+     * @param ActiveRecordInterface $object
+     * @return string[]
+     */
     public static function makeLabelsFromObject(ActiveRecordInterface $object)
     {
         $fieldNames = static::makeFieldNamesFromObject($object);
@@ -100,10 +104,10 @@ class ORMUtils
     }
 
     /**
-     * @param \Propel\Runtime\Map\ColumnMap[] $columns
+     * @param ColumnMap[] $columns
      * @return string[]
      */
-    protected static function makeLabelsFromColumns($columns)
+    protected static function makeLabelsFromColumns(array $columns)
     {
         $labels = [];
         foreach ($columns as $column) {
@@ -129,7 +133,7 @@ class ORMUtils
     {
 
         $behaviors = static::getClassTableMap($tableMapName)->getBehaviors();
-        $validateBehaviors = array_key_exists("validate", $behaviors) ? $behaviors["validate"] : [];
+        $validateBehaviors = array_key_exists("validate", $behaviors) === true ? $behaviors["validate"] : [];
 
         $validateBehaviorsByColumn = [];
         foreach ($validateBehaviors as $behavior) {

@@ -63,7 +63,7 @@ class ChoiceTest extends PHPUnit_Framework_TestCase
     /**
      * If a value is not provided to ChoiceBuilder, ChoiceBuilder
      * shall throw an exception.
-     * 
+     *
      * @expectedException              Exception
      * @expectedExceptionMessageRegExp #Must use ::setValue.*#
      */
@@ -73,5 +73,4 @@ class ChoiceTest extends PHPUnit_Framework_TestCase
             ->setAlias((string)rand())
             ->build();
     }
-
 }

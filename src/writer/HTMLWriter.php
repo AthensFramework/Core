@@ -136,7 +136,7 @@ class HTMLWriter extends AbstractWriter
             );
             $this->environment->addFilter($filter);
 
-            $requestURI = array_key_exists("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : "";
+            $requestURI = array_key_exists("REQUEST_URI", $_SERVER) === true ? $_SERVER["REQUEST_URI"] : "";
             $this->environment->addGlobal("requestURI", $requestURI);
         }
 

@@ -29,12 +29,12 @@ class Row implements RowInterface
     use WritableBearerBearerTrait;
 
     /**
-     * @param string[] $classes
-     * @param string[] $data
+     * @param string[]                $classes
+     * @param string[]                $data
      * @param WritableBearerInterface $writableBearer
-     * @param string[] $labels
-     * @param string $onClick
-     * @param boolean $highlightable
+     * @param string[]                $labels
+     * @param string                  $onClick
+     * @param boolean                 $highlightable
      */
     public function __construct(
         array $classes,

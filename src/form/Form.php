@@ -68,17 +68,17 @@ class Form implements FormInterface
     }
 
     /**
-     * @param string $id
-     * @param string[] $classes
-     * @param array $data
-     * @param string $type
-     * @param string $method
-     * @param string $target
+     * @param string                  $id
+     * @param string[]                $classes
+     * @param array                   $data
+     * @param string                  $type
+     * @param string                  $method
+     * @param string                  $target
      * @param WritableBearerInterface $fieldBearer
-     * @param callable $onValidFunc
-     * @param callable $onInvalidFunc
-     * @param array|null $actions
-     * @param array[]|null $validators
+     * @param callable                $onValidFunc
+     * @param callable                $onInvalidFunc
+     * @param array|null              $actions
+     * @param array[]|null            $validators
      */
     public function __construct(
         $id,

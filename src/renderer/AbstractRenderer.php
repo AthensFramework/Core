@@ -19,7 +19,7 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * AbstractRenderer constructor.
      *
-     * @param WriterInterface[]  $writers
+     * @param WriterInterface[] $writers
      */
     public function __construct(array $writers)
     {
@@ -35,6 +35,10 @@ abstract class AbstractRenderer implements RendererInterface
         $this->render($visitable);
     }
 
+    /**
+     * @param WritableInterface $writable
+     * @return string
+     */
     protected function getContent(WritableInterface $writable)
     {
         foreach ($this->writers as $writer) {

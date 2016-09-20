@@ -32,8 +32,8 @@ class RowBuilder extends AbstractWritableBuilder
 
     /**
      * @param WritableInterface $writable
-     * @param string $label
-     * @param string $name
+     * @param string            $label
+     * @param string            $name
      * @return $this
      */
     public function addWritable(WritableInterface $writable, $label = null, $name = null)
@@ -49,6 +49,10 @@ class RowBuilder extends AbstractWritableBuilder
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function removeWritable($name)
     {
         $this->getWritableBearerBuilder()->removeWritable($name);
@@ -57,6 +61,10 @@ class RowBuilder extends AbstractWritableBuilder
         return $this;
     }
 
+    /**
+     * @param ActiveRecordInterface $object
+     * @return $this
+     */
     public function addObject(ActiveRecordInterface $object)
     {
         $spans = ORMUtils::makeSpansFromObject($object);

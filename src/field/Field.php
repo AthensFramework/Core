@@ -120,7 +120,7 @@ class Field implements FieldInterface
         if ($fieldType === "checkbox") {
             $data = (string)array_key_exists($this->getSlug(), $_POST);
         } else {
-            $data = array_key_exists($this->getSlug(), $_POST) ? $_POST[$this->getSlug()]: "";
+            $data = array_key_exists($this->getSlug(), $_POST) === true ? $_POST[$this->getSlug()]: "";
         }
 
         if (in_array($fieldType, [static::TYPE_CHOICE, static::TYPE_MULTIPLE_CHOICE]) === true) {
@@ -396,7 +396,7 @@ class Field implements FieldInterface
      */
     public function validate()
     {
-        $data = $this->wasSubmitted() ? $this->getSubmitted() : null;
+        $data = $this->wasSubmitted() === true ? $this->getSubmitted() : null;
 
         // Invalid selection on choice/multiple choice field
         if ($data === []) {

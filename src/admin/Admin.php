@@ -42,16 +42,16 @@ class Admin extends Page
     /**
      * Admin constructor.
      *
-     * @param string $id
-     * @param string $type
-     * @param string[] $classes
-     * @param array $data
-     * @param string $title
-     * @param string $baseHref
-     * @param VisitorInterface $initializer
-     * @param VisitorInterface $renderer
+     * @param string            $id
+     * @param string            $type
+     * @param string[]          $classes
+     * @param array             $data
+     * @param string            $title
+     * @param string            $baseHref
+     * @param VisitorInterface  $initializer
+     * @param VisitorInterface  $renderer
      * @param WritableInterface $pageContents
-     * @param ModelCriteria[] $queries
+     * @param ModelCriteria[]   $queries
      * @throws \Exception If an invalid object manager mode is provided.
      */
     public function __construct(
@@ -119,8 +119,8 @@ class Admin extends Page
     }
 
     /**
-     * @param $key
-     * @param null $default
+     * @param string $key
+     * @param string $default
      * @return string
      */
     protected function getParameter($key, $default = null)
@@ -161,7 +161,7 @@ class Admin extends Page
     /**
      * Finds an object with the given id in this ObjectManager's query.
      *
-     * @param boolean $createOnNoId If an Id is not provided, then
+     * @param boolean $createOnNoId
      * @return ActiveRecordInterface
      * @throws \Exception If object can not be found.
      */
@@ -176,7 +176,7 @@ class Admin extends Page
 
         if ($objectId !== null) {
             $object = $this->getQuery()->findOneById($objectId);
-        } elseif ($createOnNoId) {
+        } elseif ($createOnNoId === true) {
             $class = $this->getQuery()->getTableMap()->getClassName();
             $object = new $class();
         }
@@ -328,7 +328,7 @@ class Admin extends Page
     }
 
     /**
-     * @return WritableInterface
+     * @return void
      */
     protected function makeDelete()
     {

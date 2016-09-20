@@ -9,7 +9,7 @@ interface EmailerInterface
 {
 
     /**
-     * @param EmailInterface  $email
+     * @param EmailInterface    $email
      * @param WriterInterface[] $writer
      * @return boolean
      */

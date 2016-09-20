@@ -27,6 +27,6 @@ class FilterControls
      */
     public static function getControl($handle, $key, $default = "")
     {
-        return static::controlIsSet($handle, $key) ? $_GET["$handle-$key"] : $default;
+        return static::controlIsSet($handle, $key) === true ? $_GET["$handle-$key"] : $default;
     }
 }

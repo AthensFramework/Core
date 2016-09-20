@@ -20,7 +20,7 @@ class PDFRenderer extends AbstractRenderer
     {
         $writable->accept($this->initializer);
 
-        $documentName = $writable->getTitle() ? $writable->getTitle() : "document";
+        $documentName = $writable->getTitle() === true ? $writable->getTitle() : "document";
         $content = $writable->accept($this->writer);
 
         $dompdf = new DOMPDF();

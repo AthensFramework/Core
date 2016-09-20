@@ -90,6 +90,10 @@ trait FormBuilderTrait
         return $this;
     }
 
+    /**
+     * @param ActiveRecordInterface $object
+     * @return $this
+     */
     public function addObject(ActiveRecordInterface $object)
     {
         $fields = ORMUtils::makeFieldsFromObject($object);
@@ -163,6 +167,7 @@ trait FormBuilderTrait
         $this->initialFieldValues[$fieldName] = $value;
         return $this;
     }
+    
     /**
      * @param string $fieldName
      * @param mixed  $label
@@ -173,6 +178,7 @@ trait FormBuilderTrait
         $this->fieldLabels[$fieldName] = $label;
         return $this;
     }
+    
     /**
      * @param string $fieldName
      * @param array  $choices
@@ -183,6 +189,7 @@ trait FormBuilderTrait
         $this->fieldChoices[$fieldName] = $choices;
         return $this;
     }
+    
     /**
      * @param string $fieldName
      * @param string $type
@@ -193,6 +200,7 @@ trait FormBuilderTrait
         $this->fieldTypes[$fieldName] = $type;
         return $this;
     }
+    
     /**
      * @param string $fieldName
      * @param string $helptext
@@ -203,6 +211,7 @@ trait FormBuilderTrait
         $this->fieldHelptexts[$fieldName] = $helptext;
         return $this;
     }
+    
     /**
      * @param string $fieldName
      * @param string $placeholder
@@ -248,6 +257,10 @@ trait FormBuilderTrait
         };
     }
 
+    /**
+     * @param WritableBearerInterface $writableBearer
+     * @return void
+     */
     protected function modifyFields(WritableBearerInterface $writableBearer)
     {
         foreach ($this->initialFieldValues as $fieldName => $value) {

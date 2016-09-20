@@ -28,7 +28,7 @@ abstract class AbstractEmailer implements EmailerInterface
     /**
      * Invoke the Emailer's ::doSend method.
      *
-     * @param EmailInterface  $email
+     * @param EmailInterface    $email
      * @param WriterInterface[] $writers
      * @return boolean
      */

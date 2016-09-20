@@ -226,10 +226,10 @@ class FilterBuilder extends AbstractWritableBuilder
 
                 break;
             case Filter::TYPE_PAGINATION:
-                $maxPerPage = isset($this->maxPerPage) ?
-                    $this->maxPerPage : Settings::getInstance()->getDefaultPagination();
+                $maxPerPage = $this->maxPerPage === null ?
+                    Settings::getInstance()->getDefaultPagination(): $this->maxPerPage;
                 
-                $page = isset($this->page) ? $this->page : FilterControls::getControl($this->id, "page", 1);
+                $page = $this->page === null ? FilterControls::getControl($this->id, "page", 1) : $this->page;
 
                 return new PaginationFilter($this->id, $this->classes, $maxPerPage, $page, $this->nextFilter);
 
