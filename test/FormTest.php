@@ -8,7 +8,7 @@ use Athens\Core\Form\FormBuilder;
 use Athens\Core\Form\FormAction\FormAction;
 use Athens\Core\Field\Field;
 use Athens\Core\Etc\ORMUtils;
-use Athens\Core\FieldBearer\FieldBearerBuilder;
+use Athens\Core\WritableBearer\WritableBearerBuilder;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\Choice\ChoiceBuilder;
@@ -98,50 +98,48 @@ class FormTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
-        $this->assertEquals($expectedFieldNames, $form->getWritableBearer()->getFieldNames());
+        $this->assertEquals($expectedFieldNames, array_keys($form->getWritableBearer()->getWritables()));
 
         /* Test FormBuilder::addFieldBearer */
-        $fields = ["field" => new Field([], [], 'literal', 'A literal field', [])];
+        $field = new Field([], [], 'literal', 'A literal field', []);
 
-        $fieldBearer = FieldBearerBuilder::begin()
-            ->addWritable($fields)
+        $writableBearer = WritableBearerBuilder::begin()
+            ->addWritable($field, "field")
             ->build();
 
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
-            ->addWritableBearer([$fieldBearer])
+            ->addWritableBearer($writableBearer)
             ->build();
 
-        $this->assertContains("field", $form->getWritableBearer()->getFieldNames());
+        $this->assertContains("field", array_keys($form->getWritableBearer()->getWritables()));
 
         /* Test FormBuilder::addSubForms */
-        $fields = ["field" => new Field([], [], 'literal', 'A literal field', [])];
+        $field = new Field([], [], 'literal', 'A literal field', []);
 
-        $fieldBearer = FieldBearerBuilder::begin()
-            ->addWritable($fields)
+        $writableBearer = WritableBearerBuilder::begin()
+            ->addWritable($field, "field")
             ->build();
 
         $form1 = FormBuilder::begin()
             ->setId("f-" . (string)rand())
-            ->addWritableBearer([$fieldBearer])
+            ->addWritableBearer($writableBearer)
             ->build();
 
         $form2 = FormBuilder::begin()
             ->setId("f-" . (string)rand())
-            ->addWritableBearer([$fieldBearer])
+            ->addWritableBearer($writableBearer)
             ->build();
 
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
-            ->addSubForms([
-                "Form1" => $form1,
-                "Form2" => $form2
-            ])
+            ->addWritable($form1, "Form1")
+            ->addWritable($form2, "Form2")
             ->build();
 
-        $this->assertEquals(2, sizeof($form->getSubForms()));
-        $this->assertContains($form1, $form->getSubForms());
-        $this->assertContains($form2, $form->getSubForms());
+        $this->assertEquals(2, sizeof($form->getWritableBearer()->getWritables()));
+        $this->assertContains($form1, $form->getWritableBearer()->getWritables());
+        $this->assertContains($form2, $form->getWritableBearer()->getWritables());
     }
 
 //    public function testMakeLiteralWithFormBuilder()
