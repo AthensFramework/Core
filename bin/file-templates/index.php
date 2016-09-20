@@ -16,4 +16,4 @@ $page = PageBuilder::begin()
     ->setBaseHref("..")
     ->build();
 
-$page->render(null, null);
+$page->initialize()->render();

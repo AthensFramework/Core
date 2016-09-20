@@ -190,7 +190,7 @@ Steps
       ->addWritable($form)
       ->build();
 
-  $page->render();
+  $page->initialize()->render();
   ```
   
   Now try visiting `pages/enter-student.php` in your web browser. Try submitting a student. Try submitting a student while neglecting to provide a required field. Try submitting a student and then viewing the results in your database.
@@ -235,7 +235,7 @@ Steps
       ->addWritable($table)
       ->build();
 
-  $page->render();
+  $page->initialize()->render();
   ```
   
   ![Your table of students](assets/images/student-table.png)<br>

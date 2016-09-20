@@ -99,7 +99,7 @@ $page = PageBuilder::begin()
     ->setWritable($form)
     ->build();
 
-$page->render(null, null);
+$page->initialize()->render();
 ```
 
 Add Ons
