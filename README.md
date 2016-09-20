@@ -126,7 +126,7 @@ Additional functionality is provided by the following libraries:
 Compatibility
 =============
 
-* 5.6, 7.0
+* PHP 5.6, 7.0
 
 Todo
 ====
