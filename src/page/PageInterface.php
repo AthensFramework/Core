@@ -31,7 +31,12 @@ interface PageInterface extends
     public function getType();
 
     /**
-     * @return mixed
+     * @return PageInterface
+     */
+    public function initialize();
+
+    /**
+     * @return PageInterface
      */
     public function render();
 }
