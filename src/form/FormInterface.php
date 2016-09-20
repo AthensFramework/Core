@@ -61,5 +61,4 @@ interface FormInterface extends WritableInterface, InitializableInterface, Writa
      * @return void
      */
     public function addError($error);
-    
 }
