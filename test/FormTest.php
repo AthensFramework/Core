@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Test;
 
+use Athens\Core\Choice\ChoiceBuilder;
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Form\FormBuilder;
@@ -11,10 +12,7 @@ use Athens\Core\Etc\ORMUtils;
 use Athens\Core\WritableBearer\WritableBearerBuilder;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Form\FormInterface;
-use Athens\Core\Choice\ChoiceBuilder;
 use Athens\Core\Field\FieldBuilder;
-
-use Athens\Core\Test\Mock\MockFieldBearer;
 
 use AthensTest\TestClass;
 
@@ -73,12 +71,6 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($type, $form->getType());
         $this->assertEquals($method, $form->getMethod());
         $this->assertEquals($target, $form->getTarget());
-
-//        $form->onValid();
-//        $this->assertTrue($formFoundValid);
-//
-//        $form->onInvalid();
-//        $this->assertTrue($formFoundInvalid);
 
         /* Test default type/method/target */
         $form = FormBuilder::begin()
@@ -218,8 +210,6 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testFormAddError()
     {
-        $fields = ["field" => new Field([], [], 'literal', 'A literal field', [])];
-
         $form = FormBuilder::begin()
             ->setId("f-" . (string)rand())
             ->addWritable(new Field([], [], 'literal', 'A literal field', []), "field")
@@ -235,12 +225,8 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testEndogenousValidation()
     {
-
         $requiredField = new Field([], [], 'text', 'A required field', "", true, []);
         $unrequiredField = new Field([], [], 'text', 'A required field', "", false, []);
-
-        $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
-
 
         /* Do not provide input to the field which requires input */
         $form = FormBuilder::begin()
@@ -380,8 +366,6 @@ class FormTest extends PHPUnit_Framework_TestCase
         $requiredField = new Field([], [], 'text', 'A required field', "", true, []);
         $unrequiredField = new Field([], [], 'text', 'An unrequired field', "", false, []);
 
-        $fields = ["required" => $requiredField, "unrequired" => $unrequiredField];
-
         $subForm = FormBuilder::begin()
             ->setId("f-" . (string)rand())
             ->addWritable($requiredField, "required")
@@ -405,6 +389,28 @@ class FormTest extends PHPUnit_Framework_TestCase
 
         // Assert that the input has been moved into the field's initial value
         $this->assertEquals($input, $unrequiredField->getInitial());
+    }
+
+    public function testSetFieldAttributes()
+    {
+        $choices = [ChoiceBuilder::begin()->setValue('choice value')->build()];
+
+        $form = FormBuilder::begin()
+            ->setId("f-" . (string)rand())
+            ->addWritable(new Field([], [], Field::TYPE_TEXT, 'A text field', []), "field")
+            ->setFieldType("field", Field::TYPE_CHOICE)
+            ->setFieldChoices("field", $choices)
+            ->setInitialFieldValue("field", "new initial field value")
+            ->setFieldLabel("field", "new field label")
+            ->build();
+
+        /** @var FieldInterface $field */
+        $field = $form->getWritableBearer()->getWritableByHandle("field");
+
+        $this->assertEquals(Field::TYPE_CHOICE, $field->getType());
+        $this->assertEquals(array_values($choices), array_values($field->getChoices()));
+        $this->assertEquals('new initial field value', $field->getInitial());
+        $this->assertEquals('new field label', $field->getLabel());
     }
 
     public function testOnvalidArgumentPassing()
