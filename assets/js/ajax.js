@@ -1,5 +1,5 @@
 athens.ajax = (function () {
-    
+
     var defaultSuccessCallback = function () {};
 
     var call = function (url, postVars, successCallback, doneFunction) {
@@ -7,21 +7,21 @@ athens.ajax = (function () {
         var defaultDoneFunction = function (msg) {
             try {
                 msg = JSON.parse(msg);
-                athens.alert.makeAlert(msg.status, msg.message);
+                athens.alert.makeAlert(msg.message, msg.status);
                 if (msg.status === "success") {
                     successCallback(msg);
                 }
             } catch (err) {
-                athens.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
+                athens.alert.makeAlert("Unexpected error: " + err.message + ". More detail may be available in the network response.", "error");
             }
         };
-    
+
         postVars = postVars || defaultPostVars;
         successCallback = successCallback || defaultSuccessCallback;
         doneFunction = doneFunction || defaultDoneFunction;
 
         postVars.csrf_token = CSRFTOKEN;
-    
+
         $.ajax(
             {
                 type: "POST",
@@ -32,7 +32,7 @@ athens.ajax = (function () {
             .done(doneFunction)
             .fail(
                 function (msg) {
-                    athens.alert.makeAlert("failure", msg);
+                    athens.alert.makeAlert(msg, "error");
                 }
             );
     };
@@ -68,7 +68,7 @@ athens.ajax = (function () {
                 }
             }
         }
-        
+
         doneFunction = function (msg) {
             var formResult, hasErrors;
 
@@ -85,7 +85,7 @@ athens.ajax = (function () {
                         }
                     ).done(
                         function (getMsg) {
-                            athens.alert.makeAlert("success", "Form subitted.");
+                            athens.alert.makeAlert("Form submitted.", "success");
                             formResult = $("<div>" + getMsg + "</div>").find("#" + formId);
                             $(form).replaceWith(formResult);
                             document.getElementById(formId).scrollIntoView();
@@ -96,13 +96,13 @@ athens.ajax = (function () {
                 } else {
                     $(form).replaceWith(formResult);
                     document.getElementById(formId).scrollIntoView();
-                    athens.alert.makeAlert("failure", "Form has errors.");
+                    athens.alert.makeAlert("Form has errors.", "error");
                 }
             } catch (err) {
-                athens.alert.makeAlert("failure", "Unexpected error: " + err.message + ". More detail may be available in the network response.");
+                athens.alert.makeAlert("Unexpected error: " + err.message + ". More detail may be available in the network response.", "error");
             }
         };
-        
+
         call(url, postVars, successCallback, doneFunction);
     }
 
