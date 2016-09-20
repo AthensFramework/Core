@@ -62,7 +62,7 @@ class TableTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get rows should invoke row filtering.
+     * The method ::getRows should invoke row filtering.
      */
     public function testGetRows()
     {

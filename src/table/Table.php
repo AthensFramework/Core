@@ -50,14 +50,6 @@ class Table implements TableInterface
     }
 
     /**
-     * @return RowInterface[]
-     */
-    protected function getUnfilteredRows()
-    {
-        return $this->rows;
-    }
-
-    /**
      * @return FilterInterface
      */
     public function getFilter()
