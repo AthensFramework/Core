@@ -572,3 +572,11 @@ label.field-label.required::after {
     clear:left;
     padding-top:10px;
 }
+
+div.select-container {
+    display: inline-block;
+}
+
+.chosen-container .chosen-results li.active-result {
+    font-size:17px;
+}

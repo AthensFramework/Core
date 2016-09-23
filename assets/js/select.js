@@ -50,6 +50,3 @@ athens.select = (function () {
         setupSelectFilter: setupSelectFilter
     };
 }());
-
-
-
