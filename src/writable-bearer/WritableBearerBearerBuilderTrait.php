@@ -43,7 +43,7 @@ trait WritableBearerBearerBuilderTrait
 
         return $fieldBearer;
     }
-    
+
     /**
      * @param WritableInterface $writable
      * @param string            $handle
@@ -52,7 +52,7 @@ trait WritableBearerBearerBuilderTrait
     public function addWritable(WritableInterface $writable, $handle = null)
     {
         $this->getWritableBearerBuilder()->addWritable($writable, $handle);
-        
+
         return $this;
     }
 
@@ -63,6 +63,17 @@ trait WritableBearerBearerBuilderTrait
     public function removeWritable($name)
     {
         $this->getWritableBearerBuilder()->removeWritable($name);
+
+        return $this;
+    }
+
+    /**
+     * @param string[] $writableNames
+     * @return $this
+     */
+    public function intersectWritableNames($writableNames)
+    {
+        $this->getWritableBearerBuilder()->intersectWritableNames($writableNames);
 
         return $this;
     }

@@ -25,7 +25,7 @@ class WritableBearerBuilder extends AbstractWritableBuilder
 
     /** @var WritableInterface[] */
     protected $writables = [];
-    
+
     use WritableBearerBearerBuilderTrait;
 
     /**
@@ -71,7 +71,21 @@ class WritableBearerBuilder extends AbstractWritableBuilder
     public function removeWritable($name)
     {
         $this->writables = array_diff_key($this->writables, [$name => '']);
-        
+
+        return $this;
+    }
+
+    /**
+     * @param array $writableNames
+     * @return $this
+     */
+    public function intersectWritableNames(array $writableNames)
+    {
+        $this->writables = array_intersect_key(
+            $this->writables,
+            array_flip($writableNames)
+        );
+
         return $this;
     }
 
@@ -89,7 +103,7 @@ class WritableBearerBuilder extends AbstractWritableBuilder
 
         return $this;
     }
-    
+
     /**
      * @return WritableBearerInterface
      */

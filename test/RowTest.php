@@ -5,7 +5,7 @@ namespace Athens\Core\Test;
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Row\RowBuilder;
-use Athens\Core\FieldBearer\FieldBearerBuilder;
+use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Field\Field;
 
 class RowTest extends PHPUnit_Framework_TestCase
@@ -51,6 +51,26 @@ class RowTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($onClick, $clickableRow->getOnClick());
         $this->assertEquals([$fieldName], array_keys($clickableRow->getWritableBearer()->getWritables()));
         $this->assertFalse($clickableRow->isHighlightable());
+    }
+
+    public function testIntersectWritableNames()
+    {
+        $fieldName1 = "fieldname1";
+        $field1 = FieldBuilder::begin()->setType(Field::TYPE_LITERAL)->setLabel('field1')->build();
+        $fieldName2 = "fieldname2";
+        $field2 = FieldBuilder::begin()->setType(Field::TYPE_LITERAL)->setLabel('field1')->build();
+        $fieldName3 = "fieldname3";
+        $field3 = FieldBuilder::begin()->setType(Field::TYPE_LITERAL)->setLabel('field1')->build();
+
+        $row = RowBuilder::begin()
+            ->addWritable($field1, $fieldName1, $fieldName1)
+            ->addWritable($field2, $fieldName2, $fieldName2)
+            ->addWritable($field3, $fieldName3, $fieldName3)
+            ->intersectWritableNames([$fieldName1, $fieldName3])
+            ->build();
+
+        $this->assertEquals([$fieldName1 => $field1, $fieldName3 => $field3], $row->getWritables());
+        $this->assertEquals([$fieldName1 => $fieldName1, $fieldName3 => $fieldName3], $row->getLabels());
     }
 
     /**

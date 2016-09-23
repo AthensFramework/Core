@@ -62,6 +62,22 @@ class RowBuilder extends AbstractWritableBuilder
     }
 
     /**
+     * @param string[] $writableNames
+     * @return $this
+     */
+    public function intersectWritableNames(array $writableNames)
+    {
+        $this->getWritableBearerBuilder()->intersectWritableNames($writableNames);
+
+        $this->labels = array_intersect_key(
+            $this->labels,
+            array_flip($writableNames)
+        );
+
+        return $this;
+    }
+
+    /**
      * @param ActiveRecordInterface $object
      * @return $this
      */
