@@ -10,6 +10,8 @@ interface FieldConstantsInterface
     const TYPE_CHECKBOX = 'checkbox';
     const TYPE_BOOLEAN_RADIOS = 'boolean-radios';
     const TYPE_CHOICE = 'choice';
+    const TYPE_CHOICE_RADIOS = 'choice-radios';
+    const TYPE_CHOICE_SELECT = 'choice-select';
     const TYPE_MULTIPLE_CHOICE = 'multiple-choice';
     const TYPE_LITERAL = 'literal';
     const TYPE_SECTION_LABEL = 'section-label';
