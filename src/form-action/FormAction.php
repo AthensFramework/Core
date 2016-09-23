@@ -1,6 +1,6 @@
 <?php
 
-namespace Athens\Core\Form\FormAction;
+namespace Athens\Core\FormAction;
 
 use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\Writable\WritableTrait;
@@ -12,12 +12,8 @@ use Athens\Core\Writable\WritableTrait;
  */
 class FormAction implements FormActionInterface
 {
-
     /** @var string */
     protected $label;
-
-    /** @var string */
-    protected $method;
 
     /** @var string */
     protected $target;
@@ -27,26 +23,18 @@ class FormAction implements FormActionInterface
 
     /**
      * @param string[] $classes
-     * @param array    $data
-     * @param string   $label
-     * @param string   $method
-     * @param string   $target
+     * @param array $data
+     * @param string $type
+     * @param string $label
+     * @param string $target
      */
-    public function __construct(array $classes, array $data, $label, $method, $target)
+    public function __construct(array $classes, array $data, $type, $label, $target)
     {
         $this->label = $label;
-        $this->method = $method;
+        $this->type = $type;
         $this->target = $target;
         $this->classes = $classes;
         $this->data = $data;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMethod()
-    {
-        return $this->method;
     }
 
     /**

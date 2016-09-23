@@ -6,7 +6,7 @@ use Athens\Core\Choice\ChoiceBuilder;
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Form\FormBuilder;
-use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\FormAction\FormAction;
 use Athens\Core\Field\Field;
 use Athens\Core\Etc\ORMUtils;
 use Athens\Core\WritableBearer\WritableBearerBuilder;
@@ -29,7 +29,7 @@ class FormTest extends PHPUnit_Framework_TestCase
     public function testBuilder()
     {
 
-        $actions = [new FormAction([], [], "label", "method", "")];
+        $action = new FormAction([], [], "label", "method", "");
 
         $formFoundValid = false;
         $onValidFunc = function () use ($formFoundValid) {
@@ -58,13 +58,13 @@ class FormTest extends PHPUnit_Framework_TestCase
             ->setType($type)
             ->setMethod($method)
             ->setTarget($target)
-            ->setActions($actions)
+            ->addAction($action)
             ->addWritable($field, $fieldName)
             ->addOnInvalidFunc($onInvalidFunc)
             ->addOnValidFunc($onValidFunc)
             ->build();
 
-        $this->assertEquals($actions, $form->getActions());
+        $this->assertEquals([$action], $form->getActions());
         $this->assertContains($field, $form->getWritables());
         $this->assertEquals($id, $form->getId());
         $this->assertEquals($classes, $form->getClasses());
@@ -177,7 +177,7 @@ class FormTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $this->assertEquals(1, sizeof($form->getActions()));
-        $this->assertEquals("POST", $form->getActions()[0]->getMethod());
+        $this->assertEquals("submit", $form->getActions()[0]->getType());
         $this->assertEquals("Submit", $form->getActions()[0]->getLabel());
     }
 

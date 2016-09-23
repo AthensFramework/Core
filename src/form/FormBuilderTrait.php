@@ -7,14 +7,15 @@ use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
 use Athens\Core\WritableBearer\WritableBearerInterface;
-use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\FormAction\FormActionInterface;
+use Athens\Core\FormAction\FormActionBuilder;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Etc\ORMUtils;
 
 trait FormBuilderTrait
 {
-    /** @var FormAction[] */
-    protected $actions;
+    /** @var FormActionInterface[] */
+    protected $actions = [];
 
     /** @var string */
     protected $method = "post";
@@ -61,12 +62,13 @@ trait FormBuilderTrait
     use WritableBearerBearerBuilderTrait;
 
     /**
-     * @param FormAction[] $actions
+     * @param FormActionInterface $action
      * @return $this
      */
-    public function setActions(array $actions)
+    public function addAction(FormActionInterface $action)
     {
-        $this->actions = $actions;
+        $this->actions[] = $action;
+        
         return $this;
     }
 
@@ -296,7 +298,7 @@ trait FormBuilderTrait
         if ($this->onSuccessUrl !== null) {
             $url = $this->onSuccessUrl;
 
-            $redirectFunction = function ($bla) use ($url) {
+            $redirectFunction = function (FormInterface $form) use ($url) {
                 if (headers_sent() === true) {
                     throw new \Exception("Form success redirection cannot proceed, output has already begun.");
                 } else {
@@ -331,8 +333,13 @@ trait FormBuilderTrait
      */
     protected function validateActions()
     {
-        if ($this->actions === null) {
-            $this->actions = [new FormAction([], [], "Submit", "POST", ".")];
+        if ($this->actions === []) {
+            $this->actions = [
+                FormActionBuilder::begin()
+                    ->setType(FormActionBuilder::TYPE_SUBMIT)
+                    ->setLabel('Submit')
+                    ->build()
+            ];
         }
     }
 }

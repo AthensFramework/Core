@@ -1,19 +1,5 @@
-<span class="choice-field {{ classes|join(' ') }}" {{ data|writedata|raw }}>
-
-    {% if choices|length <= 2 %}
-        {% for choiceSlug, choice in choices %}
-        <span class="choice">
-            <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choice.getValue == initial %}checked{% endif %}> {{ choice.getValue }}
-        </span>
-        {% endfor %}
-    {% else %}
-        <select class="form-control"  name="{{ slug }}">
-            <option {% if initial is empty %}selected{% endif %} {% if required %}disabled{% endif %}></option>
-        {% for choiceSlug, choice in choices %}
-            <option value="{{ choiceSlug }}" {% if choice.getValue == initial %}selected{% endif %}> {{ choice.getValue }} </option>
-        {% endfor %}
-        </select>
-    {% endif %}
-
-</span>
-{% include "field/errors.twig" %}
+ {% if choices|length <= 2 %}
+    {% include "field/choice-radios.twig" %}
+{% else %}
+    {% include "field/choice-select.twig" %}
+{% endif %}

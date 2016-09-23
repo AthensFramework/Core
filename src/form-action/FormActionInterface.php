@@ -1,6 +1,6 @@
 <?php
 
-namespace Athens\Core\Form\FormAction;
+namespace Athens\Core\FormAction;
 
 use Athens\Core\Writable\WritableInterface;
 
@@ -9,13 +9,8 @@ use Athens\Core\Writable\WritableInterface;
  *
  * @package Athens\Core\Form\FormAction
  */
-interface FormActionInterface extends WritableInterface
+interface FormActionInterface extends WritableInterface, FormActionConstantsInterface
 {
-
-    /**
-     * @return string
-     */
-    public function getMethod();
 
     /**
      * @return string

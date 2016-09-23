@@ -1,5 +1,0 @@
-{% if method == "JS" %}
-    <button class='form-action btn btn-default' onclick="{{ target|raw }}">{{ label }}</button>
-{% else %}
-    <input class='form-action btn btn-default' name='submit' type='submit' value='{{ label }}'>
-{% endif %}

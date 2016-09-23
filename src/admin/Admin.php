@@ -15,8 +15,8 @@ use Athens\Core\Table\TableBuilder;
 use Athens\Core\Row\RowBuilder;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Form\FormBuilder;
-use Athens\Core\Form\FormAction\FormAction;
-use Athens\Core\Form\FormAction\FormActionInterface;
+use Athens\Core\FormAction\FormAction;
+use Athens\Core\FormAction\FormActionInterface;
 use Athens\Core\Page\Page;
 use Athens\Core\WritableBearer\WritableBearerBuilder;
 
@@ -311,17 +311,20 @@ class Admin extends Page
             ""
         );
 
-        $actions = $idWasProvided === true ? [$submitAction, $deleteAction] : [$submitAction];
+        $formBuilder = FormBuilder::begin()
+            ->setId('object-manager-detail-form')
+            ->addObject($object)
+            ->addAction($submitAction);
+
+        if ($idWasProvided) {
+            $formBuilder->addAction($deleteAction);
+        }
 
         $sectionBuilder = SectionBuilder::begin()
             ->setId('object-manager-detail-form-wrapper')
             ->addLabel($className)
             ->addWritable(
-                FormBuilder::begin()
-                    ->setId('object-manager-detail-form')
-                    ->addObject($object)
-                    ->setActions($actions)
-                    ->build()
+                $formBuilder->build()
             );
 
         return $sectionBuilder->build();

@@ -7,24 +7,20 @@ use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Field\Field;
 use Athens\Core\Writer\HTMLWriter;
-use Athens\Core\Form\FormAction\FormAction;
+use Athens\Core\FormAction\FormAction;
+use Athens\Core\FormAction\FormActionBuilder;
 use Athens\Core\Form\FormBuilder;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Page\PageBuilder;
-use Athens\Core\Page\Page;
 use Athens\Core\Etc\StringUtils;
 use Athens\Core\Settings\Settings;
 use Athens\Core\Etc\SafeString;
 use Athens\Core\Row\RowBuilder;
-use Athens\Core\FieldBearer\FieldBearerBuilder;
 use Athens\Core\Table\TableBuilder;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Filter\Filter;
 use Athens\Core\Filter\FilterBuilder;
 use Athens\Core\FilterStatement\FilterStatement;
-use Athens\Core\PickA\PickABuilder;
-use Athens\Core\PickA\PickAFormBuilder;
-use Athens\Core\Table\TableFormBuilder;
 use Athens\Core\Link\LinkBuilder;
 
 use Athens\Core\Test\Mock\MockHTMLWriter;
@@ -286,8 +282,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $writer = new HTMLWriter();
 
         $actions = [
-            new FormAction([], [], "JS Action", "JS", "console.log('here');"),
-            new FormAction([], [], "POST Action", "POST", "post-target")
+            new FormAction([], [], FormAction::TYPE_JAVASCRIPT, "JS", "console.log('here');"),
+            new FormAction([], [], FormAction::TYPE_SUBMIT, "POST", "post-target")
         ];
         $onValidFunc = function () {
             return "valid";
@@ -314,7 +310,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->addData(array_keys($data)[1], array_values($data)[1])
             ->setMethod($method)
             ->setTarget($target)
-            ->setActions($actions)
+            ->addAction($actions[0])
+            ->addAction($actions[1])
             ->addWritable(
                 new Field([], [], 'literal', 'A literal field', 'Literal field content', true, []),
                 "literalField"
@@ -351,13 +348,55 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("name=a-text-field", $result);
         $this->assertContains('<input type=text', $result);
         $this->assertContains('onclick=console.log(here);', $result);
-        $this->assertContains('JS Action</button>', $result);
+        $this->assertContains('JS</button>', $result);
         $this->assertContains('<input class=form-action', $result);
-        $this->assertContains('name=submit type=submit', $result);
-        $this->assertContains('value=POST Action', $result);
+        $this->assertContains('type=submit name=post', $result);
+        $this->assertContains('value=POST', $result);
         $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
         $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
         $this->assertContains('</form>', $result);
+    }
+
+    public function testVisitFormAction()
+    {
+        $writer = new HTMLWriter();
+
+        $label = 'l' . (string)rand();
+        $target = 't' . (string)rand();
+
+        $jsFormAction = FormActionBuilder::begin()
+        ->setType(FormAction::TYPE_JAVASCRIPT)
+        ->setLabel($label)
+        ->setTarget($target)
+        ->build();
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitFormAction($jsFormAction));
+
+        $this->assertContains("onclick=$target", $result);
+        $this->assertContains(">$label</button>", $result);
+
+        $submitAction = FormActionBuilder::begin()
+            ->setType(FormAction::TYPE_SUBMIT)
+            ->setLabel($label)
+            ->build();
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitFormAction($submitAction));
+
+        $this->assertContains("<input", $result);
+        $this->assertContains("value=$label", $result);
+
+        $ajaxSubmitAction = FormActionBuilder::begin()
+            ->setType(FormAction::TYPE_AJAX_SUBMIT)
+            ->setLabel($label)
+            ->build();
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitFormAction($ajaxSubmitAction));
+
+        $this->assertContains("onclick=athens.ajax.AjaxSubmitForm($(this).nearest(form));", $result);
+        $this->assertContains(">$label</button>", $result);
     }
     
     /**

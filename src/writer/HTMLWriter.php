@@ -14,9 +14,7 @@ use Athens\Core\Field\FieldInterface;
 use Athens\Core\Filter\PaginationFilter;
 use Athens\Core\Filter\SortFilter;
 use Athens\Core\Form\FormInterface;
-use Athens\Core\Form\FormAction\FormActionInterface;
-use Athens\Core\PickA\PickAFormInterface;
-use Athens\Core\PickA\PickAInterface;
+use Athens\Core\FormAction\FormActionInterface;
 use Athens\Core\Section\SectionInterface;
 use Athens\Core\Visitor\Visitor;
 use Athens\Core\Page\PageInterface;
@@ -27,7 +25,6 @@ use Athens\Core\Etc\StringUtils;
 use Athens\Core\Link\LinkInterface;
 use Athens\Core\Filter\FilterInterface;
 use Athens\Core\Filter\SearchFilter;
-use Athens\Core\Table\TableFormInterface;
 use Athens\Core\Writable\WritableInterface;
 
 /**
@@ -387,14 +384,13 @@ class HTMLWriter extends AbstractWriter
      */
     public function visitFormAction(FormActionInterface $formAction)
     {
-        $template = 'form-action/base.twig';
+        $template = "form-action/{$formAction->getType()}.twig";
 
         return $this
             ->loadTemplate($template)
             ->render(
                 [
                     "label" => $formAction->getLabel(),
-                    "method" => $formAction->getMethod(),
                     "target" => $formAction->getTarget(),
                 ]
             );
