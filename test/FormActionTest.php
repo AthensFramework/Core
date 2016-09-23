@@ -30,5 +30,4 @@ class FormActionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($label, $formAction->getLabel());
         $this->assertEquals($target, $formAction->getTarget());
     }
-
 }

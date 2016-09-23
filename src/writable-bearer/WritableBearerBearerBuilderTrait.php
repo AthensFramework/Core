@@ -71,7 +71,7 @@ trait WritableBearerBearerBuilderTrait
      * @param string[] $writableNames
      * @return $this
      */
-    public function intersectWritableNames($writableNames)
+    public function intersectWritableNames(array $writableNames)
     {
         $this->getWritableBearerBuilder()->intersectWritableNames($writableNames);
 

@@ -23,10 +23,10 @@ class FormAction implements FormActionInterface
 
     /**
      * @param string[] $classes
-     * @param array $data
-     * @param string $type
-     * @param string $label
-     * @param string $target
+     * @param array    $data
+     * @param string   $type
+     * @param string   $label
+     * @param string   $target
      */
     public function __construct(array $classes, array $data, $type, $label, $target)
     {

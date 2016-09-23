@@ -316,7 +316,7 @@ class Admin extends Page
             ->addObject($object)
             ->addAction($submitAction);
 
-        if ($idWasProvided) {
+        if ($idWasProvided === true) {
             $formBuilder->addAction($deleteAction);
         }
 
