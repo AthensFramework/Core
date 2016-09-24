@@ -13,7 +13,6 @@
     ]
   },
   "require": {
-    "propel/propel": "~2.0@dev",
     "twig/twig" : "1.*",
     "dompdf/dompdf" : "0.6.*",
     "athens/encryption": "0.*",
@@ -30,10 +29,5 @@
   },
   "bin": [
     "bin/athens"
-  ],
-  "type" : "propel-behavior",
-  "extra": {
-    "name": "html-field",
-    "class": "\\Athens\\Core\\Behavior\\HTMLField"
-  }
+  ]
 }
