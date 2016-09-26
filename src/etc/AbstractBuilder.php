@@ -4,6 +4,8 @@ namespace Athens\Core\Etc;
 
 use Athens\Core\Settings\SettingsInterface;
 use Athens\Core\Settings\Settings;
+use Athens\Core\ObjectWrapper\ObjectWrapperInterface;
+use Athens\Core\QueryWrapper\QueryWrapperInterface;
 
 /**
  * Class AbstractBuilder is a parent class for all Builder classes.
@@ -44,6 +46,32 @@ abstract class AbstractBuilder
     protected function getSettingsInstance()
     {
         return $this->settingsInstance === null ? Settings::getInstance() : $this->getSettingsInstance();
+    }
+
+    /**
+     * @param mixed $object
+     * @return ObjectWrapperInterface
+     */
+    public function wrapObject($object)
+    {
+        $objectWrapperClass = $this->getSettingsInstance()->getDefaultObjectWrapperClass();
+
+        if (!($object instanceof $objectWrapperClass)) {
+            $object = new $objectWrapperClass($object);
+        }
+
+            return $object;
+    }
+
+    /**
+     * @param mixed $query
+     * @return QueryWrapperInterface
+     */
+    public function wrapQuery($query)
+    {
+        $queryWrapperClass = $this->getSettingsInstance()->getDefaultQueryWrapperClass();
+
+        return new $queryWrapperClass($query);
     }
 
     /**

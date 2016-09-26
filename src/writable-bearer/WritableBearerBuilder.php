@@ -4,13 +4,8 @@ namespace Athens\Core\WritableBearer;
 
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
-use Athens\Core\Etc\SafeString;
-use Athens\Core\Field\FieldBuilder;
-use Athens\Core\Field\Field;
-use Athens\Core\Etc\AbstractBuilder;
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Writable\WritableInterface;
-use Athens\Core\Etc\ORMUtils;
 
 /**
  * Class WritableBearerBuilder
@@ -95,7 +90,8 @@ class WritableBearerBuilder extends AbstractWritableBuilder
      */
     public function addObject(ActiveRecordInterface $object)
     {
-        $fields = ORMUtils::makeFieldsFromObject($object);
+        $object = $this->wrapObject($object);
+        $fields = $object->getFields();
 
         foreach ($fields as $name => $field) {
             $this->addWritable($field, $name);

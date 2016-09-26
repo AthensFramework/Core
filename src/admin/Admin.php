@@ -19,6 +19,8 @@ use Athens\Core\FormAction\FormAction;
 use Athens\Core\FormAction\FormActionInterface;
 use Athens\Core\Page\Page;
 use Athens\Core\WritableBearer\WritableBearerBuilder;
+use Athens\Core\ObjectWrapper\ObjectWrapperInterface;
+use Athens\Core\QueryWrapper\QueryWrapperInterface;
 
 /**
  * Class ObjectManager
@@ -36,7 +38,7 @@ class Admin extends Page
     const OBJECT_ID_FIELD = 'object_id';
     const QUERY_INDEX_FIELD = 'query_index';
 
-    /** @var ModelCriteria[] */
+    /** @var QueryWrapperInterface[] */
     protected $queries;
 
     /**
@@ -151,7 +153,7 @@ class Admin extends Page
     }
 
     /**
-     * @return ModelCriteria
+     * @return QueryWrapperInterface
      */
     protected function getQuery()
     {
@@ -175,10 +177,9 @@ class Admin extends Page
 
 
         if ($objectId !== null) {
-            $object = $this->getQuery()->findOneById($objectId);
+            $object = $this->getQuery()->findOneByPk($objectId);
         } elseif ($createOnNoId === true) {
-            $class = $this->getQuery()->getTableMap()->getClassName();
-            $object = new $class();
+            $object = $this->getQuery()->createObject();
         }
 
         if ($object === null) {
@@ -190,31 +191,31 @@ class Admin extends Page
     }
 
     /**
-     * @param ActiveRecordInterface|null $queries
+     * @param QueryWrapperInterface[]|null $queries
      * @return WritableInterface[]
      */
     protected function makeTables($queries = null)
     {
         /** @var WritableInterface[] $tables */
         $tables = [];
+
         foreach ($this->queries as $queryIndex => $query) {
-            /** @var ActiveRecordInterface[] $objects */
+
             $objects = $query->find();
 
             /** @var RowInterface[] $rows */
             $rows = [];
 
             /** @var string $tableName */
-            $tableName = str_replace("_", " ", $query->getTableMap()->getName());
+            $tableName = $query->getPascalCasedObjectName();
 
             foreach ($objects as $object) {
-
                 /** @var string $detailurl */
                 $detailurl = static::makeUrl(
                     [
                         static::MODE_FIELD => static::MODE_DETAIL,
                         static::QUERY_INDEX_FIELD => $queryIndex,
-                        static::OBJECT_ID_FIELD => $object->getId()
+                        static::OBJECT_ID_FIELD => $object->getPk()
                     ]
                 );
 

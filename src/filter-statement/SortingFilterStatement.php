@@ -2,6 +2,7 @@
 
 namespace Athens\Core\FilterStatement;
 
+use Athens\Core\QueryWrapper\QueryWrapperInterface;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Athens\Core\Row\RowInterface;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -14,24 +15,15 @@ class SortingFilterStatement extends FilterStatement
 {
 
     /**
-     * @param ModelCriteria $query
-     * @return ModelCriteria
+     * @param QueryWrapperInterface $query
+     * @return QueryWrapperInterface
      */
-    public function applyToQuery(ModelCriteria $query)
+    public function applyToQuery(QueryWrapperInterface $query)
     {
-        $cond = $this->getCondition();
-        $fieldName = $this->getFieldName();
-
-        switch ($cond) {
-            case static::COND_SORT_ASC:
-                $query = $query->orderBy($fieldName, Criteria::ASC);
-                break;
-            case static::COND_SORT_DESC:
-                $query = $query->orderBy($fieldName, Criteria::DESC);
-                break;
-        }
-
-        return $query;
+        return $query->orderBy(
+            $this->getFieldName(),
+            $this->getCondition()
+        );
     }
 
     /**

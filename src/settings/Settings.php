@@ -27,6 +27,8 @@ class Settings implements SettingsInterface
         "defaultInitializerClass" => '\Athens\Core\Initializer\Initializer',
         "defaultExcelInitializerClass" => '\Athens\Core\Initializer\Initializer',
         "defaultPDFInitializerClass" => '\Athens\Core\Initializer\Initializer',
+        "defaultObjectWrapperClass" => '',
+        "defaultQueryWrapperClass" => '',
         "defaultPagination" => 12
     ];
 

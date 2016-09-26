@@ -19,6 +19,8 @@ namespace Athens\Core\Settings;
  * @method string getDefaultInitializerClass()
  * @method string getDefaultExcelInitializerClass()
  * @method string getDefaultPDFInitializerClass()
+ * @method string getDefaultObjectWrapperClass()
+ * @method string getDefaultQueryWrapperClass()
  * @method int getDefaultPagination()
  * @method void addTemplateDirectories()
  * @method void addProjectJS(string $projectJS)
@@ -34,6 +36,8 @@ namespace Athens\Core\Settings;
  * @method void setDefaultIntializerClass(string $fullyQualifiedClassName)
  * @method void setDefaultExcelInitializerClass(string $fullyQualifiedClassName)
  * @method void setDefaultPDFInitializerClass(string $fullyQualifiedClassName)
+ * @method void setDefaultObjectWrapperClass(string $fullyQualifiedClassName)
+ * @method void setDefaultQueryWrapperClass(string $fullyQualifiedClassName)
  * @method void setDefaultPagination(int $paginateBy)
  *
  * @package Athens\Core\Settings

@@ -2,22 +2,25 @@
 
 namespace Athens\Core\Test;
 
-use Athens\Core\Choice\ChoiceBuilder;
 use PHPUnit_Framework_TestCase;
 
+use Athens\Core\Choice\ChoiceBuilder;
 use Athens\Core\Form\FormBuilder;
 use Athens\Core\FormAction\FormAction;
 use Athens\Core\Field\Field;
-use Athens\Core\Etc\ORMUtils;
 use Athens\Core\WritableBearer\WritableBearerBuilder;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\Field\FieldBuilder;
 
-use AthensTest\TestClass;
 
-class FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends TestCase
 {
+
+    public function setUp()
+    {
+        $this->createORMFixtures();
+    }
 
     /**
      * Basic tests for the Form builder classes.
@@ -81,15 +84,14 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("post", $form->getMethod());
         $this->assertEquals("_self", $form->getTarget());
 
-        /* Test FormBuilder creation of ClassFieldBearer */
-        $object = new TestClass();
+        $object = $this->instances[0];
 
         $form = FormBuilder::begin()->clear()
             ->setId("f-" . (string)rand())
             ->addObject($object)
             ->build();
 
-        $expectedFieldNames = array_keys(ORMUtils::makeFieldsFromObject($object));
+        $expectedFieldNames = $object->getQualifiedPascalCasedColumnNames();
         $this->assertEquals($expectedFieldNames, array_keys($form->getWritables()));
 
         /* Test FormBuilder::addFieldBearer */

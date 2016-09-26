@@ -4,46 +4,21 @@ namespace Athens\Core\Test;
 
 use Exception;
 
-use PHPUnit_Framework_TestCase;
-
 use Athens\Core\Admin\AdminBuilder;
 use Athens\Core\Admin\Admin;
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\Table\TableInterface;
 
-use AthensTest\TestClass;
-use AthensTest\TestClassQuery;
-use AthensTest\Map\TestClassTableMap;
+use Athens\Core\Test\Mock\MockObject;
+use Athens\Core\Test\Mock\MockQuery;
 
-class AdminTest extends PHPUnit_Framework_TestCase
+class AdminTest extends TestCase
 {
-    protected $instances;
-    protected $instanceMap;
-    protected $query;
-    protected $tableMap;
 
     public function setUp()
     {
-        $this->instances = [
-            0 => $this->createMock(TestClass::class),
-            1 => $this->createMock(TestClass::class),
-        ];
-
-        $this->instanceMap = [
-            [0, $this->instances[0]],
-            [1, $this->instances[1]],
-            [2, null],
-        ];
-
-        $this->query = $this->createMock(TestClassQuery::class);
-
-        $this->tableMap = $this->createMock(TestClassTableMap::class);
-        $this->tableMap->method('getClassName')->willReturn(TestClass::class);
-        $this->query->method('getTableMap')->willReturn($this->tableMap);
-
-        $this->query->method('find')->willReturn($this->instances);
-        $this->query->method('findOneById')->willReturnMap($this->instanceMap);
+        $this->createORMFixtures();
     }
 
     /**
@@ -101,11 +76,9 @@ class AdminTest extends PHPUnit_Framework_TestCase
     {
         $_GET['mode'] = 'asdflkjweoriu';
 
-        $query = $this->createMock(TestClassQuery::class);
-
         $admin = AdminBuilder::begin()
             ->setId("test-page")
-            ->addQuery($query)
+            ->addQuery($this->query)
             ->build();
     }
 

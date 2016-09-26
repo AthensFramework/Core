@@ -41,7 +41,7 @@ abstract class AbstractObjectWrapper implements ObjectWrapperInterface
         $columnNames = $this->getQualifiedTitleCasedColumnNames();
 
         foreach ($columnNames as $key => $columnName) {
-            $columnNames[$key] = str_replace(' ', '', ucwords($columnName);
+            $columnNames[$key] = str_replace(' ', '', ucwords($columnName));
         }
         
         return $columnNames;

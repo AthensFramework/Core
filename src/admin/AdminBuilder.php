@@ -23,12 +23,12 @@ class AdminBuilder extends PageBuilder
     protected $queries = [];
 
     /**
-     * @param ModelCriteria $objectManagerQuery
+     * @param mixed $objectManagerQuery
      * @return $this
      */
-    public function addQuery(ModelCriteria $objectManagerQuery)
+    public function addQuery($objectManagerQuery)
     {
-        $this->queries[] = $objectManagerQuery;
+        $this->queries[] = $this->wrapQuery($objectManagerQuery);
 
         return $this;
     }

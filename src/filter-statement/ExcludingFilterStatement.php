@@ -3,6 +3,7 @@
 namespace Athens\Core\FilterStatement;
 
 use Athens\Core\Etc\ORMUtils;
+use Athens\Core\QueryWrapper\QueryWrapperInterface;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\Criteria;
 
@@ -17,44 +18,12 @@ class ExcludingFilterStatement extends FilterStatement
 {
 
     /**
-     * @param ModelCriteria $query
-     * @return ModelCriteria
+     * @param QueryWrapperInterface $query
+     * @return QueryWrapperInterface
      */
-    public function applyToQuery(ModelCriteria $query)
+    public function applyToQuery(QueryWrapperInterface $query)
     {
-        $fieldName = $this->getFieldName();
-        $criterion = $this->getCriterion();
-
-        $criteria = Criteria::LIKE;
-
-        switch ($this->getCondition()) {
-            case static::COND_LESS_THAN:
-                $criteria = Criteria::LESS_THAN;
-                break;
-
-            case static::COND_GREATER_THAN:
-                $criteria = Criteria::GREATER_THAN;
-                break;
-
-            case static::COND_EQUAL_TO:
-                $criteria = Criteria::EQUAL;
-                break;
-
-            case static::COND_NOT_EQUAL_TO:
-                $criteria = Criteria::NOT_EQUAL;
-                break;
-
-            case static::COND_CONTAINS:
-                $criterion = "%$criterion%";
-                $criteria = Criteria::LIKE;
-                break;
-
-            case static::COND_ALL:
-                $criteria = Criteria::ALL;
-                break;
-        }
-
-        return ORMUtils::applyFilterToQuery($query, $fieldName, $criterion, $criteria);
+        return $query->filterBy($this->fieldName, $this->condition, $this->criterion);
     }
 
     /**

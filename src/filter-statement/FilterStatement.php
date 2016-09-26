@@ -2,6 +2,7 @@
 
 namespace Athens\Core\FilterStatement;
 
+use Athens\Core\QueryWrapper\QueryWrapperInterface;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Athens\Core\Row\RowInterface;
 
@@ -74,10 +75,10 @@ abstract class FilterStatement implements FilterStatementInterface
     }
 
     /**
-     * @param ModelCriteria $query
+     * @param QueryWrapperInterface $query
      * @return ModelCriteria
      */
-    abstract public function applyToQuery(ModelCriteria $query);
+    abstract public function applyToQuery(QueryWrapperInterface $query);
 
     /**
      * @param RowInterface[] $rows

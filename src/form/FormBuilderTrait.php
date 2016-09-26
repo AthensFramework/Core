@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Form;
 
+use Athens\Core\ObjectWrapper\ObjectWrapperInterface;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
 use Athens\Core\Field\FieldInterface;
@@ -96,9 +97,12 @@ trait FormBuilderTrait
      * @param ActiveRecordInterface $object
      * @return $this
      */
-    public function addObject(ActiveRecordInterface $object)
+    public function addObject($object)
     {
-        $fields = ORMUtils::makeFieldsFromObject($object);
+        /** @var ObjectWrapperInterface $object */
+        $object = $this->wrapObject($object);
+
+        $fields = $object->getFields();
 
         foreach ($fields as $name => $field) {
             $this->addWritable($field, $name);
@@ -106,8 +110,7 @@ trait FormBuilderTrait
 
         $this->addOnValidFunc(
             function (FormInterface $form) use ($object, $fields) {
-                ORMUtils::fillObjectFromFields($object, $fields);
-                $object->save();
+                $object->fillFromFields($fields)->save();
             }
         );
 

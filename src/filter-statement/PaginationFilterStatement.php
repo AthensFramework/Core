@@ -2,7 +2,7 @@
 
 namespace Athens\Core\FilterStatement;
 
-use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Athens\Core\QueryWrapper\QueryWrapperInterface;
 use Athens\Core\Row\RowInterface;
 
 /**
@@ -14,10 +14,10 @@ class PaginationFilterStatement extends FilterStatement
 {
 
     /**
-     * @param ModelCriteria $query
-     * @return ModelCriteria
+     * @param QueryWrapperInterface $query
+     * @return QueryWrapperInterface
      */
-    public function applyToQuery(ModelCriteria $query)
+    public function applyToQuery(QueryWrapperInterface $query)
     {
 
         $maxPerPage = $this->getCriterion();

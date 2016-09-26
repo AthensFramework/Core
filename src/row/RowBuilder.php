@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Row;
 
+use Athens\Core\Section\SectionBuilder;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
@@ -78,16 +79,24 @@ class RowBuilder extends AbstractWritableBuilder
     }
 
     /**
-     * @param ActiveRecordInterface $object
+     * @param mixed $object
      * @return $this
      */
-    public function addObject(ActiveRecordInterface $object)
+    public function addObject($object)
     {
-        $spans = ORMUtils::makeSpansFromObject($object);
-        $labels = ORMUtils::makeLabelsFromObject($object);
+        $object = $this->wrapObject($object);
 
-        foreach ($spans as $name => $span) {
-            $this->addWritable($span, $labels[$name], $name);
+        $labels = $object->getUnqualifiedTitleCasedColumnNames();
+
+        foreach ($object->getValues() as $name => $value) {
+            $this->addWritable(
+                SectionBuilder::begin()
+                    ->setType(SectionBuilder::TYPE_SPAN)
+                    ->addContent($value)
+                    ->build(),
+                $labels[$name],
+                $name
+            );
         }
 
         return $this;
