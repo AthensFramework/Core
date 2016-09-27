@@ -16,7 +16,6 @@ use Athens\Core\Filter\SortFilter;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\FormAction\FormActionInterface;
 use Athens\Core\Section\SectionInterface;
-use Athens\Core\Visitor\Visitor;
 use Athens\Core\Page\PageInterface;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Table\TableInterface;
@@ -392,87 +391,6 @@ class HTMLWriter extends AbstractWriter
                 [
                     "label" => $formAction->getLabel(),
                     "target" => $formAction->getTarget(),
-                ]
-            );
-    }
-
-    /**
-     * Render PickAInterface into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
-     *
-     * @param PickAInterface $pickA
-     * @return string
-     */
-    public function visitPickA(PickAInterface $pickA)
-    {
-        $template = 'pick-a/base.twig';
-
-        return $this
-            ->loadTemplate($template)
-            ->render(
-                [
-                    "id" => $pickA->getId(),
-                    "classes" => $pickA->getClasses(),
-                    "data" => $pickA->getData(),
-                    "manifest" => $pickA->getManifest(),
-                ]
-            );
-    }
-
-    /**
-     * Render PickAFormInterface into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
-     *
-     * @param PickAFormInterface $pickAForm
-     * @return string
-     */
-    public function visitPickAForm(PickAFormInterface $pickAForm)
-    {
-        $template = "pick-a-form/{$pickAForm->getType()}.twig";
-
-        return $this
-            ->loadTemplate($template)
-            ->render(
-                [
-                    "id" => $pickAForm->getId(),
-                    "classes" => $pickAForm->getClasses(),
-                    "data" => $pickAForm->getData(),
-                    "method" => $pickAForm->getMethod(),
-                    "target" => $pickAForm->getTarget(),
-                    "manifest" => $pickAForm->getManifest(),
-                    "selectedForm" => $pickAForm->getSelectedForm(),
-                    "errors" => $pickAForm->getErrors()
-                ]
-            );
-    }
-
-    /**
-     * Render TableFormInterface into html.
-     *
-     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
-     *
-     * @param TableFormInterface $tableForm
-     * @return string
-     */
-    public function visitTableForm(TableFormInterface $tableForm)
-    {
-        $template = "table-form/{$tableForm->getType()}.twig";
-
-        return $this
-            ->loadTemplate($template)
-            ->render(
-                [
-                    "id" => $tableForm->getId(),
-                    "classes" => $tableForm->getClasses(),
-                    "data" => $tableForm->getData(),
-                    "method" => $tableForm->getMethod(),
-                    "target" => $tableForm->getTarget(),
-                    "actions" => $tableForm->getActions(),
-                    "prototypicalRow" => $tableForm->getPrototypicalRow(),
-                    "canRemove" => $tableForm->getCanRemove(),
-                    "rows" => $tableForm->getRows(),
                 ]
             );
     }
