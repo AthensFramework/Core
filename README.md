@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/AthensFramework/Core.svg?branch=master)](https://travis-ci.org/AthensFramework/Core)
 [![Code Climate](https://codeclimate.com/github/AthensFramework/core/badges/gpa.svg)](https://codeclimate.com/github/AthensFramework/core)
 [![Test Coverage](https://codeclimate.com/github/AthensFramework/core/badges/coverage.svg)](https://codeclimate.com/github/AthensFramework/core/coverage)
-[![Latest Stable Version](https://poser.pugx.org/athens/core/v/stable)](https://packagist.org/packages/athens/core)
+[![Latest Stable Version](https://img.shields.io/packagist/v/athens/core.svg?maxAge=2592000)](https://packagist.org/packages/athens/core)
 
 Athens/Core
 =============
