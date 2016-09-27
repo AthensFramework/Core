@@ -2,9 +2,12 @@
 
 namespace Athens\Core\Test;
 
-use Athens\Core\Choice\ChoiceBuilder;
 use PHPUnit_Framework_TestCase;
 
+use PHPExcel_REader_Excel2007;
+
+use Athens\Core\Choice\ChoiceBuilder;
+use Athens\Core\Writer\ExcelWriter;
 use Athens\Core\Field\Field;
 use Athens\Core\Writer\HTMLWriter;
 use Athens\Core\FormAction\FormAction;
@@ -24,7 +27,6 @@ use Athens\Core\FilterStatement\FilterStatement;
 use Athens\Core\Link\LinkBuilder;
 
 use Athens\Core\Test\Mock\MockHTMLWriter;
-use Athens\Core\Test\Mock\MockFieldBearer;
 
 class WriterTest extends PHPUnit_Framework_TestCase
 {
@@ -713,6 +715,57 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("class=link " . implode(' ', $classes), $result);
         $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
         $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
+    }
+
+    public function testVisitExcelPage()
+    {
+        $writer = new ExcelWriter();
+
+        $id = "t" . (string)rand();
+
+        $label = 'Text Field Label';
+        $value1 = (string)rand();
+        $value2 = (string)rand();
+
+        $field1 = new Field([], [], "text", $label, $value1);
+        $field1Name = "TextField1";
+        $row1 = RowBuilder::begin()
+            ->addWritable($field1, $field1->getLabel(), $field1Name)
+            ->build();
+
+        $field2 = new Field([], [], "text", $label, $value2);
+        $field2Name = "TextField2";
+        $row2 = RowBuilder::begin()
+            ->addWritable($field2, $field2Name)
+            ->build();
+
+        $table = TableBuilder::begin()
+            ->setId($id)
+            ->addRow($row1)
+            ->addRow($row2)
+            ->build();
+
+        $page = PageBuilder::begin()
+            ->setType(PageBuilder::TYPE_EXCEL)
+            ->setId('test-excel-page')
+            ->addWritable($table)
+            ->build();
+
+        // Get result and strip quotes, for easier analysis
+        $tmp = tmpfile();
+
+        $fileLocation = stream_get_meta_data($tmp)['uri'];
+
+        fwrite($tmp, $writer->visitPage($page));
+
+        $objReader = new PHPExcel_Reader_Excel2007();
+        $objPHPExcel = $objReader->load($fileLocation);
+
+        $worksheet = $objPHPExcel->getSheet(0);
+
+        $this->assertEquals($label, $worksheet->getCell('A1')->getValue());
+        $this->assertEquals($value1, $worksheet->getCell('A2')->getValue());
+        $this->assertEquals($value2, $worksheet->getCell('A3')->getValue());
     }
 
     public function testVisitPage()

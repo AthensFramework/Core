@@ -4,30 +4,9 @@ namespace Athens\Core\Writer;
 
 use Exception;
 
-use Twig_SimpleFilter;
-
-use Athens\Core\Filter\DummyFilter;
-use Athens\Core\Filter\SelectFilter;
-use Athens\Core\WritableBearer\WritableBearerInterface;
-use Athens\Core\Email\EmailInterface;
-use Athens\Core\Etc\SafeString;
 use Athens\Core\Field\FieldInterface;
-use Athens\Core\Filter\PaginationFilter;
-use Athens\Core\Filter\SortFilter;
-use Athens\Core\Form\FormInterface;
-use Athens\Core\Form\FormAction\FormActionInterface;
-use Athens\Core\PickA\PickAFormInterface;
-use Athens\Core\PickA\PickAInterface;
-use Athens\Core\Section\SectionInterface;
 use Athens\Core\Page\PageInterface;
-use Athens\Core\Row\RowInterface;
 use Athens\Core\Table\TableInterface;
-use Athens\Core\Settings\Settings;
-use Athens\Core\Etc\StringUtils;
-use Athens\Core\Link\LinkInterface;
-use Athens\Core\Filter\FilterInterface;
-use Athens\Core\Filter\SearchFilter;
-use Athens\Core\Table\TableFormInterface;
 use Athens\Core\Writable\WritableInterface;
 
 /**
@@ -89,7 +68,7 @@ class ExcelWriter extends AbstractWriter
             }
 
             if (method_exists($writable, 'getWritables') === true) {
-                $writables += $writable->getWritables();
+                $writables = array_merge($writables, array_values($writable->getWritables()));
             }
 
             if ($writable instanceof TableInterface) {
@@ -110,7 +89,7 @@ class ExcelWriter extends AbstractWriter
             if (sizeof($table->getRows()) > 0) {
                 // Write header
                 /** @var FieldInterface $field */
-                foreach (array_values($table->getRows()[0]->getWritableBearer()->getVisibleFields()) as $j => $field) {
+                foreach (array_values($table->getRows()[0]->getWritableBearer()->getWritables()) as $j => $field) {
                     $cellIndex = static::excelRow($j) . "1";
                     $objWorkSheet->setCellValue($cellIndex, $field->getLabel());
                     $objWorkSheet->getStyle($cellIndex)->getFont()->setBold(true);
@@ -118,7 +97,7 @@ class ExcelWriter extends AbstractWriter
 
                 // Write cells
                 foreach ($table->getRows() as $i => $row) {
-                    foreach (array_values($row->getWritableBearer()->getVisibleFields()) as $j => $field) {
+                    foreach (array_values($row->getWritableBearer()->getWritables()) as $j => $field) {
                         if ($field->getInitial() !== "") {
                             $cellIndex = static::excelRow($j) . ($i + 2);
                             $objWorkSheet->setCellValue($cellIndex, $field->getInitial());
@@ -148,8 +127,12 @@ class ExcelWriter extends AbstractWriter
 
         $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
 
+        $tmp = tmpfile();
+
+        $fileLocation = stream_get_meta_data($tmp)['uri'];
+
         ob_start();
         $objWriter->save('php://output');
-        return ob_end_flush();
+        return ob_get_clean();
     }
 }
