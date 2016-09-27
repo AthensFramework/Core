@@ -2,8 +2,8 @@
 
 namespace Athens\Core\Test\Mock;
 
-use Athens\Core\QueryWrapper\AbstractQueryWrapper;
-use Athens\Core\QueryWrapper\QueryWrapperInterface;
+use Athens\Core\ORMWrapper\AbstractQueryWrapper;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 
 class MockQueryWrapper extends AbstractQueryWrapper implements QueryWrapperInterface
 {
@@ -31,11 +31,6 @@ class MockQueryWrapper extends AbstractQueryWrapper implements QueryWrapperInter
         return $objects;
     }
 
-    public function getTitleCasedObjectName()
-    {
-        return $this->query->titleCasedObjectName;
-    }
-
     public function createObject()
     {
         return new MockObjectWrapper(new MockObject($this->query->titleCasedObjectName, [], null, []));
@@ -43,23 +38,49 @@ class MockQueryWrapper extends AbstractQueryWrapper implements QueryWrapperInter
 
     public function orderBy($fieldName, $criteria)
     {
-        return $this->query->orderBy($fieldName, $criteria);
+        $this->query->orderBy($fieldName, $criteria);
+
+        return $this;
     }
     
     public function filterBy($fieldName, $criteria, $criterion)
     {
-        return $this->query->filterBy($fieldName, $criteria, $criterion);
+        $this->query->filterBy($fieldName, $criteria, $criterion);
+
+        return $this;
     }
     
     public function limit($limit)
     {
-        return $this->query->limit($limit);
+        $this->query->limit($limit);
+
+        return $this;
     }
     
     public function offset($offset)
     {
-        return $this->query->offset($offset);
+        $this->query->offset($offset);
+
+        return $this;
     }
     
+    public function count()
+    {
+        return $this->query->count();
+    }
+    
+    public function exists()
+    {
+        return $this->query->exists();
+    }
+    
+    public function getUnqualifiedTitleCasedColumnNames()
+    {
+        return $this->query->getUnqualifiedTitleCasedColumnNames();
+    }
 
+    public function getTitleCasedObjectName()
+    {
+        return $this->query->getTitleCasedObjectName();
+    }
 }

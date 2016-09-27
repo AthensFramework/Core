@@ -2,7 +2,6 @@
 
 namespace Athens\Core\Test\Mock;
 
-
 class MockObject
 {
     /** @var string */
@@ -63,5 +62,4 @@ class MockObject
     {
         return $this;
     }
-
 }

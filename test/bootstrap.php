@@ -2,10 +2,7 @@
 
 require_once dirname(__FILE__) ."/../vendor/autoload.php";
 
-use Athens\Encryption\Cipher;
 use Athens\Core\Settings\Settings;
-
-Cipher::createInstance("my_secret_passphrase");
 
 $settings = Settings::getInstance();
 

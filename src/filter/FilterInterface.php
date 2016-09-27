@@ -2,10 +2,8 @@
 
 namespace Athens\Core\Filter;
 
-use Guzzle\Service\Resource\Model;
-use Propel\Runtime\ActiveQuery\ModelCriteria;
-
 use Athens\Core\FilterStatement\FilterStatementInterface;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 use Athens\Core\Writable\WritableInterface;
 
 interface FilterInterface extends WritableInterface
@@ -38,10 +36,10 @@ interface FilterInterface extends WritableInterface
     public function getOptions();
 
     /**
-     * @param ModelCriteria $query
-     * @return ModelCriteria
+     * @param QueryWrapperInterface $query
+     * @return QueryWrapperInterface
      */
-    public function queryFilter(ModelCriteria $query);
+    public function queryFilter(QueryWrapperInterface $query);
 
     /**
      * @param \Athens\Core\Row\Row[] $rows

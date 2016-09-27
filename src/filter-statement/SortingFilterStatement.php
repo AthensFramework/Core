@@ -2,10 +2,8 @@
 
 namespace Athens\Core\FilterStatement;
 
-use Athens\Core\QueryWrapper\QueryWrapperInterface;
-use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 use Athens\Core\Row\RowInterface;
-use Propel\Runtime\ActiveQuery\Criteria;
 
 /**
  * Class SortingFilterStatement

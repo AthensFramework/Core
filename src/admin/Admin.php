@@ -2,9 +2,6 @@
 
 namespace Athens\Core\Admin;
 
-use Propel\Runtime\ActiveQuery\ModelCriteria;
-use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
-
 use Athens\Core\Etc\StringUtils;
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Visitor\VisitorInterface;
@@ -19,8 +16,7 @@ use Athens\Core\FormAction\FormAction;
 use Athens\Core\FormAction\FormActionInterface;
 use Athens\Core\Page\Page;
 use Athens\Core\WritableBearer\WritableBearerBuilder;
-use Athens\Core\ObjectWrapper\ObjectWrapperInterface;
-use Athens\Core\QueryWrapper\QueryWrapperInterface;
+use Athens\Core\ORMWrapper\ObjectWrapperInterface;
 
 /**
  * Class ObjectManager
@@ -44,16 +40,16 @@ class Admin extends Page
     /**
      * Admin constructor.
      *
-     * @param string            $id
-     * @param string            $type
-     * @param string[]          $classes
-     * @param array             $data
-     * @param string            $title
-     * @param string            $baseHref
-     * @param VisitorInterface  $initializer
-     * @param VisitorInterface  $renderer
-     * @param WritableInterface $pageContents
-     * @param ModelCriteria[]   $queries
+     * @param string                  $id
+     * @param string                  $type
+     * @param string[]                $classes
+     * @param array                   $data
+     * @param string                  $title
+     * @param string                  $baseHref
+     * @param VisitorInterface        $initializer
+     * @param VisitorInterface        $renderer
+     * @param WritableInterface       $pageContents
+     * @param QueryWrapperInterface[] $queries
      * @throws \Exception If an invalid object manager mode is provided.
      */
     public function __construct(
@@ -200,7 +196,6 @@ class Admin extends Page
         $tables = [];
 
         foreach ($this->queries as $queryIndex => $query) {
-
             $objects = $query->find();
 
             /** @var RowInterface[] $rows */

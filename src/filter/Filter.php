@@ -2,9 +2,7 @@
 
 namespace Athens\Core\Filter;
 
-use Propel\Runtime\ActiveQuery\ModelCriteria;
-
-use Athens\Core\Etc\ORMUtils;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 use Athens\Core\Row\RowInterface;
 use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\FilterStatement\FilterStatementInterface;
@@ -119,10 +117,10 @@ class Filter implements FilterInterface
     }
 
     /**
-     * @param ModelCriteria $query
-     * @return ModelCriteria
+     * @param QueryWrapperInterface $query
+     * @return QueryWrapperInterface
      */
-    public function queryFilter(ModelCriteria $query)
+    public function queryFilter(QueryWrapperInterface $query)
     {
         $query = $this->getNextFilter()->queryFilter($query);
 
@@ -135,7 +133,7 @@ class Filter implements FilterInterface
         foreach ($this->statements as $statement) {
             $fieldName = $statement->getFieldName();
 
-            if ($fieldName !== "" && ORMUtils::queryContainsFieldName($query, $fieldName) === false) {
+            if ($fieldName !== "" && in_array($fieldName, $query->getQualifiedPascalCasedColumnNames()) === false) {
                 $this->canQueryFilter = false;
             }
 
@@ -151,18 +149,18 @@ class Filter implements FilterInterface
     }
 
     /**
-     * @param ModelCriteria $query
+     * @param QueryWrapperInterface $query
      * @return void
      */
-    protected function setOptionsByQuery(ModelCriteria $query)
+    protected function setOptionsByQuery(QueryWrapperInterface $query)
     {
     }
 
     /**
-     * @param ModelCriteria $query
+     * @param QueryWrapperInterface $query
      * @return void
      */
-    protected function setFeedbackByQuery(ModelCriteria $query)
+    protected function setFeedbackByQuery(QueryWrapperInterface $query)
     {
     }
 

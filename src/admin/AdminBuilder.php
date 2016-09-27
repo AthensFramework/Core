@@ -4,7 +4,7 @@ namespace Athens\Core\Admin;
 
 use Exception;
 
-use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\QueryWrapperInterface;
 
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Page\PageBuilder;
@@ -19,7 +19,7 @@ use Athens\Core\WritableBearer\WritableBearerBuilder;
 class AdminBuilder extends PageBuilder
 {
 
-    /** @var ModelCriteria[] */
+    /** @var QueryWrapperInterface[] */
     protected $queries = [];
 
     /**

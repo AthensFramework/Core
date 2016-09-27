@@ -2,10 +2,7 @@
 
 namespace Athens\Core\FilterStatement;
 
-use Athens\Core\Etc\ORMUtils;
-use Athens\Core\QueryWrapper\QueryWrapperInterface;
-use Propel\Runtime\ActiveQuery\ModelCriteria;
-use Propel\Runtime\ActiveQuery\Criteria;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 
 use Athens\Core\Row\RowInterface;
 

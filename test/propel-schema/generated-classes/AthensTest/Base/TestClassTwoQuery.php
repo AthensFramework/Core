@@ -9,7 +9,7 @@ use AthensTest\TestClassTwoQuery as ChildTestClassTwoQuery;
 use AthensTest\Map\TestClassTwoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
-use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\QueryWrapperInterface;
 use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
@@ -69,7 +69,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTestClassTwo[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
-abstract class TestClassTwoQuery extends ModelCriteria
+abstract class TestClassTwoQuery extends QueryWrapperInterface
 {
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
@@ -508,7 +508,7 @@ abstract class TestClassTwoQuery extends ModelCriteria
             
             TestClassTwoTableMap::removeInstanceFromPool($criteria);
         
-            $affectedRows += ModelCriteria::delete($con);
+            $affectedRows += QueryWrapperInterface::delete($con);
             TestClassTwoTableMap::clearRelatedInstancePool();
 
             return $affectedRows;

@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Filter;
 
-use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Settings\Settings;
@@ -50,7 +50,7 @@ class FilterBuilder extends AbstractWritableBuilder
     /** @var string */
     protected $default;
     
-    /** @var ModelCriteria */
+    /** @var QueryWrapperInterface */
     protected $query;
     
     /**
@@ -172,12 +172,12 @@ class FilterBuilder extends AbstractWritableBuilder
     }
 
     /**
-     * @param ModelCriteria $query
+     * @param mixed $query
      * @return FilterBuilder
      */
-    public function setQuery(ModelCriteria $query)
+    public function setQuery($query)
     {
-        $this->query = $query;
+        $this->query = $this->wrapQuery($query);
         return $this;
     }
 

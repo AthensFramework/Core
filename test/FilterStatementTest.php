@@ -2,14 +2,11 @@
 
 namespace Athens\Core\Test;
 
-use Propel\Runtime\ActiveQuery\Criteria;
-
 use Athens\Core\FilterStatement\FilterStatement;
 use Athens\Core\FilterStatement\SortingFilterStatement;
 use Athens\Core\FilterStatement\ExcludingFilterStatement;
 use Athens\Core\FilterStatement\PaginationFilterStatement;
 
-use Athens\Core\Test\Mock\MockQuery;
 use Athens\Core\Test\Mock\MockQueryWrapper;
 
 class FilterStatementTest extends TestCase
@@ -18,16 +15,6 @@ class FilterStatementTest extends TestCase
     {
         $this->createORMFixtures();
     }
-
-    protected $conditions = [
-        FilterStatement::COND_SORT_ASC,
-        FilterStatement::COND_SORT_DESC,
-        FilterStatement::COND_LESS_THAN,
-        FilterStatement::COND_GREATER_THAN,
-        FilterStatement::COND_EQUAL_TO,
-        FilterStatement::COND_NOT_EQUAL_TO,
-        FilterStatement::COND_PAGINATE_BY,
-    ];
 
     public function testFilterStatementConstruction()
     {

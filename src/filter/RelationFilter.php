@@ -4,9 +4,7 @@ namespace Athens\Core\Filter;
 
 use Exception;
 
-use Propel\Runtime\ActiveQuery\Criteria;
-use Propel\Runtime\ActiveQuery\ModelCriteria;
-
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 use Athens\Core\Row\RowInterface;
 
 /**
@@ -28,22 +26,22 @@ class RelationFilter extends SelectFilter
     protected $relationName = '';
 
     /**
-     * @param string               $id
-     * @param string[]             $classes
-     * @param string[]             $data
-     * @param ModelCriteria        $query
-     * @param string               $default
-     * @param FilterInterface|null $nextFilter
+     * @param string                $id
+     * @param string[]              $classes
+     * @param string[]              $data
+     * @param QueryWrapperInterface $query
+     * @param string                $default
+     * @param FilterInterface|null  $nextFilter
      */
     public function __construct(
         $id,
         array $classes,
         array $data,
-        ModelCriteria $query,
+        QueryWrapperInterface $query,
         $default,
         FilterInterface $nextFilter = null
     ) {
-        $this->relationName = array_slice(explode('\\', $query->getModelName()), -1)[0];
+        $this->relationName = array_slice(explode('\\', $query->getTitleCasedObjectName()), -1)[0];
 
         $relations = $query->find();
 
@@ -52,7 +50,7 @@ class RelationFilter extends SelectFilter
             $relationNames[] = (string)$relation;
         }
         
-        $this->relations = array_combine($relationNames, iterator_to_array($relations));
+        $this->relations = array_combine($relationNames, $relations);
 
         $this->options = array_merge([$default, ''], $relationNames, [static::ALL, static::ANY, static::NONE]);
 
@@ -69,11 +67,11 @@ class RelationFilter extends SelectFilter
     }
 
     /**
-     * @param ModelCriteria $query
-     * @return ModelCriteria
+     * @param QueryWrapperInterface $query
+     * @return QueryWrapperInterface
      * @throws \Exception if given an incompatible query type.
      */
-    public function queryFilter(ModelCriteria $query)
+    public function queryFilter(QueryWrapperInterface $query)
     {
         $query = $this->getNextFilter()->queryFilter($query);
 

@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Filter;
 
-use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 use Athens\Core\Row\RowInterface;
 
 /**
@@ -30,10 +30,10 @@ class DummyFilter extends Filter
     }
 
     /**
-     * @param ModelCriteria $query
-     * @return ModelCriteria
+     * @param QueryWrapperInterface $query
+     * @return QueryWrapperInterface
      */
-    public function queryFilter(ModelCriteria $query)
+    public function queryFilter(QueryWrapperInterface $query)
     {
         return $query;
     }

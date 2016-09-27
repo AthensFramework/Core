@@ -13,7 +13,7 @@ class MockQuery
 
     /**
      * MockQuery constructor.
-     * 
+     *
      * @param string $titleCasedObjectName
      * @param MockObject[] $instances
      */
@@ -44,6 +44,30 @@ class MockQuery
     }
     
     public function limit($limit)
+    {
+    }
+
+    public function count()
+    {
+    }
+
+    public function exists()
+    {
+    }
+
+    public function getQualifiedPascalCasedColumnNames()
+    {
+    }
+
+    public function getUnqualifiedTitleCasedColumnNames()
+    {
+    }
+
+    public function getTitleCasedObjectName()
+    {
+    }
+
+    public function getPascalCasedObjectName()
     {
     }
 }

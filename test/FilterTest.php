@@ -2,10 +2,7 @@
 
 namespace Athens\Core\Test;
 
-use ArrayIterator;
 use Exception;
-
-use PHPUnit_Framework_TestCase;
 
 use Athens\Core\FilterStatement\FilterStatement;
 use Athens\Core\Filter\FilterBuilder;
@@ -18,59 +15,21 @@ use Athens\Core\Row\RowBuilder;
 use Athens\Core\Field\Field;
 use Athens\Core\Filter\RelationFilter;
 
-use Athens\Core\Test\Mock\MockQuery;
+use Athens\Core\Test\Mock\MockQueryWrapper;
 
-use AthensTest\TestClassQuery;
-use AthensTest\TestClass;
-use AthensTest\Map\TestClassTableMap;
-
-class FilterTest extends PHPUnit_Framework_TestCase
+class FilterTest extends TestCase
 {
-
-    protected $conditions = [
-        FilterStatement::COND_SORT_ASC,
-        FilterStatement::COND_SORT_DESC,
-        FilterStatement::COND_LESS_THAN,
-        FilterStatement::COND_GREATER_THAN,
-        FilterStatement::COND_EQUAL_TO,
-        FilterStatement::COND_NOT_EQUAL_TO,
-        FilterStatement::COND_PAGINATE_BY,
-        FilterStatement::COND_ALL,
-    ];
-
-    protected $instances;
-    protected $instanceMap;
-    protected $query;
-    protected $tableMap;
 
     public function setUp()
     {
-        $this->instances = [
-            0 => $this->createMock(TestClass::class),
-            1 => $this->createMock(TestClass::class),
-        ];
-
-        $this->instanceMap = [
-            [0, $this->instances[0]],
-            [1, $this->instances[1]],
-            [2, null],
-        ];
-
-        $this->query = $this->createMock(TestClassQuery::class);
-
-        $this->tableMap = $this->createMock(TestClassTableMap::class);
-        $this->tableMap->method('getClassName')->willReturn(TestClass::class);
-        $this->query->method('getTableMap')->willReturn($this->tableMap);
-
-        $this->query->method('find')->willReturn(new ArrayIterator($this->instances));
-        $this->query->method('findOneById')->willReturnMap($this->instanceMap);
+        $this->createORMFixtures();
     }
 
     public function testBuildStaticFilter()
     {
 
         $fieldName = (string)rand();
-        $condition = array_rand(array_flip($this->conditions), 1);
+        $condition = (string)rand();
         $criterion = (string)rand();
         $handle = (string)rand();
         $classes = [(string)rand(), (string)rand()];
@@ -269,10 +228,9 @@ class FilterTest extends PHPUnit_Framework_TestCase
             ->setType(Filter::TYPE_PAGINATION)
             ->build();
 
-        $query = new MockQuery();
-        $query->count = $count;
+        $this->query->method('count')->willReturn($count);
 
-        $filter->queryFilter($query);
+        $filter->queryFilter(new MockQueryWrapper($this->query));
 
         $expectedNumPages = ceil($count/$maxPerPage);
 
@@ -375,12 +333,9 @@ class FilterTest extends PHPUnit_Framework_TestCase
             ->setType(Filter::TYPE_PAGINATION)
             ->build();
 
-        $query = new MockQuery();
-        $query->count = $count;
+        $this->query->method('count')->willReturn($count);
 
-        $filter->queryFilter($query);
-
-        $expectedNumPages = ceil($count/$maxPerPage);
+        $filter->queryFilter(new MockQueryWrapper($this->query));
 
         $this->assertContains((string)$count, $filter->getFeedback());
     }
@@ -406,7 +361,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         $filter1 = FilterBuilder::begin()
             ->setId("Filter1")
             ->setType(Filter::TYPE_STATIC)
-            ->setFieldName("TestClass.Id")
+            ->setFieldName('MyObject.Column1')
             ->setCondition(FilterStatement::COND_SORT_ASC)
             ->build();
 
@@ -414,16 +369,25 @@ class FilterTest extends PHPUnit_Framework_TestCase
             ->setNextFilter($filter1)
             ->setId("Filter2")
             ->setType(Filter::TYPE_STATIC)
-            ->setFieldName("TestClass.FieldFloat")
+            ->setFieldName('MyObject.Column2')
             ->setCondition(FilterStatement::COND_SORT_DESC)
             ->build();
 
-        // use MockQuery from FilterStatementTest
-        $query = new MockQuery();
-        $query = $filter2->queryFilter($query);
+        $this->query->expects($this->exactly(2))
+            ->method('orderBy')
+            ->withConsecutive(
+                [
+                    $this->equalTo('MyObject.Column1'),
+                    $this->equalTo(FilterStatement::COND_SORT_ASC)
+                ],
+                [
+                    $this->equalTo('MyObject.Column2'),
+                    $this->equalTo(FilterStatement::COND_SORT_DESC)
+                ]
+            );
 
-        $this->assertContains(["TestClass.Id", "ASC"], $query->orderByStatements);
-        $this->assertContains(["TestClass.FieldFloat", "DESC"], $query->orderByStatements);
+        // use MockQuery from FilterStatementTest
+        $filter2->queryFilter(new MockQueryWrapper($this->query));
     }
 
     public function testForceFilterByRow()
@@ -431,7 +395,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
         $filter1 = FilterBuilder::begin()
             ->setId("Filter1")
             ->setType(Filter::TYPE_STATIC)
-            ->setFieldName("TestClass.Id")
+            ->setFieldName("MyObject.Column1")
             ->setCondition(FilterStatement::COND_SORT_ASC)
             ->build();
 
@@ -451,16 +415,18 @@ class FilterTest extends PHPUnit_Framework_TestCase
             ->setNextFilter($filter2)
             ->setId("Filter3")
             ->setType(Filter::TYPE_STATIC)
-            ->setFieldName("TestClass.FieldFloat")
+            ->setFieldName("MyObject.Column2")
             ->setCondition(FilterStatement::COND_SORT_DESC)
             ->build();
 
-        // use MockQuery from FilterStatementTest
-        $query = new MockQuery();
-        $query = $filter3->queryFilter($query);
+        $this->query->expects($this->once())
+            ->method('orderBy')
+            ->with(
+                $this->equalTo('MyObject.Column1'),
+                $this->equalTo(FilterStatement::COND_SORT_ASC)
+            );
 
-        $this->assertContains(["TestClass.Id", "ASC"], $query->orderByStatements);
-        $this->assertEquals(1, sizeof($query->orderByStatements));
+        $filter3->queryFilter(new MockQueryWrapper($this->query));
     }
 
     public function testForcePaginationFilterToSoftPagination()
@@ -491,9 +457,7 @@ class FilterTest extends PHPUnit_Framework_TestCase
             ->build();
 
         // use MockQuery from FilterStatementTest
-        $query = new MockQuery();
-        $query->count = 10;
-        $query = $filter3->queryFilter($query);
+        $filter3->queryFilter(new MockQueryWrapper($this->query));
 
         $filter3->rowFilter([]);
 

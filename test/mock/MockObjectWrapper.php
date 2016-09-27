@@ -3,8 +3,8 @@
 namespace Athens\Core\Test\Mock;
 
 use Athens\Core\Field\FieldBuilder;
-use Athens\Core\ObjectWrapper\ObjectWrapperInterface;
-use Athens\Core\ObjectWrapper\AbstractObjectWrapper;
+use Athens\Core\ORMWrapper\ObjectWrapperInterface;
+use Athens\Core\ORMWrapper\AbstractObjectWrapper;
 
 class MockObjectWrapper extends AbstractObjectWrapper implements ObjectWrapperInterface
 {
@@ -82,5 +82,8 @@ class MockObjectWrapper extends AbstractObjectWrapper implements ObjectWrapperIn
         return $this->object->fillFromFields($fields);
     }
 
-
+    public function __toString()
+    {
+        return array_values($this->object->getValues())[0];
+    }
 }

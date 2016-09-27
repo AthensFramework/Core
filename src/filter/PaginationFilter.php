@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Filter;
 
-use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 
 use Athens\Core\FilterStatement\PaginationFilterStatement;
 use Athens\Core\FilterStatement\FilterStatement;
@@ -51,10 +51,10 @@ class PaginationFilter extends Filter
     }
 
     /**
-     * @param ModelCriteria $query
+     * @param QueryWrapperInterface $query
      * @return integer
      */
-    protected function getMaxPagesByQuery(ModelCriteria $query)
+    protected function getMaxPagesByQuery(QueryWrapperInterface $query)
     {
         $maxPerPage = $this->getMaxPerPage();
         $totalRows = $query->count();
@@ -87,10 +87,10 @@ class PaginationFilter extends Filter
     }
 
     /**
-     * @param ModelCriteria $query
+     * @param QueryWrapperInterface $query
      * @return void
      */
-    protected function setOptionsByQuery(ModelCriteria $query)
+    protected function setOptionsByQuery(QueryWrapperInterface $query)
     {
         $maxPages = max($this->getMaxPagesByQuery($query), 1);
         $this->options = range(1, $maxPages);
@@ -99,10 +99,10 @@ class PaginationFilter extends Filter
     }
 
     /**
-     * @param ModelCriteria $query
+     * @param QueryWrapperInterface $query
      * @return void
      */
-    protected function setFeedbackByQuery(ModelCriteria $query)
+    protected function setFeedbackByQuery(QueryWrapperInterface $query)
     {
         $page = $this->getStatements()[0]->getControl();
         $maxPerPage = $this->getMaxPerPage();

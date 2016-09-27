@@ -1,11 +1,10 @@
 <?php
 
-namespace Athens\Core\QueryWrapper;
+namespace Athens\Core\ORMWrapper;
 
-use Athens\Core\ObjectWrapper\ObjectWrapperInterface;
-
-interface QueryWrapperInterface
+interface QueryWrapperInterface extends ORMWrapperInterface
 {
+
     /**
      * @param mixed $pk
      * @return ObjectWrapperInterface
@@ -19,7 +18,7 @@ interface QueryWrapperInterface
 
     /**
      * @param string $columnName
-     * @param mixed $condition
+     * @param mixed  $condition
      * @return ObjectWrapperInterface
      */
     public function orderBy($columnName, $condition);
@@ -27,7 +26,7 @@ interface QueryWrapperInterface
     /**
      * @param string $columnName
      * @param string $criteria
-     * @param mixed $criterion
+     * @param mixed  $criterion
      * @return QueryWrapperInterface
      */
     public function filterBy($columnName, $criteria, $criterion);
@@ -48,9 +47,14 @@ interface QueryWrapperInterface
      * @return ObjectWrapperInterface
      */
     public function createObject();
-    
-    public function getTitleCasedObjectName();
-    
-    public function getPascalCasedObjectName();
-    
+
+    /**
+     * @return integer
+     */
+    public function count();
+
+    /**
+     * @return boolean
+     */
+    public function exists();
 }

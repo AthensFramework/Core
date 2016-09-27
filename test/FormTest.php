@@ -13,7 +13,6 @@ use Athens\Core\Field\FieldInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\Field\FieldBuilder;
 
-
 class FormTest extends TestCase
 {
 

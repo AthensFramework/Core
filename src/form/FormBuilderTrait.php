@@ -2,7 +2,7 @@
 
 namespace Athens\Core\Form;
 
-use Athens\Core\ObjectWrapper\ObjectWrapperInterface;
+use Athens\Core\ORMWrapper\ObjectWrapperInterface;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
 use Athens\Core\Field\FieldInterface;
@@ -94,7 +94,7 @@ trait FormBuilderTrait
     }
 
     /**
-     * @param ActiveRecordInterface $object
+     * @param mixed $object
      * @return $this
      */
     public function addObject($object)
