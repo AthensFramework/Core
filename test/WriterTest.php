@@ -4,7 +4,7 @@ namespace Athens\Core\Test;
 
 use PHPUnit_Framework_TestCase;
 
-use PHPExcel_REader_Excel2007;
+use PHPExcel_Reader_Excel2007;
 
 use Athens\Core\Choice\ChoiceBuilder;
 use Athens\Core\Writer\ExcelWriter;
