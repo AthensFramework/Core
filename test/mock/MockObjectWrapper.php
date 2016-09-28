@@ -72,7 +72,7 @@ class MockObjectWrapper extends AbstractObjectWrapper implements ObjectWrapperIn
         return $this->object->getTitleCasedName();
     }
 
-    public function getPk()
+    public function getPrimaryKey()
     {
         return $this->object->pk;
     }

@@ -20,7 +20,7 @@ interface ObjectWrapperInterface extends ORMWrapperInterface
     /**
      * @return mixed
      */
-    public function getPk();
+    public function getPrimaryKey();
     
     /**
      * @param FieldInterface[] $fields

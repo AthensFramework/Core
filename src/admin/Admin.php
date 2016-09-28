@@ -210,7 +210,7 @@ class Admin extends Page
                     [
                         static::MODE_FIELD => static::MODE_DETAIL,
                         static::QUERY_INDEX_FIELD => $queryIndex,
-                        static::OBJECT_ID_FIELD => $object->getPk()
+                        static::OBJECT_ID_FIELD => $object->getPrimaryKey()
                     ]
                 );
 
