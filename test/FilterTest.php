@@ -28,7 +28,6 @@ class FilterTest extends TestCase
 
     public function testBuildStaticFilter()
     {
-
         $fieldName = (string)rand();
         $condition = (string)rand();
         $criterion = (string)rand();
@@ -54,6 +53,49 @@ class FilterTest extends TestCase
         $this->assertEquals($fieldName, $statement->getFieldName());
         $this->assertEquals($condition, $statement->getCondition());
         $this->assertEquals($criterion, $statement->getCriterion());
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessage       Invalid filter type.
+     */
+    public function testBuildInvalidFilterType()
+    {
+        $filter = FilterBuilder::begin()
+            ->setType('some random invalid filter type')
+            ->setId('filter-id')
+            ->build();
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #your default choice 'option 3' must be among options 'option 1, option 2'.*#
+     */
+    public function testTryBuildSelectFilterWithBadDefault()
+    {
+        $filter = FilterBuilder::begin()
+            ->setType(Filter::TYPE_SELECT)
+            ->setId('filter-id')
+            ->addOptions([
+                "option 1" => "",
+                "option 2" => "",
+            ])
+            ->setDefault("option 3")
+            ->build();
+    }
+
+    /**
+     * @expectedException              Exception
+     * @expectedExceptionMessageRegExp #You must set fieldName for this object.*#
+     */
+    public function testTryBuildStaticFilterWithoutFieldName()
+    {
+        $filter = FilterBuilder::begin()
+            ->setType(Filter::TYPE_STATIC)
+            ->setId('filter-id')
+            ->setCondition('condition')
+            ->setCriterion('criterion')
+            ->build();
     }
 
     public function testRowFilter()
