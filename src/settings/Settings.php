@@ -74,9 +74,15 @@ class Settings implements SettingsInterface
      * @param string $name
      * @param array  $arguments
      * @return void
+     * @throws Exception if setting attribute not found.
      */
     protected function add($name, array $arguments)
     {
+        if (is_array(static::$settings[$name]) === false) {
+            throw new Exception(
+                "Setting $name is not an array. Try using ::set" . ucfirst($name) . " method instead."
+            );
+        }
         static::$settings[$name] = array_merge(static::$settings[$name], $arguments);
     }
 
@@ -88,10 +94,6 @@ class Settings implements SettingsInterface
      */
     public function __call($methodName, array $arguments)
     {
-        if (method_exists($this, $methodName) === true) {
-            call_user_func($this->$methodName, $arguments);
-        }
-
         /** @var string[] $allowedMethodPrefixes */
         $allowedMethodPrefixes = ['add', 'get', 'set'];
 
