@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Filter;
 
+use Athens\Core\ORMWrapper\ObjectWrapperInterface;
 use Exception;
 
 use Athens\Core\ORMWrapper\QueryWrapperInterface;
@@ -19,7 +20,7 @@ class RelationFilter extends SelectFilter
     const ANY = 'Any';
     const NONE = 'None';
 
-    /** @var array */
+    /** @var ObjectWrapperInterface[] */
     protected $relations = [];
 
     /** @var string */
@@ -41,18 +42,18 @@ class RelationFilter extends SelectFilter
         $default,
         FilterInterface $nextFilter = null
     ) {
-        $this->relationName = array_slice(explode('\\', $query->getTitleCasedObjectName()), -1)[0];
+        $this->relationName = array_slice(explode('\\', $query->getPascalCasedObjectName()), -1)[0];
 
         $relations = $query->find();
 
-        $relationNames = [];
+        $relationKeys = [];
         foreach ($relations as $relation) {
-            $relationNames[] = (string)$relation;
+            $relationKeys[] = $this->makeRelationKey($relation);
         }
         
-        $this->relations = array_combine($relationNames, $relations);
+        $this->relations = array_combine($relationKeys, $relations);
 
-        $this->options = array_merge([$default, ''], $relationNames, [static::ALL, static::ANY, static::NONE]);
+        $this->options = array_merge([$default, ''], $relationKeys, [static::ALL, static::ANY, static::NONE]);
 
         if ($nextFilter === null) {
             $this->nextFilter = new DummyFilter();
@@ -67,38 +68,55 @@ class RelationFilter extends SelectFilter
     }
 
     /**
+     * @param ObjectWrapperInterface $relation
+     * @return string
+     */
+    protected function makeRelationKey(ObjectWrapperInterface $relation)
+    {
+        return base64_encode((string)$relation->getPrimaryKey());
+    }
+
+    /**
      * @param QueryWrapperInterface $query
      * @return QueryWrapperInterface
      * @throws \Exception if given an incompatible query type.
      */
     public function queryFilter(QueryWrapperInterface $query)
     {
-        $query = $this->getNextFilter()->queryFilter($query);
-
         $this->canQueryFilter = true;
-
-        $choice = FilterControls::getControl($this->id, "value", $this->options[0]);
-
         if ($this->getNextFilter()->canQueryFilter === false) {
             $this->canQueryFilter = false;
         }
-        
+
         if ($this->canQueryFilter === true) {
+            $query = $this->getNextFilter()->queryFilter($query);
+            $choice = FilterControls::getControl($this->id, "value", $this->options[0]);
+            $fieldName = array_search("{$this->relationName}Id", $query->getUnqualifiedPascalCasedColumnNames());
+
             switch ($choice) {
                 case static::ALL:
                     break;
                 case static::ANY:
-                    $filterMethod = "filterBy{$this->relationName}Id";
-                    $query = $query->$filterMethod(null, Criteria::NOT_EQUAL);
+                    $query = $query->filterBy(
+                        $fieldName,
+                        null,
+                        QueryWrapperInterface::CONDITION_NOT_EQUAL
+                    );
                     break;
                 case static::NONE:
-                    $filterMethod = "filterBy{$this->relationName}Id";
-                    $query = $query->$filterMethod(null);
+                    $query = $query->filterBy(
+                        $fieldName,
+                        null,
+                        QueryWrapperInterface::CONDITION_EQUAL
+                    );
                     break;
                 default:
-                    $filterMethod = "filterBy{$this->relationName}";
                     $relation = $this->relations[$choice];
-                    $query = $query->$filterMethod($relation);
+                    $query = $query->filterBy(
+                        $fieldName,
+                        $relation->getPrimaryKey(),
+                        QueryWrapperInterface::CONDITION_EQUAL
+                    );
                     break;
             }
         }

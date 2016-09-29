@@ -6,13 +6,13 @@ class MockObject
 {
     /** @var string */
     public $titleCasedName;
-    
+
     /** @var string[] */
     public $titleCasedColumnNames;
-    
+
     /** @var mixed[] */
     public $values;
-    
+
     /** @var integer */
     public $pk;
 
@@ -39,7 +39,7 @@ class MockObject
     {
     }
 
-    public function getTitleCasedColumnNames()
+    public function getUnqualifiedTitleCasedColumnNames()
     {
         return $this->titleCasedColumnNames;
     }
@@ -61,5 +61,10 @@ class MockObject
     public function fillFromFields(array $fields)
     {
         return $this;
+    }
+    
+    public function getPrimaryKey()
+    {
+        return 100;
     }
 }

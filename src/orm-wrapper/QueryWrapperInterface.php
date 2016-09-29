@@ -4,6 +4,16 @@ namespace Athens\Core\ORMWrapper;
 
 interface QueryWrapperInterface extends ORMWrapperInterface
 {
+    const CONDITION_NOT_EQUAL = 'not equal';
+    const CONDITION_EQUAL = 'equal';
+    const CONDITION_GREATER_THAN = 'greater';
+    const CONDITION_GREATER_THAN_OR_EQUAL = 'greater or equal';
+    const CONDITION_LESS_THAN = 'less';
+    const CONDITION_LESS_THAN_OR_EQUAL = 'less or equal';
+    const CONDITION_CONTAINS = 'contains';
+
+    const ORDER_ASCENDING = 'ascending';
+    const ORDER_DESCENDING = 'descending';
 
     /**
      * @param mixed $pk

@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Test;
 
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 use Exception;
 
 use Athens\Core\FilterStatement\FilterStatement;
@@ -158,6 +159,92 @@ class FilterTest extends TestCase
             ->build();
 
         $this->assertInstanceOf(RelationFilter::class, $filter);
+    }
+
+    public function testRelationFilterAll()
+    {
+        $filter = FilterBuilder::begin()
+            ->setId('test-relation-filter')
+            ->setType(Filter::TYPE_RELATION)
+            ->setQuery($this->query)
+            ->setDefault(RelationFilter::ALL)
+            ->build();
+
+        $this->query->expects($this->never())->method("filterBy");
+
+        $_GET['test-relation-filter-value'] = RelationFilter::ALL;
+        $filter->queryFilter(new MockQueryWrapper($this->query));
+
+        unset($_GET['test-relation-filter-value']);
+    }
+
+    public function testRelationFilterAny()
+    {
+        $filter = FilterBuilder::begin()
+            ->setId('test-relation-filter')
+            ->setType(Filter::TYPE_RELATION)
+            ->setQuery($this->query)
+            ->setDefault(RelationFilter::ALL)
+            ->build();
+
+        $this->query->expects($this->once())
+            ->method("filterBy")
+            ->with(
+                $this->equalTo('MyObject.MyObjectId'),
+                $this->equalTo(null),
+                $this->equalTo(QueryWrapperInterface::CONDITION_NOT_EQUAL)
+            );
+
+        $_GET['test-relation-filter-value'] = RelationFilter::ANY;
+        $filter->queryFilter(new MockQueryWrapper($this->query));
+
+        unset($_GET['test-relation-filter-value']);
+    }
+
+    public function testRelationFilterNone()
+    {
+        $filter = FilterBuilder::begin()
+            ->setId('test-relation-filter')
+            ->setType(Filter::TYPE_RELATION)
+            ->setQuery($this->query)
+            ->setDefault(RelationFilter::ALL)
+            ->build();
+
+        $this->query->expects($this->once())
+            ->method("filterBy")
+            ->with(
+                $this->equalTo('MyObject.MyObjectId'),
+                $this->equalTo(null),
+                $this->equalTo(QueryWrapperInterface::CONDITION_EQUAL)
+            );
+
+        $_GET['test-relation-filter-value'] = RelationFilter::NONE;
+        $filter->queryFilter(new MockQueryWrapper($this->query));
+
+        unset($_GET['test-relation-filter-value']);
+    }
+
+    public function testRelationFilterByRelation()
+    {
+        $filter = FilterBuilder::begin()
+            ->setId('test-relation-filter')
+            ->setType(Filter::TYPE_RELATION)
+            ->setQuery($this->query)
+            ->setDefault(RelationFilter::ALL)
+            ->build();
+
+        $this->query->expects($this->once())
+            ->method("filterBy")
+            ->with(
+                $this->equalTo('MyObject.MyObjectId'),
+                $this->equalTo(null),
+                $this->equalTo(QueryWrapperInterface::CONDITION_EQUAL)
+            );
+
+        $_GET['test-relation-filter-value'] = base64_encode($this->instances[0]->getPrimaryKey());
+        $filter->queryFilter(new MockQueryWrapper($this->query));
+
+        unset($_GET['test-relation-filter-value']);
     }
 
     /**
@@ -361,7 +448,7 @@ class FilterTest extends TestCase
         $filter1 = FilterBuilder::begin()
             ->setId("Filter1")
             ->setType(Filter::TYPE_STATIC)
-            ->setFieldName('MyObject.Column1')
+            ->setFieldName('MyObject.Id')
             ->setCondition(FilterStatement::COND_SORT_ASC)
             ->build();
 
@@ -369,7 +456,7 @@ class FilterTest extends TestCase
             ->setNextFilter($filter1)
             ->setId("Filter2")
             ->setType(Filter::TYPE_STATIC)
-            ->setFieldName('MyObject.Column2')
+            ->setFieldName('MyObject.MyObjectId')
             ->setCondition(FilterStatement::COND_SORT_DESC)
             ->build();
 
@@ -377,11 +464,11 @@ class FilterTest extends TestCase
             ->method('orderBy')
             ->withConsecutive(
                 [
-                    $this->equalTo('MyObject.Column1'),
+                    $this->equalTo('MyObject.Id'),
                     $this->equalTo(FilterStatement::COND_SORT_ASC)
                 ],
                 [
-                    $this->equalTo('MyObject.Column2'),
+                    $this->equalTo('MyObject.MyObjectId'),
                     $this->equalTo(FilterStatement::COND_SORT_DESC)
                 ]
             );
@@ -395,7 +482,7 @@ class FilterTest extends TestCase
         $filter1 = FilterBuilder::begin()
             ->setId("Filter1")
             ->setType(Filter::TYPE_STATIC)
-            ->setFieldName("MyObject.Column1")
+            ->setFieldName("MyObject.Id")
             ->setCondition(FilterStatement::COND_SORT_ASC)
             ->build();
 
@@ -422,7 +509,7 @@ class FilterTest extends TestCase
         $this->query->expects($this->once())
             ->method('orderBy')
             ->with(
-                $this->equalTo('MyObject.Column1'),
+                $this->equalTo('MyObject.Id'),
                 $this->equalTo(FilterStatement::COND_SORT_ASC)
             );
 

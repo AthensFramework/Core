@@ -21,7 +21,7 @@ class MockObjectWrapper extends AbstractObjectWrapper implements ObjectWrapperIn
         $pascalCasedObjectName = str_replace(' ', '', ucwords($object->getTitleCasedName()));
 
         $this->keys = [];
-        foreach ($object->getTitleCasedColumnNames() as $columnName) {
+        foreach ($object->getUnqualifiedTitleCasedColumnNames() as $columnName) {
             $this->keys[] = "$pascalCasedObjectName." . str_replace(' ', '', ucwords($columnName));
         }
     }
@@ -63,7 +63,7 @@ class MockObjectWrapper extends AbstractObjectWrapper implements ObjectWrapperIn
     {
         return array_combine(
             $this->keys,
-            $this->object->getTitleCasedColumnNames()
+            $this->object->getUnqualifiedTitleCasedColumnNames()
         );
     }
     
@@ -74,7 +74,7 @@ class MockObjectWrapper extends AbstractObjectWrapper implements ObjectWrapperIn
 
     public function getPrimaryKey()
     {
-        return $this->object->pk;
+        return $this->object->getPrimaryKey();
     }
     
     public function fillFromFields(array $fields)
@@ -84,6 +84,6 @@ class MockObjectWrapper extends AbstractObjectWrapper implements ObjectWrapperIn
 
     public function __toString()
     {
-        return array_values($this->object->getValues())[0];
+        return array_values($this->object->getValues())[2];
     }
 }

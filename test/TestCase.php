@@ -20,14 +20,24 @@ class TestCase extends PHPUnit_Framework_TestCase
             1 => $this->createMock(MockObject::class),
         ];
 
-        foreach ($this->instances as $instance) {
+        foreach ($this->instances as $key => $instance) {
             $instance->method('getTitleCasedName')->willReturn('My Object');
-            $instance->method('getTitleCasedColumnNames')->willReturn(['Column 1', 'Column 2']);
+            $instance->method('getUnqualifiedTitleCasedColumnNames')
+                ->willReturn(
+                    [
+                        'Id', 'My Object Id', 'Value'
+                    ]
+                );
             $instance->method('getQualifiedPascalCasedColumnNames')
-                ->willReturn(['MyObject.Column1', 'MyObject.Column2']);
-            $instance->method('getValues')->willReturn(['Value 1', 'Value 2']);
+                ->willReturn(
+                    [
+                        'MyObject.Id', 'MyObject.MyObjectId', 'MyObject.Value'
+                    ]
+                );
+            $instance->method('getValues')->willReturn([$key, $key + 1, "Object #$key"]);
             $instance->method('fillFromFields')->willReturn($instance);
             $instance->method('save')->willReturn($instance);
+            $instance->method('getPrimaryKey')->willReturn($key);
         }
 
         $instanceMap = [
@@ -47,7 +57,20 @@ class TestCase extends PHPUnit_Framework_TestCase
         $this->query->method('getTitleCasedObjectName')->willReturn('My Object');
         $this->query->method('getPascalCasedObjectName')->willReturn('MyObject');
         $this->query->method('getQualifiedPascalCasedColumnNames')
-            ->willReturn(['MyObject.Column1', 'MyObject.Column2']);
-        $this->query->method('getUnqualifiedTitleCasedColumnNames')->willReturn(['Column 1', 'Column 2']);
+            ->willReturn(
+                [
+                    'MyObject.Id' => 'MyObject.Id',
+                    'MyObject.MyObjectId' => 'MyObject.MyObjectId',
+                    'MyObject.Value' => 'MyObject.Value',
+                ]
+            );
+        $this->query->method('getUnqualifiedTitleCasedColumnNames')
+            ->willReturn(
+                [
+                    'MyObject.Id' => 'Id',
+                    'MyObject.MyObjectId' => 'My Object Id',
+                    'MyObject.Value' => 'Value',
+                ]
+            );
     }
 }
