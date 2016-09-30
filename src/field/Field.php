@@ -336,7 +336,7 @@ class Field implements FieldInterface
     public function setInitial($value)
     {
         if ($value instanceof DateTime) {
-            $value = new DateTimeWrapper($value->format('Y-m-d'));
+            $value = new DateTimeWrapper($value->format('c'));
         }
 
         $this->initial = $value;
