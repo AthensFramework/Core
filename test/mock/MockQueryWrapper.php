@@ -15,9 +15,9 @@ class MockQueryWrapper extends AbstractQueryWrapper implements QueryWrapperInter
         $this->query = $query;
     }
 
-    public function findOneByPk($pk)
+    public function findOneByPrimaryKey($primaryKeyValue)
     {
-        return $this->query->findOneByPk($pk);
+        return $this->query->findOneByPk($primaryKeyValue);
     }
     
     public function find()

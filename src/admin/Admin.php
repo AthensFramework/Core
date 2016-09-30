@@ -173,7 +173,7 @@ class Admin extends Page
 
 
         if ($objectId !== null) {
-            $object = $this->getQuery()->findOneByPk($objectId);
+            $object = $this->getQuery()->findOneByPrimaryKey($objectId);
         } elseif ($createOnNoId === true) {
             $object = $this->getQuery()->createObject();
         }

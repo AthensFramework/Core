@@ -16,20 +16,20 @@ interface QueryWrapperInterface extends ORMWrapperInterface
     const ORDER_DESCENDING = 'descending';
 
     /**
-     * @param mixed $pk
-     * @return ObjectWrapperInterface
+     * @param mixed $primaryKeyValue
+     * @return ObjectWrapperInterface|null
      */
-    public function findOneByPk($pk);
+    public function findOneByPrimaryKey($primaryKeyValue);
 
     /**
-     * @return ObjectWrapperInterface[]
+     * @return CollectionWrapperInterface
      */
     public function find();
 
     /**
      * @param string $columnName
      * @param mixed  $condition
-     * @return ObjectWrapperInterface
+     * @return QueryWrapperInterface
      */
     public function orderBy($columnName, $condition);
 
