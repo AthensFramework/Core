@@ -35,7 +35,7 @@ interface QueryWrapperInterface extends ORMWrapperInterface
 
     /**
      * @param string $columnName
-     * @param mixed $value
+     * @param mixed  $value
      * @param string $condition
      * @return QueryWrapperInterface
      */
