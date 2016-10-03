@@ -3,10 +3,12 @@
 namespace Athens\Core\ORMWrapper;
 
 use ArrayAccess;
-use IteratorAggregate;
+use Iterator;
 use Countable;
 
-interface CollectionWrapperInterface extends ArrayAccess, IteratorAggregate, Countable
+interface CollectionWrapperInterface extends ArrayAccess, Iterator, Countable
 {
+    public function save();
 
+    public function delete();
 }
