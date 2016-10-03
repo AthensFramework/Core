@@ -98,24 +98,18 @@ class RelationFilter extends SelectFilter
                     break;
                 case static::ANY:
                     $query = $query->filterBy(
-                        $fieldName,
-                        null,
-                        QueryWrapperInterface::CONDITION_NOT_EQUAL
+                        $fieldName, QueryWrapperInterface::CONDITION_NOT_EQUAL, null
                     );
                     break;
                 case static::NONE:
                     $query = $query->filterBy(
-                        $fieldName,
-                        null,
-                        QueryWrapperInterface::CONDITION_EQUAL
+                        $fieldName, QueryWrapperInterface::CONDITION_EQUAL, null
                     );
                     break;
                 default:
                     $relation = $this->relations[$choice];
                     $query = $query->filterBy(
-                        $fieldName,
-                        $relation->getPrimaryKey(),
-                        QueryWrapperInterface::CONDITION_EQUAL
+                        $fieldName, QueryWrapperInterface::CONDITION_EQUAL, $relation->getPrimaryKey()
                     );
                     break;
             }

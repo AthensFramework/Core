@@ -20,7 +20,7 @@ class ExcludingFilterStatement extends FilterStatement
      */
     public function applyToQuery(QueryWrapperInterface $query)
     {
-        return $query->filterBy($this->fieldName, $this->condition, $this->criterion);
+        return $query->filterBy($this->fieldName, $this->criterion, $this->condition);
     }
 
     /**

@@ -43,9 +43,9 @@ class MockQueryWrapper extends AbstractQueryWrapper implements QueryWrapperInter
         return $this;
     }
     
-    public function filterBy($fieldName, $criteria, $criterion)
+    public function filterBy($columnName, $value, $condition = QueryWrapperInterface::CONDITION_EQUAL)
     {
-        $this->query->filterBy($fieldName, $criteria, $criterion);
+        $this->query->filterBy($columnName, $condition, $value);
 
         return $this;
     }

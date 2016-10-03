@@ -35,11 +35,11 @@ interface QueryWrapperInterface extends ORMWrapperInterface
 
     /**
      * @param string $columnName
-     * @param string $criteria
-     * @param mixed  $criterion
+     * @param mixed $value
+     * @param string $condition
      * @return QueryWrapperInterface
      */
-    public function filterBy($columnName, $criteria, $criterion);
+    public function filterBy($columnName, $value, $condition = QueryWrapperInterface::CONDITION_EQUAL);
 
     /**
      * @param integer $offset
