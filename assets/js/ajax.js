@@ -26,7 +26,9 @@ athens.ajax = (function () {
             {
                 type: "POST",
                 url: url,
-                data: postVars
+                data: postVars,
+                processData:false,
+                contentType:false,
             }
         )
             .done(doneFunction)
@@ -46,28 +48,13 @@ athens.ajax = (function () {
             return fieldName.indexOf("[]") !== -1;
         };
 
-        formVars = $(form).serializeArray();
+        postVars = new FormData(form[0]);
         url = $(form).data("request-uri");
         formId = $(form).attr('id');
 
-        postVars = {};
-        for (var i = 0; i < formVars.length; i++) {
-            if (formVars[i].value) {
-                fieldName = formVars[i].name;
+        postVars.append('csrf_token', CSRFTOKEN);
 
-                if (isMultipleChoiceFieldName(fieldName)) {
-                    fieldName = fieldName.replace("[]", "");
-
-                    if (!postVars.hasOwnProperty(fieldName)) {
-                        postVars[fieldName] = [];
-                    }
-
-                    postVars[fieldName].push(formVars[i].value);
-                } else {
-                    postVars[fieldName] = formVars[i].value;
-                }
-            }
-        }
+        $(form).css("opacity", 0.7).append("<div class='loading-gif class-loader'></div>");
 
         doneFunction = function (msg) {
             var formResult, hasErrors;
@@ -88,7 +75,7 @@ athens.ajax = (function () {
                             athens.alert.makeAlert("Form submitted.", "success");
                             formResult = $("<div>" + getMsg + "</div>").find("#" + formId);
                             $(form).replaceWith(formResult);
-                            document.getElementById(formId).scrollIntoView();
+                            // document.getElementById(formId).scrollIntoView();
                             successCallback();
                             athens.ajax_section.doPostSectionActions();
                         }
@@ -102,7 +89,7 @@ athens.ajax = (function () {
                 athens.alert.makeAlert("Unexpected error: " + err.message + ". More detail may be available in the network response.", "error");
             }
         };
-
+        athens.alert.makeAlert("Submitting form.", "info");
         call(url, postVars, successCallback, doneFunction);
     }
 

@@ -1,7 +1,7 @@
-<span class="multiple-choice-field {{ classes|join(' ') }}" {{ data|writedata|raw }}>
+<span {% if id %}id="{{ id }}"{% endif %} class="multiple-choice-field {{ classes|join(' ') }}" {{ data|writedata|raw }} {{ initial|length }}>
     <select class="form-control"  name="{{ slug }}[]" multiple>
         {% for choiceSlug, choice in choices %}
-            <option value="{{ choiceSlug }}" {% if choice.getValue in initial %}selected{% endif %}> {{ choice.getValue }} </option>
+            <option value="{{ choiceSlug }}" {{ choice.getData|writedata|raw }} {% if choice.getValue in initial %}selected{% endif %}> {{ choice.getValue }} </option>
         {% endfor %}
     </select>
 </span>
