@@ -272,7 +272,7 @@ class HTMLWriter extends AbstractWriter
             ->loadTemplate($template)
             ->render(
                 [
-                    "hash" => $field->getId(),
+                    "id" => $field->getId(),
                     "classes" => $field->getClasses(),
                     "data" => $field->getData(),
                     "slug" => $field->getSlug(),
