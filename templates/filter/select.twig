@@ -1,8 +1,8 @@
 <div class="select-container" data-handle-for="{{ id }}">
 
     <select data-handle-for="{{ id }}">
-        {% for option in options %}
-            <option value="{{ option }}">{{ option }}</option>
+        {% for key, option in options %}
+            <option value="{{ key }}">{{ option }}</option>
         {% endfor %}
     </select>
 
