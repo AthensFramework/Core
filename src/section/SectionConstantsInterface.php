@@ -12,4 +12,5 @@ interface SectionConstantsInterface
     const TYPE_HEADER = 'header';
     const TYPE_SUBHEADER = 'subheader';
     const TYPE_BREAK = 'break';
+    const TYPE_LABEL = 'label';
 }
