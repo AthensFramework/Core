@@ -57,7 +57,7 @@ abstract class AbstractBuilder
         $objectWrapperClass = $this->getSettingsInstance()->getDefaultObjectWrapperClass();
 
         if (($object instanceof $objectWrapperClass) === false) {
-            $object = new $objectWrapperClass($object);
+            $object = $objectWrapperClass::fromObject($object);
         }
 
         return $object;
