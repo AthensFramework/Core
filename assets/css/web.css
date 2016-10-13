@@ -238,9 +238,7 @@ p.filter-feedback {
     font-weight:800;
 }
 
-div.filter-controls div.pagination-container,
-div.filter-controls div.sort-container,
-div.filter-controls div.search-container {
+div.filter-controls {
     display:none;
 }
 
@@ -262,7 +260,7 @@ span.multiple-choice-field input[type=checkbox] {
 }
 
 textarea {
-    width:95%;
+    margin-bottom:5px;
 }
 
 textarea.disabled, input.disabled {
@@ -538,7 +536,7 @@ button.form-action, input.form-action {
 div.breadcrumbs-container {
     min-width:500px;
     position:relative;
-    margin:10px auto 50px;
+    margin:10px auto 0px;
 }
 
 tr.highlightable:hover {
@@ -553,12 +551,16 @@ tr.highlightable {
     cursor: pointer;
 }
 
-label.field-label::after {
+label.field-label::not(.empty)::after {
     content: ":";
 }
 
 label.field-label.required::after {
     content: "*:";
+}
+
+form.inline label.field-label {
+    display:inline;
 }
 
 #object-manager-table td {
