@@ -39,8 +39,8 @@ athens.select = (function () {
 
         activeControls.change(
             function () {
-                var selectedText = $(this).find("option:selected").text();
-                athens.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedText));
+                var selectedValue = $(this).find("option:selected").val();
+                athens.ajax_section.registerGetVar(getVar(ajaxSectionName, handle, 'value', selectedValue));
                 athens.ajax_section.loadSection(ajaxSectionName);
             }
         );
