@@ -4,6 +4,7 @@ namespace Athens\Core\Filter;
 
 use Athens\Core\ORMWrapper\QueryWrapperInterface;
 use Athens\Core\Row\RowInterface;
+use Athens\Core\Settings\Settings;
 
 /**
  * Class DummyFilter Filter class to sit at the end of a chain of filters. Provides no filtering.
@@ -35,6 +36,10 @@ class DummyFilter extends Filter
      */
     public function queryFilter(QueryWrapperInterface $query)
     {
+        if ($query instanceof QueryWrapperInterface === false) {
+            $queryWrapperClass = Settings::getInstance()->getDefaultQueryWrapperClass();
+            $query = new $queryWrapperClass($query);
+        }
         return $query;
     }
 

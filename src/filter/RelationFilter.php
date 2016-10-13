@@ -26,6 +26,8 @@ class RelationFilter extends SelectFilter
     /** @var string */
     protected $relationName = '';
 
+    protected $default;
+
     /**
      * @param string                $id
      * @param string[]              $classes
@@ -50,10 +52,17 @@ class RelationFilter extends SelectFilter
         foreach ($relations as $relation) {
             $relationKeys[] = $this->makeRelationKey($relation);
         }
-        
-        $this->relations = array_combine($relationKeys, $relations);
 
-        $this->options = array_merge([$default, ''], $relationKeys, [static::ALL, static::ANY, static::NONE]);
+        $relationNames = [];
+        foreach ($relations as $relation) {
+            $relationNames[] = (string)$relation;
+        }
+        
+        $this->relations = array_combine($relationNames, iterator_to_array($relations));
+
+        $relationOptions = array_combine($relationKeys, $relationNames);
+
+        $this->options = array_merge([$default, ''], $relationOptions, [static::ALL, static::ANY, static::NONE]);
 
         if ($nextFilter === null) {
             $this->nextFilter = new DummyFilter();
@@ -90,7 +99,8 @@ class RelationFilter extends SelectFilter
 
         if ($this->canQueryFilter === true) {
             $query = $this->getNextFilter()->queryFilter($query);
-            $choice = FilterControls::getControl($this->id, "value", $this->options[0]);
+            $choiceKey = FilterControls::getControl($this->id, "value", array_keys($this->options)[0]);
+            $choice = $this->options[$choiceKey];
             $fieldName = array_search("{$this->relationName}Id", $query->getUnqualifiedPascalCasedColumnNames());
 
             switch ($choice) {
@@ -99,23 +109,23 @@ class RelationFilter extends SelectFilter
                 case static::ANY:
                     $query = $query->filterBy(
                         $fieldName,
-                        QueryWrapperInterface::CONDITION_NOT_EQUAL,
-                        null
+                        null,
+                        QueryWrapperInterface::CONDITION_NOT_EQUAL
                     );
                     break;
                 case static::NONE:
                     $query = $query->filterBy(
                         $fieldName,
-                        QueryWrapperInterface::CONDITION_EQUAL,
-                        null
+                        null,
+                        QueryWrapperInterface::CONDITION_EQUAL
                     );
                     break;
                 default:
                     $relation = $this->relations[$choice];
                     $query = $query->filterBy(
                         $fieldName,
-                        QueryWrapperInterface::CONDITION_EQUAL,
-                        $relation->getPrimaryKey()
+                        $relation->getPrimaryKey(),
+                        QueryWrapperInterface::CONDITION_EQUAL
                     );
                     break;
             }
@@ -126,13 +136,10 @@ class RelationFilter extends SelectFilter
 
     /**
      * @param RowInterface[] $rows
-     * @throws Exception if try to row filter.
-     * @return void
+     * @return RowInterface[]
      */
     public function rowFilter(array $rows)
     {
-        throw new Exception(
-            "Class RelationFilter cannot filter by rows. Try moving this filter higher in the filter stack."
-        );
+        return $rows;
     }
 }
