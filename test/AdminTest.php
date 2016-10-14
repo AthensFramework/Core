@@ -104,8 +104,8 @@ class AdminTest extends TestCase
 
         $this->collection->method('current')->will(
             $this->onConsecutiveCalls(
-                new MockObjectWrapper($this->instances[0]),
-                new MockObjectWrapper($this->instances[1])
+                MockObjectWrapper::fromObject($this->instances[0]),
+                MockObjectWrapper::fromObject($this->instances[1])
             )
         );
 

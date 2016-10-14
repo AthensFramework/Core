@@ -27,7 +27,7 @@ class MockQueryWrapper extends AbstractQueryWrapper implements QueryWrapperInter
 
     public function createObject()
     {
-        return new MockObjectWrapper(new MockObject($this->query->titleCasedObjectName, [], null, []));
+        return MockObjectWrapper::fromObject(new MockObject($this->query->titleCasedObjectName, [], null, []));
     }
 
     public function orderBy($fieldName, $criteria)

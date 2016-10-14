@@ -14,7 +14,7 @@ class MockObjectWrapper extends AbstractObjectWrapper implements ObjectWrapperIn
     /** @var string[] */
     protected $keys;
     
-    public function __construct(MockObject $object)
+    protected function __construct($object)
     {
         $this->object = $object;
 
@@ -29,6 +29,10 @@ class MockObjectWrapper extends AbstractObjectWrapper implements ObjectWrapperIn
     public static function fromObject($object)
     {
         return new static($object);
+    }
+
+    public function getObject()
+    {
     }
 
     public function save()
