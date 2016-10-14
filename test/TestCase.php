@@ -2,16 +2,19 @@
 
 namespace Athens\Core\Test;
 
+use Athens\Core\Test\Mock\MockCollectionWrapper;
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Test\Mock\MockObject;
 use Athens\Core\Test\Mock\MockQuery;
+use Athens\Core\Test\Mock\MockObjectWrapper;
 
 class TestCase extends PHPUnit_Framework_TestCase
 {
     /** @var MockObject[] */
     protected $instances;
     protected $query;
+    protected $collection;
     
     protected function createORMFixtures()
     {
@@ -21,7 +24,8 @@ class TestCase extends PHPUnit_Framework_TestCase
         ];
 
         foreach ($this->instances as $key => $instance) {
-            $instance->method('getTitleCasedName')->willReturn('My Object');
+            $instance->method('getTitleCasedObjectName')->willReturn('My Object');
+            $instance->method('getPascalCasedObjectName')->willReturn('MyObject');
             $instance->method('getUnqualifiedTitleCasedColumnNames')
                 ->willReturn(
                     [
@@ -46,13 +50,15 @@ class TestCase extends PHPUnit_Framework_TestCase
             [2, null],
         ];
 
+        $this->collection = $this->createMock(MockCollectionWrapper::class);
+
         $this->query = $this->createMock(MockQuery::class);
 
         $this->query->method('orderBy')->willReturn($this->query);
         $this->query->method('filterBy')->willReturn($this->query);
         $this->query->method('offset')->willReturn($this->query);
         $this->query->method('limit')->willReturn($this->query);
-        $this->query->method('find')->willReturn($this->instances);
+        $this->query->method('find')->willReturn($this->collection);
         $this->query->method('findOneByPk')->willReturnMap($instanceMap);
         $this->query->method('getTitleCasedObjectName')->willReturn('My Object');
         $this->query->method('getPascalCasedObjectName')->willReturn('MyObject');

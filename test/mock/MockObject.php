@@ -44,9 +44,12 @@ class MockObject
         return $this->titleCasedColumnNames;
     }
     
-    public function getTitleCasedName()
+    public function getTitleCasedObjectName()
     {
-        return $this->titleCasedName;
+    }
+    
+    public function getPascalCasedObjectName()
+    {
     }
 
     public function getQualifiedPascalCasedColumnNames()

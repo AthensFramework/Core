@@ -10,8 +10,7 @@ use Athens\Core\Field\FieldInterface;
 use Athens\Core\Form\FormInterface;
 use Athens\Core\Table\TableInterface;
 
-use Athens\Core\Test\Mock\MockObject;
-use Athens\Core\Test\Mock\MockQuery;
+use Athens\Core\Test\Mock\MockObjectWrapper;
 
 class AdminTest extends TestCase
 {
@@ -99,6 +98,17 @@ class AdminTest extends TestCase
 
     public function testTableMode()
     {
+        $this->collection->method('valid')->will(
+            $this->onConsecutiveCalls(true, true, false)
+        );
+
+        $this->collection->method('current')->will(
+            $this->onConsecutiveCalls(
+                new MockObjectWrapper($this->instances[0]),
+                new MockObjectWrapper($this->instances[1])
+            )
+        );
+
         $_GET['mode'] = Admin::MODE_TABLE;
         $_SERVER['REQUEST_URI'] = '.';
 

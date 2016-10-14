@@ -17,6 +17,7 @@ use Athens\Core\Field\Field;
 use Athens\Core\Filter\RelationFilter;
 
 use Athens\Core\Test\Mock\MockQueryWrapper;
+use Athens\Core\Test\Mock\MockObjectWrapper;
 
 class FilterTest extends TestCase
 {
@@ -214,7 +215,9 @@ class FilterTest extends TestCase
 
         $this->query->expects($this->never())->method("filterBy");
 
-        $_GET['test-relation-filter-value'] = RelationFilter::ALL;
+        $key = array_search(RelationFilter::ALL, $filter->getOptions());
+
+        $_GET['test-relation-filter-value'] = (string)$key;
         $filter->queryFilter(new MockQueryWrapper($this->query));
 
         unset($_GET['test-relation-filter-value']);
@@ -233,11 +236,13 @@ class FilterTest extends TestCase
             ->method("filterBy")
             ->with(
                 $this->equalTo('MyObject.MyObjectId'),
-                $this->equalTo(null),
-                $this->equalTo(QueryWrapperInterface::CONDITION_NOT_EQUAL)
+                $this->equalTo(QueryWrapperInterface::CONDITION_NOT_EQUAL),
+                $this->equalTo(null)
             );
 
-        $_GET['test-relation-filter-value'] = RelationFilter::ANY;
+        $key = array_search(RelationFilter::ANY, $filter->getOptions());
+
+        $_GET['test-relation-filter-value'] = (string)$key;
         $filter->queryFilter(new MockQueryWrapper($this->query));
 
         unset($_GET['test-relation-filter-value']);
@@ -256,11 +261,13 @@ class FilterTest extends TestCase
             ->method("filterBy")
             ->with(
                 $this->equalTo('MyObject.MyObjectId'),
-                $this->equalTo(null),
-                $this->equalTo(QueryWrapperInterface::CONDITION_EQUAL)
+                $this->equalTo(QueryWrapperInterface::CONDITION_EQUAL),
+                $this->equalTo(null)
             );
 
-        $_GET['test-relation-filter-value'] = RelationFilter::NONE;
+        $key = array_search(RelationFilter::NONE, $filter->getOptions());
+
+        $_GET['test-relation-filter-value'] = (string)$key;
         $filter->queryFilter(new MockQueryWrapper($this->query));
 
         unset($_GET['test-relation-filter-value']);
@@ -268,6 +275,17 @@ class FilterTest extends TestCase
 
     public function testRelationFilterByRelation()
     {
+        $this->collection->method('valid')->will(
+            $this->onConsecutiveCalls(true, true, false)
+        );
+
+        $this->collection->method('current')->will(
+            $this->onConsecutiveCalls(
+                new MockObjectWrapper($this->instances[0]),
+                new MockObjectWrapper($this->instances[1])
+            )
+        );
+
         $filter = FilterBuilder::begin()
             ->setId('test-relation-filter')
             ->setType(Filter::TYPE_RELATION)
@@ -279,30 +297,14 @@ class FilterTest extends TestCase
             ->method("filterBy")
             ->with(
                 $this->equalTo('MyObject.MyObjectId'),
-                $this->equalTo(null),
-                $this->equalTo(QueryWrapperInterface::CONDITION_EQUAL)
+                $this->equalTo(QueryWrapperInterface::CONDITION_EQUAL),
+                $this->equalTo(null)
             );
-
+        
         $_GET['test-relation-filter-value'] = base64_encode($this->instances[0]->getPrimaryKey());
         $filter->queryFilter(new MockQueryWrapper($this->query));
 
         unset($_GET['test-relation-filter-value']);
-    }
-
-    /**
-     * @expectedException              Exception
-     * @expectedExceptionMessageRegExp #Class RelationFilter cannot filter by rows.*#
-     */
-    public function testRelationFilterWontFilterByRow()
-    {
-        $filter = FilterBuilder::begin()
-            ->setId('test-relation-filter')
-            ->setType(Filter::TYPE_RELATION)
-            ->setQuery($this->query)
-            ->setDefault(RelationFilter::ALL)
-            ->build();
-
-        $filter->rowFilter([]);
     }
 
     public function testBuildPaginationFilterUsesPaginateSetting()

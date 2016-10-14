@@ -26,6 +26,7 @@ class RelationFilter extends SelectFilter
     /** @var string */
     protected $relationName = '';
 
+    /** @var string */
     protected $default;
 
     /**
@@ -48,19 +49,14 @@ class RelationFilter extends SelectFilter
 
         $relations = $query->find();
 
-        $relationKeys = [];
+        $relationOptions = [];
         foreach ($relations as $relation) {
-            $relationKeys[] = $this->makeRelationKey($relation);
-        }
+            $key = $this->makeRelationKey($relation);
+            $relationName = (string)$relation;
 
-        $relationNames = [];
-        foreach ($relations as $relation) {
-            $relationNames[] = (string)$relation;
+            $this->relations[$key] = $relation;
+            $relationOptions[$key] = $relationName;
         }
-        
-        $this->relations = array_combine($relationNames, iterator_to_array($relations));
-
-        $relationOptions = array_combine($relationKeys, $relationNames);
 
         $this->options = array_merge([$default, ''], $relationOptions, [static::ALL, static::ANY, static::NONE]);
 
@@ -100,6 +96,7 @@ class RelationFilter extends SelectFilter
         if ($this->canQueryFilter === true) {
             $query = $this->getNextFilter()->queryFilter($query);
             $choiceKey = FilterControls::getControl($this->id, "value", array_keys($this->options)[0]);
+
             $choice = $this->options[$choiceKey];
             $fieldName = array_search("{$this->relationName}Id", $query->getUnqualifiedPascalCasedColumnNames());
 
@@ -121,7 +118,7 @@ class RelationFilter extends SelectFilter
                     );
                     break;
                 default:
-                    $relation = $this->relations[$choice];
+                    $relation = $this->relations[array_search($choice, $this->options)];
                     $query = $query->filterBy(
                         $fieldName,
                         $relation->getPrimaryKey(),

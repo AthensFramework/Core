@@ -6,6 +6,7 @@ use Athens\Core\Field\FieldInterface;
 
 interface ObjectWrapperInterface extends ORMWrapperInterface
 {
+
     /**
      * @param mixed $object
      * @return ObjectWrapperInterface

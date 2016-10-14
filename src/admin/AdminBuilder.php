@@ -4,7 +4,7 @@ namespace Athens\Core\Admin;
 
 use Exception;
 
-use Propel\Runtime\ActiveQuery\QueryWrapperInterface;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 
 use Athens\Core\Section\SectionBuilder;
 use Athens\Core\Page\PageBuilder;

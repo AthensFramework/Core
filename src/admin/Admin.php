@@ -278,7 +278,7 @@ class Admin extends Page
         $object = $this->getObjectOr404(true);
 
         /** @var string $className */
-        $className = $object->getTitleCasedObjectName();
+        $className = $this->getQuery()->getTitleCasedObjectName();
 
         /** @var string $tableName */
         $tableName = StringUtils::slugify($className);
@@ -331,7 +331,7 @@ class Admin extends Page
         $formBuilder = FormBuilder::begin()
             ->setId('object-manager-detail-form')
             ->addObject($object)
-            ->removeWritable($object->getPascalCasedObjectName() . '.Id')  // TODO: Make general way of getting primary key field name
+            ->removeWritable($object->getPascalCasedObjectName() . '.Id')
             ->addAction($submitAction);
 
         if ($idWasProvided === true) {

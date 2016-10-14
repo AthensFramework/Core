@@ -117,7 +117,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
             $this->assertContains("value={$keys[1]}", $result);
 
         // Assert that the "initial" choice is selected
-            $this->assertContains("value={$keys[1]} selected", $result);
+            $this->assertContains("value={$keys[1]}  selected", $result);
 
         /* A text field */
             $field = new Field(
@@ -341,7 +341,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("data-request-uri=$requestURI", $result);
         $this->assertContains("data-field-for=a-literal-field", $result);
         $this->assertContains("A literal field", $result);
-        $this->assertContains("<label for=a-literal-field class=field-label required>", $result);
+        $this->assertContains("<label for=a-literal-field class=field-label required >", $result);
         $this->assertContains("Literal field content", $result);
         $this->assertContains("data-field-for=a-text-field", $result);
         $this->assertContains("A text field", $result);
@@ -397,7 +397,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitFormAction($ajaxSubmitAction));
 
-        $this->assertContains("onclick=athens.ajax.AjaxSubmitForm($(this).nearest(form));", $result);
+        $this->assertContains("onclick=athens.ajax.AjaxSubmitForm($(this).closest(form));", $result);
         $this->assertContains(">$label</button>", $result);
     }
     

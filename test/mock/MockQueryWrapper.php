@@ -22,13 +22,7 @@ class MockQueryWrapper extends AbstractQueryWrapper implements QueryWrapperInter
     
     public function find()
     {
-        $objects = $this->query->find();
-
-        foreach ($objects as $key => $object) {
-            $objects[$key] = new MockObjectWrapper($object);
-        }
-
-        return $objects;
+        return $this->query->find();
     }
 
     public function createObject()
