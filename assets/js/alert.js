@@ -5,8 +5,8 @@ athens.alert = (function () {
      *
      * @param {string} message The message to be displayed on the alert.
      * @param {string} type The type of the message, likely "success", or "failure".
-     * @param {number} duration How long to leave the alert displayed, in milliseconds.
-     * @param {number} delay How long to wait to display the alert, in milliseconds.
+     * @param {number} [duration] How long to leave the alert displayed, in milliseconds.
+     * @param {number} [delay] How long to wait to display the alert, in milliseconds.
      */
     var makeAlert = function (message, type, duration, delay) {
     

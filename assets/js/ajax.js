@@ -1,101 +1,189 @@
 athens.ajax = (function () {
 
-    var defaultSuccessCallback = function () {};
-
-    var call = function (url, postVars, successCallback, doneFunction) {
-        var defaultPostVars = []
-        var defaultDoneFunction = function (msg) {
-            try {
-                msg = JSON.parse(msg);
-                athens.alert.makeAlert(msg.message, msg.status);
-                if (msg.status === "success") {
-                    successCallback(msg);
-                }
-            } catch (err) {
-                athens.alert.makeAlert("Unexpected error: " + err.message + ". More detail may be available in the network response.", "error");
-            }
-        };
-
-        postVars = postVars || defaultPostVars;
-        successCallback = successCallback || defaultSuccessCallback;
-        doneFunction = doneFunction || defaultDoneFunction;
-
-        postVars.csrf_token = CSRFTOKEN;
-
-        $.ajax(
-            {
-                type: "POST",
-                url: url,
-                data: postVars,
-                processData:false,
-                contentType:false,
-            }
-        )
-            .done(doneFunction)
-            .fail(
-                function (msg) {
-                    athens.alert.makeAlert(msg, "error");
-                }
-            );
+    /**
+     * Private method which encapsulates retrieving the CSRFTOKEN global.
+     *
+     * @returns {string}
+     */
+    var getCSRFToken = function() {
+        return CSRFTOKEN;
     };
 
-    function AjaxSubmitForm(form, successCallback)
+    /**
+     * Make an Ajax call.
+     *
+     * @param {string} url
+     * @param {string} type
+     * @param {object} [settings={}]
+     * @param {object} [data={}]
+     * @param {function} [done]
+     * @param {function} [fail]
+     * @returns {jqXHR}
+     */
+    var call = function (url, type, settings, data, done, fail) {
+        if (typeof(settings) === 'undefined') {
+            settings = {};
+        }
+
+        if (typeof(data) === 'undefined') {
+            data = {};
+        }
+
+        if (typeof(done) === 'undefined') {
+            done = function() {};
+        }
+
+        if (typeof(fail) === 'undefined') {
+            fail = function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                athens.alert.makeAlert('Unexpected error. More detail may be available in the console or network response.', "error");
+            }
+        }
+
+        settings.url = url;
+        settings.type = type;
+        settings.data = data;
+        settings.done = done;
+        settings.fail = fail;
+
+        return $.ajax(settings);
+    };
+
+    /**
+     * GET via Ajax.
+     *
+     * @param {string} url
+     * @param {object} [data={}]
+     * @param {function} [done]
+     * @param {function} [fail]
+     * @returns {jqXHR}
+     */
+    var get = function (url, data, done, fail) {
+        if (typeof(data) === 'undefined') {
+            data = {};
+        }
+
+        if (typeof(fail) === 'undefined') {
+            fail = function (jqXHR, textStatus, errorThrown) {};
+        }
+
+        if (typeof(done) === 'undefined') {
+            done = function (data, textStatus, jqXHR) {};
+        }
+
+        return call(url, 'GET', {}, data, done, fail)
+    };
+
+    /**
+     * POST data via Ajax.
+     *
+     * @param {string} url
+     * @param {object} [data={}]
+     * @param {function} [done]
+     * @param {function} [fail]
+     * @returns {jqXHR}
+     */
+    var post = function (url, data, done, fail) {
+        if (typeof(data) === 'undefined') {
+            data = {};
+        }
+
+        if (typeof(fail) === 'undefined') {
+            fail = function (jqXHR, textStatus, errorThrown) {};
+        }
+
+        if (typeof(done) === 'undefined') {
+            done = function (data, textStatus, jqXHR) {
+                try {
+                    data = JSON.parse(data);
+                    athens.alert.makeAlert(data.message, data.status);
+                    if (data.status === "success") {
+                        success(data);
+                    }
+                } catch (err) {
+                    console.log(err.message);
+                    athens.alert.makeAlert("Unexpected error. More detail may be available in the console or network response.", "error");
+                }
+            };
+        }
+
+        return call(url, 'POST', {'csrf_token': getCSRFToken}, data, done, fail)
+    };
+
+    /**
+     * Submit a form, via Ajax. Replace the submitted form on the page with the result.
+     *
+     * If a form has errors, then the form (with error messages) will be displayed to
+     * the user.
+     *
+     * If a form does not have errors, then `submitForm` will issue an additional GET
+     * request for the form and display the result of *that* request in place of the
+     * submitted form.
+     *
+     * @param {element} form
+     * @param {function} [success]
+     * @returns {jqXHR}
+     */
+    function submitForm(form, success)
     {
-        var formVars, url, formId, postVars, fieldName;
-        var doneFunction, isMultipleChoiceFieldName;
+        athens.alert.makeAlert("Submitting form.", "info");
 
-        isMultipleChoiceFieldName = function (fieldName) {
-            return fieldName.indexOf("[]") !== -1;
-        };
+        if (typeof(success) === 'undefined') {
+            success = function() {};
+        }
 
-        postVars = new FormData(form[0]);
-        url = $(form).data("request-uri");
-        formId = $(form).attr('id');
+        form = $(form);
 
-        postVars.append('csrf_token', CSRFTOKEN);
+        var url = form.data("request-uri");
 
-        $(form).css("opacity", 0.7).append("<div class='loading-gif class-loader'></div>");
+        var data = new FormData(form);
 
-        doneFunction = function (msg) {
-            var formResult, hasErrors;
+        var formId = form.attr('id');
 
+        var done = function (data, textStatus, jqXHR) {
             try {
-                formResult = $("<div>" + msg + "</div>").find("#" + formId);
-                hasErrors = formResult.hasClass("has-errors");
+                var formPOSTResult = $("<div>" + data + "</div>").find("#" + formId);
 
-                // TODO: Make form set fields to submitted on successful submit, eliminate this js hack
-                if (!hasErrors) {
+                var formHasErrors = formPOSTResult.hasClass("has-errors");
+
+                if (formHasErrors === true) {
+                    $(form).replaceWith(formPOSTResult);
+
+                    athens.alert.makeAlert("Form has errors.", "error");
+                } else {
                     $.ajax(
                         {
                             type: "GET",
                             url: url
                         }
                     ).done(
-                        function (getMsg) {
+                        function (data, textStatus, jqXHR) {
+                            var formGETResult = $("<div>" + data + "</div>").find("#" + formId);
+
                             athens.alert.makeAlert("Form submitted.", "success");
-                            formResult = $("<div>" + getMsg + "</div>").find("#" + formId);
-                            $(form).replaceWith(formResult);
-                            // document.getElementById(formId).scrollIntoView();
-                            successCallback();
+                            $(form).replaceWith(formGETResult);
+                            success();
                             athens.ajax_section.doPostSectionActions();
                         }
                     );
-                } else {
-                    $(form).replaceWith(formResult);
-                    document.getElementById(formId).scrollIntoView();
-                    athens.alert.makeAlert("Form has errors.", "error");
                 }
             } catch (err) {
-                athens.alert.makeAlert("Unexpected error: " + err.message + ". More detail may be available in the network response.", "error");
+                console.log(err.message);
+                athens.alert.makeAlert("Unexpected error. More detail may be available in the console or network response.", "error");
             }
         };
-        athens.alert.makeAlert("Submitting form.", "info");
-        call(url, postVars, successCallback, doneFunction);
+
+        $(form).css("opacity", 0.7).append("<div class='loading-gif class-loader'></div>");
+
+        data.append('csrf_token', CSRFTOKEN);
+
+        return call(url, 'post', {processData: false, contentType: false}, data, done, fail);
     }
 
     return {
-        call: call,
-        AjaxSubmitForm: AjaxSubmitForm
+        post: post,
+        get: get,
+        submitForm: submitForm
     };
 
 }());

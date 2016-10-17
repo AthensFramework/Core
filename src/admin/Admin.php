@@ -312,11 +312,10 @@ class Admin extends Page
             ->setTarget("
                 if (confirm('Are you sure you want to delete this object?')) {
                     athens.alert.makeAlert('Deleting object.', 'info');
-                    athens.ajax.call(
+                    athens.ajax.post(
                         '$deleteUrl',
                         {},
-                        function() {
-                        },
+                        function() {},
                         function() {
                             athens.alert.makeAlert('Object deleted', 'success');
                             athens.multi_panel.closePanel(1);
