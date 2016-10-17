@@ -397,7 +397,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Get result and strip quotes, for easier analysis
         $result = $this->stripQuotes($writer->visitFormAction($ajaxSubmitAction));
 
-        $this->assertContains("onclick=athens.ajax.AjaxSubmitForm($(this).closest(form));", $result);
+        $this->assertContains("onclick=athens.ajax.submitForm($(this).closest(form)[0]);", $result);
         $this->assertContains(">$label</button>", $result);
     }
     
