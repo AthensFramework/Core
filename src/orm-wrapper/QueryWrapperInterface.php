@@ -16,6 +16,12 @@ interface QueryWrapperInterface extends ORMWrapperInterface
     const ORDER_DESCENDING = 'descending';
 
     /**
+     * @param mixed $query
+     * @return QueryWrapperInterface
+     */
+    public static function fromQuery($query);
+
+    /**
      * @param mixed $primaryKeyValue
      * @return ObjectWrapperInterface|null
      */
