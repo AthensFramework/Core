@@ -20,8 +20,7 @@ abstract class AbstractObjectWrapper extends AbstractORMWrapper implements Objec
     {
         $hash = spl_object_hash($object);
 
-        if (
-               array_key_exists($hash, static::$hashTable) === true
+        if (array_key_exists($hash, static::$hashTable) === true
             && $object === static::$hashTable[$hash]->getObject()
         ) {
             return static::$hashTable[$hash];
