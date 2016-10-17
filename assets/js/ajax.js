@@ -5,7 +5,7 @@ athens.ajax = (function () {
      *
      * @returns {string}
      */
-    var getCSRFToken = function() {
+    var getCSRFToken = function () {
         return CSRFTOKEN;
     };
 
@@ -30,7 +30,7 @@ athens.ajax = (function () {
         }
 
         if (typeof(done) === 'undefined') {
-            done = function() {};
+            done = function () {};
         }
 
         if (typeof(fail) === 'undefined') {
@@ -129,7 +129,7 @@ athens.ajax = (function () {
         athens.alert.makeAlert("Submitting form.", "info");
 
         if (typeof(success) === 'undefined') {
-            success = function() {};
+            success = function () {};
         }
 
         form = $(form);
