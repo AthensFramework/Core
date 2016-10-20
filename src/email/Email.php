@@ -6,7 +6,7 @@ use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\Writable\WritableTrait;
 
 /**
- * Class Email encapsulates the data which consitutes an email.
+ * Class Email encapsulates the data which constitutes an email.
  *
  * @package Athens\Core\Email
  */
@@ -23,6 +23,9 @@ class Email implements EmailInterface
 
     /** @var string */
     protected $from;
+
+    /** @var string */
+    protected $replyTo;
 
     /** @var string */
     protected $cc;
@@ -50,18 +53,31 @@ class Email implements EmailInterface
      * @param string $message
      * @param string $to
      * @param string $from
+     * @param string $replyTo
      * @param string $cc
      * @param string $bcc
      * @param string $xMailer
      * @param string $contentType
      * @param string $mimeVersion
      */
-    public function __construct($type, $subject, $message, $to, $from, $cc, $bcc, $xMailer, $contentType, $mimeVersion)
-    {
+    public function __construct(
+        $type,
+        $subject,
+        $message,
+        $to,
+        $from,
+        $replyTo,
+        $cc,
+        $bcc,
+        $xMailer,
+        $contentType,
+        $mimeVersion
+    ) {
         $this->subject = $subject;
         $this->message = $message;
         $this->to = $to;
         $this->from = $from;
+        $this->replyTo = $replyTo;
         $this->cc = $cc;
         $this->bcc = $bcc;
         $this->xMailer = $xMailer;
@@ -113,6 +129,14 @@ class Email implements EmailInterface
     /**
      * @return string
      */
+    public function getReplyTo()
+    {
+        return $this->replyTo;
+    }
+
+    /**
+     * @return string
+     */
     public function getCc()
     {
         return $this->cc;
@@ -148,5 +172,13 @@ class Email implements EmailInterface
     public function getMimeVersion()
     {
         return $this->mimeVersion;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function send()
+    {
+        return false;
     }
 }

@@ -18,6 +18,7 @@ class EmailTest extends PHPUnit_Framework_TestCase
         $message = "t" . (string)rand();
         $to = "t" . (string)rand();
         $from = "t" . (string)rand();
+        $replyTo = "t" . (string)rand();
         $cc = "t" . (string)rand();
         $bcc = "t" . (string)rand();
         $xmailer = "t" . (string)rand();
@@ -30,6 +31,7 @@ class EmailTest extends PHPUnit_Framework_TestCase
             ->setMessage($message)
             ->setTo($to)
             ->setFrom($from)
+            ->setReplyTo($replyTo)
             ->setCc($cc)
             ->setBcc($bcc)
             ->setXMailer($xmailer)
@@ -42,6 +44,7 @@ class EmailTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($message, $email->getMessage());
         $this->assertEquals($to, $email->getTo());
         $this->assertEquals($from, $email->getFrom());
+        $this->assertEquals($replyTo, $email->getReplyTo());
         $this->assertEquals($cc, $email->getCc());
         $this->assertEquals($bcc, $email->getBcc());
         $this->assertEquals($xmailer, $email->getXMailer());

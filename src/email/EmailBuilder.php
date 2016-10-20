@@ -69,6 +69,9 @@ class EmailBuilder extends AbstractWritableBuilder
     protected $from;
 
     /** @var string */
+    protected $replyTo;
+
+    /** @var string */
     protected $cc;
 
     /** @var string */
@@ -148,6 +151,16 @@ class EmailBuilder extends AbstractWritableBuilder
     }
 
     /**
+     * @param string $replyTo
+     * @return EmailBuilder
+     */
+    public function setReplyTo($replyTo)
+    {
+        $this->replyTo = $replyTo;
+        return $this;
+    }
+
+    /**
      * @param string $cc
      * @return EmailBuilder
      */
@@ -208,6 +221,7 @@ class EmailBuilder extends AbstractWritableBuilder
             $this->message,
             $this->to,
             $this->from,
+            $this->replyTo,
             $this->cc,
             $this->bcc,
             $this->xMailer,

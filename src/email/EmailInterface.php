@@ -37,6 +37,11 @@ interface EmailInterface extends WritableInterface
     /**
      * @return string
      */
+    public function getReplyTo();
+
+    /**
+     * @return string
+     */
     public function getCc();
 
     /**
@@ -58,4 +63,9 @@ interface EmailInterface extends WritableInterface
      * @return string
      */
     public function getMimeVersion();
+
+    /**
+     * @return boolean
+     */
+    public function send();
 }
