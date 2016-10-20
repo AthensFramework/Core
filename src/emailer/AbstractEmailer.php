@@ -5,6 +5,7 @@ namespace Athens\Core\Emailer;
 use Athens\Core\Email\EmailInterface;
 use Athens\Core\Settings\Settings;
 use Athens\Core\Writer\WriterInterface;
+use Athens\Core\Visitor\VisitableInterface;
 
 /**
  * Class AbstractEmailer provides the framework for rendering an email body before
@@ -14,6 +15,18 @@ use Athens\Core\Writer\WriterInterface;
  */
 abstract class AbstractEmailer implements EmailerInterface
 {
+    /** @var WriterInterface[] $writer */
+    protected $writers;
+
+    /**
+     * AbstractEmailer constructor.
+     *
+     * @param WriterInterface[] $writers
+     */
+    public function __construct(array $writers)
+    {
+        $this->writers = $writers;
+    }
 
     /**
      * Each Emailer must have a ::doSend which performs the actual sending of
@@ -26,28 +39,27 @@ abstract class AbstractEmailer implements EmailerInterface
     abstract protected function doSend($body, EmailInterface $email);
 
     /**
+     * @param EmailInterface $visitable
+     * @return void
+     */
+    public function visit(EmailInterface $visitable)
+    {
+        $this->send($visitable);
+    }
+
+    /**
      * Invoke the Emailer's ::doSend method.
      *
-     * @param EmailInterface    $email
-     * @param WriterInterface[] $writers
+     * @param EmailInterface $email
      * @return boolean
      */
-    public function send(EmailInterface $email, array $writers = [])
+    public function send(EmailInterface $email)
     {
-        if ($writers === []) {
-            $writerClasses = Settings::getInstance()->getDefaultWriterClasses();
-            
-            $writers = [];
-            foreach ($writerClasses as $writerClass) {
-                $writers[] = new $writerClass();
-            }
-        }
+        foreach ($this->writers as $writer) {
+            $content = $email->accept($writer);
 
-        foreach ($writers as $writer) {
-            $body = $email->accept($writer);
-    
-            if ($body !== null) {
-                return $this->doSend($body, $email);
+            if ($content !== null) {
+                return $this->doSend($content, $email);
             }
         }
 

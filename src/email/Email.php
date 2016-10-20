@@ -4,6 +4,7 @@ namespace Athens\Core\Email;
 
 use Athens\Core\Visitor\VisitableTrait;
 use Athens\Core\Writable\WritableTrait;
+use Athens\Core\Emailer\EmailerInterface;
 
 /**
  * Class Email encapsulates the data which constitutes an email.
@@ -41,6 +42,9 @@ class Email implements EmailInterface
 
     /** @var string */
     protected $mimeVersion;
+    
+    /** @var EmailerInterface */
+    protected $emailer;
 
     use WritableTrait;
     use VisitableTrait;
@@ -48,17 +52,18 @@ class Email implements EmailInterface
     /**
      * Email constructor.
      *
-     * @param string $type
-     * @param string $subject
-     * @param string $message
-     * @param string $to
-     * @param string $from
-     * @param string $replyTo
-     * @param string $cc
-     * @param string $bcc
-     * @param string $xMailer
-     * @param string $contentType
-     * @param string $mimeVersion
+     * @param string           $type
+     * @param string           $subject
+     * @param string           $message
+     * @param string           $to
+     * @param string           $from
+     * @param string           $replyTo
+     * @param string           $cc
+     * @param string           $bcc
+     * @param string           $xMailer
+     * @param string           $contentType
+     * @param string           $mimeVersion
+     * @param EmailerInterface $emailer
      */
     public function __construct(
         $type,
@@ -71,7 +76,8 @@ class Email implements EmailInterface
         $bcc,
         $xMailer,
         $contentType,
-        $mimeVersion
+        $mimeVersion,
+        EmailerInterface $emailer
     ) {
         $this->subject = $subject;
         $this->message = $message;
@@ -84,6 +90,7 @@ class Email implements EmailInterface
         $this->contentType = $contentType;
         $this->mimeVersion = $mimeVersion;
         $this->type = $type;
+        $this->emailer = $emailer;
     }
 
     /**
@@ -179,6 +186,7 @@ class Email implements EmailInterface
      */
     public function send()
     {
+        return $this->accept($this->emailer);
         return false;
     }
 }

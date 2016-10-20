@@ -20,12 +20,16 @@ class PhpEmailer extends AbstractEmailer
     {
         $headers = ["From: " . $email->getFrom(), ];
 
+        if ($email->getReplyTo() !== null) {
+            $headers[] = "Reply-To: " . $email->getReplyTo();
+        }
+
         if ($email->getMimeVersion() !== null) {
             $headers[] = "MIME-VERSION: " . $email->getMimeVersion();
         }
 
         if ($email->getContentType() !== null) {
-            $headers[] = "Content-type: " . $email->getContentType();
+            $headers[] = "Content-Type: " . $email->getContentType();
         }
 
         if ($email->getCc() !== null) {

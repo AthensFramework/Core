@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Email;
 
+use Athens\Core\Emailer\EmailerInterface;
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Etc\SafeString;
 
@@ -85,6 +86,9 @@ class EmailBuilder extends AbstractWritableBuilder
 
     /** @var string */
     protected $mimeVersion;
+    
+    /** @var EmailerInterface */
+    protected $emailer;
 
     /**
      * @param string $type
@@ -211,10 +215,34 @@ class EmailBuilder extends AbstractWritableBuilder
     }
 
     /**
+     * Construct a emailer from setting defaults, if none has been provided.
+     *
+     * @return void
+     */
+    protected function validateEmailer()
+    {
+        if ($this->emailer === null) {
+            $settingsInstance = $this->getSettingsInstance();
+
+            $writerClasses = $settingsInstance->getDefaultExcelWriterClasses();
+            $emailerClass = $settingsInstance->getDefaultEmailerClass();
+
+            $writerInstances = [];
+            foreach ($writerClasses as $writerClass) {
+                $writerInstances[] = new $writerClass();
+            }
+
+            $this->emailer = new $emailerClass($writerInstances);
+        }
+    }
+
+    /**
      * @return Email
      */
     public function build()
     {
+        $this->validateEmailer();
+        
         return new Email(
             $this->type,
             $this->subject,
@@ -226,7 +254,8 @@ class EmailBuilder extends AbstractWritableBuilder
             $this->bcc,
             $this->xMailer,
             $this->contentType,
-            $this->mimeVersion
+            $this->mimeVersion,
+            $this->emailer
         );
     }
 }

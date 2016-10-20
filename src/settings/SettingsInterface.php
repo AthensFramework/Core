@@ -29,6 +29,7 @@ namespace Athens\Core\Settings;
  * @method void setDefaultWriterClass(string $fullyQualifiedClassName)
  * @method void setDefaultExcelWriterClass(string $fullyQualifiedClassName)
  * @method void setDefaultPDFWriterClass(string $fullyQualifiedClassName)
+ * @method void setDefaultEmailWriterClass(string $fullyQualifiedClassName)
  * @method void setDefaultEmailerClass(string $fullyQualifiedClassName)
  * @method void setDefaultRendererClass(string $fullyQualifiedClassName)
  * @method void setDefaultExcelRendererClass(string $fullyQualifiedClassName)

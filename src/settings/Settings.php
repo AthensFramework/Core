@@ -20,6 +20,7 @@ class Settings implements SettingsInterface
         "defaultEmailerClass" => '\Athens\Core\Emailer\PhpEmailer',
         "defaultRendererClass" => '\Athens\Core\Renderer\HTMLRenderer',
         "defaultWriterClasses" => ['\Athens\Core\Writer\HTMLWriter'],
+        "defaultEmailWriterClasses" => ['\Athens\Core\Writer\EmailWriter'],
         "defaultExcelWriterClasses" => ['\Athens\Core\Writer\ExcelWriter'],
         "defaultPDFWriterClasses" => ['\Athens\Core\Writer\PDFWriter'],
         "defaultExcelRendererClass" => '\Athens\Core\Renderer\ExcelRenderer',

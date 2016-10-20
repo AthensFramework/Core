@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Test;
 
+use Athens\Core\Writer\EmailWriter;
 use PHPUnit_Framework_TestCase;
 
 use Athens\Core\Email\EmailBuilder;
@@ -98,7 +99,7 @@ class EmailTest extends PHPUnit_Framework_TestCase
             ->setMimeVersion($mimeVersion)
             ->build();
 
-        $emailer = new MockEmailer();
+        $emailer = new MockEmailer([new EmailWriter()]);
         $emailer->send($email);
 
         $result = $emailer->sent[0];
