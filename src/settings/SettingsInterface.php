@@ -10,6 +10,7 @@ namespace Athens\Core\Settings;
  * @method string[] getProjectCSS()
  * @method string[] getAcronyms()
  * @method string[] getDefaultWriterClasses()
+ * @method string[] getDefaultEmailWriterClasses()
  * @method string[] getDefaultExcelWriterClasses()
  * @method string[] getDefaultPDFWriterClasses()
  * @method string getDefaultEmailerClass()

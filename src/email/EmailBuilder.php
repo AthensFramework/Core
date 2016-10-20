@@ -224,7 +224,7 @@ class EmailBuilder extends AbstractWritableBuilder
         if ($this->emailer === null) {
             $settingsInstance = $this->getSettingsInstance();
 
-            $writerClasses = $settingsInstance->getDefaultExcelWriterClasses();
+            $writerClasses = $settingsInstance->getDefaultEmailWriterClasses();
             $emailerClass = $settingsInstance->getDefaultEmailerClass();
 
             $writerInstances = [];
