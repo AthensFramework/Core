@@ -26,15 +26,12 @@ class RelationFilter extends SelectFilter
     /** @var string */
     protected $relationName = '';
 
-    /** @var string */
-    protected $default;
-
     /**
      * @param string                $id
      * @param string[]              $classes
      * @param string[]              $data
      * @param QueryWrapperInterface $query
-     * @param string                $default
+     * @param mixed                 $default
      * @param FilterInterface|null  $nextFilter
      */
     public function __construct(
@@ -118,7 +115,11 @@ class RelationFilter extends SelectFilter
                     );
                     break;
                 default:
-                    $relation = $this->relations[array_search($choice, $this->options)];
+                    $relation = $choice;
+                    if (is_string($relation) === true) {
+                        $relation = $this->relations[array_search($relation, $this->options)];
+                    }
+
                     $query = $query->filterBy(
                         $fieldName,
                         $relation->getPrimaryKey(),

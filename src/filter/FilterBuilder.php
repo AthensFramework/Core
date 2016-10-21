@@ -47,7 +47,7 @@ class FilterBuilder extends AbstractWritableBuilder
     /** @var array[] */
     protected $options;
 
-    /** @var string */
+    /** @var mixed */
     protected $default;
     
     /** @var QueryWrapperInterface */
@@ -136,7 +136,7 @@ class FilterBuilder extends AbstractWritableBuilder
     }
 
     /**
-     * @param string $default
+     * @param mixed $default
      * @return FilterBuilder
      */
     public function setDefault($default)
