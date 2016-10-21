@@ -10,6 +10,17 @@ athens.ajax = (function () {
     };
 
     /**
+     * Turn a response of the form `{"status":"success", "message":"Operation succeeded!"}` into
+     * an Athens alert.
+     *
+     * @param {string} data
+     */
+    var alertResponseData = function(data) {
+        data = JSON.parse(data);
+        athens.alert.makeAlert(data.message, data.status);
+    };
+
+    /**
      * Make an Ajax call.
      *
      * @param {string} url
@@ -93,8 +104,8 @@ athens.ajax = (function () {
         if (typeof(done) === 'undefined') {
             done = function (data, textStatus, jqXHR) {
                 try {
+                    alertResponseData(data);
                     data = JSON.parse(data);
-                    athens.alert.makeAlert(data.message, data.status);
                     if (data.status === "success") {
                         success(data);
                     }
@@ -180,6 +191,7 @@ athens.ajax = (function () {
     }
 
     return {
+        alertResponseData: alertResponseData,
         post: post,
         get: get,
         submitForm: submitForm
