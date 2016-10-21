@@ -2,7 +2,7 @@
     <select class="form-control"  name="{{ slug }}">
         <option {% if initial is empty %}selected{% endif %} {% if required %}disabled{% endif %}></option>
     {% for choiceSlug, choice in choices %}
-        <option value="{{ choiceSlug }}" {% if choice.getValue == initial %}selected{% endif %}> {{ choice.getValue }} </option>
+        <option value="{{ choiceSlug }}" {{ choice.getData|writedata|raw }} {% if choice.getValue == initial %}selected{% endif %}> {{ choice.getValue }} </option>
     {% endfor %}
     </select>
 </span>
