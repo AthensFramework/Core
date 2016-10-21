@@ -43,10 +43,8 @@ athens.ajax = (function () {
         settings.url = url;
         settings.type = type;
         settings.data = data;
-        settings.done = done;
-        settings.fail = fail;
 
-        return $.ajax(settings);
+        return $.ajax(settings).done(done).fail(fail);
     };
 
     /**
@@ -132,11 +130,12 @@ athens.ajax = (function () {
             success = function () {};
         }
 
+        var data = new FormData(form);
+
         form = $(form);
 
         var url = form.data("request-uri");
 
-        var data = new FormData(form);
 
         var formId = form.attr('id');
 
@@ -177,7 +176,7 @@ athens.ajax = (function () {
 
         data.append('csrf_token', CSRFTOKEN);
 
-        return call(url, 'post', {processData: false, contentType: false}, data, done, fail);
+        return call(url, 'POST', {processData: false, contentType: false}, data, done, function(){});
     }
 
     return {
