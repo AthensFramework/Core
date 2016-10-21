@@ -176,7 +176,7 @@ athens.ajax = (function () {
 
         data.append('csrf_token', CSRFTOKEN);
 
-        return call(url, 'POST', {processData: false, contentType: false}, data, done, function(){});
+        return call(url, 'POST', {processData: false, contentType: false}, data, done, function (){});
     }
 
     return {

@@ -33,6 +33,7 @@ use Athens\Core\Writable\WritableInterface;
  */
 class EmailWriter extends TwigTemplateWriter
 {
+
     /**
      * Render an email message into an email body, given its template.
      *
