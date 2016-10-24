@@ -105,7 +105,11 @@ athens.multi_panel = (function () {
             $.get(
                 targetURL,
                 function ( data ) {
-                    data = $(data).find('#page-content-body').html();
+
+                    if ($(data).find('#page-content-body').length > 0) {
+                        data = $(data).find('#page-content-body').html();
+                    }
+
                     targetDiv.html(data);
                     athens.ajax_section.doPostSectionActions(targetDiv);
                 }
