@@ -288,7 +288,7 @@ class Admin extends Page
             ->setType(FormActionBuilder::TYPE_JAVASCRIPT)
             ->setLabel('Save')
             ->setTarget("
-                athens.ajax.AjaxSubmitForm($(this).closest('form'), function(){
+                athens.ajax.submitForm($(this).closest('form')[0], function(){
                         athens.multi_panel.closePanel(1);
                         athens.ajax_section.loadSection('object-manager-table-$tableName');
                     });
