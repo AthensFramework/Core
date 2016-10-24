@@ -1,7 +1,8 @@
 <span class="choice-field {{ classes|join(' ') }}" {{ data|writedata|raw }}>
     {% for choiceSlug, choice in choices %}
     <span class="choice">
-        <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choice.getValue == initial %}checked{% endif %}> {{ choice.getValue }}
+        <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choice.getValue == initial %}checked{% endif %}>
+        <label class="radio-label" data-for-value="{{ choiceSlug }}">{{ choice.getValue }}</label>
     </span>
     {% endfor %}
 </span>
