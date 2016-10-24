@@ -551,12 +551,12 @@ tr.highlightable {
     cursor: pointer;
 }
 
-label.field-label::not(.empty)::after {
+label.field-label:not(.empty)::after {
     content: ":";
 }
 
 label.field-label.required::after {
-    content: "*:";
+    content: ":*";
 }
 
 form.inline label.field-label {
