@@ -582,3 +582,8 @@ div.select-container {
 .chosen-container .chosen-results li.active-result {
     font-size:17px;
 }
+
+label.radio-label, .inline-fields label.radio-label {
+    width:initial;
+    font-weight:normal;
+}
