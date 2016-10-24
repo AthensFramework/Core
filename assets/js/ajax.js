@@ -15,7 +15,7 @@ athens.ajax = (function () {
      *
      * @param {string} data
      */
-    var alertResponseData = function(data) {
+    var alertResponseData = function (data) {
         data = JSON.parse(data);
         athens.alert.makeAlert(data.message, data.status);
     };
