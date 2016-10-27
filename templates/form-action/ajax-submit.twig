@@ -1,1 +1,1 @@
-<button class='form-action btn btn-default' onclick="athens.ajax.submitForm($(this).closest('form')[0]); return false;">{{ label }}</button>
+<button class='form-action btn btn-default {{ classes|join(' ') }}' {{ data|writedata|raw }} onclick="athens.ajax.submitForm($(this).closest('form')[0]); return false;">{{ label }}</button>

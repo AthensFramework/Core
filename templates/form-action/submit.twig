@@ -1,1 +1,1 @@
-<input class='form-action btn btn-default' type='submit' name='{{ label|slugify }}' value='{{ label|escape }}'>
+<input class='form-action btn btn-default {{ classes|join(' ') }}' {{ data|writedata|raw }} type='submit' name='{{ label|slugify }}' value='{{ label|escape }}'>

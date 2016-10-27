@@ -1,1 +1,1 @@
-<button class='form-action btn btn-default' onclick="{{ target|raw }}">{{ label }}</button>
+<button class='form-action btn btn-default {{ classes|join(' ') }}' {{ data|writedata|raw }} onclick="{{ target|raw }}">{{ label }}</button>
