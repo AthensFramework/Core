@@ -34,7 +34,7 @@ class Filter implements FilterInterface
 
     /** @var string */
     protected $feedback;
-    
+
     /** @var boolean */
     protected $canQueryFilter;
 
@@ -131,9 +131,7 @@ class Filter implements FilterInterface
         }
 
         foreach ($this->statements as $statement) {
-            $fieldName = $statement->getFieldName();
-
-            if ($fieldName !== "" && in_array($fieldName, $query->getQualifiedPascalCasedColumnNames()) === false) {
+            if ($statement->canApplyToQuery($query) === false) {
                 $this->canQueryFilter = false;
             }
 

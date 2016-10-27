@@ -46,6 +46,12 @@ interface FilterStatementInterface
     public function applyToQuery(QueryWrapperInterface $query);
 
     /**
+     * @param QueryWrapperInterface $query
+     * @return boolean
+     */
+    public function canApplyToQuery(QueryWrapperInterface $query);
+
+    /**
      * @param RowInterface[] $rows
      * @return RowInterface[]
      */

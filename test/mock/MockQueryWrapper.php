@@ -77,4 +77,14 @@ class MockQueryWrapper extends AbstractQueryWrapper implements QueryWrapperInter
     {
         return $this->query->getTitleCasedObjectName();
     }
+
+    public function canFilterBy($columnName, $value, $condition = QueryWrapperInterface::CONDITION_EQUAL)
+    {
+        return in_array($columnName, $this->query->getQualifiedPascalCasedColumnNames());
+    }
+
+    public function canOrderBy($columnName, $condition)
+    {
+        return in_array($columnName, $this->query->getQualifiedPascalCasedColumnNames());
+    }
 }

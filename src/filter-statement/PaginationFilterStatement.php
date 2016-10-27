@@ -27,6 +27,15 @@ class PaginationFilterStatement extends FilterStatement
     }
 
     /**
+     * @param QueryWrapperInterface $query
+     * @return boolean
+     */
+    public function canApplyToQuery(QueryWrapperInterface $query)
+    {
+        return true;
+    }
+
+    /**
      * @param RowInterface[] $rows
      * @return RowInterface[]
      */

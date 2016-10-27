@@ -26,6 +26,15 @@ class ExcludingFilterStatement extends FilterStatement
     }
 
     /**
+     * @param QueryWrapperInterface $query
+     * @return boolean
+     */
+    public function canApplyToQuery(QueryWrapperInterface $query)
+    {
+        return $query->canFilterBy($this->fieldName, $this->criterion, $this->condition);
+    }
+
+    /**
      * @param RowInterface[] $rows
      * @return RowInterface[]
      */

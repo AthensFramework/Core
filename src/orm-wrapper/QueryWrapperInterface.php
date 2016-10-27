@@ -41,11 +41,26 @@ interface QueryWrapperInterface extends ORMWrapperInterface
 
     /**
      * @param string $columnName
+     * @param mixed  $condition
+     * @return boolean
+     */
+    public function canOrderBy($columnName, $condition);
+
+    /**
+     * @param string $columnName
      * @param mixed  $value
      * @param string $condition
      * @return QueryWrapperInterface
      */
     public function filterBy($columnName, $value, $condition = QueryWrapperInterface::CONDITION_EQUAL);
+
+    /**
+     * @param string $columnName
+     * @param mixed  $value
+     * @param string $condition
+     * @return boolean
+     */
+    public function canFilterBy($columnName, $value, $condition = QueryWrapperInterface::CONDITION_EQUAL);
 
     /**
      * @param integer $offset

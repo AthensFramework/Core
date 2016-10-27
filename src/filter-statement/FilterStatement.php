@@ -80,6 +80,12 @@ abstract class FilterStatement implements FilterStatementInterface
     abstract public function applyToQuery(QueryWrapperInterface $query);
 
     /**
+     * @param QueryWrapperInterface $query
+     * @return boolean
+     */
+    abstract public function canApplyToQuery(QueryWrapperInterface $query);
+
+    /**
      * @param RowInterface[] $rows
      * @return RowInterface[]
      */

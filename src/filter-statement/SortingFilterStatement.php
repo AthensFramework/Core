@@ -4,6 +4,7 @@ namespace Athens\Core\FilterStatement;
 
 use Athens\Core\ORMWrapper\QueryWrapperInterface;
 use Athens\Core\Row\RowInterface;
+use MongoDB\Driver\Query;
 
 /**
  * Class SortingFilterStatement
@@ -18,10 +19,16 @@ class SortingFilterStatement extends FilterStatement
      */
     public function applyToQuery(QueryWrapperInterface $query)
     {
-        return $query->orderBy(
-            $this->getFieldName(),
-            $this->getCondition()
-        );
+        return $query->orderBy($this->getFieldName(), $this->getCondition());
+    }
+
+    /**
+     * @param QueryWrapperInterface $query
+     * @return boolean
+     */
+    public function canApplyToQuery(QueryWrapperInterface $query)
+    {
+        return $query->canOrderBy($this->getFieldName(), $this->getCondition());
     }
 
     /**
