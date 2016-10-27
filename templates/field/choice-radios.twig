@@ -2,7 +2,7 @@
     {% for choiceSlug, choice in choices %}
     <span class="choice">
         <input type="radio" name="{{ slug }}" value="{{ choiceSlug }}" {% if choice.getValue == initial %}checked{% endif %}>
-        <label class="radio-label" data-for-value="{{ choiceSlug }}">{{ choice.getValue }}</label>
+        <label class="radio-label" data-name-for="{{ slug }}" data-value-for="{{ choiceSlug }}">{{ choice.getValue }}</label>
     </span>
     {% endfor %}
 </span>

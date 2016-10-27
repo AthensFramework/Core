@@ -273,6 +273,8 @@ class HTMLWriter extends TwigTemplateWriter
                 [
                     "label" => $formAction->getLabel(),
                     "target" => $formAction->getTarget(),
+                    "classes" => $formAction->getClasses(),
+                    "data" => $formAction->getData(),
                 ]
             );
     }
