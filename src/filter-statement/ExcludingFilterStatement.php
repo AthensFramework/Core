@@ -35,7 +35,7 @@ class ExcludingFilterStatement extends FilterStatement
 
         $getFieldValue = function ($row) use ($fieldName) {
             /** @var RowInterface $row */
-            return $row->getWritableBearer()->getWritableByHandle($fieldName)->getInitial();
+            return trim($row->getWritableBearer()->getWritableByHandle($fieldName)->getWritables()[0]->getInitial());
         };
 
         $filterFunction = function ($val) use ($criterion) {
