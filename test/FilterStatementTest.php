@@ -143,7 +143,7 @@ class FilterStatementTest extends TestCase
     {
         $rows = Utils::makeRows();
 
-        $criterion = Utils::sampleMedianIntField($rows);
+        $criterion = (string)Utils::sampleMedianIntField($rows);
 
         $statement = new ExcludingFilterStatement(
             Utils::INT_FIELD_NAME,

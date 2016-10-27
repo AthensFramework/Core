@@ -5,6 +5,8 @@ namespace Athens\Core\FilterStatement;
 use Athens\Core\ORMWrapper\QueryWrapperInterface;
 
 use Athens\Core\Row\RowInterface;
+use Athens\Core\Settings\Settings;
+use Athens\Core\Writer\HTMLWriter;
 
 /**
  * Class ExcludingFilterStatement
@@ -33,9 +35,12 @@ class ExcludingFilterStatement extends FilterStatement
         $condition = $this->getCondition();
         $criterion = $this->getCriterion();
 
-        $getFieldValue = function ($row) use ($fieldName) {
-            /** @var RowInterface $row */
-            return trim($row->getWritableBearer()->getWritableByHandle($fieldName)->getWritables()[0]->getInitial());
+        $writer = new HTMLWriter();  // TODO: Abstract out HTMLWriter
+
+        $getFieldValue = function (RowInterface $row) use ($fieldName, $writer) {
+            $cell = $row->getWritableBearer()->getWritableByHandle($fieldName);
+
+            return trim(strip_tags($cell->accept($writer)));
         };
 
         $filterFunction = function ($val) use ($criterion) {
