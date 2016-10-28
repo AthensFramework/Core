@@ -27,7 +27,7 @@
     {% for filter in filters %}
         {% set feedback = filter.getFeedback %}
             <p class="filter-feedback {% if not feedback %}hidden{% endif %}" data-handle-for="{{ filter.getHandle }}">
-                {{ feedback }}
+                {{ feedback|saferaw|raw }}
             </p>
     {% endfor %}
 </div>

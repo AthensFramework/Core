@@ -2,6 +2,7 @@
 
 namespace Athens\Core\Filter;
 
+use Athens\Core\Etc\SafeString;
 use Athens\Core\FilterStatement\ExcludingFilterStatement;
 use Athens\Core\FilterStatement\FilterStatementInterface;
 
@@ -33,15 +34,21 @@ class SearchFilter extends Filter
             }
         }
 
-        $this->feedback = "";
+        $feedbackStatements = [];
         foreach ($statements as $statement) {
             $fieldname = $statement->getFieldName();
             $value = $statement->getCriterion();
             $operation = $statement->getCondition();
 
-            $this->feedback .= $this->feedback === "" ? ", " : "";
-            $this->feedback .= $fieldname . " " . $operation . " " . $value;
+            $feedbackStatement = $fieldname . " " . $operation . " " . $value;;
+
+            $feedbackStatements[] = preg_replace('/[^a-zA-Z0-9 -.]/', '', $feedbackStatement);
         }
+        if ($feedbackStatements !== []) {
+            $feedbackStatements[] = '<a href="#" onclick="athens.search.clearSearch(\'' . trim($id) . '\'); return false;">Clear</a>';
+        }
+        $this->feedback = SafeString::fromString(implode(', ', $feedbackStatements));
+
         parent::__construct($id, $classes, $data, $statements, $nextFilter);
     }
 
