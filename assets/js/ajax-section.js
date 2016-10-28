@@ -143,11 +143,29 @@ athens.ajax_section = (function () {
         return url.split('?')[0] + '?' + qs;
     }
 
+    /**
+     * Load a registered section by name, ignoring the query variables in its indicated path.
+     *
+     * @param {string} id The name or handle of the section, as registered in sectionRegistry by registerAJAXSection
+     */
+    var bareLoadSection = function (id) {
+        var targetDiv, targetUrl;
+
+        targetDiv = $("#" + id);
+        if (sectionRegistry.hasOwnProperty(id) && !targetDiv.data("request-uri")) {
+            targetUrl = sectionRegistry[id];
+        } else {
+            targetUrl = targetDiv.data("request-uri");
+            sectionRegistry[id] = targetUrl;
+        }
+
+        doLoadSection(id, targetDiv[0], targetUrl.split("?")[0]);
+    };
 
     /**
      * Load a registered section by name
      *
-     * @param {string} id The name or handle of the sction, as registered in sectionRegistry by registerAJAXSection
+     * @param {string} id The name or handle of the section, as registered in sectionRegistry by registerAJAXSection
      */
     var loadSection = function (id) {
         var targetDiv, targetUrl;
@@ -160,6 +178,19 @@ athens.ajax_section = (function () {
             sectionRegistry[id] = targetUrl;
         }
 
+        doLoadSection(id, targetDiv[0], targetUrl);
+
+    };
+
+    /**
+     * Load a registered section by name
+     *
+     * @param {string} id The name or handle of the section, as registered in sectionRegistry by registerAJAXSection
+     * @param {element} targetDiv
+     * @param {string} targetUrl
+     */
+    var doLoadSection = function (id, targetDiv, targetUrl) {
+        targetDiv = $(targetDiv);
         targetDiv.css("opacity", 0.7).append("<div class='loading-gif class-loader'></div>");
 
         if (targetUrl.indexOf("?") === -1) {
@@ -202,6 +233,7 @@ athens.ajax_section = (function () {
     return {
         doPostSectionActions: doPostSectionActions,
         registerPostSectionAction: registerPostSectionAction,
+        bareLoadSection: bareLoadSection,
         loadSection: loadSection,
         registerGetVar: registerGetVar,
         unsetGetVar: unsetGetVar,

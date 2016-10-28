@@ -2,8 +2,6 @@ athens.search = (function () {
 
     var searchDiv = $(".search-div");
 
-
-
     /**
      * Fades in the table search div.
      */
@@ -32,6 +30,7 @@ athens.search = (function () {
     var searchSubmitOnclick = function () {
         var handle = $(this).closest("div.search-table-content").data("handle-for");
         var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest(".filter-controls").data('table-for');
+        
         var i = 0;
 
         var getVar = athens.ajax_section.getVar;
@@ -117,7 +116,7 @@ athens.search = (function () {
             athens.ajax_section.unsetGetVar(getVar(ajaxSectionName, handle, 'value' + i));
         }
 
-        athens.ajax_section.loadSection(ajaxSectionName);
+        athens.ajax_section.bareLoadSection(ajaxSectionName);
     };
 
     return {
