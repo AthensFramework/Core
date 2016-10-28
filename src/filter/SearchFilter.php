@@ -45,7 +45,9 @@ class SearchFilter extends Filter
             $feedbackStatements[] = preg_replace('/[^a-zA-Z0-9 -.]/', '', $feedbackStatement);
         }
         if ($feedbackStatements !== []) {
-            $feedbackStatements[] = '<a href="#" onclick="athens.search.clearSearch(\'' . trim($id) . '\'); return false;">Clear</a>';
+            $feedbackStatements[] = '
+            <a href="#" onclick="athens.search.clearSearch(\'' . trim($id) . '\'); return false;">Clear</a>
+            ';
         }
         $this->feedback = SafeString::fromString(implode(', ', $feedbackStatements));
 
