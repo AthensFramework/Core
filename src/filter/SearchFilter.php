@@ -40,7 +40,7 @@ class SearchFilter extends Filter
             $value = $statement->getCriterion();
             $operation = $statement->getCondition();
 
-            $feedbackStatement = $fieldname . " " . $operation . " " . $value;;
+            $feedbackStatement = $fieldname . " " . $operation . " " . $value;
 
             $feedbackStatements[] = preg_replace('/[^a-zA-Z0-9 -.]/', '', $feedbackStatement);
         }
