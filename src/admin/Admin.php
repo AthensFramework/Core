@@ -238,6 +238,7 @@ class Admin extends Page
                     FieldBuilder::begin()
                         ->setLabel("adder")
                         ->setType(FieldBuilder::TYPE_LITERAL)
+                        ->addClass('adder')
                         ->setInitial("+ Add another")
                         ->build(),
                     "adder"
@@ -287,6 +288,7 @@ class Admin extends Page
         $submitAction = FormActionBuilder::begin()
             ->setType(FormActionBuilder::TYPE_JAVASCRIPT)
             ->setLabel('Save')
+            ->addClass('save')
             ->setTarget("
                 athens.ajax.submitForm($(this).closest('form')[0], function(){
                         athens.multi_panel.closePanel(1);
