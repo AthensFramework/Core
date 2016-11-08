@@ -23,12 +23,10 @@ class Utils
             $rows[] = RowBuilder::begin()
                 ->addWritable(
                     new Field([], [], "literal", "a literal field", rand(1, 100)),
-                    Utils::INT_FIELD_NAME,
                     Utils::INT_FIELD_NAME
                 )
                 ->addWritable(
                     new Field([], [], "literal", "a literal field", (string)rand()),
-                    Utils::STRING_FIELD_NAME,
                     Utils::STRING_FIELD_NAME
                 )
                 ->build();

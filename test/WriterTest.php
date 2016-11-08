@@ -540,9 +540,9 @@ class WriterTest extends PHPUnit_Framework_TestCase
             ->build();
 
         $highlightableRow = RowBuilder::begin()
-            ->addWritable($textField, "TextField", "TextField")
-            ->addWritable($literalField, "LiteralField", "LiteralField")
-            ->addWritable($hiddenField, "HiddenField", "HiddenField")
+            ->addWritable($textField, "TextField")
+            ->addWritable($literalField, "LiteralField")
+            ->addWritable($hiddenField, "HiddenField")
             ->setHighlightable(true)
             ->build();
 
@@ -587,7 +587,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field1 = new Field([], [], "text", "Text Field Label", (string)rand());
         $field1Name = "TextField1";
         $row1 = RowBuilder::begin()
-            ->addWritable($field1, $field1->getLabel(), $field1Name)
+            ->addWritable($field1, $field1Name)
+            ->setColumnLabel($field1Name, $field1->getLabel())
             ->build();
 
         $field2 = new Field([], [], "text", "Text Field Label", (string)rand());
@@ -730,7 +731,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $field1 = new Field([], [], "text", $label, $value1);
         $field1Name = "TextField1";
         $row1 = RowBuilder::begin()
-            ->addWritable($field1, $field1->getLabel(), $field1Name)
+            ->addWritable($field1, $field1Name)
+            ->setColumnLabel($field1Name, $field1Name)
             ->build();
 
         $field2 = new Field([], [], "text", $label, $value2);

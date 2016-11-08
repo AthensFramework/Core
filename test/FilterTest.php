@@ -109,7 +109,7 @@ class FilterTest extends TestCase
         // Make one row for each of the field values
         foreach ($fieldValues as $fieldValue) {
             $rows[] = RowBuilder::begin()
-                ->addWritable(new Field([], [], 'literal', 'A literal field', $fieldValue), $fieldName, $fieldName)
+                ->addWritable(new Field([], [], 'literal', 'A literal field', $fieldValue), $fieldName)
                 ->build();
         }
 
@@ -443,8 +443,8 @@ class FilterTest extends TestCase
         $field2Name = "TextField2";
 
         $row = RowBuilder::begin()
-            ->addWritable($field1, $field1Name, $field1Name)
-            ->addWritable($field2, $field2Name, $field2Name)
+            ->addWritable($field1, $field1Name)
+            ->addWritable($field2, $field2Name)
             ->build();
 
         $filter->rowFilter([$row]);

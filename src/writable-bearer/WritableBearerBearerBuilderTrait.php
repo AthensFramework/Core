@@ -106,23 +106,25 @@ trait WritableBearerBearerBuilderTrait
 
     /**
      * @param string $content
+     * @param string $name
      * @return WritableBearerBuilder
      */
-    public function addContent($content)
+    public function addContent($content, $name = null)
     {
         if (($content instanceof SafeString) === false) {
             $content = htmlentities($content);
         }
         $content = SafeString::fromString(nl2br($content));
 
-        return $this->addLiteralContent($content);
+        return $this->addLiteralContent($content, $name);
     }
 
     /**
      * @param string $content
+     * @param string $name
      * @return WritableBearerBuilder
      */
-    public function addLiteralContent($content)
+    public function addLiteralContent($content, $name = null)
     {
         $content = FieldBuilder::begin()
             ->setType(FieldBuilder::TYPE_LITERAL)
@@ -130,7 +132,7 @@ trait WritableBearerBearerBuilderTrait
             ->setInitial($content)
             ->build();
 
-        $this->addWritable($content);
+        $this->addWritable($content, $name);
 
         return $this;
     }

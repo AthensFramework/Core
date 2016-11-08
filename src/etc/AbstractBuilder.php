@@ -17,7 +17,7 @@ abstract class AbstractBuilder
     /** @var SettingsInterface */
     private $settingsInstance;
 
-    /** @return static Return a new builder */
+    /** @return $this Return a new builder */
     public static function begin()
     {
         return new static();

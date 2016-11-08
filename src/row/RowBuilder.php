@@ -33,23 +33,18 @@ class RowBuilder extends AbstractWritableBuilder
 
     /**
      * @param WritableInterface $writable
-     * @param string            $label
      * @param string            $name
      * @return $this
      */
-    public function addWritable(WritableInterface $writable, $label = null, $name = null)
+    public function addWritable(WritableInterface $writable, $name = null)
     {
         $this->writableBearerBearerBuilderTraitAddWritable($writable, $name);
 
-        if ($label === null) {
-            $label = method_exists($writable, 'getLabel') === true ? $writable->getLabel() : "";
-        }
-
-        $this->labels[$name] = $label;
+        $this->labels[$name] = $name;
 
         return $this;
     }
-
+    
     /**
      * @param string $name
      * @return $this
@@ -59,6 +54,17 @@ class RowBuilder extends AbstractWritableBuilder
         $this->getWritableBearerBuilder()->removeWritable($name);
         $this->labels = array_diff_key($this->labels, [$name => '']);
 
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param string $label
+     * @return $this
+     */
+    public function setColumnLabel($name, $label)
+    {
+        $this->labels[$name] = $label;
         return $this;
     }
 
@@ -94,9 +100,8 @@ class RowBuilder extends AbstractWritableBuilder
                     ->setType(SectionBuilder::TYPE_SPAN)
                     ->addContent($value)
                     ->build(),
-                $labels[$name],
                 $name
-            );
+            )->setColumnLabel($name, $labels[$name]);
         }
 
         return $this;
