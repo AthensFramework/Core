@@ -16,7 +16,6 @@ athens.search = (function () {
      */
     function fadeOutSearch()
     {
-
         searchDiv.fadeTo(
             150,
             0,
@@ -30,7 +29,7 @@ athens.search = (function () {
     var searchSubmitOnclick = function () {
         var handle = $(this).closest("div.search-table-content").data("handle-for");
         var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest(".filter-controls").data('table-for');
-        
+
         var i = 0;
 
         var getVar = athens.ajax_section.getVar;
@@ -61,11 +60,6 @@ athens.search = (function () {
     var searchIconOnclick = function () {
         var handle = $(this).data("handle-for");
         var ajaxSectionName = $("div.search-container[data-handle-for=" + handle + "]").closest(".filter-controls").data('table-for');
-        var getVar = athens.ajax_section.getVar;
-
-        if ($("#search-criteria-area div.search-table-content[data-handle-for=" + handle + "]").length === 0) {
-            $("div.search-table-content[data-handle-for=" + handle + "]").prependTo("#search-criteria-area");
-        }
 
         athens.fadeInMask();
         fadeInSearch();
@@ -85,19 +79,21 @@ athens.search = (function () {
     };
 
     var setupSearchFilter = function (handle) {
-
         // Move the search icon to the label
         var searchContainer = $("div.search-container[data-handle-for=" + handle + "]");
         var label = searchContainer.closest("div.table-container").prev("div.section-label");
         var searchIcon = $("div.search-icon[data-handle-for=" + handle + "]");
 
+        $("#search-criteria-area").empty();
+        $("div.search-table-content[data-handle-for=" + handle + "]").prependTo("#search-criteria-area");
+        $("input.search-submit." + handle).click(searchSubmitOnclick);
+
         if (label.find("div.search-icon[data-handle-for=" + handle + "]").length === 0) {
             searchIcon.prependTo(label);
-
             searchIcon.click(searchIconOnclick);
 
-            // This might suppose to be inside searchIconOnclick
-            $("input.search-submit." + handle).click(searchSubmitOnclick);
+
+
         }
 
         // If this search filter has feedback, add a clear search link:
