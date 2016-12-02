@@ -884,8 +884,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
         // Render the data
         $result = $env->createTemplate($template)->render(['data' => $data]);
 
-        $this->assertContains("data-key1='value1'", $result);
-        $this->assertContains("data-key2='value2'", $result);
+        $this->assertContains("data-key1=\"value1\"", $result);
+        $this->assertContains("data-key2=\"value2\"", $result);
     }
 
     public function testSlugifyFilter()

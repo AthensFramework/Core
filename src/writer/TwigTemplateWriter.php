@@ -125,7 +125,7 @@ abstract class TwigTemplateWriter extends AbstractWriter
                         $key = htmlentities($key);
                         $value = htmlentities($value);
 
-                        $string .= "data-$key='$value' ";
+                        $string .= "data-$key=\"$value\" ";
                     }
 
                     return trim($string);
