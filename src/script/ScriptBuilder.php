@@ -13,9 +13,8 @@ class ScriptBuilder extends AbstractWritableBuilder
 {
     /** @var string */
     protected $contents = '';
-    
 
-    /**
+/**
      * @param string $contents
      * @return ScriptBuilder
      */

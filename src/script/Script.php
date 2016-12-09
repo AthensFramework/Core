@@ -21,11 +21,11 @@ class Script implements ScriptInterface
     /**
      * Create a new script
      *
-     * @param string                  $id
-     * @param string[]                $classes
-     * @param array                   $data
-     * @param string                  $type
-     * @param string                  $contents
+     * @param string   $id
+     * @param string[] $classes
+     * @param array    $data
+     * @param string   $type
+     * @param string   $contents
      */
     public function __construct($id, array $classes, array $data, $type, $contents)
     {

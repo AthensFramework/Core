@@ -91,9 +91,6 @@ athens.search = (function () {
         if (label.find("div.search-icon[data-handle-for=" + handle + "]").length === 0) {
             searchIcon.prependTo(label);
             searchIcon.click(searchIconOnclick);
-
-
-
         }
 
         // If this search filter has feedback, add a clear search link:
