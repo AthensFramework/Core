@@ -2,8 +2,6 @@
 
 namespace Athens\Core\WritableBearer;
 
-use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
-
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Etc\SafeString;
@@ -79,10 +77,10 @@ trait WritableBearerBearerBuilderTrait
     }
 
     /**
-     * @param ActiveRecordInterface $object
+     * @param mixed $object
      * @return $this
      */
-    public function addObject(ActiveRecordInterface $object)
+    public function addObject($object)
     {
         $this->getWritableBearerBuilder()->addObject($object);
         return $this;

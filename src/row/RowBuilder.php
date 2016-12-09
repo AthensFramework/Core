@@ -3,13 +3,10 @@
 namespace Athens\Core\Row;
 
 use Athens\Core\Section\SectionBuilder;
-use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Writable\WritableInterface;
-use Athens\Core\Etc\ORMUtils;
-use Athens\Core\Etc\StringUtils;
 
 /**
  * Class RowBuilder

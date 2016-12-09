@@ -3,7 +3,6 @@
 namespace Athens\Core\Form;
 
 use Athens\Core\ORMWrapper\ObjectWrapperInterface;
-use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 
 use Athens\Core\Field\FieldInterface;
 use Athens\Core\WritableBearer\WritableBearerBearerBuilderTrait;
@@ -11,7 +10,6 @@ use Athens\Core\WritableBearer\WritableBearerInterface;
 use Athens\Core\FormAction\FormActionInterface;
 use Athens\Core\FormAction\FormActionBuilder;
 use Athens\Core\Field\FieldBuilder;
-use Athens\Core\Etc\ORMUtils;
 
 trait FormBuilderTrait
 {

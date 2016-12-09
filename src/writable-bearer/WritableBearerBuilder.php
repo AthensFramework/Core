@@ -2,8 +2,6 @@
 
 namespace Athens\Core\WritableBearer;
 
-use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
-
 use Athens\Core\Writable\AbstractWritableBuilder;
 use Athens\Core\Writable\WritableInterface;
 
@@ -85,10 +83,10 @@ class WritableBearerBuilder extends AbstractWritableBuilder
     }
 
     /**
-     * @param ActiveRecordInterface $object
+     * @param mixed $object
      * @return $this
      */
-    public function addObject(ActiveRecordInterface $object)
+    public function addObject($object)
     {
         $object = $this->wrapObject($object);
         $fields = $object->getFields();
