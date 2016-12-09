@@ -37,6 +37,7 @@ class SectionTest extends PHPUnit_Framework_TestCase
         $writable = $field;
         $id = "s" . (string)rand();
         $classes = [(string)rand(), (string)rand()];
+        $scriptContents = "c" . (string)rand();
 
         $section = SectionBuilder::begin()
             ->setId($id)
@@ -44,6 +45,7 @@ class SectionTest extends PHPUnit_Framework_TestCase
             ->addClass($classes[1])
             ->addContent($content)
             ->addLabel($label)
+            ->addScript($scriptContents)
             ->addWritable($writable)
             ->build();
 
@@ -51,8 +53,9 @@ class SectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($classes, $section->getClasses());
         $this->assertEquals(nl2br($content), $section->getWritables()[0]->getInitial());
         $this->assertEquals($label, $section->getWritables()[1]->getInitial());
+        $this->assertEquals($scriptContents, $section->getWritables()[2]->getContents());
         $this->assertContains($writable, $section->getWritables());
-        $this->assertEquals(3, sizeof($section->getWritables()));
+        $this->assertEquals(4, sizeof($section->getWritables()));
         $this->assertEquals("base", $section->getType());
     }
 

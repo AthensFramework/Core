@@ -2,6 +2,7 @@
 
 namespace Athens\Core\WritableBearer;
 
+use Athens\Core\Script\ScriptBuilder;
 use Athens\Core\Writable\WritableInterface;
 use Athens\Core\Field\FieldBuilder;
 use Athens\Core\Etc\SafeString;
@@ -99,6 +100,20 @@ trait WritableBearerBearerBuilderTrait
             ->build();
 
         $this->addWritable($label);
+        return $this;
+    }
+
+    /**
+     * @param string $contents
+     * @return WritableBearerBuilder
+     */
+    public function addScript($contents)
+    {
+        $script = ScriptBuilder::begin()
+            ->setContents($contents)
+            ->build();
+
+        $this->addWritable($script);
         return $this;
     }
 
