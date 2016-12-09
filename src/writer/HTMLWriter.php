@@ -25,6 +25,7 @@ use Athens\Core\Link\LinkInterface;
 use Athens\Core\Filter\FilterInterface;
 use Athens\Core\Filter\SearchFilter;
 use Athens\Core\Writable\WritableInterface;
+use Athens\Core\Script\ScriptInterface;
 
 /**
  * Class Writer is a visitor which renders pages and page sub-elements to HTML.
@@ -106,6 +107,31 @@ class HTMLWriter extends TwigTemplateWriter
                     "data" => $link->getData(),
                     "uri" => $link->getURI(),
                     "text" => $link->getText(),
+                ]
+            );
+    }
+
+    /**
+     * Render $script into html.
+     *
+     * This method is generally called via double-dispatch, as provided by Visitor\VisitableTrait.
+     *
+     * @param ScriptInterface $script
+     * @return string
+     */
+    public function visitScript(ScriptInterface $script)
+    {
+
+        $template = 'script/' . $script->getType() . '.twig';
+
+        return $this
+            ->loadTemplate($template)
+            ->render(
+                [
+                    "id" => $script->getId(),
+                    "classes" => $script->getClasses(),
+                    "data" => $script->getData(),
+                    "contents" => $script->getContents(),
                 ]
             );
     }

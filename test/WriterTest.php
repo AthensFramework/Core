@@ -25,6 +25,7 @@ use Athens\Core\Filter\Filter;
 use Athens\Core\Filter\FilterBuilder;
 use Athens\Core\FilterStatement\FilterStatement;
 use Athens\Core\Link\LinkBuilder;
+use Athens\Core\Script\ScriptBuilder;
 
 use Athens\Core\Test\Mock\MockHTMLWriter;
 
@@ -714,6 +715,36 @@ class WriterTest extends PHPUnit_Framework_TestCase
         $this->assertContains("href=$uri", $result);
         $this->assertContains(">$text</a>", $result);
         $this->assertContains("class=link " . implode(' ', $classes), $result);
+        $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
+        $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
+    }
+
+    public function testVisitScript()
+    {
+        $writer = new HTMLWriter();
+
+        $contents = 'c' . (string)rand();
+
+        $classes = ["class1", "class2"];
+        $data = [
+            'd' . (string)rand() => (string)rand(),
+            'd' . (string)rand() => (string)rand(),
+        ];
+
+        $script = ScriptBuilder::begin()
+            ->addClass($classes[0])
+            ->addClass($classes[1])
+            ->addData(array_keys($data)[0], array_values($data)[0])
+            ->addData(array_keys($data)[1], array_values($data)[1])
+            ->setContents($contents)
+            ->build();
+
+        // Get result and strip quotes, for easier analysis
+        $result = $this->stripQuotes($writer->visitScript($script));
+
+        $this->assertContains("<script", $result);
+        $this->assertContains("$contents\n</script>", $result);
+        $this->assertContains("class=script " . implode(' ', $classes), $result);
         $this->assertContains("data-" . array_keys($data)[0] . "=" . array_values($data)[0], $result);
         $this->assertContains("data-" . array_keys($data)[1] . "=" . array_values($data)[1], $result);
     }
