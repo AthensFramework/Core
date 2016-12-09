@@ -147,6 +147,7 @@ athens.ajax_section = (function () {
      * Load a registered section by name, ignoring the query variables in its indicated path.
      *
      * @param {string} id The name or handle of the section, as registered in sectionRegistry by registerAJAXSection
+     * @returns {*}
      */
     var bareLoadSection = function (id) {
         var targetDiv, targetUrl;
@@ -159,13 +160,14 @@ athens.ajax_section = (function () {
             sectionRegistry[id] = targetUrl;
         }
 
-        doLoadSection(id, targetDiv[0], targetUrl.split("?")[0]);
+        return doLoadSection(id, targetDiv[0], targetUrl.split("?")[0]);
     };
 
     /**
      * Load a registered section by name
      *
      * @param {string} id The name or handle of the section, as registered in sectionRegistry by registerAJAXSection
+     * @returns {*}
      */
     var loadSection = function (id) {
         var targetDiv, targetUrl;
@@ -178,7 +180,7 @@ athens.ajax_section = (function () {
             sectionRegistry[id] = targetUrl;
         }
 
-        doLoadSection(id, targetDiv[0], targetUrl);
+        return doLoadSection(id, targetDiv[0], targetUrl);
 
     };
 
@@ -188,6 +190,7 @@ athens.ajax_section = (function () {
      * @param {string} id The name or handle of the section, as registered in sectionRegistry by registerAJAXSection
      * @param {element} targetDiv
      * @param {string} targetUrl
+     * @returns {*}
      */
     var doLoadSection = function (id, targetDiv, targetUrl) {
         targetDiv = $(targetDiv);
@@ -201,7 +204,7 @@ athens.ajax_section = (function () {
 
         targetUrl = cleanQueryParams(targetUrl);
 
-        $.get(
+        return $.get(
             targetUrl,
             function (data) {
                 var targetResponse = $(data).find("#" + id);
