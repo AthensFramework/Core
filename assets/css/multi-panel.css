@@ -244,27 +244,35 @@ html, body {
   margin-top: 0;
 }
 
-.panel-button {
+.panel-button-container {
   -ms-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 
+  width:600px;
+
   position: fixed;
   right:-265px;
-  bottom:450px;
+  /*bottom:450px;*/
 
   display:none;
   opacity:0;
 }
 
-.panel-button button {
-  width:600px;
+.panel-button-container a {
+  padding:20px;
 }
 
-.panel-button span.message:after {
+.panel-button-container button {
+  min-width:200px;
+  margin:auto;
+  padding: 0 20px;
+}
+
+.panel-button-container span.message:after {
   content: '\0000a0\21D1';
 }
 
-.panel-button span.message:before {
+.panel-button-container span.message:before {
   content: '\21D1\0000a0';
 }
