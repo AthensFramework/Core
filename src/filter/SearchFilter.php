@@ -46,8 +46,9 @@ class SearchFilter extends Filter
         }
         if ($feedbackStatements !== []) {
             $feedbackStatements[] = '
-            <a href="#" onclick="athens.search.clearSearch(\'' . trim($id) . '\'); return false;">Clear</a>
-            ';
+            <a href="#" class="search-clear" onclick="athens.search.clearSearch(\'' . trim($id) . '\'); return false;">
+                Clear
+            </a>';
         }
         $this->feedback = SafeString::fromString(implode(', ', $feedbackStatements));
 
