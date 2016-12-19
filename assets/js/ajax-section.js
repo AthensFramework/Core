@@ -170,17 +170,22 @@ athens.ajax_section = (function () {
      * @returns {*}
      */
     var loadSection = function (id) {
-        var targetDiv, targetUrl;
+        var targetDiv, targetUrl, result;
 
         targetDiv = $("#" + id);
-        if (sectionRegistry.hasOwnProperty(id) && !targetDiv.data("request-uri")) {
-            targetUrl = sectionRegistry[id];
-        } else {
-            targetUrl = targetDiv.data("request-uri");
-            sectionRegistry[id] = targetUrl;
+
+        // There should be only one div with the given id...but in case there's not, reload all of them
+        for (var i = 0; i < targetDiv.length; i++) {
+            if (sectionRegistry.hasOwnProperty(id) && !targetDiv.data("request-uri")) {
+                targetUrl = sectionRegistry[id];
+            } else {
+                targetUrl = targetDiv.data("request-uri");
+                sectionRegistry[id] = targetUrl;
+            }
+            result = doLoadSection(id, targetDiv[0], targetUrl);
         }
 
-        return doLoadSection(id, targetDiv[0], targetUrl);
+        return result;
 
     };
 
