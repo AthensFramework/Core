@@ -200,7 +200,7 @@ td:last-child {
     border-top-right-radius: 5px;
 }
 
-tr.clickable, th.clickable {
+.clickable, th.clickable {
     cursor: pointer;
     transition: background-color .3s ease-in-out;
 }
@@ -210,12 +210,12 @@ tr.highlighted {
     border-radius:3px;
 }
 
-tr.clickable:hover {
+.clickable:hover {
     background-color: #dcdcdc;
     border-radius:3px;
 }
 
-tr.clickable:active {
+.clickable:active {
     background-color: white;
 }
 
