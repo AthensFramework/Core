@@ -52,9 +52,6 @@ Primary style
 Main components
 
 -------------------------------- */
-html, body {
-  height: 100%;
-}
 
 .cd-main-content {
   text-align: center;
