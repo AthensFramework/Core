@@ -323,6 +323,8 @@ class HTMLWriter extends TwigTemplateWriter
             $type = 'sort';
         } elseif ($filter instanceof PaginationFilter) {
             $type = "{$filter->getType()}-pagination";
+        } elseif (method_exists($filter, 'getType') === true) {
+            $type = $filter->getType();
         } else {
             $type = 'dummy';
         }
