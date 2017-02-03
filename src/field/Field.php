@@ -117,11 +117,7 @@ class Field implements FieldInterface
     {
         $fieldType = $this->getType();
 
-        if ($fieldType === "checkbox") {
-            $data = (string)array_key_exists($this->getSlug(), $_POST);
-        } else {
-            $data = array_key_exists($this->getSlug(), $_POST) === true ? $_POST[$this->getSlug()]: "";
-        }
+        $data = array_key_exists($this->getSlug(), $_POST) === true ? $_POST[$this->getSlug()]: "";
 
         if (in_array($fieldType, [static::TYPE_CHOICE, static::TYPE_MULTIPLE_CHOICE]) === true) {
             $data = $this->parseChoiceSlugs($data);
