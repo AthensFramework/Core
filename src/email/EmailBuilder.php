@@ -63,8 +63,8 @@ class EmailBuilder extends AbstractWritableBuilder
     /** @var string */
     protected $message;
 
-    /** @var string */
-    protected $to;
+    /** @var string[] */
+    protected $to = [];
 
     /** @var string */
     protected $from;
@@ -72,11 +72,11 @@ class EmailBuilder extends AbstractWritableBuilder
     /** @var string */
     protected $replyTo;
 
-    /** @var string */
-    protected $cc;
+    /** @var string[] */
+    protected $cc = [];
 
-    /** @var string */
-    protected $bcc;
+    /** @var string[] */
+    protected $bcc = [];
 
     /** @var string */
     protected $xMailer;
@@ -138,9 +138,9 @@ class EmailBuilder extends AbstractWritableBuilder
      * @param string $to
      * @return EmailBuilder
      */
-    public function setTo($to)
+    public function addTo($to)
     {
-        $this->to = $to;
+        $this->to[] = $to;
         return $this;
     }
 
@@ -168,9 +168,9 @@ class EmailBuilder extends AbstractWritableBuilder
      * @param string $cc
      * @return EmailBuilder
      */
-    public function setCc($cc)
+    public function addCc($cc)
     {
-        $this->cc = $cc;
+        $this->cc[] = $cc;
         return $this;
     }
 
@@ -178,9 +178,9 @@ class EmailBuilder extends AbstractWritableBuilder
      * @param string $bcc
      * @return EmailBuilder
      */
-    public function setBcc($bcc)
+    public function addBcc($bcc)
     {
-        $this->bcc = $bcc;
+        $this->bcc[] = $bcc;
         return $this;
     }
 
@@ -247,11 +247,11 @@ class EmailBuilder extends AbstractWritableBuilder
             $this->type,
             $this->subject,
             $this->message,
-            $this->to,
+            implode('; ', $this->to),
             $this->from,
             $this->replyTo,
-            $this->cc,
-            $this->bcc,
+            implode('; ', $this->cc),
+            implode('; ', $this->bcc),
             $this->xMailer,
             $this->contentType,
             $this->mimeVersion,

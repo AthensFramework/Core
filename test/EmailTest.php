@@ -18,10 +18,13 @@ class EmailTest extends PHPUnit_Framework_TestCase
         $subject = "t" . (string)rand();
         $message = "t" . (string)rand();
         $to = "t" . (string)rand();
+        $to2 = "t" . (string)rand();
         $from = "t" . (string)rand();
         $replyTo = "t" . (string)rand();
         $cc = "t" . (string)rand();
+        $cc2 = "t" . (string)rand();
         $bcc = "t" . (string)rand();
+        $bcc2 = "t" . (string)rand();
         $xmailer = "t" . (string)rand();
         $contentType = "t" . (string)rand();
         $mimeVersion = "t" . (string)rand();
@@ -30,11 +33,14 @@ class EmailTest extends PHPUnit_Framework_TestCase
             ->setType($type)
             ->setSubject($subject)
             ->setMessage($message)
-            ->setTo($to)
+            ->addTo($to)
+            ->addTo($to2)
             ->setFrom($from)
             ->setReplyTo($replyTo)
-            ->setCc($cc)
-            ->setBcc($bcc)
+            ->addCc($cc)
+            ->addCc($cc2)
+            ->addBcc($bcc)
+            ->addBcc($bcc2)
             ->setXMailer($xmailer)
             ->setContentType($contentType)
             ->setMimeVersion($mimeVersion)
@@ -43,11 +49,11 @@ class EmailTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($type, $email->getType());
         $this->assertEquals($subject, $email->getSubject());
         $this->assertEquals($message, $email->getMessage());
-        $this->assertEquals($to, $email->getTo());
+        $this->assertEquals(implode('; ', [$to, $to2]), $email->getTo());
         $this->assertEquals($from, $email->getFrom());
         $this->assertEquals($replyTo, $email->getReplyTo());
-        $this->assertEquals($cc, $email->getCc());
-        $this->assertEquals($bcc, $email->getBcc());
+        $this->assertEquals(implode('; ', [$cc, $cc2]), $email->getCc());
+        $this->assertEquals(implode('; ', [$bcc, $bcc2]), $email->getBcc());
         $this->assertEquals($xmailer, $email->getXMailer());
         $this->assertEquals($contentType, $email->getContentType());
         $this->assertEquals($mimeVersion, $email->getMimeVersion());
@@ -90,10 +96,10 @@ class EmailTest extends PHPUnit_Framework_TestCase
         $email = EmailBuilder::begin()
             ->setSubject($subject)
             ->setMessage($message)
-            ->setTo($to)
+            ->addTo($to)
             ->setFrom($from)
-            ->setCc($cc)
-            ->setBcc($bcc)
+            ->addCc($cc)
+            ->addBcc($bcc)
             ->setXMailer($xmailer)
             ->setContentType($contentType)
             ->setMimeVersion($mimeVersion)
