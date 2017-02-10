@@ -26,6 +26,9 @@ class RelationFilter extends SelectFilter
     /** @var string */
     protected $relationName = '';
 
+    /** @var string */
+    protected $relationNamePlural = '';
+
     /**
      * @param string                $id
      * @param string[]              $classes
@@ -44,6 +47,8 @@ class RelationFilter extends SelectFilter
     ) {
         $this->relationName = array_slice(explode('\\', $query->getPascalCasedObjectName()), -1)[0];
 
+        $this->relationNamePlural .= substr($this->relationName, -1) === 's' ?  'es' : 's';
+
         $relations = $query->find();
 
         $relationOptions = [];
@@ -55,7 +60,19 @@ class RelationFilter extends SelectFilter
             $relationOptions[$key] = $relationName;
         }
 
-        $this->options = array_merge([$default, ''], $relationOptions, [static::ALL, static::ANY, static::NONE]);
+        if ($default === static::ALL) {
+            $default = $this->getAllText();
+        } elseif ($default === static::ANY) {
+            $default = $this->getAnyText();
+        } elseif ($default === static::NONE) {
+            $default = $this->getNoneText();
+        }
+
+        $this->options = array_merge(
+            [$default, ''],
+            $relationOptions,
+            [$this->getAllText(), $this->getAnyText(), $this->getNoneText()]
+        );
 
         if ($nextFilter === null) {
             $this->nextFilter = new DummyFilter();
@@ -79,6 +96,30 @@ class RelationFilter extends SelectFilter
     }
 
     /**
+     * @return string
+     */
+    public function getAllText()
+    {
+        return "All ({$this->relationNamePlural})";
+    }
+
+    /**
+     * @return string
+     */
+    public function getAnyText()
+    {
+        return "Having Any {$this->relationName}";
+    }
+
+    /**
+     * @return string
+     */
+    public function getNoneText()
+    {
+        return "Having No {$this->relationName}";
+    }
+
+    /**
      * @param QueryWrapperInterface $query
      * @return QueryWrapperInterface
      * @throws \Exception if given an incompatible query type.
@@ -98,16 +139,16 @@ class RelationFilter extends SelectFilter
             $fieldName = array_search("{$this->relationName}Id", $query->getUnqualifiedPascalCasedColumnNames());
 
             switch ($choice) {
-                case static::ALL:
+                case $this->getAllText():
                     break;
-                case static::ANY:
+                case $this->getAnyText():
                     $query = $query->filterBy(
                         $fieldName,
                         null,
                         QueryWrapperInterface::CONDITION_NOT_EQUAL
                     );
                     break;
-                case static::NONE:
+                case $this->getNoneText():
                     $query = $query->filterBy(
                         $fieldName,
                         null,

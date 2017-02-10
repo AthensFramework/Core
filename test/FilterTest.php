@@ -215,7 +215,7 @@ class FilterTest extends TestCase
 
         $this->query->expects($this->never())->method("filterBy");
 
-        $key = array_search(RelationFilter::ALL, $filter->getOptions());
+        $key = array_search($filter->getAllText(), $filter->getOptions());
 
         $_GET['test-relation-filter-value'] = (string)$key;
         $filter->queryFilter(new MockQueryWrapper($this->query));
@@ -240,7 +240,7 @@ class FilterTest extends TestCase
                 $this->equalTo(null)
             );
 
-        $key = array_search(RelationFilter::ANY, $filter->getOptions());
+        $key = array_search($filter->getAnyText(), $filter->getOptions());
 
         $_GET['test-relation-filter-value'] = (string)$key;
         $filter->queryFilter(new MockQueryWrapper($this->query));
@@ -265,7 +265,7 @@ class FilterTest extends TestCase
                 $this->equalTo(null)
             );
 
-        $key = array_search(RelationFilter::NONE, $filter->getOptions());
+        $key = array_search($filter->getNoneText(), $filter->getOptions());
 
         $_GET['test-relation-filter-value'] = (string)$key;
         $filter->queryFilter(new MockQueryWrapper($this->query));
