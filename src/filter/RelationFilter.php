@@ -47,7 +47,7 @@ class RelationFilter extends SelectFilter
     ) {
         $this->relationName = array_slice(explode('\\', $query->getPascalCasedObjectName()), -1)[0];
 
-        $this->relationNamePlural .= substr($this->relationName, -1) === 's' ?  'es' : 's';
+        $this->relationNamePlural = $this->relationName . (substr($this->relationName, -1) === 's' ?  'es' : 's');
 
         $relations = $query->find();
 
