@@ -18,9 +18,9 @@ athens.sort = (function () {
                 var fieldname = $(this).attr("data-header-for");
                 var oldOrder = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'order');
                 var oldFieldname = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname');
-                var newOrder = "ascending";
-                if (fieldname === oldFieldname && oldOrder === "ascending") {
-                    newOrder = "descending";
+                var newOrder = "ASC";
+                if (fieldname === oldFieldname && oldOrder === "ASC") {
+                    newOrder = "DESC";
                 }
 
                 athens.ajax_section.registerGetVar(athens.ajax_section.getVar(ajaxSectionName, handle, 'fieldname', fieldname));
