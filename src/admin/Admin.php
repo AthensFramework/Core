@@ -316,7 +316,9 @@ class Admin extends Page
                     athens.alert.makeAlert('Deleting object.', 'info');
                     athens.ajax.post(
                         '$deleteUrl',
-                        {},
+                        {
+                          csrf_token: CSRFTOKEN,
+                        },
                         function() {},
                         function() {
                             athens.alert.makeAlert('Object deleted', 'success');
