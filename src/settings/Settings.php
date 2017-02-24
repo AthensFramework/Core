@@ -22,7 +22,7 @@ class Settings implements SettingsInterface
         "defaultWriterClasses" => ['\Athens\Core\Writer\HTMLWriter'],
         "defaultEmailWriterClasses" => ['\Athens\Core\Writer\EmailWriter'],
         "defaultExcelWriterClasses" => ['\Athens\Core\Writer\ExcelWriter'],
-        "defaultPDFWriterClasses" => ['\Athens\Core\Writer\PDFWriter'],
+        "defaultPDFWriterClasses" => ['\Athens\Core\Writer\HTMLWriter'],
         "defaultExcelRendererClass" => '\Athens\Core\Renderer\ExcelRenderer',
         "defaultPDFRendererClass" => '\Athens\Core\Renderer\PDFRenderer',
         "defaultInitializerClass" => '\Athens\Core\Initializer\Initializer',

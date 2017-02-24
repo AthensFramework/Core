@@ -40,7 +40,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
 
     /** @var  VisitorInterface */
     protected $initializer;
-    
+
     /** @var  VisitorInterface */
     protected $renderer;
 
@@ -105,7 +105,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
     {
         $this->breadCrumbTitles[] = $title;
         $this->breadCrumbLinks[] = $link;
-        
+
         return $this;
     }
 
@@ -177,7 +177,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
     {
         if ($this->renderer === null) {
             $settingsInstance = $this->getSettingsInstance();
-            
+
             if ($this->type === static::TYPE_EXCEL) {
                 $writerClasses = $settingsInstance->getDefaultExcelWriterClasses();
                 $rendererClass = $settingsInstance->getDefaultExcelRendererClass();
@@ -193,7 +193,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
             foreach ($writerClasses as $writerClass) {
                 $writerInstances[] = new $writerClass();
             }
-            
+
             $this->renderer = new $rendererClass($writerInstances);
         }
     }
@@ -211,7 +211,7 @@ class PageBuilder extends AbstractWritableBuilder implements PageConstantsInterf
             if ($this->type === static::TYPE_EXCEL) {
                 $initializerClass = $settingsInstance->getDefaultExcelInitializerClass();
             } elseif ($this->type === static::TYPE_PDF) {
-                $initializerClass = $settingsInstance->getDefaultPdfInitializerClass();
+                $initializerClass = $settingsInstance->getDefaultPDFInitializerClass();
             } else {
                 $initializerClass = $settingsInstance->getDefaultInitializerClass();
             }
