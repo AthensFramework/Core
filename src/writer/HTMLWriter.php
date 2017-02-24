@@ -310,31 +310,6 @@ class HTMLWriter extends TwigTemplateWriter
      *
      * @param FilterInterface $filter
      * @return array
-
-    if (array_key_exists('quarter', $responseData)) {
-    $submission->setQuarter(Quarter::getOrCreateByName($responseData['quarter']));
-    }
-
-    if (array_key_exists('student_last_name', $responseData)) {
-    $submission->setAssignee(Assignee::getAssignee($responseData['student_last_name']));
-    }
-
-    if (array_key_exists('student_full_name', $responseData)) {
-    $submission->setAssignee(
-    Assignee::getAssignee(
-    array_slice(
-    explode(' ', $responseData['student_full_name']),
-    -1
-    )[0]
-    ));
-    }
-
-    if (array_key_exists('student_uw_net_id', $responseData)) {
-    $student = Visitor::getVisitorByUWNetID(trim($responseData['student_uw_net_id']));
-    $student->save();
-    $submission->setStudent($student);
-    }
-    $submission->save();
      */
     public function visitFilter(FilterInterface $filter)
     {
