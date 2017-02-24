@@ -309,7 +309,7 @@ class HTMLWriter extends TwigTemplateWriter
      * Helper method to render a FilterInterface to html.
      *
      * @param FilterInterface $filter
-     * @return string$responseData = $submission->getResponseArray();
+     * @return array
 
     if (array_key_exists('quarter', $responseData)) {
     $submission->setQuarter(Quarter::getOrCreateByName($responseData['quarter']));
