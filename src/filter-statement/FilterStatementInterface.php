@@ -9,8 +9,8 @@ use Athens\Core\Row\RowInterface;
 interface FilterStatementInterface
 {
 
-    const COND_SORT_ASC = "ascending";
-    const COND_SORT_DESC = "descending";
+    const COND_SORT_ASC = "ASC";
+    const COND_SORT_DESC = "DESC";
     const COND_LESS_THAN = "LESS THAN";
     const COND_GREATER_THAN = "GREATER THAN";
     const COND_EQUAL_TO = "EQUAL TO";

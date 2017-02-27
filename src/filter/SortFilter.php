@@ -31,4 +31,10 @@ class SortFilter extends Filter
 
         parent::__construct($id, $classes, $data, $statements, $nextFilter);
     }
+
+
+//    Joe start here
+
+
+//    Joe end here
 }

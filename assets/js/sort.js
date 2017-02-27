@@ -7,7 +7,7 @@ athens.sort = (function () {
 
         var headers = filterSection.find("th");
         headers.addClass("clickable");
-        headers.removeClass("sorted ascending descending");
+        headers.removeClass("sorted ASC DESC");
 
         var fieldname = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'fieldname');
         var order = athens.ajax_section.getGetVarValue(ajaxSectionName, handle, 'order');
