@@ -24,10 +24,9 @@
 {% endif %}
 
 <br>
-
-
-{% block content %}
-    {{ content|raw }}
-{% endblock content %}
+    
+{% for writable in writables  %}
+    {{ writable|write|raw }}
+{% endfor %}
 
 {% endblock body %}

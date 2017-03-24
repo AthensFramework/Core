@@ -24,7 +24,7 @@ class PDFRenderer extends AbstractRenderer
         $content = $this->getContent($writable);
 
         $dompdf = new DOMPDF();
-        $dompdf->load_html($content);
+        $dompdf->loadHtml($content);
         $dompdf->render();
         $dompdf->stream($documentName . ".pdf");
     }
