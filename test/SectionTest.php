@@ -59,18 +59,23 @@ class SectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("base", $section->getType());
     }
 
-    /*
-     * The below methods are tested sufficiently above
-    public function testGetWritables() {
+    public function testGetWritableByHandle()
+    {
+        $field1 = new Field([], [], "literal", "A literal field", []);
+        $field2 = new Field([], [], "literal", "A second literal field", []);
 
+        $handle1 = "h" . (string)rand();
+        $handle2 = "hh" . (string)rand();
+
+        $id = "s" . (string)rand();
+
+        $section = SectionBuilder::begin()
+            ->setId($id)
+            ->addWritable($field1, $handle1)
+            ->addWritable($field2, $handle2)
+            ->build();
+
+        $this->assertEquals($field1, $section->getWritableByHandle($handle1));
+        $this->assertEquals($field2, $section->getWritableByHandle($handle2));
     }
-
-    public function testGetLabel() {
-
-    }
-
-    public function testGetContent() {
-
-    }
-    */
 }

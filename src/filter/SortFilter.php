@@ -4,6 +4,7 @@ namespace Athens\Core\Filter;
 
 use Athens\Core\FilterStatement\FilterStatement;
 use Athens\Core\FilterStatement\SortingFilterStatement;
+use Athens\Core\ORMWrapper\QueryWrapperInterface;
 
 /**
  * Class SortFilter
@@ -34,6 +35,64 @@ class SortFilter extends Filter
 
 
 //    Joe start here
+
+    public function queryFilter(QueryWrapperInterface $query)
+    {
+        $this->canQueryFilter = true;
+        if ($this->getNextFilter()->canQueryFilter === false) {
+            $this->canQueryFilter = false;
+        }
+
+        $statement = $this->statements[0];
+
+        $fieldName = $statement->getFieldName();
+        $condition = $statement->getCondition();
+
+        
+
+
+
+        if ($this->canQueryFilter === true) {
+            $query = $this->getNextFilter()->queryFilter($query);
+            $choiceKey = FilterControls::getControl($this->id, "value", array_keys($this->options)[0]);
+
+            $choice = $this->options[$choiceKey];
+            $fieldName = array_search("{$this->relationName}Id", $query->getUnqualifiedPascalCasedColumnNames());
+
+            switch ($choice) {
+                case $this->getAllText():
+                    break;
+                case $this->getAnyText():
+                    $query = $query->filterBy(
+                        $fieldName,
+                        null,
+                        QueryWrapperInterface::CONDITION_NOT_EQUAL
+                    );
+                    break;
+                case $this->getNoneText():
+                    $query = $query->filterBy(
+                        $fieldName,
+                        null,
+                        QueryWrapperInterface::CONDITION_EQUAL
+                    );
+                    break;
+                default:
+                    $relation = $choice;
+                    if (is_string($relation) === true) {
+                        $relation = $this->relations[array_search($relation, $this->options)];
+                    }
+
+                    $query = $query->filterBy(
+                        $fieldName,
+                        $relation->getPrimaryKey(),
+                        QueryWrapperInterface::CONDITION_EQUAL
+                    );
+                    break;
+            }
+        }
+
+        return $query;
+    }
 
 
 //    Joe end here

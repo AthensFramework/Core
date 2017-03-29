@@ -25,4 +25,12 @@ trait WritableBearerBearerTrait
     {
         return $this->writableBearer->getWritables();
     }
+
+    /**
+     * @param string $handle
+     * @return WritableInterface|null
+     */
+    public function getWritableByHandle($handle) {
+        return $this->writableBearer->getWritableByHandle($handle);
+    }
 }

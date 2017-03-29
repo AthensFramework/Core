@@ -1,7 +1,7 @@
 {% extends "page/base.twig" %}
 
 {% block head %}
-{# include none of the typical head #}
+    {# include none of the typical head #}
 {% endblock head %}
 
 {% block project_head %}
@@ -12,21 +12,7 @@
 {% endblock project_head %}
 
 {% block body %}
-<div id="block-logo"></div>
-{% if header %}
-    <h1 class=header>{{ header }}</h1>
-{% endif %}
-
-<br>
-
-{% if subHeader %}
-    <h2 class=subheader>{{ subHeader }}</h2>
-{% endif %}
-
-<br>
-    
-{% for writable in writables  %}
-    {{ writable|write|raw }}
-{% endfor %}
-
+    {% for writable in writables  %}
+        {{ writable|write|raw }}
+    {% endfor %}
 {% endblock body %}
