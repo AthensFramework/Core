@@ -33,9 +33,10 @@ class SortFilter extends Filter
         parent::__construct($id, $classes, $data, $statements, $nextFilter);
     }
 
-
-//    Joe start here
-
+    /**
+     * @param QueryWrapperInterface $query
+     * @return QueryWrapperInterface
+     */
     public function queryFilter(QueryWrapperInterface $query)
     {
         $this->canQueryFilter = true;
@@ -47,10 +48,6 @@ class SortFilter extends Filter
 
         $fieldName = $statement->getFieldName();
         $condition = $statement->getCondition();
-
-        
-
-
 
         if ($this->canQueryFilter === true) {
             $query = $this->getNextFilter()->queryFilter($query);
@@ -93,7 +90,4 @@ class SortFilter extends Filter
 
         return $query;
     }
-
-
-//    Joe end here
 }

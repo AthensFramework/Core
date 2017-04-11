@@ -3,8 +3,9 @@
 namespace Athens\Core\Emailer;
 
 use Athens\Core\Email\EmailInterface;
+use Athens\Core\Visitor\VisitorInterface;
 
-interface EmailerInterface
+interface EmailerInterface extends VisitorInterface
 {
 
     /**
