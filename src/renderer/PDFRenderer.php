@@ -3,7 +3,7 @@
 namespace Athens\Core\Renderer;
 
 use Athens\Core\Writable\WritableInterface;
-use DOMPDF;
+use Dompdf\Dompdf;
 
 /**
  * Class PDFRenderer
