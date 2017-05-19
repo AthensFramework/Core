@@ -9,7 +9,7 @@ before_script:
   - sed -i '/phpdoc/d' composer.json
   - composer install
 script:
-  - phpunit --configuration test/phpunit.xml test
+  - ./vendor/bin/phpunit --configuration test/phpunit.xml test
   - ./vendor/bin/phpcs --ignore=*/vendor/*,*/bin/*,*/*.min.js --standard=PSR2 .
   - ./vendor/bin/phpcs --standard=./vendor/athens/standard/ruleset.xml src
 after_script:
