@@ -3,7 +3,7 @@
 namespace Athens\Core\Renderer;
 
 use Athens\Core\Writable\WritableInterface;
-use DOMPDF;
+use Dompdf\Dompdf;
 
 /**
  * Class PDFRenderer
@@ -19,11 +19,11 @@ class PDFRenderer extends AbstractRenderer
      */
     public function render(WritableInterface $writable)
     {
-        $documentName = $writable->getTitle() === true ? $writable->getTitle() : "document";
+        $documentName = ((string)$writable->getTitle()) !== "" ? $writable->getTitle() : "document";
 
         $content = $this->getContent($writable);
 
-        $dompdf = new DOMPDF();
+        $dompdf = new Dompdf();
         $dompdf->loadHtml($content);
         $dompdf->render();
         $dompdf->stream($documentName . ".pdf");
