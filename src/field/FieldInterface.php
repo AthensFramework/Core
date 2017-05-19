@@ -32,7 +32,7 @@ interface FieldInterface extends WritableInterface, FieldConstantsInterface
      */
     public function setChoices(array $choices);
 
-    /** @return int */
+    /** @return integer */
     public function getSize();
 
     /**
@@ -98,7 +98,7 @@ interface FieldInterface extends WritableInterface, FieldConstantsInterface
     /** @return void */
     public function validate();
 
-    /** @return bool */
+    /** @return boolean */
     public function isRequired();
 
     /**
@@ -107,7 +107,7 @@ interface FieldInterface extends WritableInterface, FieldConstantsInterface
      */
     public function setRequired($required);
 
-    /** @return bool */
+    /** @return boolean */
     public function isValid();
 
     /**
