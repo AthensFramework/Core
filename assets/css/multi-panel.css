@@ -250,7 +250,7 @@ Main components
 
   position: fixed;
   right:-265px;
-  /*bottom:450px;*/
+  bottom:450px;
 
   display:none;
   opacity:0;
