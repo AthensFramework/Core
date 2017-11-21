@@ -83,10 +83,15 @@ athens.search = (function () {
         var searchContainer = $("div.search-container[data-handle-for=" + handle + "]");
         var label = searchContainer.closest("div.table-container").prev("div.section-label");
         var searchIcon = $("div.search-icon[data-handle-for=" + handle + "]");
+        var searchCriteriaArea = $("#search-criteria-area");
+        var newCriteriaHasRows = $("div.search-table-content[data-handle-for=" + handle + "]:not(.moved) tr[data-row=0] td.fieldname option").length > 2;
+        var oldCriteriaHasRows = searchCriteriaArea.find('tr[data-row=0] td.fieldname option').length > 2;
 
-        $("#search-criteria-area").empty();
-        $("div.search-table-content[data-handle-for=" + handle + "]").prependTo("#search-criteria-area");
-        $("input.search-submit." + handle).click(searchSubmitOnclick);
+        if (newCriteriaHasRows || !oldCriteriaHasRows) {
+            searchCriteriaArea.empty();
+            $("div.search-table-content[data-handle-for=" + handle + "]").prependTo(searchCriteriaArea).addClass('moved');
+            $("input.search-submit." + handle).click(searchSubmitOnclick);
+        }
 
         if (label.find("div.search-icon[data-handle-for=" + handle + "]").length === 0) {
             searchIcon.prependTo(label);
@@ -117,8 +122,4 @@ athens.search = (function () {
         clearSearch: clearSearch
     };
 }());
-
-
-
-
 
