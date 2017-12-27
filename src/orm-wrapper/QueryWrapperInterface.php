@@ -11,6 +11,8 @@ interface QueryWrapperInterface extends ORMWrapperInterface
     const CONDITION_LESS_THAN = 'less';
     const CONDITION_LESS_THAN_OR_EQUAL = 'less or equal';
     const CONDITION_CONTAINS = 'contains';
+    const CONDITION_IN = 'in';
+    const CONDITION_NOT_IN = 'not in';
 
     const ORDER_ASCENDING = 'ascending';
     const ORDER_DESCENDING = 'descending';
